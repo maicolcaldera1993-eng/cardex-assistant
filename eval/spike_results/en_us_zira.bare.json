@@ -1,0 +1,41 @@
+{
+  "file": "en_us_zira.wav",
+  "config": "bare",
+  "turns": [
+    {
+      "transcript": "Hi!",
+      "latency_s": 0.51,
+      "min_conf": 0.8
+    },
+    {
+      "transcript": "This is Jonas calling from Café Berlin.",
+      "latency_s": 1.28,
+      "min_conf": 0.95
+    },
+    {
+      "transcript": "We have a Maria 2 Plus, the Vaniglia Edition. The coffee comes out thin and fast, like water.",
+      "latency_s": 3.17,
+      "min_conf": 0.54
+    },
+    {
+      "transcript": "Last year we ordered the group gasket.",
+      "latency_s": 3.89,
+      "min_conf": 0.91
+    },
+    {
+      "transcript": "The code is GE2140. We also need the shower screen.",
+      "latency_s": 5.09,
+      "min_conf": 0.87
+    },
+    {
+      "transcript": "For the heating element, the invoice says CA1180. The control board is EL3010, and the pump is ID4010. The steam valve seal kit is VA5015. In the other shop we have a Giglio 1 Plus and a Monda 65-digit grinder, the burrs are MC7010. And the Honda MB2 has a probe alarm.",
+      "latency_s": 11.0,
+      "min_conf": 0.65
+    },
+    {
+      "transcript": "The Honda gasket is GE2410.",
+      "latency_s": 12.86,
+      "min_conf": 0.99
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "file": "en_tr_emel.wav",
+  "config": "bare",
+  "turns": [
+    {
+      "transcript": "He teased his won us calling from Café Berlin.",
+      "latency_s": 1.19,
+      "min_conf": 0.23
+    },
+    {
+      "transcript": "ve HVA Maria 2 Plus, The Vaniglia Edition. The coffee comes out in endfest, like water.",
+      "latency_s": 3.39,
+      "min_conf": 0.24
+    },
+    {
+      "transcript": "Last year we ordered the Gruppa Gasket, the Code SG Twenton Forte.",
+      "latency_s": 4.99,
+      "min_conf": 0.24
+    },
+    {
+      "transcript": "We also need the shower screen.",
+      "latency_s": 5.33,
+      "min_conf": 0.95
+    },
+    {
+      "transcript": "For the heating element, the invoice says JA11AIT. The control board is LAT3010, and the pump is ÖDE4. The City Mile Vesil Kit is VA 50/50. And the Honda MB2 has a propeller.",
+      "latency_s": 11.99,
+      "min_conf": 0.11
+    },
+    {
+      "transcript": "The Honda Gasket is GA Twenton Forte.",
+      "latency_s": 12.92,
+      "min_conf": 0.76
+    }
+  ]
+}

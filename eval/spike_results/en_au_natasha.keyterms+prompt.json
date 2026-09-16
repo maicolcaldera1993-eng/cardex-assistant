@@ -1,0 +1,36 @@
+{
+  "file": "en_au_natasha.wav",
+  "config": "keyterms+prompt",
+  "turns": [
+    {
+      "transcript": "Hi, this is Jonas calling from Caffè Berlin.",
+      "latency_s": 1.39,
+      "min_conf": 0.92
+    },
+    {
+      "transcript": "We have a Marea 2 Plus, the Vaniglia edition.",
+      "latency_s": 2.37,
+      "min_conf": 0.99
+    },
+    {
+      "transcript": "The coffee comes out thin and fast, like water.",
+      "latency_s": 3.11,
+      "min_conf": 0.99
+    },
+    {
+      "transcript": "Last year we ordered the group gasket, the code is GE-2140. We also need the shower screen, GE-2150. The heating element— the invoice says CA-1180. The control board is EL-3010, and the pump is ID-4010. The steam valve seal kit is VA-5015. In the other shop we have a Giglio 1 Plus and a Monda 65 Digit grinder.",
+      "latency_s": 10.47,
+      "min_conf": 0.26
+    },
+    {
+      "transcript": "The burrs are MC-7010. And the Onda MB2 has a probe alarm.",
+      "latency_s": 12.04,
+      "min_conf": 0.89
+    },
+    {
+      "transcript": "The Onda gasket is GE-2410.",
+      "latency_s": 14.15,
+      "min_conf": 0.97
+    }
+  ]
+}

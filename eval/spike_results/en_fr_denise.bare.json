@@ -1,0 +1,26 @@
+{
+  "file": "en_fr_denise.wav",
+  "config": "bare",
+  "turns": [
+    {
+      "transcript": "This is Jonas Kalling from Café Berlin.",
+      "latency_s": 1.15,
+      "min_conf": 0.51
+    },
+    {
+      "transcript": "We have a Maréa 2+ de Vaniglia Edition. The coffee comes out thin and fast, like water.",
+      "latency_s": 3.26,
+      "min_conf": 0.72
+    },
+    {
+      "transcript": "Last year we ordered the group gas kit, the CODES GE2140. We also need the shower screen, GE2150. For the heating element, The control board is L3010, and the pump is ID4010. The steam valve seal kit is VA5015. In the other shop, we have a Giglio Impruenda Mondà 65 Digit Grande, the burr arm c'est souvent Titan, and the Mondà MB2HS à probe alarme.",
+      "latency_s": 11.11,
+      "min_conf": 0.21
+    },
+    {
+      "transcript": "The Mondà Gas Case GE2410.",
+      "latency_s": 12.81,
+      "min_conf": 0.46
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "file": "it_elsa.wav",
+  "config": "bare",
+  "turns": [
+    {
+      "transcript": "Buongiorno, sono Marco del Bar Centrale. Abbiamo una Marea 2 Plus, edizione vaniglia.",
+      "latency_s": 2.02,
+      "min_conf": 0.77
+    },
+    {
+      "transcript": "Il caffè è scislavato.",
+      "latency_s": 2.43,
+      "min_conf": 0.79
+    },
+    {
+      "transcript": "Come acqua.",
+      "latency_s": 2.73,
+      "min_conf": 0.94
+    },
+    {
+      "transcript": "L'anno scorso abbiamo ordinato la guarnizione sottocoppa, codice GE2140. Ci serve anche la doccetta, GE2150. Per la resistenza Sulla fattura c'è scritto CA1180, la centralina EL3010 e la pompa ED4010. Il kit guarnizioni vapore EVA50. Nell'altro locale abbiamo un Agilio 1 Plus e un macinacaffè Mondas 65 Digit, le macine sono MC7010. E la Honda 2 megabyte ha l'allarme sonda.",
+      "latency_s": 11.42,
+      "min_conf": 0.46
+    },
+    {
+      "transcript": "La guarnizione della Honda è GE2410.",
+      "latency_s": 13.24,
+      "min_conf": 0.89
+    }
+  ]
+}

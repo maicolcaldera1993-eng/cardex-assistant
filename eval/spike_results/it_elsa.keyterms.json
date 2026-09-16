@@ -1,0 +1,21 @@
+{
+  "file": "it_elsa.wav",
+  "config": "keyterms",
+  "turns": [
+    {
+      "transcript": "Buongiorno, sono Marco del Bar Centrale. Abbiamo una Marea 2 Plus, edizione Vaniglia. Il caffè esce slavato, come acqua.",
+      "latency_s": 2.7,
+      "min_conf": 0.86
+    },
+    {
+      "transcript": "L'anno scorso abbiamo ordinato la guarnizione sottocoppa, codice GE-2140. Ci serve anche la doccetta, GE-2150. Per la resistenza sulla fattura c'è scritto CA-1180, la centralina EL-3010 e la pompa ID-4010. Il kit guarnizioni vapore è VA-5015. Nell'altro locale abbiamo una Giglio 1 Plus e un macinacaffè Monda 65 Digit, le macine sono MC-7010 e la Onda 2 MB ha l'allarme sonda.",
+      "latency_s": 11.65,
+      "min_conf": 0.4
+    },
+    {
+      "transcript": "La guarnizione della Onda è GE-2410.",
+      "latency_s": 13.61,
+      "min_conf": 0.75
+    }
+  ]
+}

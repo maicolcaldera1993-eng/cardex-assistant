@@ -1,0 +1,362 @@
+{
+  "en_de_katja|bare": {
+    "models": {
+      "Marea 2 Plus": true,
+      "Giglio 1 Plus": true,
+      "Monda 65 Digit": true,
+      "Onda MB2": false,
+      "Vaniglia": true
+    },
+    "codes": {
+      "GE-2140": true,
+      "GE-2150": true,
+      "CA-1180": true,
+      "EL-3010": true,
+      "ID-4010": true,
+      "VA-5015": true,
+      "MC-7010": true,
+      "GE-2410": true
+    },
+    "text": "Hi! This is Jonas calling from Café Berlin. We have a Marea 2 Plus, the Vaniglia Edition. The coffee comes out thin and fast, like water. Last year we ordered the group gasket, the code is GE2140. We also need the shower screen, GE2150. For the heating element, The invoice says CA1180. The control board is EL3010, and the pump is ID4010. The steam valve seal kit is VA5015. In the other shop we have a Giglio 1 Plus and a Monda 65 Digit grinder, the Bürstner MC 7010 and the Honda MB2 has a probe alarm. The Honda gasket is GE2410."
+  },
+  "en_au_natasha|bare": {
+    "models": {
+      "Marea 2 Plus": true,
+      "Giglio 1 Plus": true,
+      "Monda 65 Digit": false,
+      "Onda MB2": true,
+      "Vaniglia": true
+    },
+    "codes": {
+      "GE-2140": true,
+      "GE-2150": true,
+      "CA-1180": true,
+      "EL-3010": true,
+      "ID-4010": true,
+      "VA-5015": true,
+      "MC-7010": true,
+      "GE-2410": true
+    },
+    "text": "Hi, this is Jonas calling from Café Berlin. We have a Marea 2 Plus, the Vaniglia edition. The coffee comes out thin and fast, like water. Last year we ordered the group gasket, the code is GE2140. We also need the shower screen, GE2150. For the heat heating element— the invoice says CA1180. The control board is EL3010, and the pump is ID4010. The steam valve seal kit is VA5015. In the other shop we have a Giglio 1 Plus and a Monda 65-digit grinder, the Behr's RM C7010, and the Onda MB2 has a probe alarm. The Onda gasket is GE2410."
+  },
+  "en_au_natasha|keyterms+prompt": {
+    "models": {
+      "Marea 2 Plus": true,
+      "Giglio 1 Plus": true,
+      "Monda 65 Digit": true,
+      "Onda MB2": true,
+      "Vaniglia": true
+    },
+    "codes": {
+      "GE-2140": true,
+      "GE-2150": true,
+      "CA-1180": true,
+      "EL-3010": true,
+      "ID-4010": true,
+      "VA-5015": true,
+      "MC-7010": true,
+      "GE-2410": true
+    },
+    "text": "Hi, this is Jonas calling from Caffè Berlin. We have a Marea 2 Plus, the Vaniglia edition. The coffee comes out thin and fast, like water. Last year we ordered the group gasket, the code is GE-2140. We also need the shower screen, GE-2150. The heating element— the invoice says CA-1180. The control board is EL-3010, and the pump is ID-4010. The steam valve seal kit is VA-5015. In the other shop we have a Giglio 1 Plus and a Monda 65 Digit grinder. The burrs are MC-7010. And the Onda MB2 has a probe alarm. The Onda gasket is GE-2410."
+  },
+  "en_au_natasha|keyterms": {
+    "models": {
+      "Marea 2 Plus": true,
+      "Giglio 1 Plus": true,
+      "Monda 65 Digit": true,
+      "Onda MB2": true,
+      "Vaniglia": true
+    },
+    "codes": {
+      "GE-2140": true,
+      "GE-2150": true,
+      "CA-1180": true,
+      "EL-3010": true,
+      "ID-4010": true,
+      "VA-5015": true,
+      "MC-7010": true,
+      "GE-2410": true
+    },
+    "text": "Hi, this is Jonas calling from Caffè Berlin. We have a Marea 2 Plus, the Vaniglia edition. The coffee comes out thin and fast, like water. Last year we ordered the group gasket, the code is GE-2140. We also need the shower screen, GE-2150. For the heating element, heating element— the invoice says CA-1180. The control board is EL-3010, and the pump is ID-4010. The steam valve seal kit is VA-5015. In the other shop we have a Giglio 1 Plus and a Monda 65 Digit grinder, the burrs are MC-7010. And the Onda MB2 has a probe alarm. The Onda gasket is GE-2410."
+  },
+  "en_fr_denise|bare": {
+    "models": {
+      "Marea 2 Plus": false,
+      "Giglio 1 Plus": false,
+      "Monda 65 Digit": false,
+      "Onda MB2": false,
+      "Vaniglia": true
+    },
+    "codes": {
+      "GE-2140": true,
+      "GE-2150": true,
+      "CA-1180": false,
+      "EL-3010": false,
+      "ID-4010": true,
+      "VA-5015": true,
+      "MC-7010": false,
+      "GE-2410": true
+    },
+    "text": "This is Jonas Kalling from Café Berlin. We have a Maréa 2+ de Vaniglia Edition. The coffee comes out thin and fast, like water. Last year we ordered the group gas kit, the CODES GE2140. We also need the shower screen, GE2150. For the heating element, The control board is L3010, and the pump is ID4010. The steam valve seal kit is VA5015. In the other shop, we have a Giglio Impruenda Mondà 65 Digit Grande, the burr arm c'est souvent Titan, and the Mondà MB2HS à probe alarme. The Mondà Gas Case GE2410."
+  },
+  "en_de_katja|keyterms": {
+    "models": {
+      "Marea 2 Plus": true,
+      "Giglio 1 Plus": true,
+      "Monda 65 Digit": true,
+      "Onda MB2": true,
+      "Vaniglia": true
+    },
+    "codes": {
+      "GE-2140": true,
+      "GE-2150": true,
+      "CA-1180": true,
+      "EL-3010": true,
+      "ID-4010": true,
+      "VA-5015": true,
+      "MC-7010": true,
+      "GE-2410": true
+    },
+    "text": "Hi! This is Jonas calling from Caffè Bellin. We have a Marea 2 Plus, the Vaniglia edition. The coffee comes out thin and fast, like water. Last year we ordered the group gasket, the code is GE-2140. We also need the shower screen, GE-2150. For the heating element, The invoice says CA-1180. The control board is EL-3010, and the pump is ID-4010. The steam valve seal kit is VA-5015. In the other shop we have a Giglio 1 Plus and a Monda 65 Digit grinder, the burrs are MC-7010 and the Onda MB2 has a probe alarm. The Onda gasket is GE-2410."
+  },
+  "en_de_katja|keyterms+prompt": {
+    "models": {
+      "Marea 2 Plus": true,
+      "Giglio 1 Plus": true,
+      "Monda 65 Digit": true,
+      "Onda MB2": true,
+      "Vaniglia": true
+    },
+    "codes": {
+      "GE-2140": true,
+      "GE-2150": true,
+      "CA-1180": true,
+      "EL-3010": true,
+      "ID-4010": true,
+      "VA-5015": true,
+      "MC-7010": true,
+      "GE-2410": true
+    },
+    "text": "Hi! This is Jonas calling from Caffè Bellin. We have a Marea 2 Plus, the Vaniglia edition. The coffee comes out thin and fast, like water. Last year we ordered the group gasket, the code is GE-2140. We also need the shower screen, GE-2150. For the heating element, The invoice says CA-1180. The control board is EL-3010, and the pump is ID-4010. The steam valve seal kit is VA-5015. In the other shop we have a Giglio 1 Plus and a Monda 65 Digit grinder, the burrs are MC-7010 and the Onda MB2 has a probe alarm. The Onda gasket is GE-2410."
+  },
+  "en_fr_denise|keyterms": {
+    "models": {
+      "Marea 2 Plus": true,
+      "Giglio 1 Plus": true,
+      "Monda 65 Digit": true,
+      "Onda MB2": true,
+      "Vaniglia": true
+    },
+    "codes": {
+      "GE-2140": true,
+      "GE-2150": true,
+      "CA-1180": false,
+      "EL-3010": true,
+      "ID-4010": true,
+      "VA-5015": true,
+      "MC-7010": true,
+      "GE-2410": true
+    },
+    "text": "This is Jonas Calling from Café Berlin. We have a Marea 2 Plus, the Vaniglia edition. The coffee comes out thin and fast, like water. Last year we ordered the group gasket, the Cardex GE-2140. We also need the shower screen, GE-2150. For the heating element, The control board is EL-3010, and the pump is ID-4010. The steam valve seal kit is VA-5015. In the other shop, we have a Giglio 1 Plus and a Monda 65 Digit Grande, the burrs are MC-7010, and the Onda MB2 has a probe alarm. The Honda gasket is GE-2410."
+  },
+  "en_fr_denise|keyterms+prompt": {
+    "models": {
+      "Marea 2 Plus": true,
+      "Giglio 1 Plus": true,
+      "Monda 65 Digit": true,
+      "Onda MB2": true,
+      "Vaniglia": true
+    },
+    "codes": {
+      "GE-2140": true,
+      "GE-2150": true,
+      "CA-1180": false,
+      "EL-3010": true,
+      "ID-4010": true,
+      "VA-5015": true,
+      "MC-7010": true,
+      "GE-2410": false
+    },
+    "text": "This is Jonas Kalling from Café Berlin. We have a Marea 2 Plus, de Vaniglia edition. The coffee comes out thin and fast, like water. Last year we ordered the group gasket, the code is GE-2140. We also need the shower screen, GE-2150. For the heating element, The control board is EL-3010, and the pump is ID-4010. The steam valve seal kit is VA-5015. In the other shop we have a Giglio 1 Plus and a Monda 65 Digit Grande, the burrs are MC-7010, and the Onda MB2 has a probe alarm. The Honda gasket is GE-2140."
+  },
+  "en_tr_emel|bare": {
+    "models": {
+      "Marea 2 Plus": false,
+      "Giglio 1 Plus": false,
+      "Monda 65 Digit": false,
+      "Onda MB2": false,
+      "Vaniglia": true
+    },
+    "codes": {
+      "GE-2140": false,
+      "GE-2150": false,
+      "CA-1180": false,
+      "EL-3010": false,
+      "ID-4010": false,
+      "VA-5015": false,
+      "MC-7010": false,
+      "GE-2410": false
+    },
+    "text": "He teased his won us calling from Café Berlin. ve HVA Maria 2 Plus, The Vaniglia Edition. The coffee comes out in endfest, like water. Last year we ordered the Gruppa Gasket, the Code SG Twenton Forte. We also need the shower screen. For the heating element, the invoice says JA11AIT. The control board is LAT3010, and the pump is ÖDE4. The City Mile Vesil Kit is VA 50/50. And the Honda MB2 has a propeller. The Honda Gasket is GA Twenton Forte."
+  },
+  "en_us_zira|bare": {
+    "models": {
+      "Marea 2 Plus": false,
+      "Giglio 1 Plus": true,
+      "Monda 65 Digit": false,
+      "Onda MB2": false,
+      "Vaniglia": true
+    },
+    "codes": {
+      "GE-2140": true,
+      "GE-2150": false,
+      "CA-1180": true,
+      "EL-3010": true,
+      "ID-4010": true,
+      "VA-5015": true,
+      "MC-7010": true,
+      "GE-2410": true
+    },
+    "text": "Hi! This is Jonas calling from Café Berlin. We have a Maria 2 Plus, the Vaniglia Edition. The coffee comes out thin and fast, like water. Last year we ordered the group gasket. The code is GE2140. We also need the shower screen. For the heating element, the invoice says CA1180. The control board is EL3010, and the pump is ID4010. The steam valve seal kit is VA5015. In the other shop we have a Giglio 1 Plus and a Monda 65-digit grinder, the burrs are MC7010. And the Honda MB2 has a probe alarm. The Honda gasket is GE2410."
+  },
+  "en_tr_emel|keyterms+prompt": {
+    "models": {
+      "Marea 2 Plus": true,
+      "Giglio 1 Plus": true,
+      "Monda 65 Digit": true,
+      "Onda MB2": true,
+      "Vaniglia": true
+    },
+    "codes": {
+      "GE-2140": true,
+      "GE-2150": false,
+      "CA-1180": true,
+      "EL-3010": false,
+      "ID-4010": true,
+      "VA-5015": true,
+      "MC-7010": false,
+      "GE-2410": false
+    },
+    "text": "Hi, this is Vonas Calling from Caffè Berlin. We have a Marea 2 Plus, the Vaniglia edition. The coffee comes out in end fast, like water. Last year we ordered the group gasket, the code is GE-2140. GE-2140. We also need the shower screen, GE-TWO-150, for the heating element invoice size CA-1180. The control board is EL-8010, and the pump is ID-4010. The steam valve seal kit is VA-5015. Giglio 1 Plus enda a Monda 65 Digit grinder, the burrs are made just 70 ten. Ende onda MB2 has a probe alarm. The Onda gasket is GE-2140."
+  },
+  "en_tr_emel|keyterms": {
+    "models": {
+      "Marea 2 Plus": true,
+      "Giglio 1 Plus": false,
+      "Monda 65 Digit": true,
+      "Onda MB2": true,
+      "Vaniglia": true
+    },
+    "codes": {
+      "GE-2140": true,
+      "GE-2150": true,
+      "CA-1180": true,
+      "EL-3010": true,
+      "ID-4010": true,
+      "VA-5015": true,
+      "MC-7010": false,
+      "GE-2410": false
+    },
+    "text": "Hi, this is Vona's Calling from Cafe Berlin. We have a Marea 2 Plus, the Vaniglia edition. The coffee comes out in endfest, like water. Last year we ordered the group gasket. code is GE-2140. We also need the shower screen. GE-2150. For the heating element, the invoice says CA-1180. The control board is EL-3010, and the pump is ID-4010. The steam valve seal kit is VA-5015. Under other shop, we have a Giglio B+ enda Monda 65 digit grinder, the burrs are made And the Onda MB2 has a probe alarm. The Honda gasket is GE-2140."
+  },
+  "en_us_zira|keyterms": {
+    "models": {
+      "Marea 2 Plus": true,
+      "Giglio 1 Plus": true,
+      "Monda 65 Digit": true,
+      "Onda MB2": true,
+      "Vaniglia": true
+    },
+    "codes": {
+      "GE-2140": true,
+      "GE-2150": true,
+      "CA-1180": true,
+      "EL-3010": true,
+      "ID-4010": true,
+      "VA-5015": true,
+      "MC-7010": true,
+      "GE-2410": true
+    },
+    "text": "Hi! This is Jonas calling from Caffè Berlin. We have a Marea 2 Plus, the Vaniglia edition. The coffee comes out thin and fast. Like water. Last year we ordered the group gasket. The code is GE-2140. We also need the shower screen. GE-2150. For the heating element, the invoice says CA-1180. The control board is EL-3010, and the pump is ID-4010. The steam valve seal kit is VA-5015. In the other shop we have a Giglio 1 Plus and a Monda 65 Digit grinder. The burrs are MC-7010, and the Onda MB2 has a probe alarm. The Onda gasket is GE-2410."
+  },
+  "en_us_zira|keyterms+prompt": {
+    "models": {
+      "Marea 2 Plus": true,
+      "Giglio 1 Plus": true,
+      "Monda 65 Digit": true,
+      "Onda MB2": true,
+      "Vaniglia": true
+    },
+    "codes": {
+      "GE-2140": true,
+      "GE-2150": true,
+      "CA-1180": true,
+      "EL-3010": true,
+      "ID-4010": true,
+      "VA-5015": true,
+      "MC-7010": true,
+      "GE-2410": true
+    },
+    "text": "Hi, this is Jonas calling from Caffè Berlin. We have a Marea 2 Plus, the Vaniglia edition. The coffee comes out thin and fast. Like water. Last year we ordered the group gasket. The code is GE-2140. We also need the shower screen. GE-2150. For the heating element, the invoice says CA-1180. The control board is EL-3010, and the pump is ID-4010. The steam valve seal kit is VA-5015. In the other shop we have a Giglio 1 Plus and a Monda 65 Digit grinder. The burrs are MC-7010, and the Onda MB2 has a probe alarm. The Onda gasket is GE-2410."
+  },
+  "it_elsa|bare": {
+    "models": {
+      "Marea 2 Plus": true,
+      "Giglio 1 Plus": false,
+      "Monda 65 Digit": false,
+      "Onda MB2": false,
+      "Vaniglia": true
+    },
+    "codes": {
+      "GE-2140": true,
+      "GE-2150": true,
+      "CA-1180": true,
+      "EL-3010": true,
+      "ID-4010": false,
+      "VA-5015": false,
+      "MC-7010": true,
+      "GE-2410": true
+    },
+    "text": "Buongiorno, sono Marco del Bar Centrale. Abbiamo una Marea 2 Plus, edizione vaniglia. Il caffè è scislavato. Come acqua. L'anno scorso abbiamo ordinato la guarnizione sottocoppa, codice GE2140. Ci serve anche la doccetta, GE2150. Per la resistenza Sulla fattura c'è scritto CA1180, la centralina EL3010 e la pompa ED4010. Il kit guarnizioni vapore EVA50. Nell'altro locale abbiamo un Agilio 1 Plus e un macinacaffè Mondas 65 Digit, le macine sono MC7010. E la Honda 2 megabyte ha l'allarme sonda. La guarnizione della Honda è GE2410."
+  },
+  "it_elsa|keyterms": {
+    "models": {
+      "Marea 2 Plus": true,
+      "Giglio 1 Plus": true,
+      "Monda 65 Digit": true,
+      "Onda MB2": false,
+      "Vaniglia": true
+    },
+    "codes": {
+      "GE-2140": true,
+      "GE-2150": true,
+      "CA-1180": true,
+      "EL-3010": true,
+      "ID-4010": true,
+      "VA-5015": true,
+      "MC-7010": true,
+      "GE-2410": true
+    },
+    "text": "Buongiorno, sono Marco del Bar Centrale. Abbiamo una Marea 2 Plus, edizione Vaniglia. Il caffè esce slavato, come acqua. L'anno scorso abbiamo ordinato la guarnizione sottocoppa, codice GE-2140. Ci serve anche la doccetta, GE-2150. Per la resistenza sulla fattura c'è scritto CA-1180, la centralina EL-3010 e la pompa ID-4010. Il kit guarnizioni vapore è VA-5015. Nell'altro locale abbiamo una Giglio 1 Plus e un macinacaffè Monda 65 Digit, le macine sono MC-7010 e la Onda 2 MB ha l'allarme sonda. La guarnizione della Onda è GE-2410."
+  },
+  "it_elsa|keyterms+prompt": {
+    "models": {
+      "Marea 2 Plus": true,
+      "Giglio 1 Plus": true,
+      "Monda 65 Digit": true,
+      "Onda MB2": false,
+      "Vaniglia": true
+    },
+    "codes": {
+      "GE-2140": true,
+      "GE-2150": true,
+      "CA-1180": true,
+      "EL-3010": true,
+      "ID-4010": true,
+      "VA-5015": true,
+      "MC-7010": true,
+      "GE-2410": true
+    },
+    "text": "Buongiorno, sono Marco del Bar Centrale. Abbiamo una Marea 2 Plus, edizione Vaniglia. Il caffè esce slavato, come acqua. L'anno scorso abbiamo ordinato la guarnizione sottocoppa, codice GE-2140. Ci serve anche la doccetta, GE-2150. Per la resistenza sulla fattura c'è scritto CA-1180, la centralina EL-3010 e la pompa ID-4010. Il kit guarnizioni vapore è VA-5015. Nell'altro locale abbiamo una Giglio 1 Plus e un macinacaffè Monda 65 Digit, le macine sono MC-7010 e la Onda 2 MB2 ha l'allarme sonda. La guarnizione della Onda è GE-2410."
+  }
+}
