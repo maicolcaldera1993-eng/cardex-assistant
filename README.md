@@ -34,7 +34,7 @@ Recorded here as they are made.
 ## Running locally
 
 ```
-py -3.12 -m venv .venv
+python -m venv .venv          # Python 3.12
 .venv\Scripts\activate
 pip install -r requirements.txt
 copy .env.example .env   # then fill in ASSEMBLYAI_API_KEY

@@ -1,0 +1,172 @@
+{
+  "manufacturer": "Sereni Macchine da Caffè",
+  "city": "Firenze",
+  "models": [
+    {
+      "id": "marea-2",
+      "name": "Marea 2",
+      "family": "Marea",
+      "year": 2024,
+      "type": "heat-exchanger, 2 groups, volumetric",
+      "groups": 2,
+      "aliases": [
+        "Maria 2",
+        "Mariah 2",
+        "Marie 2",
+        "la Marea due",
+        "the Marea two",
+        "Marea due"
+      ]
+    },
+    {
+      "id": "marea-2-plus",
+      "name": "Marea 2 Plus",
+      "family": "Marea",
+      "year": 2025,
+      "type": "heat-exchanger, 2 groups, volumetric, PID",
+      "groups": 2,
+      "aliases": [
+        "Maria 2 Plus",
+        "Mariah 2 Plus",
+        "la Marea due plus",
+        "the Marea two plus"
+      ]
+    },
+    {
+      "id": "marea-2-evo",
+      "name": "Marea 2 Evo",
+      "family": "Marea",
+      "year": 2026,
+      "type": "heat-exchanger, 2 groups, volumetric, display",
+      "groups": 2,
+      "aliases": [
+        "Maria 2 Evo",
+        "Mariah 2 Evo",
+        "la Marea due evo",
+        "the Marea two evo",
+        "Marea 2 Ivo"
+      ]
+    },
+    {
+      "id": "giglio-1",
+      "name": "Giglio 1",
+      "family": "Giglio",
+      "year": 2024,
+      "type": "compact heat-exchanger, 1 group, vibration pump",
+      "groups": 1,
+      "aliases": [
+        "giggly 1",
+        "jiggly 1",
+        "Gigli 1",
+        "Gilio 1",
+        "Jiglio 1",
+        "il Giglio uno",
+        "the giggly one"
+      ]
+    },
+    {
+      "id": "giglio-1-plus",
+      "name": "Giglio 1 Plus",
+      "family": "Giglio",
+      "year": 2026,
+      "type": "compact heat-exchanger, 1 group, rotary pump",
+      "groups": 1,
+      "aliases": [
+        "giggly 1 Plus",
+        "jiggly 1 Plus",
+        "Gigli 1 Plus",
+        "il Giglio uno plus",
+        "the giggly one plus"
+      ]
+    },
+    {
+      "id": "onda-mb2",
+      "name": "Onda MB2",
+      "family": "Onda",
+      "year": 2024,
+      "type": "multi-boiler, 2 groups, PID",
+      "groups": 2,
+      "aliases": [
+        "Honda MB2",
+        "Anda MB2",
+        "Onda M B 2",
+        "la Onda emme bi due",
+        "the Onda M B two"
+      ]
+    },
+    {
+      "id": "onda-mb3",
+      "name": "Onda MB3",
+      "family": "Onda",
+      "year": 2025,
+      "type": "multi-boiler, 3 groups, PID",
+      "groups": 3,
+      "aliases": [
+        "Honda MB3",
+        "Anda MB3",
+        "Onda M B 3",
+        "la Onda emme bi tre",
+        "the Onda M B three"
+      ]
+    },
+    {
+      "id": "onda-mb2-evo",
+      "name": "Onda MB2 Evo",
+      "family": "Onda",
+      "year": 2026,
+      "type": "multi-boiler, 2 groups, built-in scales, touch display",
+      "groups": 2,
+      "aliases": [
+        "Honda MB2 Evo",
+        "Onda M B 2 Evo",
+        "la Onda emme bi due evo",
+        "the Onda M B two evo"
+      ]
+    },
+    {
+      "id": "monda-65",
+      "name": "Monda 65",
+      "family": "Monda",
+      "year": 2024,
+      "type": "grinder, 65 mm flat burrs, doser",
+      "groups": 0,
+      "aliases": [
+        "Monday 65",
+        "Mondo 65",
+        "la Monda sessantacinque",
+        "the Monda sixty-five",
+        "Manda 65"
+      ]
+    },
+    {
+      "id": "monda-65-digit",
+      "name": "Monda 65 Digit",
+      "family": "Monda",
+      "year": 2025,
+      "type": "grinder, 65 mm flat burrs, timed dosing, display",
+      "groups": 0,
+      "aliases": [
+        "Monday 65 Digit",
+        "Mondo 65 Digit",
+        "la Monda sessantacinque digit",
+        "the Monda sixty-five digit"
+      ]
+    }
+  ],
+  "editions": [
+    {
+      "name": "Vaniglia",
+      "finish": "cream",
+      "models": [
+        "marea-2-plus",
+        "giglio-1-plus"
+      ],
+      "aliases": [
+        "vanilla",
+        "Vanilla edition",
+        "edizione vaniglia",
+        "la crema"
+      ]
+    }
+  ]
+}

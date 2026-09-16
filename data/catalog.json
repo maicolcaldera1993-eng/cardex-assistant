@@ -1,0 +1,6215 @@
+[
+  {
+    "code": "GE-2140",
+    "group": "GE",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Guarnizione sottocoppa 8,5 mm, gruppo Marea/Giglio",
+    "description_en": "Group head gasket 8.5 mm, Marea/Giglio group",
+    "aliases_it": [
+      "gomma del gruppo",
+      "guarnizione del gruppo",
+      "guarnizione portafiltro"
+    ],
+    "aliases_en": [
+      "group gasket",
+      "portafilter gasket",
+      "the rubber ring on the group"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 4.2,
+    "stock": 480,
+    "order_rank": 1,
+    "note": null
+  },
+  {
+    "code": "GE-2141",
+    "group": "GE",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Guarnizione sottocoppa 8 mm sottile, gruppo Marea/Giglio",
+    "description_en": "Group head gasket 8 mm thin, Marea/Giglio group",
+    "aliases_it": [
+      "guarnizione sottile"
+    ],
+    "aliases_en": [
+      "thin group gasket"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 4.2,
+    "stock": 120,
+    "order_rank": 3,
+    "note": "Use when the portafilter locks too far right with the 8.5 mm gasket."
+  },
+  {
+    "code": "GE-2410",
+    "group": "GE",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Guarnizione sottocoppa 9 mm, gruppo Onda",
+    "description_en": "Group head gasket 9 mm, Onda group",
+    "aliases_it": [
+      "gomma del gruppo Onda"
+    ],
+    "aliases_en": [
+      "Onda group gasket"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 5.6,
+    "stock": 210,
+    "order_rank": 1,
+    "note": "Trap pair with GE-2140: one digit swapped, different machine."
+  },
+  {
+    "code": "GE-2150",
+    "group": "GE",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Doccetta inox 57 mm, gruppo Marea/Giglio",
+    "description_en": "Shower screen stainless 57 mm, Marea/Giglio group",
+    "aliases_it": [
+      "doccia",
+      "il disco forato",
+      "filtro doccia"
+    ],
+    "aliases_en": [
+      "shower screen",
+      "dispersion screen",
+      "the holed disc"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 6.8,
+    "stock": 350,
+    "order_rank": 1,
+    "note": null
+  },
+  {
+    "code": "GE-2151",
+    "group": "GE",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Doccetta inox 58,5 mm, gruppo Onda",
+    "description_en": "Shower screen stainless 58.5 mm, Onda group",
+    "aliases_it": [
+      "doccia Onda"
+    ],
+    "aliases_en": [
+      "Onda shower screen"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 8.4,
+    "stock": 140,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "GE-2152",
+    "group": "GE",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Vite doccetta M6 inox",
+    "description_en": "Shower screen screw M6 stainless",
+    "aliases_it": [
+      "vite della doccia"
+    ],
+    "aliases_en": [
+      "shower screen screw"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 0.9,
+    "stock": 900,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "GE-2155",
+    "group": "GE",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Portadoccia (diffusore) ottone, gruppo Marea/Giglio",
+    "description_en": "Shower holder (diffuser) brass, Marea/Giglio group",
+    "aliases_it": [
+      "diffusore",
+      "portadoccetta"
+    ],
+    "aliases_en": [
+      "diffuser",
+      "shower holder",
+      "dispersion block"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 14.5,
+    "stock": 90,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "GE-2156",
+    "group": "GE",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Portadoccia (diffusore) ottone, gruppo Onda",
+    "description_en": "Shower holder (diffuser) brass, Onda group",
+    "aliases_it": [
+      "diffusore Onda"
+    ],
+    "aliases_en": [
+      "Onda diffuser"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 16.9,
+    "stock": 45,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "GE-2160",
+    "group": "GE",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Elettrovalvola gruppo 3 vie completa 230 V",
+    "description_en": "Group solenoid valve 3-way complete 230 V",
+    "aliases_it": [
+      "elettrovalvola del gruppo",
+      "valvola tre vie"
+    ],
+    "aliases_en": [
+      "three-way solenoid",
+      "group solenoid valve"
+    ],
+    "voltage": "230V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 84.0,
+    "stock": 40,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "GE-2161",
+    "group": "GE",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Elettrovalvola gruppo 3 vie completa 110 V",
+    "description_en": "Group solenoid valve 3-way complete 110 V",
+    "aliases_it": [
+      "elettrovalvola del gruppo 110"
+    ],
+    "aliases_en": [
+      "three-way solenoid 110 volt"
+    ],
+    "voltage": "110V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 84.0,
+    "stock": 18,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "GE-2162",
+    "group": "GE",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Elettrovalvola gruppo 3 vie completa 24 V, Onda",
+    "description_en": "Group solenoid valve 3-way complete 24 V, Onda",
+    "aliases_it": [
+      "elettrovalvola gruppo Onda"
+    ],
+    "aliases_en": [
+      "Onda group solenoid"
+    ],
+    "voltage": "24V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 92.0,
+    "stock": 25,
+    "order_rank": 2,
+    "note": "Onda machines run solenoids at 24 V from the control board."
+  },
+  {
+    "code": "GE-2165",
+    "group": "GE",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Corpo elettrovalvola 3 vie senza bobina",
+    "description_en": "3-way solenoid valve body without coil",
+    "aliases_it": [
+      "corpo valvola"
+    ],
+    "aliases_en": [
+      "valve body"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 52.0,
+    "stock": 30,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "GE-2170",
+    "group": "GE",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Gigleur 0,6 mm ingresso gruppo",
+    "description_en": "Group inlet jet (gicleur) 0.6 mm",
+    "aliases_it": [
+      "gicleur",
+      "restrittore",
+      "ugello del gruppo"
+    ],
+    "aliases_en": [
+      "gicleur",
+      "flow restrictor",
+      "group jet"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 3.1,
+    "stock": 200,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "GE-2171",
+    "group": "GE",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Gigleur 0,8 mm ingresso gruppo",
+    "description_en": "Group inlet jet (gicleur) 0.8 mm",
+    "aliases_it": [
+      "gicleur zero otto"
+    ],
+    "aliases_en": [
+      "gicleur zero point eight"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 3.1,
+    "stock": 150,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "GE-2175",
+    "group": "GE",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Camera di preinfusione, gruppo Onda",
+    "description_en": "Pre-infusion chamber, Onda group",
+    "aliases_it": [
+      "camera preinfusione"
+    ],
+    "aliases_en": [
+      "pre-infusion chamber"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 38.0,
+    "stock": 20,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "GE-2176",
+    "group": "GE",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "OR camera di preinfusione Onda (kit 5)",
+    "description_en": "Pre-infusion chamber O-ring, Onda (kit of 5)",
+    "aliases_it": [
+      "oring preinfusione"
+    ],
+    "aliases_en": [
+      "pre-infusion o-ring"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 6.5,
+    "stock": 80,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "GE-2180",
+    "group": "GE",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Portafiltro completo 2 vie, manico nero, Marea/Giglio",
+    "description_en": "Portafilter complete 2-spout, black handle, Marea/Giglio",
+    "aliases_it": [
+      "portafiltro doppio",
+      "portafiltro due tazze"
+    ],
+    "aliases_en": [
+      "double portafilter",
+      "two-spout portafilter"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 46.0,
+    "stock": 60,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "GE-2181",
+    "group": "GE",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Portafiltro completo 1 via, manico nero, Marea/Giglio",
+    "description_en": "Portafilter complete 1-spout, black handle, Marea/Giglio",
+    "aliases_it": [
+      "portafiltro singolo",
+      "portafiltro una tazza"
+    ],
+    "aliases_en": [
+      "single portafilter",
+      "one-spout portafilter"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 44.0,
+    "stock": 35,
+    "order_rank": 3,
+    "note": "Trap: one digit from GE-2180, same group, different part."
+  },
+  {
+    "code": "GE-2182",
+    "group": "GE",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Portafiltro completo 2 vie, manico nero, Onda",
+    "description_en": "Portafilter complete 2-spout, black handle, Onda",
+    "aliases_it": [
+      "portafiltro doppio Onda"
+    ],
+    "aliases_en": [
+      "Onda double portafilter"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 54.0,
+    "stock": 40,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "GE-2183",
+    "group": "GE",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Portafiltro senza fondo (naked), Onda",
+    "description_en": "Bottomless (naked) portafilter, Onda",
+    "aliases_it": [
+      "portafiltro nudo",
+      "portafiltro senza beccuccio"
+    ],
+    "aliases_en": [
+      "naked portafilter",
+      "bottomless portafilter"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 58.0,
+    "stock": 15,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "GE-2185",
+    "group": "GE",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Manico portafiltro nero con vite",
+    "description_en": "Portafilter handle black with screw",
+    "aliases_it": [
+      "manico del portafiltro"
+    ],
+    "aliases_en": [
+      "portafilter handle"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 9.9,
+    "stock": 150,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "GE-2186",
+    "group": "GE",
+    "models": [
+      "marea-2-plus",
+      "giglio-1-plus"
+    ],
+    "description_it": "Manico portafiltro crema, edizione Vaniglia",
+    "description_en": "Portafilter handle cream, Vaniglia edition",
+    "aliases_it": [
+      "manico vaniglia",
+      "manico crema"
+    ],
+    "aliases_en": [
+      "vanilla handle",
+      "cream handle"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 12.9,
+    "stock": 30,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "GE-2190",
+    "group": "GE",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Filtro 2 tazze 14 g",
+    "description_en": "Filter basket 2 cups 14 g",
+    "aliases_it": [
+      "cestello doppio",
+      "filtro doppio"
+    ],
+    "aliases_en": [
+      "double basket",
+      "two-cup basket"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 5.2,
+    "stock": 300,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "GE-2191",
+    "group": "GE",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Filtro 2 tazze 18 g",
+    "description_en": "Filter basket 2 cups 18 g",
+    "aliases_it": [
+      "cestello diciotto grammi"
+    ],
+    "aliases_en": [
+      "eighteen gram basket"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 5.2,
+    "stock": 260,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "GE-2192",
+    "group": "GE",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Filtro 1 tazza 7 g",
+    "description_en": "Filter basket 1 cup 7 g",
+    "aliases_it": [
+      "cestello singolo",
+      "filtro singolo"
+    ],
+    "aliases_en": [
+      "single basket",
+      "one-cup basket"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 4.8,
+    "stock": 200,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "GE-2193",
+    "group": "GE",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Filtro cieco per pulizia",
+    "description_en": "Blind filter (backflush disc)",
+    "aliases_it": [
+      "filtro cieco",
+      "cieco per il lavaggio"
+    ],
+    "aliases_en": [
+      "blind basket",
+      "backflush disc",
+      "blank filter"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 4.5,
+    "stock": 220,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "GE-2195",
+    "group": "GE",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Molla fermafiltro",
+    "description_en": "Filter basket retaining spring",
+    "aliases_it": [
+      "molletta del filtro"
+    ],
+    "aliases_en": [
+      "basket spring",
+      "filter clip"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 0.8,
+    "stock": 600,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "GE-2196",
+    "group": "GE",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Beccuccio 2 vie cromato",
+    "description_en": "Spout 2-way chrome",
+    "aliases_it": [
+      "beccuccio doppio"
+    ],
+    "aliases_en": [
+      "double spout"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 7.4,
+    "stock": 120,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "GE-2197",
+    "group": "GE",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Beccuccio 1 via cromato",
+    "description_en": "Spout 1-way chrome",
+    "aliases_it": [
+      "beccuccio singolo"
+    ],
+    "aliases_en": [
+      "single spout"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 6.9,
+    "stock": 90,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "GE-2200",
+    "group": "GE",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Corpo gruppo completo ottone cromato, Marea/Giglio",
+    "description_en": "Group head body complete chrome brass, Marea/Giglio",
+    "aliases_it": [
+      "gruppo completo",
+      "corpo del gruppo"
+    ],
+    "aliases_en": [
+      "group head body",
+      "complete group"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 310.0,
+    "stock": 6,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "GE-2201",
+    "group": "GE",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Corpo gruppo completo con camicia riscaldata, Onda",
+    "description_en": "Group head body complete with heating jacket, Onda",
+    "aliases_it": [
+      "gruppo completo Onda"
+    ],
+    "aliases_en": [
+      "Onda group body"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 480.0,
+    "stock": 4,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "GE-2205",
+    "group": "GE",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Guarnizione flangia gruppo-scambiatore",
+    "description_en": "Group-to-heat-exchanger flange gasket",
+    "aliases_it": [
+      "guarnizione flangia gruppo"
+    ],
+    "aliases_en": [
+      "group flange gasket"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 2.6,
+    "stock": 180,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "GE-2210",
+    "group": "GE",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Kit revisione gruppo Marea/Giglio (guarnizione, doccetta, vite)",
+    "description_en": "Group service kit Marea/Giglio (gasket, screen, screw)",
+    "aliases_it": [
+      "kit gruppo",
+      "kit revisione gruppo"
+    ],
+    "aliases_en": [
+      "group service kit",
+      "group rebuild kit"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 10.5,
+    "stock": 200,
+    "order_rank": 1,
+    "note": null
+  },
+  {
+    "code": "GE-2211",
+    "group": "GE",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Kit revisione gruppo Onda (guarnizione, doccetta, OR)",
+    "description_en": "Group service kit Onda (gasket, screen, o-rings)",
+    "aliases_it": [
+      "kit gruppo Onda"
+    ],
+    "aliases_en": [
+      "Onda group service kit"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 16.8,
+    "stock": 90,
+    "order_rank": 1,
+    "note": null
+  },
+  {
+    "code": "GE-2220",
+    "group": "GE",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Sonda temperatura gruppo PT100, Onda",
+    "description_en": "Group temperature probe PT100, Onda",
+    "aliases_it": [
+      "sonda del gruppo",
+      "sensore temperatura gruppo"
+    ],
+    "aliases_en": [
+      "group temperature sensor",
+      "group probe"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 24.0,
+    "stock": 40,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "GE-2221",
+    "group": "GE",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Resistenza camicia gruppo 150 W 230 V, Onda",
+    "description_en": "Group jacket heating element 150 W 230 V, Onda",
+    "aliases_it": [
+      "resistenza del gruppo"
+    ],
+    "aliases_en": [
+      "group heater",
+      "group heating element"
+    ],
+    "voltage": "230V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 42.0,
+    "stock": 20,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "GE-2222",
+    "group": "GE",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Resistenza camicia gruppo 150 W 110 V, Onda",
+    "description_en": "Group jacket heating element 150 W 110 V, Onda",
+    "aliases_it": [
+      "resistenza del gruppo 110"
+    ],
+    "aliases_en": [
+      "group heater 110 volt"
+    ],
+    "voltage": "110V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 42.0,
+    "stock": 8,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "GE-2230",
+    "group": "GE",
+    "models": [
+      "marea-2",
+      "marea-2-plus"
+    ],
+    "description_it": "Tubo rame scambiatore-gruppo, Marea 2 / 2 Plus",
+    "description_en": "Copper pipe heat-exchanger to group, Marea 2 / 2 Plus",
+    "aliases_it": [
+      "tubo dello scambiatore"
+    ],
+    "aliases_en": [
+      "exchanger pipe"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 18.0,
+    "stock": 30,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "GE-2231",
+    "group": "GE",
+    "models": [
+      "marea-2-evo"
+    ],
+    "description_it": "Tubo rame scambiatore-gruppo, Marea 2 Evo",
+    "description_en": "Copper pipe heat-exchanger to group, Marea 2 Evo",
+    "aliases_it": [
+      "tubo scambiatore Evo"
+    ],
+    "aliases_en": [
+      "Evo exchanger pipe"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 21.0,
+    "stock": 15,
+    "order_rank": 4,
+    "note": "New boiler geometry on the Evo: not interchangeable with GE-2230."
+  },
+  {
+    "code": "GE-2232",
+    "group": "GE",
+    "models": [
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Tubo rame scambiatore-gruppo, Giglio",
+    "description_en": "Copper pipe heat-exchanger to group, Giglio",
+    "aliases_it": [
+      "tubo scambiatore Giglio"
+    ],
+    "aliases_en": [
+      "Giglio exchanger pipe"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 15.0,
+    "stock": 20,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "GE-2240",
+    "group": "GE",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Raccordo ingresso gruppo 1/4\" ottone",
+    "description_en": "Group inlet fitting 1/4\" brass",
+    "aliases_it": [
+      "raccordo del gruppo"
+    ],
+    "aliases_en": [
+      "group fitting"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 4.3,
+    "stock": 100,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "GE-2245",
+    "group": "GE",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "OR raccordo gruppo (kit 10)",
+    "description_en": "Group fitting O-ring (kit of 10)",
+    "aliases_it": [
+      "oring del raccordo"
+    ],
+    "aliases_en": [
+      "fitting o-ring"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 3.5,
+    "stock": 150,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "GE-2250",
+    "group": "GE",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Guarnizione portafiltro cieco silicone (per lavaggio)",
+    "description_en": "Blind portafilter silicone gasket (for backflush)",
+    "aliases_it": [],
+    "aliases_en": [
+      "backflush gasket"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 3.9,
+    "stock": 80,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "GE-2260",
+    "group": "GE",
+    "models": [
+      "marea-2"
+    ],
+    "description_it": "Leva erogazione manuale con micro, Marea 2",
+    "description_en": "Manual brew lever with microswitch, Marea 2",
+    "aliases_it": [
+      "levetta erogazione"
+    ],
+    "aliases_en": [
+      "brew lever"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 28.0,
+    "stock": 12,
+    "order_rank": 5,
+    "note": "Only the 2024 Marea 2 has the auxiliary manual lever."
+  },
+  {
+    "code": "CA-1180",
+    "group": "CA",
+    "models": [
+      "marea-2",
+      "marea-2-plus"
+    ],
+    "description_it": "Resistenza caldaia 3000 W 230 V, Marea 2 / 2 Plus",
+    "description_en": "Boiler heating element 3000 W 230 V, Marea 2 / 2 Plus",
+    "aliases_it": [
+      "resistenza",
+      "resistenza della caldaia"
+    ],
+    "aliases_en": [
+      "heating element",
+      "boiler element",
+      "heater"
+    ],
+    "voltage": "230V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 96.0,
+    "stock": 30,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "CA-1181",
+    "group": "CA",
+    "models": [
+      "marea-2",
+      "marea-2-plus"
+    ],
+    "description_it": "Resistenza caldaia 3000 W 110 V, Marea 2 / 2 Plus",
+    "description_en": "Boiler heating element 3000 W 110 V, Marea 2 / 2 Plus",
+    "aliases_it": [
+      "resistenza centodieci"
+    ],
+    "aliases_en": [
+      "heating element 110 volt"
+    ],
+    "voltage": "110V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 96.0,
+    "stock": 12,
+    "order_rank": 3,
+    "note": "Trap triple CA-1180/1181/1182: same element, three voltages."
+  },
+  {
+    "code": "CA-1182",
+    "group": "CA",
+    "models": [
+      "marea-2",
+      "marea-2-plus"
+    ],
+    "description_it": "Resistenza caldaia 4500 W 400 V trifase, Marea 2 / 2 Plus",
+    "description_en": "Boiler heating element 4500 W 400 V three-phase, Marea 2 / 2 Plus",
+    "aliases_it": [
+      "resistenza trifase",
+      "resistenza quattrocento"
+    ],
+    "aliases_en": [
+      "three-phase element",
+      "400 volt element"
+    ],
+    "voltage": "400V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 118.0,
+    "stock": 10,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "CA-1185",
+    "group": "CA",
+    "models": [
+      "marea-2-evo"
+    ],
+    "description_it": "Resistenza caldaia 3500 W 230 V, Marea 2 Evo",
+    "description_en": "Boiler heating element 3500 W 230 V, Marea 2 Evo",
+    "aliases_it": [
+      "resistenza Evo"
+    ],
+    "aliases_en": [
+      "Evo heating element"
+    ],
+    "voltage": "230V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 104.0,
+    "stock": 18,
+    "order_rank": 2,
+    "note": "Evo boiler has a different flange: CA-1180 does not fit."
+  },
+  {
+    "code": "CA-1186",
+    "group": "CA",
+    "models": [
+      "marea-2-evo"
+    ],
+    "description_it": "Resistenza caldaia 3500 W 110 V, Marea 2 Evo",
+    "description_en": "Boiler heating element 3500 W 110 V, Marea 2 Evo",
+    "aliases_it": [],
+    "aliases_en": [
+      "Evo element 110 volt"
+    ],
+    "voltage": "110V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 104.0,
+    "stock": 6,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "CA-1187",
+    "group": "CA",
+    "models": [
+      "marea-2-evo"
+    ],
+    "description_it": "Resistenza caldaia 5000 W 400 V trifase, Marea 2 Evo",
+    "description_en": "Boiler heating element 5000 W 400 V three-phase, Marea 2 Evo",
+    "aliases_it": [],
+    "aliases_en": [
+      "Evo three-phase element"
+    ],
+    "voltage": "400V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 126.0,
+    "stock": 5,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "CA-1190",
+    "group": "CA",
+    "models": [
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Resistenza caldaia 1800 W 230 V, Giglio",
+    "description_en": "Boiler heating element 1800 W 230 V, Giglio",
+    "aliases_it": [
+      "resistenza Giglio"
+    ],
+    "aliases_en": [
+      "Giglio heating element"
+    ],
+    "voltage": "230V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 72.0,
+    "stock": 20,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "CA-1191",
+    "group": "CA",
+    "models": [
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Resistenza caldaia 1500 W 110 V, Giglio",
+    "description_en": "Boiler heating element 1500 W 110 V, Giglio",
+    "aliases_it": [],
+    "aliases_en": [
+      "Giglio element 110 volt"
+    ],
+    "voltage": "110V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 72.0,
+    "stock": 8,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "CA-1200",
+    "group": "CA",
+    "models": [
+      "onda-mb2",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Resistenza caldaia vapore 3200 W 230 V, Onda MB2 / MB2 Evo",
+    "description_en": "Steam boiler heating element 3200 W 230 V, Onda MB2 / MB2 Evo",
+    "aliases_it": [
+      "resistenza vapore",
+      "resistenza caldaia vapore"
+    ],
+    "aliases_en": [
+      "steam boiler element",
+      "steam heater"
+    ],
+    "voltage": "230V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 112.0,
+    "stock": 14,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "CA-1201",
+    "group": "CA",
+    "models": [
+      "onda-mb2",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Resistenza caldaia vapore 3200 W 110 V, Onda MB2 / MB2 Evo",
+    "description_en": "Steam boiler heating element 3200 W 110 V, Onda MB2 / MB2 Evo",
+    "aliases_it": [],
+    "aliases_en": [
+      "steam element 110 volt"
+    ],
+    "voltage": "110V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 112.0,
+    "stock": 6,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "CA-1202",
+    "group": "CA",
+    "models": [
+      "onda-mb3"
+    ],
+    "description_it": "Resistenza caldaia vapore 4800 W 400 V trifase, Onda MB3",
+    "description_en": "Steam boiler heating element 4800 W 400 V three-phase, Onda MB3",
+    "aliases_it": [
+      "resistenza vapore MB3"
+    ],
+    "aliases_en": [
+      "MB3 steam element"
+    ],
+    "voltage": "400V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 138.0,
+    "stock": 5,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "CA-1203",
+    "group": "CA",
+    "models": [
+      "onda-mb3"
+    ],
+    "description_it": "Resistenza caldaia vapore 4800 W 230 V, Onda MB3",
+    "description_en": "Steam boiler heating element 4800 W 230 V, Onda MB3",
+    "aliases_it": [],
+    "aliases_en": [
+      "MB3 steam element 230 volt"
+    ],
+    "voltage": "230V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 138.0,
+    "stock": 4,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "CA-1210",
+    "group": "CA",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Resistenza caldaia caffè 800 W 230 V (per gruppo), Onda",
+    "description_en": "Coffee boiler heating element 800 W 230 V (per group), Onda",
+    "aliases_it": [
+      "resistenza caldaia caffè",
+      "resistenza caldaietta"
+    ],
+    "aliases_en": [
+      "coffee boiler element",
+      "brew boiler heater"
+    ],
+    "voltage": "230V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 58.0,
+    "stock": 30,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "CA-1211",
+    "group": "CA",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Resistenza caldaia caffè 800 W 110 V (per gruppo), Onda",
+    "description_en": "Coffee boiler heating element 800 W 110 V (per group), Onda",
+    "aliases_it": [],
+    "aliases_en": [
+      "brew boiler heater 110 volt"
+    ],
+    "voltage": "110V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 58.0,
+    "stock": 10,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "CA-1220",
+    "group": "CA",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Guarnizione flangia resistenza, Marea/Giglio",
+    "description_en": "Heating element flange gasket, Marea/Giglio",
+    "aliases_it": [
+      "guarnizione della resistenza"
+    ],
+    "aliases_en": [
+      "element gasket",
+      "heater flange gasket"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 2.9,
+    "stock": 200,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "CA-1221",
+    "group": "CA",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Guarnizione flangia resistenza, Onda",
+    "description_en": "Heating element flange gasket, Onda",
+    "aliases_it": [
+      "guarnizione resistenza Onda"
+    ],
+    "aliases_en": [
+      "Onda element gasket"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 3.4,
+    "stock": 90,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "CA-1230",
+    "group": "CA",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Sonda di livello caldaia 100 mm con isolante, Marea/Giglio",
+    "description_en": "Boiler level probe 100 mm with insulator, Marea/Giglio",
+    "aliases_it": [
+      "sonda livello",
+      "sonda del livello",
+      "sonda dell'acqua"
+    ],
+    "aliases_en": [
+      "level probe",
+      "water level sensor",
+      "autofill probe"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 17.5,
+    "stock": 80,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "CA-1231",
+    "group": "CA",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Sonda di livello caldaia vapore 130 mm, Onda",
+    "description_en": "Steam boiler level probe 130 mm, Onda",
+    "aliases_it": [
+      "sonda livello Onda"
+    ],
+    "aliases_en": [
+      "Onda level probe"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 19.5,
+    "stock": 40,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "CA-1232",
+    "group": "CA",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Isolante teflon sonda di livello (kit 5)",
+    "description_en": "Level probe PTFE insulator (kit of 5)",
+    "aliases_it": [
+      "isolante della sonda",
+      "teflon della sonda"
+    ],
+    "aliases_en": [
+      "probe insulator",
+      "probe teflon"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 4.8,
+    "stock": 120,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "CA-1240",
+    "group": "CA",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Pressostato 0,5–1,4 bar",
+    "description_en": "Pressurestat 0.5–1.4 bar",
+    "aliases_it": [
+      "pressostato",
+      "il pressostato della caldaia"
+    ],
+    "aliases_en": [
+      "pressurestat",
+      "pressure switch",
+      "boiler pressure switch"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 46.0,
+    "stock": 40,
+    "order_rank": 2,
+    "note": "Not fitted on Marea 2 Evo (pressure transducer CA-1245) nor on Onda."
+  },
+  {
+    "code": "CA-1241",
+    "group": "CA",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Membrana pressostato",
+    "description_en": "Pressurestat diaphragm",
+    "aliases_it": [
+      "membrana del pressostato"
+    ],
+    "aliases_en": [
+      "pressurestat diaphragm"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 8.5,
+    "stock": 60,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "CA-1245",
+    "group": "CA",
+    "models": [
+      "marea-2-evo",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Trasduttore di pressione caldaia 0–3 bar",
+    "description_en": "Boiler pressure transducer 0–3 bar",
+    "aliases_it": [
+      "sensore di pressione",
+      "trasduttore"
+    ],
+    "aliases_en": [
+      "pressure sensor",
+      "pressure transducer"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 64.0,
+    "stock": 25,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "CA-1250",
+    "group": "CA",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Valvola di sicurezza 1,8 bar certificata",
+    "description_en": "Safety valve 1.8 bar certified",
+    "aliases_it": [
+      "valvola di sicurezza",
+      "valvola sicurezza caldaia"
+    ],
+    "aliases_en": [
+      "safety valve",
+      "pressure relief valve"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 26.0,
+    "stock": 90,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "CA-1251",
+    "group": "CA",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Valvola di sicurezza 2,2 bar caldaia vapore, Onda",
+    "description_en": "Safety valve 2.2 bar steam boiler, Onda",
+    "aliases_it": [
+      "valvola sicurezza Onda"
+    ],
+    "aliases_en": [
+      "Onda safety valve"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 29.0,
+    "stock": 30,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "CA-1260",
+    "group": "CA",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Valvola antidepressione 1/4\"",
+    "description_en": "Anti-vacuum valve 1/4\"",
+    "aliases_it": [
+      "antidepressione",
+      "valvola antivuoto",
+      "la valvolina che fischia"
+    ],
+    "aliases_en": [
+      "anti-vacuum valve",
+      "vacuum breaker",
+      "the little valve that hisses"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 14.8,
+    "stock": 150,
+    "order_rank": 1,
+    "note": null
+  },
+  {
+    "code": "CA-1261",
+    "group": "CA",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "OR valvola antidepressione (kit 10)",
+    "description_en": "Anti-vacuum valve O-ring (kit of 10)",
+    "aliases_it": [
+      "oring antidepressione"
+    ],
+    "aliases_en": [
+      "vacuum valve o-ring"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 3.2,
+    "stock": 200,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "CA-1270",
+    "group": "CA",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Termostato di sicurezza 165 °C a riarmo, Marea/Giglio",
+    "description_en": "Safety thermostat 165 °C manual reset, Marea/Giglio",
+    "aliases_it": [
+      "termostato di sicurezza",
+      "termico",
+      "il termostato che scatta"
+    ],
+    "aliases_en": [
+      "safety thermostat",
+      "high-limit thermostat",
+      "thermal cutout"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 12.6,
+    "stock": 70,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "CA-1271",
+    "group": "CA",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Termostato di sicurezza 140 °C caldaia caffè, Onda",
+    "description_en": "Safety thermostat 140 °C coffee boiler, Onda",
+    "aliases_it": [
+      "termostato caldaietta"
+    ],
+    "aliases_en": [
+      "brew boiler thermostat"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 12.6,
+    "stock": 40,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "CA-1280",
+    "group": "CA",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Manometro doppio pompa/caldaia 0–16 / 0–3 bar",
+    "description_en": "Dual gauge pump/boiler 0–16 / 0–3 bar",
+    "aliases_it": [
+      "manometro",
+      "manometro doppio"
+    ],
+    "aliases_en": [
+      "dual gauge",
+      "pressure gauge",
+      "manometer"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 32.0,
+    "stock": 30,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "CA-1281",
+    "group": "CA",
+    "models": [
+      "marea-2-evo",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Manometro singolo pompa 0–16 bar",
+    "description_en": "Single pump gauge 0–16 bar",
+    "aliases_it": [
+      "manometro pompa"
+    ],
+    "aliases_en": [
+      "pump gauge"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 21.0,
+    "stock": 25,
+    "order_rank": 4,
+    "note": "Evo and Onda show boiler pressure on the display; only the pump gauge is mechanical."
+  },
+  {
+    "code": "CA-1290",
+    "group": "CA",
+    "models": [
+      "marea-2-plus"
+    ],
+    "description_it": "Sonda temperatura caldaia NTC, Marea 2 Plus",
+    "description_en": "Boiler temperature probe NTC, Marea 2 Plus",
+    "aliases_it": [
+      "sonda temperatura",
+      "sonda del PID"
+    ],
+    "aliases_en": [
+      "temperature probe",
+      "PID probe"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 18.0,
+    "stock": 30,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "CA-1291",
+    "group": "CA",
+    "models": [
+      "marea-2-evo",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Sonda temperatura caldaia PT100, Marea 2 Evo / Onda",
+    "description_en": "Boiler temperature probe PT100, Marea 2 Evo / Onda",
+    "aliases_it": [
+      "sonda PT100"
+    ],
+    "aliases_en": [
+      "PT100 probe"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 22.0,
+    "stock": 40,
+    "order_rank": 3,
+    "note": "Trap: one digit from CA-1290, different sensor type, not interchangeable."
+  },
+  {
+    "code": "CA-1300",
+    "group": "CA",
+    "models": [
+      "marea-2",
+      "marea-2-plus"
+    ],
+    "description_it": "Scambiatore di calore rame, Marea 2 / 2 Plus",
+    "description_en": "Heat exchanger copper, Marea 2 / 2 Plus",
+    "aliases_it": [
+      "scambiatore"
+    ],
+    "aliases_en": [
+      "heat exchanger",
+      "HX"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 88.0,
+    "stock": 8,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "CA-1301",
+    "group": "CA",
+    "models": [
+      "marea-2-evo"
+    ],
+    "description_it": "Scambiatore di calore rame, Marea 2 Evo",
+    "description_en": "Heat exchanger copper, Marea 2 Evo",
+    "aliases_it": [
+      "scambiatore Evo"
+    ],
+    "aliases_en": [
+      "Evo heat exchanger"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 94.0,
+    "stock": 5,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "CA-1302",
+    "group": "CA",
+    "models": [
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Scambiatore di calore rame, Giglio",
+    "description_en": "Heat exchanger copper, Giglio",
+    "aliases_it": [
+      "scambiatore Giglio"
+    ],
+    "aliases_en": [
+      "Giglio heat exchanger"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 66.0,
+    "stock": 6,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "CA-1310",
+    "group": "CA",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Rubinetto scarico caldaia 3/8\"",
+    "description_en": "Boiler drain tap 3/8\"",
+    "aliases_it": [
+      "rubinetto di scarico",
+      "scarico caldaia"
+    ],
+    "aliases_en": [
+      "drain valve",
+      "boiler drain tap"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 11.2,
+    "stock": 50,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "CA-1311",
+    "group": "CA",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Guarnizione rubinetto scarico caldaia",
+    "description_en": "Boiler drain tap gasket",
+    "aliases_it": [],
+    "aliases_en": [
+      "drain tap gasket"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 1.4,
+    "stock": 150,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "CA-1320",
+    "group": "CA",
+    "models": [
+      "marea-2",
+      "marea-2-plus"
+    ],
+    "description_it": "Caldaia completa 11 L rame, Marea 2 / 2 Plus",
+    "description_en": "Boiler complete 11 L copper, Marea 2 / 2 Plus",
+    "aliases_it": [
+      "caldaia completa"
+    ],
+    "aliases_en": [
+      "complete boiler"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 640.0,
+    "stock": 3,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "CA-1321",
+    "group": "CA",
+    "models": [
+      "marea-2-evo"
+    ],
+    "description_it": "Caldaia completa 12 L rame coibentata, Marea 2 Evo",
+    "description_en": "Boiler complete 12 L copper insulated, Marea 2 Evo",
+    "aliases_it": [
+      "caldaia Evo"
+    ],
+    "aliases_en": [
+      "Evo boiler"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 720.0,
+    "stock": 2,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "CA-1322",
+    "group": "CA",
+    "models": [
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Caldaia completa 4,5 L rame, Giglio",
+    "description_en": "Boiler complete 4.5 L copper, Giglio",
+    "aliases_it": [
+      "caldaia Giglio"
+    ],
+    "aliases_en": [
+      "Giglio boiler"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 420.0,
+    "stock": 3,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "CA-1323",
+    "group": "CA",
+    "models": [
+      "onda-mb2",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Caldaia vapore 7 L inox, Onda MB2 / MB2 Evo",
+    "description_en": "Steam boiler 7 L stainless, Onda MB2 / MB2 Evo",
+    "aliases_it": [
+      "caldaia vapore"
+    ],
+    "aliases_en": [
+      "steam boiler"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 780.0,
+    "stock": 2,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "CA-1324",
+    "group": "CA",
+    "models": [
+      "onda-mb3"
+    ],
+    "description_it": "Caldaia vapore 10 L inox, Onda MB3",
+    "description_en": "Steam boiler 10 L stainless, Onda MB3",
+    "aliases_it": [
+      "caldaia vapore MB3"
+    ],
+    "aliases_en": [
+      "MB3 steam boiler"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 890.0,
+    "stock": 1,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "CA-1325",
+    "group": "CA",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Caldaia caffè 0,8 L inox (per gruppo), Onda",
+    "description_en": "Coffee boiler 0.8 L stainless (per group), Onda",
+    "aliases_it": [
+      "caldaietta",
+      "caldaia caffè"
+    ],
+    "aliases_en": [
+      "brew boiler",
+      "coffee boiler"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 260.0,
+    "stock": 6,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "CA-1330",
+    "group": "CA",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Guarnizione flangia caldaia in fibra, Marea/Giglio",
+    "description_en": "Boiler flange gasket fibre, Marea/Giglio",
+    "aliases_it": [
+      "guarnizione flangia caldaia"
+    ],
+    "aliases_en": [
+      "boiler flange gasket"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 5.6,
+    "stock": 60,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "CA-1331",
+    "group": "CA",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Guarnizione flangia caldaia, Onda",
+    "description_en": "Boiler flange gasket, Onda",
+    "aliases_it": [],
+    "aliases_en": [
+      "Onda boiler flange gasket"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 6.8,
+    "stock": 30,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "CA-1340",
+    "group": "CA",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Tappo caldaia 3/8\" con OR",
+    "description_en": "Boiler plug 3/8\" with O-ring",
+    "aliases_it": [
+      "tappo della caldaia"
+    ],
+    "aliases_en": [
+      "boiler plug"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 3.8,
+    "stock": 80,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "CA-1350",
+    "group": "CA",
+    "models": [
+      "marea-2-evo",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Coibentazione caldaia (kit), Marea 2 Evo / Onda MB2 Evo",
+    "description_en": "Boiler insulation jacket (kit), Marea 2 Evo / Onda MB2 Evo",
+    "aliases_it": [
+      "isolamento caldaia",
+      "cappotto della caldaia"
+    ],
+    "aliases_en": [
+      "boiler insulation",
+      "boiler jacket"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 34.0,
+    "stock": 10,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "ID-4010",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Pompa rotativa 100 L/h attacco 3/8\"",
+    "description_en": "Rotary pump 100 L/h 3/8\" ports",
+    "aliases_it": [
+      "pompa",
+      "pompa rotativa",
+      "la pompa"
+    ],
+    "aliases_en": [
+      "rotary pump",
+      "pump",
+      "procon pump"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 142.0,
+    "stock": 20,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "ID-4011",
+    "group": "ID",
+    "models": [
+      "onda-mb3"
+    ],
+    "description_it": "Pompa rotativa 150 L/h attacco 3/8\", Onda MB3",
+    "description_en": "Rotary pump 150 L/h 3/8\" ports, Onda MB3",
+    "aliases_it": [
+      "pompa MB3"
+    ],
+    "aliases_en": [
+      "MB3 pump"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 168.0,
+    "stock": 5,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "ID-4015",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Motore pompa 165 W 230 V con condensatore",
+    "description_en": "Pump motor 165 W 230 V with capacitor",
+    "aliases_it": [
+      "motore della pompa",
+      "motorino pompa"
+    ],
+    "aliases_en": [
+      "pump motor"
+    ],
+    "voltage": "230V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 124.0,
+    "stock": 15,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "ID-4016",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Motore pompa 165 W 110 V con condensatore",
+    "description_en": "Pump motor 165 W 110 V with capacitor",
+    "aliases_it": [],
+    "aliases_en": [
+      "pump motor 110 volt"
+    ],
+    "voltage": "110V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 124.0,
+    "stock": 6,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "ID-4017",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Giunto motore-pompa",
+    "description_en": "Motor-to-pump coupling",
+    "aliases_it": [
+      "giunto della pompa",
+      "giunto pompa motore"
+    ],
+    "aliases_en": [
+      "pump coupling",
+      "motor coupling"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 6.2,
+    "stock": 40,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "ID-4018",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Fascetta motore pompa con silent block",
+    "description_en": "Pump motor clamp with rubber mount",
+    "aliases_it": [
+      "fascetta del motore"
+    ],
+    "aliases_en": [
+      "motor clamp"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 9.4,
+    "stock": 30,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "ID-4019",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Condensatore motore pompa 8 µF",
+    "description_en": "Pump motor capacitor 8 µF",
+    "aliases_it": [
+      "condensatore della pompa"
+    ],
+    "aliases_en": [
+      "pump capacitor"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 7.8,
+    "stock": 40,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "ID-4020",
+    "group": "ID",
+    "models": [
+      "giglio-1"
+    ],
+    "description_it": "Pompa a vibrazione 230 V 48 W, Giglio 1",
+    "description_en": "Vibration pump 230 V 48 W, Giglio 1",
+    "aliases_it": [
+      "pompa a vibrazione",
+      "pompetta"
+    ],
+    "aliases_en": [
+      "vibration pump",
+      "vibe pump",
+      "ulka pump"
+    ],
+    "voltage": "230V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 28.0,
+    "stock": 40,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "ID-4021",
+    "group": "ID",
+    "models": [
+      "giglio-1"
+    ],
+    "description_it": "Pompa a vibrazione 110 V 48 W, Giglio 1",
+    "description_en": "Vibration pump 110 V 48 W, Giglio 1",
+    "aliases_it": [],
+    "aliases_en": [
+      "vibration pump 110 volt"
+    ],
+    "voltage": "110V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 28.0,
+    "stock": 15,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "ID-4025",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Valvola di espansione 12 bar regolabile",
+    "description_en": "Expansion valve 12 bar adjustable",
+    "aliases_it": [
+      "valvola di espansione",
+      "by-pass",
+      "valvola di sovrapressione"
+    ],
+    "aliases_en": [
+      "expansion valve",
+      "over-pressure valve",
+      "OPV"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 22.0,
+    "stock": 60,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "ID-4026",
+    "group": "ID",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Valvola di espansione 12 bar, Onda",
+    "description_en": "Expansion valve 12 bar, Onda",
+    "aliases_it": [
+      "espansione Onda"
+    ],
+    "aliases_en": [
+      "Onda expansion valve"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 26.0,
+    "stock": 25,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "ID-4027",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Kit guarnizioni valvola di espansione",
+    "description_en": "Expansion valve seal kit",
+    "aliases_it": [
+      "guarnizioni espansione"
+    ],
+    "aliases_en": [
+      "expansion valve seals"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 4.9,
+    "stock": 80,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "ID-4030",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Valvola di ritegno 3/8\"",
+    "description_en": "Check valve 3/8\"",
+    "aliases_it": [
+      "valvola di ritegno",
+      "valvola di non ritorno",
+      "ritegno"
+    ],
+    "aliases_en": [
+      "check valve",
+      "non-return valve",
+      "one-way valve"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 13.5,
+    "stock": 50,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "ID-4031",
+    "group": "ID",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Valvola di ritegno 1/4\", Onda",
+    "description_en": "Check valve 1/4\", Onda",
+    "aliases_it": [
+      "ritegno Onda"
+    ],
+    "aliases_en": [
+      "Onda check valve"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 12.8,
+    "stock": 30,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "ID-4040",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Elettrovalvola carico caldaia 2 vie 230 V",
+    "description_en": "Boiler fill solenoid valve 2-way 230 V",
+    "aliases_it": [
+      "elettrovalvola di carico",
+      "valvola di carico",
+      "elettrovalvola dell'acqua"
+    ],
+    "aliases_en": [
+      "fill solenoid",
+      "autofill valve",
+      "inlet solenoid"
+    ],
+    "voltage": "230V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 48.0,
+    "stock": 40,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "ID-4041",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Elettrovalvola carico caldaia 2 vie 110 V",
+    "description_en": "Boiler fill solenoid valve 2-way 110 V",
+    "aliases_it": [],
+    "aliases_en": [
+      "fill solenoid 110 volt"
+    ],
+    "voltage": "110V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 48.0,
+    "stock": 12,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "ID-4042",
+    "group": "ID",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Elettrovalvola carico caldaia 2 vie 24 V, Onda",
+    "description_en": "Boiler fill solenoid valve 2-way 24 V, Onda",
+    "aliases_it": [
+      "carico Onda"
+    ],
+    "aliases_en": [
+      "Onda fill solenoid"
+    ],
+    "voltage": "24V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 52.0,
+    "stock": 20,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "ID-4045",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Corpo elettrovalvola carico senza bobina",
+    "description_en": "Fill solenoid valve body without coil",
+    "aliases_it": [],
+    "aliases_en": [
+      "fill valve body"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 24.0,
+    "stock": 30,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "ID-4050",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Flussometro completo con sensore",
+    "description_en": "Flowmeter complete with sensor",
+    "aliases_it": [
+      "flussometro",
+      "contalitri",
+      "il contatore dell'acqua"
+    ],
+    "aliases_en": [
+      "flowmeter",
+      "flow meter",
+      "volumetric sensor"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 68.0,
+    "stock": 30,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "ID-4051",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Turbina flussometro",
+    "description_en": "Flowmeter turbine",
+    "aliases_it": [
+      "turbina del flussometro",
+      "girante"
+    ],
+    "aliases_en": [
+      "flowmeter turbine",
+      "impeller"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 9.6,
+    "stock": 60,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "ID-4052",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Sensore Hall flussometro con cavo",
+    "description_en": "Flowmeter Hall sensor with cable",
+    "aliases_it": [
+      "sensore del flussometro"
+    ],
+    "aliases_en": [
+      "flowmeter sensor",
+      "hall sensor"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 19.0,
+    "stock": 40,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "ID-4053",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "OR flussometro (kit 10)",
+    "description_en": "Flowmeter O-ring (kit of 10)",
+    "aliases_it": [],
+    "aliases_en": [
+      "flowmeter o-ring"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 3.2,
+    "stock": 100,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "ID-4060",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Filtro ingresso acqua 3/8\" con cartuccia",
+    "description_en": "Water inlet filter 3/8\" with cartridge",
+    "aliases_it": [
+      "filtro dell'acqua",
+      "filtro ingresso"
+    ],
+    "aliases_en": [
+      "inlet filter",
+      "water filter"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 14.0,
+    "stock": 60,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "ID-4061",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Cartuccia filtro ingresso (kit 3)",
+    "description_en": "Inlet filter cartridge (kit of 3)",
+    "aliases_it": [
+      "cartuccia del filtro"
+    ],
+    "aliases_en": [
+      "filter cartridge"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 6.5,
+    "stock": 120,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "ID-4070",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo",
+      "monda-65",
+      "monda-65-digit"
+    ],
+    "description_it": "Raccordo diritto 1/4\" ottone",
+    "description_en": "Straight fitting 1/4\" brass",
+    "aliases_it": [
+      "raccordo un quarto"
+    ],
+    "aliases_en": [
+      "quarter inch fitting"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 2.1,
+    "stock": 300,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "ID-4071",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Raccordo diritto 3/8\" ottone",
+    "description_en": "Straight fitting 3/8\" brass",
+    "aliases_it": [
+      "raccordo tre ottavi"
+    ],
+    "aliases_en": [
+      "three-eighths fitting"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 2.6,
+    "stock": 250,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "ID-4072",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Raccordo a gomito 1/4\" ottone",
+    "description_en": "Elbow fitting 1/4\" brass",
+    "aliases_it": [
+      "gomito",
+      "raccordo a gomito"
+    ],
+    "aliases_en": [
+      "elbow fitting"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 2.8,
+    "stock": 200,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "ID-4073",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Raccordo a T 1/4\" ottone",
+    "description_en": "Tee fitting 1/4\" brass",
+    "aliases_it": [
+      "raccordo a ti"
+    ],
+    "aliases_en": [
+      "tee fitting"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 3.4,
+    "stock": 120,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "ID-4080",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Tubo teflon 1/4\" (al metro)",
+    "description_en": "PTFE tube 1/4\" (per metre)",
+    "aliases_it": [
+      "tubo teflon",
+      "tubo bianco"
+    ],
+    "aliases_en": [
+      "teflon tube",
+      "PTFE tube"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 3.9,
+    "stock": 400,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "ID-4081",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Tubo rame 6 mm (al metro)",
+    "description_en": "Copper tube 6 mm (per metre)",
+    "aliases_it": [
+      "tubo rame sei"
+    ],
+    "aliases_en": [
+      "six millimetre copper tube"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 4.4,
+    "stock": 300,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "ID-4082",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Tubo rame 8 mm (al metro)",
+    "description_en": "Copper tube 8 mm (per metre)",
+    "aliases_it": [
+      "tubo rame otto"
+    ],
+    "aliases_en": [
+      "eight millimetre copper tube"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 5.6,
+    "stock": 200,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "ID-4085",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Tubo carico rete 3/8\" 1,5 m inox con guarnizioni",
+    "description_en": "Mains inlet hose 3/8\" 1.5 m stainless with gaskets",
+    "aliases_it": [
+      "tubo di carico",
+      "tubo dell'acqua"
+    ],
+    "aliases_en": [
+      "inlet hose",
+      "water hose",
+      "supply hose"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 16.0,
+    "stock": 80,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "ID-4086",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Tubo scarico 20 mm 1 m con fascetta",
+    "description_en": "Drain hose 20 mm 1 m with clamp",
+    "aliases_it": [
+      "tubo di scarico"
+    ],
+    "aliases_en": [
+      "drain hose"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 7.2,
+    "stock": 100,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "ID-4090",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo",
+      "monda-65",
+      "monda-65-digit"
+    ],
+    "description_it": "OR 2043 EPDM (kit 10)",
+    "description_en": "O-ring 2043 EPDM (kit of 10)",
+    "aliases_it": [
+      "oring venti quarantatré"
+    ],
+    "aliases_en": [
+      "o-ring twenty forty-three"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 2.8,
+    "stock": 200,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "ID-4091",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo",
+      "monda-65",
+      "monda-65-digit"
+    ],
+    "description_it": "OR 2062 EPDM (kit 10)",
+    "description_en": "O-ring 2062 EPDM (kit of 10)",
+    "aliases_it": [
+      "oring venti sessantadue"
+    ],
+    "aliases_en": [
+      "o-ring twenty sixty-two"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 2.8,
+    "stock": 200,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "ID-4092",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo",
+      "monda-65",
+      "monda-65-digit"
+    ],
+    "description_it": "OR 3050 EPDM (kit 10)",
+    "description_en": "O-ring 3050 EPDM (kit of 10)",
+    "aliases_it": [
+      "oring trenta cinquanta"
+    ],
+    "aliases_en": [
+      "o-ring thirty fifty"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 3.2,
+    "stock": 150,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "ID-4100",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Kit OR revisione idraulica completa, Marea/Giglio",
+    "description_en": "Complete hydraulic O-ring service kit, Marea/Giglio",
+    "aliases_it": [
+      "kit oring",
+      "kit guarnizioni idraulica"
+    ],
+    "aliases_en": [
+      "o-ring kit",
+      "hydraulic seal kit"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 18.5,
+    "stock": 60,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "ID-4101",
+    "group": "ID",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Kit OR revisione idraulica completa, Onda",
+    "description_en": "Complete hydraulic O-ring service kit, Onda",
+    "aliases_it": [
+      "kit oring Onda"
+    ],
+    "aliases_en": [
+      "Onda seal kit"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 24.0,
+    "stock": 30,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "ID-4110",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Riduttore di pressione ingresso 3/8\" 3 bar",
+    "description_en": "Inlet pressure reducer 3/8\" 3 bar",
+    "aliases_it": [
+      "riduttore di pressione"
+    ],
+    "aliases_en": [
+      "pressure reducer",
+      "pressure regulator"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 38.0,
+    "stock": 20,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "ID-4120",
+    "group": "ID",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Valvola by-pass pompa rotativa (regolazione 9 bar)",
+    "description_en": "Rotary pump bypass valve (9 bar adjustment)",
+    "aliases_it": [
+      "by-pass della pompa",
+      "vite di regolazione pompa"
+    ],
+    "aliases_en": [
+      "pump bypass",
+      "pump adjustment screw"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 15.0,
+    "stock": 25,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "VA-5010",
+    "group": "VA",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Rubinetto vapore completo a volantino, Marea/Giglio",
+    "description_en": "Steam valve complete with knob, Marea/Giglio",
+    "aliases_it": [
+      "rubinetto del vapore",
+      "rubinetto vapore completo"
+    ],
+    "aliases_en": [
+      "steam valve",
+      "steam tap complete"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 58.0,
+    "stock": 25,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "VA-5011",
+    "group": "VA",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Valvola vapore joystick completa, Onda",
+    "description_en": "Steam joystick valve complete, Onda",
+    "aliases_it": [
+      "joystick del vapore",
+      "levetta vapore"
+    ],
+    "aliases_en": [
+      "steam joystick",
+      "steam lever valve"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 96.0,
+    "stock": 15,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "VA-5015",
+    "group": "VA",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Kit guarnizioni rubinetto vapore (tenute + OR)",
+    "description_en": "Steam valve seal kit (seals + o-rings)",
+    "aliases_it": [
+      "guarnizioni del vapore",
+      "kit tenute vapore",
+      "guarnizioni rubinetto"
+    ],
+    "aliases_en": [
+      "steam valve seals",
+      "steam tap seal kit",
+      "steam valve gaskets"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 6.4,
+    "stock": 250,
+    "order_rank": 1,
+    "note": null
+  },
+  {
+    "code": "VA-5016",
+    "group": "VA",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Alberino rubinetto vapore con premistoppa",
+    "description_en": "Steam valve stem with gland",
+    "aliases_it": [
+      "alberino del vapore",
+      "perno del rubinetto"
+    ],
+    "aliases_en": [
+      "steam valve stem",
+      "steam spindle"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 14.0,
+    "stock": 60,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "VA-5017",
+    "group": "VA",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Manopola rubinetto vapore nera",
+    "description_en": "Steam valve knob black",
+    "aliases_it": [
+      "manopola del vapore",
+      "pomello vapore"
+    ],
+    "aliases_en": [
+      "steam knob"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 6.8,
+    "stock": 90,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "VA-5018",
+    "group": "VA",
+    "models": [
+      "marea-2-plus",
+      "giglio-1-plus"
+    ],
+    "description_it": "Manopola rubinetto vapore crema, edizione Vaniglia",
+    "description_en": "Steam valve knob cream, Vaniglia edition",
+    "aliases_it": [
+      "manopola vaniglia",
+      "manopola crema"
+    ],
+    "aliases_en": [
+      "vanilla knob",
+      "cream knob"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 8.9,
+    "stock": 25,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "VA-5019",
+    "group": "VA",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Kit guarnizioni valvola joystick, Onda",
+    "description_en": "Joystick valve seal kit, Onda",
+    "aliases_it": [
+      "guarnizioni joystick"
+    ],
+    "aliases_en": [
+      "joystick seals"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 9.8,
+    "stock": 80,
+    "order_rank": 1,
+    "note": null
+  },
+  {
+    "code": "VA-5020",
+    "group": "VA",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Lancia vapore inox 2 curve, Marea/Giglio",
+    "description_en": "Steam wand stainless 2-bend, Marea/Giglio",
+    "aliases_it": [
+      "lancia del vapore",
+      "lancia vapore",
+      "cannello"
+    ],
+    "aliases_en": [
+      "steam wand",
+      "steam arm",
+      "steam pipe"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 24.0,
+    "stock": 50,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "VA-5021",
+    "group": "VA",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Lancia vapore cool-touch, Onda",
+    "description_en": "Steam wand cool-touch, Onda",
+    "aliases_it": [
+      "lancia cool touch",
+      "lancia fredda"
+    ],
+    "aliases_en": [
+      "cool-touch wand",
+      "no-burn wand"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 42.0,
+    "stock": 30,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "VA-5025",
+    "group": "VA",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Terminale vapore 2 fori",
+    "description_en": "Steam tip 2-hole",
+    "aliases_it": [
+      "beccuccio del vapore",
+      "terminale vapore due fori",
+      "ugello vapore"
+    ],
+    "aliases_en": [
+      "steam tip",
+      "two-hole steam tip",
+      "steam nozzle"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 7.2,
+    "stock": 120,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "VA-5026",
+    "group": "VA",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Terminale vapore 4 fori",
+    "description_en": "Steam tip 4-hole",
+    "aliases_it": [
+      "terminale quattro fori"
+    ],
+    "aliases_en": [
+      "four-hole steam tip"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 7.2,
+    "stock": 100,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "VA-5027",
+    "group": "VA",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Snodo lancia vapore con OR",
+    "description_en": "Steam wand ball joint with o-rings",
+    "aliases_it": [
+      "snodo della lancia",
+      "sfera della lancia"
+    ],
+    "aliases_en": [
+      "wand ball joint",
+      "steam wand swivel"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 16.5,
+    "stock": 40,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "VA-5028",
+    "group": "VA",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "OR snodo lancia (kit 10)",
+    "description_en": "Wand joint O-ring (kit of 10)",
+    "aliases_it": [
+      "oring della lancia",
+      "guarnizioni dello snodo"
+    ],
+    "aliases_en": [
+      "wand o-rings",
+      "swivel o-rings"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 3.6,
+    "stock": 150,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "VA-5030",
+    "group": "VA",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Gommino antiscottatura lancia",
+    "description_en": "Steam wand anti-burn grip",
+    "aliases_it": [
+      "gommino della lancia",
+      "antiscottatura"
+    ],
+    "aliases_en": [
+      "wand grip",
+      "anti-burn rubber"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 3.4,
+    "stock": 120,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "VA-5040",
+    "group": "VA",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Lancia acqua calda inox",
+    "description_en": "Hot water wand stainless",
+    "aliases_it": [
+      "lancia dell'acqua calda"
+    ],
+    "aliases_en": [
+      "hot water wand",
+      "hot water spout"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 18.0,
+    "stock": 40,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "VA-5041",
+    "group": "VA",
+    "models": [
+      "marea-2",
+      "giglio-1"
+    ],
+    "description_it": "Rubinetto acqua calda completo a volantino, Marea 2 / Giglio 1",
+    "description_en": "Hot water valve complete with knob, Marea 2 / Giglio 1",
+    "aliases_it": [
+      "rubinetto dell'acqua calda"
+    ],
+    "aliases_en": [
+      "hot water tap"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 52.0,
+    "stock": 15,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "VA-5042",
+    "group": "VA",
+    "models": [
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1-plus"
+    ],
+    "description_it": "Elettrovalvola acqua calda 230 V, Marea 2 Plus / Evo / Giglio 1 Plus",
+    "description_en": "Hot water solenoid valve 230 V, Marea 2 Plus / Evo / Giglio 1 Plus",
+    "aliases_it": [
+      "elettrovalvola acqua calda"
+    ],
+    "aliases_en": [
+      "hot water solenoid"
+    ],
+    "voltage": "230V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 46.0,
+    "stock": 20,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "VA-5043",
+    "group": "VA",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Elettrovalvola acqua calda 24 V, Onda",
+    "description_en": "Hot water solenoid valve 24 V, Onda",
+    "aliases_it": [],
+    "aliases_en": [
+      "Onda hot water solenoid"
+    ],
+    "voltage": "24V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 49.0,
+    "stock": 15,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "VA-5045",
+    "group": "VA",
+    "models": [
+      "marea-2-plus",
+      "marea-2-evo",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Miscelatore acqua calda regolabile",
+    "description_en": "Hot water mixing valve adjustable",
+    "aliases_it": [
+      "miscelatore",
+      "miscelatore dell'acqua calda"
+    ],
+    "aliases_en": [
+      "mixing valve",
+      "hot water mixer"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 34.0,
+    "stock": 20,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "VA-5046",
+    "group": "VA",
+    "models": [
+      "marea-2-plus",
+      "marea-2-evo",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Kit guarnizioni miscelatore",
+    "description_en": "Mixing valve seal kit",
+    "aliases_it": [],
+    "aliases_en": [
+      "mixer seals"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 5.2,
+    "stock": 60,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "VA-5060",
+    "group": "VA",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Leva joystick vapore con pomello, Onda",
+    "description_en": "Steam joystick lever with knob, Onda",
+    "aliases_it": [
+      "leva del joystick"
+    ],
+    "aliases_en": [
+      "joystick lever"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 22.0,
+    "stock": 25,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "VA-5070",
+    "group": "VA",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Kit revisione vapore completo (tenute, alberino, OR snodo), Marea/Giglio",
+    "description_en": "Complete steam service kit (seals, stem, joint o-rings), Marea/Giglio",
+    "aliases_it": [
+      "kit vapore",
+      "kit revisione vapore"
+    ],
+    "aliases_en": [
+      "steam service kit",
+      "steam rebuild kit"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 19.9,
+    "stock": 80,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "EL-3010",
+    "group": "EL",
+    "models": [
+      "marea-2",
+      "giglio-1"
+    ],
+    "description_it": "Centralina elettronica v1, Marea 2 / Giglio 1",
+    "description_en": "Control board v1, Marea 2 / Giglio 1",
+    "aliases_it": [
+      "centralina",
+      "scheda",
+      "la scheda elettronica",
+      "cpu"
+    ],
+    "aliases_en": [
+      "control box",
+      "control board",
+      "main board",
+      "CPU"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": "EL-3012",
+    "price_eur": 210.0,
+    "stock": 0,
+    "order_rank": 3,
+    "note": "Out of production since 2025. Superseded by EL-3012, which fits both v1 and v2 machines."
+  },
+  {
+    "code": "EL-3011",
+    "group": "EL",
+    "models": [
+      "marea-2-plus",
+      "giglio-1-plus"
+    ],
+    "description_it": "Centralina elettronica v2, Marea 2 Plus / Giglio 1 Plus (primo lotto 2025)",
+    "description_en": "Control board v2, Marea 2 Plus / Giglio 1 Plus (first 2025 batch)",
+    "aliases_it": [
+      "centralina v2",
+      "centralina plus"
+    ],
+    "aliases_en": [
+      "v2 control board",
+      "plus control board"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": "EL-3012",
+    "price_eur": 235.0,
+    "stock": 2,
+    "order_rank": 4,
+    "note": "First-batch board with the flowmeter counting bug. Replaced by EL-3012."
+  },
+  {
+    "code": "EL-3012",
+    "group": "EL",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Centralina elettronica v2 rev.B, Marea 2 / 2 Plus / Giglio 1 / 1 Plus",
+    "description_en": "Control board v2 rev.B, Marea 2 / 2 Plus / Giglio 1 / 1 Plus",
+    "aliases_it": [
+      "centralina rev bi",
+      "centralina nuova"
+    ],
+    "aliases_en": [
+      "rev B board",
+      "replacement control board"
+    ],
+    "voltage": null,
+    "supersedes": "EL-3010",
+    "superseded_by": null,
+    "price_eur": 235.0,
+    "stock": 18,
+    "order_rank": 2,
+    "note": "Current replacement for EL-3010 and EL-3011. Needs the adapter harness EL-3036 on 2024 machines."
+  },
+  {
+    "code": "EL-3013",
+    "group": "EL",
+    "models": [
+      "marea-2-evo"
+    ],
+    "description_it": "Centralina elettronica v3 con uscita display, Marea 2 Evo",
+    "description_en": "Control board v3 with display output, Marea 2 Evo",
+    "aliases_it": [
+      "centralina Evo",
+      "centralina v3"
+    ],
+    "aliases_en": [
+      "Evo control board",
+      "v3 board"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 268.0,
+    "stock": 10,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "EL-3020",
+    "group": "EL",
+    "models": [
+      "onda-mb2",
+      "onda-mb3"
+    ],
+    "description_it": "Centralina multi-caldaia PID, Onda MB2 / MB3",
+    "description_en": "Multi-boiler PID control board, Onda MB2 / MB3",
+    "aliases_it": [
+      "centralina Onda",
+      "scheda PID"
+    ],
+    "aliases_en": [
+      "Onda control board",
+      "PID board"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 390.0,
+    "stock": 8,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "EL-3021",
+    "group": "EL",
+    "models": [
+      "onda-mb2-evo"
+    ],
+    "description_it": "Centralina multi-caldaia con bilance e touch, Onda MB2 Evo",
+    "description_en": "Multi-boiler control board with scales and touch, Onda MB2 Evo",
+    "aliases_it": [
+      "centralina Onda Evo"
+    ],
+    "aliases_en": [
+      "Onda Evo board"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 460.0,
+    "stock": 5,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "EL-3030",
+    "group": "EL",
+    "models": [
+      "marea-2",
+      "giglio-1"
+    ],
+    "description_it": "Pulsantiera 6 tasti a membrana con led, Marea 2 / Giglio 1",
+    "description_en": "Membrane touchpad 6 buttons with LEDs, Marea 2 / Giglio 1",
+    "aliases_it": [
+      "pulsantiera",
+      "tastiera",
+      "i tasti",
+      "tastierino"
+    ],
+    "aliases_en": [
+      "touchpad",
+      "keypad",
+      "button pad",
+      "the buttons"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 88.0,
+    "stock": 25,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "EL-3031",
+    "group": "EL",
+    "models": [
+      "marea-2-plus",
+      "giglio-1-plus"
+    ],
+    "description_it": "Pulsantiera capacitiva 6 tasti, Marea 2 Plus / Giglio 1 Plus",
+    "description_en": "Capacitive touchpad 6 buttons, Marea 2 Plus / Giglio 1 Plus",
+    "aliases_it": [
+      "pulsantiera capacitiva",
+      "pulsantiera touch"
+    ],
+    "aliases_en": [
+      "capacitive touchpad",
+      "touch keypad"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 112.0,
+    "stock": 20,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "EL-3032",
+    "group": "EL",
+    "models": [
+      "marea-2-evo"
+    ],
+    "description_it": "Pulsantiera capacitiva 6 tasti con display OLED, Marea 2 Evo",
+    "description_en": "Capacitive touchpad 6 buttons with OLED display, Marea 2 Evo",
+    "aliases_it": [
+      "pulsantiera Evo",
+      "pulsantiera con display"
+    ],
+    "aliases_en": [
+      "Evo touchpad",
+      "touchpad with display"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 148.0,
+    "stock": 12,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "EL-3033",
+    "group": "EL",
+    "models": [
+      "onda-mb2",
+      "onda-mb3"
+    ],
+    "description_it": "Pulsantiera 5 tasti retroilluminata, Onda MB2 / MB3",
+    "description_en": "Backlit touchpad 5 buttons, Onda MB2 / MB3",
+    "aliases_it": [
+      "pulsantiera Onda"
+    ],
+    "aliases_en": [
+      "Onda touchpad"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 118.0,
+    "stock": 15,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "EL-3034",
+    "group": "EL",
+    "models": [
+      "onda-mb2-evo"
+    ],
+    "description_it": "Pannello touch per gruppo, Onda MB2 Evo",
+    "description_en": "Per-group touch panel, Onda MB2 Evo",
+    "aliases_it": [
+      "touch del gruppo",
+      "pannello touch"
+    ],
+    "aliases_en": [
+      "group touch panel"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 165.0,
+    "stock": 8,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "EL-3035",
+    "group": "EL",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Cavo piatto pulsantiera-centralina 10 poli 60 cm",
+    "description_en": "Flat cable touchpad-to-board 10-pin 60 cm",
+    "aliases_it": [
+      "cavo della pulsantiera",
+      "piattina"
+    ],
+    "aliases_en": [
+      "touchpad cable",
+      "ribbon cable"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 8.5,
+    "stock": 50,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "EL-3036",
+    "group": "EL",
+    "models": [
+      "marea-2",
+      "giglio-1"
+    ],
+    "description_it": "Cablaggio adattatore centralina rev.B su Marea 2 / Giglio 1 (2024)",
+    "description_en": "Adapter harness for rev.B board on Marea 2 / Giglio 1 (2024)",
+    "aliases_it": [
+      "adattatore della centralina",
+      "cablaggio adattatore"
+    ],
+    "aliases_en": [
+      "board adapter harness",
+      "adapter cable"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 14.0,
+    "stock": 30,
+    "order_rank": 3,
+    "note": "Required when fitting EL-3012 to a 2024 machine."
+  },
+  {
+    "code": "EL-3040",
+    "group": "EL",
+    "models": [
+      "marea-2-evo"
+    ],
+    "description_it": "Display TFT 2,8\" con scheda, Marea 2 Evo",
+    "description_en": "TFT display 2.8\" with board, Marea 2 Evo",
+    "aliases_it": [
+      "display",
+      "schermo",
+      "displayino"
+    ],
+    "aliases_en": [
+      "display",
+      "screen"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 96.0,
+    "stock": 10,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "EL-3041",
+    "group": "EL",
+    "models": [
+      "onda-mb2-evo"
+    ],
+    "description_it": "Display touch 5\" con scheda, Onda MB2 Evo",
+    "description_en": "Touch display 5\" with board, Onda MB2 Evo",
+    "aliases_it": [
+      "display touch",
+      "schermo touch"
+    ],
+    "aliases_en": [
+      "touch screen",
+      "touch display"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 210.0,
+    "stock": 5,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "EL-3042",
+    "group": "EL",
+    "models": [
+      "marea-2-evo",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Cavo display-centralina",
+    "description_en": "Display-to-board cable",
+    "aliases_it": [
+      "cavo del display"
+    ],
+    "aliases_en": [
+      "display cable"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 9.8,
+    "stock": 30,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "EL-3050",
+    "group": "EL",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Teleruttore resistenza 25 A bobina 230 V",
+    "description_en": "Heating element contactor 25 A 230 V coil",
+    "aliases_it": [
+      "teleruttore",
+      "contattore",
+      "relè della resistenza"
+    ],
+    "aliases_en": [
+      "contactor",
+      "heater relay",
+      "element contactor"
+    ],
+    "voltage": "230V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 32.0,
+    "stock": 30,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "EL-3051",
+    "group": "EL",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Relè statico resistenza 25 A, Onda",
+    "description_en": "Solid-state relay heater 25 A, Onda",
+    "aliases_it": [
+      "relè statico",
+      "SSR"
+    ],
+    "aliases_en": [
+      "solid state relay",
+      "SSR"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 38.0,
+    "stock": 20,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "EL-3052",
+    "group": "EL",
+    "models": [
+      "marea-2",
+      "giglio-1"
+    ],
+    "description_it": "Relè carico caldaia 10 A",
+    "description_en": "Boiler fill relay 10 A",
+    "aliases_it": [
+      "relè del carico"
+    ],
+    "aliases_en": [
+      "fill relay"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 9.6,
+    "stock": 30,
+    "order_rank": 4,
+    "note": "External relay only on v1 electronics; later boards drive the fill valve directly."
+  },
+  {
+    "code": "EL-3055",
+    "group": "EL",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Trasformatore 230/12 V 20 VA",
+    "description_en": "Transformer 230/12 V 20 VA",
+    "aliases_it": [
+      "trasformatore"
+    ],
+    "aliases_en": [
+      "transformer"
+    ],
+    "voltage": "230V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 24.0,
+    "stock": 25,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "EL-3056",
+    "group": "EL",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Trasformatore 110/12 V 20 VA",
+    "description_en": "Transformer 110/12 V 20 VA",
+    "aliases_it": [],
+    "aliases_en": [
+      "transformer 110 volt"
+    ],
+    "voltage": "110V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 24.0,
+    "stock": 8,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "EL-3057",
+    "group": "EL",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Alimentatore switching 24 V 60 W, Onda",
+    "description_en": "Switching power supply 24 V 60 W, Onda",
+    "aliases_it": [
+      "alimentatore",
+      "alimentatore ventiquattro volt"
+    ],
+    "aliases_en": [
+      "power supply",
+      "24 volt PSU"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 46.0,
+    "stock": 15,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "EL-3060",
+    "group": "EL",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo",
+      "monda-65",
+      "monda-65-digit"
+    ],
+    "description_it": "Fusibile 10 A 5x20 ritardato (kit 5)",
+    "description_en": "Fuse 10 A 5x20 slow-blow (kit of 5)",
+    "aliases_it": [
+      "fusibile dieci ampere",
+      "fusibili"
+    ],
+    "aliases_en": [
+      "ten amp fuse",
+      "fuses"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 2.4,
+    "stock": 200,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "EL-3061",
+    "group": "EL",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo",
+      "monda-65",
+      "monda-65-digit"
+    ],
+    "description_it": "Fusibile 2 A 5x20 (kit 5)",
+    "description_en": "Fuse 2 A 5x20 (kit of 5)",
+    "aliases_it": [
+      "fusibile due ampere"
+    ],
+    "aliases_en": [
+      "two amp fuse"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 2.2,
+    "stock": 200,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "EL-3062",
+    "group": "EL",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo",
+      "monda-65",
+      "monda-65-digit"
+    ],
+    "description_it": "Portafusibile da pannello",
+    "description_en": "Panel fuse holder",
+    "aliases_it": [
+      "portafusibile"
+    ],
+    "aliases_en": [
+      "fuse holder"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 3.1,
+    "stock": 60,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "EL-3070",
+    "group": "EL",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Interruttore generale 3 posizioni 20 A",
+    "description_en": "Main switch 3-position 20 A",
+    "aliases_it": [
+      "interruttore generale",
+      "interruttore principale",
+      "l'interruttore"
+    ],
+    "aliases_en": [
+      "main switch",
+      "power switch"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 28.0,
+    "stock": 25,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "EL-3071",
+    "group": "EL",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Interruttore generale con led, Onda",
+    "description_en": "Main switch with LED, Onda",
+    "aliases_it": [
+      "interruttore Onda"
+    ],
+    "aliases_en": [
+      "Onda main switch"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 34.0,
+    "stock": 15,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "EL-3075",
+    "group": "EL",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Cavo alimentazione 3x2,5 mm² spina Schuko 2 m",
+    "description_en": "Power cord 3x2.5 mm² Schuko plug 2 m",
+    "aliases_it": [
+      "cavo di alimentazione",
+      "cavo della corrente"
+    ],
+    "aliases_en": [
+      "power cord",
+      "mains cable"
+    ],
+    "voltage": "230V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 18.0,
+    "stock": 40,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "EL-3076",
+    "group": "EL",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Cavo alimentazione spina NEMA 5-20 2 m",
+    "description_en": "Power cord NEMA 5-20 plug 2 m",
+    "aliases_it": [],
+    "aliases_en": [
+      "power cord 110 volt",
+      "NEMA cord"
+    ],
+    "voltage": "110V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 22.0,
+    "stock": 10,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "EL-3077",
+    "group": "EL",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "onda-mb3"
+    ],
+    "description_it": "Cavo alimentazione 5x2,5 mm² trifase 2 m senza spina",
+    "description_en": "Power cord 5x2.5 mm² three-phase 2 m no plug",
+    "aliases_it": [
+      "cavo trifase"
+    ],
+    "aliases_en": [
+      "three-phase cord"
+    ],
+    "voltage": "400V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 26.0,
+    "stock": 8,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "EL-3080",
+    "group": "EL",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Morsettiera alimentazione 5 poli",
+    "description_en": "Power terminal block 5-pole",
+    "aliases_it": [
+      "morsettiera"
+    ],
+    "aliases_en": [
+      "terminal block"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 6.4,
+    "stock": 40,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "EL-3085",
+    "group": "EL",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Bobina elettrovalvola 230 V 9 W",
+    "description_en": "Solenoid coil 230 V 9 W",
+    "aliases_it": [
+      "bobina",
+      "bobina dell'elettrovalvola",
+      "la bobina"
+    ],
+    "aliases_en": [
+      "solenoid coil",
+      "coil"
+    ],
+    "voltage": "230V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 22.0,
+    "stock": 80,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "EL-3086",
+    "group": "EL",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Bobina elettrovalvola 110 V 9 W",
+    "description_en": "Solenoid coil 110 V 9 W",
+    "aliases_it": [],
+    "aliases_en": [
+      "coil 110 volt"
+    ],
+    "voltage": "110V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 22.0,
+    "stock": 20,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "EL-3087",
+    "group": "EL",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Bobina elettrovalvola 24 V 9 W, Onda",
+    "description_en": "Solenoid coil 24 V 9 W, Onda",
+    "aliases_it": [
+      "bobina Onda",
+      "bobina ventiquattro volt"
+    ],
+    "aliases_en": [
+      "Onda coil",
+      "24 volt coil"
+    ],
+    "voltage": "24V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 24.0,
+    "stock": 50,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "EL-3090",
+    "group": "EL",
+    "models": [
+      "marea-2-plus"
+    ],
+    "description_it": "Modulo PID scambiatore con sonda, Marea 2 Plus",
+    "description_en": "Heat-exchanger PID module with probe, Marea 2 Plus",
+    "aliases_it": [
+      "modulo PID",
+      "il PID"
+    ],
+    "aliases_en": [
+      "PID module",
+      "PID controller"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 84.0,
+    "stock": 12,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "EL-3095",
+    "group": "EL",
+    "models": [
+      "onda-mb2-evo"
+    ],
+    "description_it": "Scheda bilance integrate, Onda MB2 Evo",
+    "description_en": "Built-in scales board, Onda MB2 Evo",
+    "aliases_it": [
+      "scheda delle bilance"
+    ],
+    "aliases_en": [
+      "scales board"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 120.0,
+    "stock": 6,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "EL-3096",
+    "group": "EL",
+    "models": [
+      "onda-mb2-evo"
+    ],
+    "description_it": "Cella di carico 2 kg griglia, Onda MB2 Evo",
+    "description_en": "Load cell 2 kg drip tray, Onda MB2 Evo",
+    "aliases_it": [
+      "cella di carico",
+      "bilancia della griglia"
+    ],
+    "aliases_en": [
+      "load cell",
+      "tray scale"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 42.0,
+    "stock": 10,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "EL-3100",
+    "group": "EL",
+    "models": [
+      "marea-2-plus",
+      "marea-2-evo",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Striscia led illuminazione piano lavoro 12 V",
+    "description_en": "LED strip work-surface lighting 12 V",
+    "aliases_it": [
+      "led del piano",
+      "luci del piano"
+    ],
+    "aliases_en": [
+      "work light",
+      "LED strip"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 16.0,
+    "stock": 30,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "EL-3101",
+    "group": "EL",
+    "models": [
+      "marea-2-evo",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Sensore livello vaschetta scarico, Marea 2 Evo / Onda MB2 Evo",
+    "description_en": "Drip tray level sensor, Marea 2 Evo / Onda MB2 Evo",
+    "aliases_it": [
+      "sensore della vaschetta"
+    ],
+    "aliases_en": [
+      "drip tray sensor"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 18.0,
+    "stock": 15,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "CR-6010",
+    "group": "CR",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo"
+    ],
+    "description_it": "Pannello laterale sinistro nero, Marea",
+    "description_en": "Side panel left black, Marea",
+    "aliases_it": [
+      "fianco sinistro",
+      "pannello laterale sinistro"
+    ],
+    "aliases_en": [
+      "left side panel"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 74.0,
+    "stock": 10,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "CR-6011",
+    "group": "CR",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo"
+    ],
+    "description_it": "Pannello laterale destro nero, Marea",
+    "description_en": "Side panel right black, Marea",
+    "aliases_it": [
+      "fianco destro"
+    ],
+    "aliases_en": [
+      "right side panel"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 74.0,
+    "stock": 10,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "CR-6012",
+    "group": "CR",
+    "models": [
+      "marea-2-plus"
+    ],
+    "description_it": "Pannello laterale sinistro crema, Marea 2 Plus Vaniglia",
+    "description_en": "Side panel left cream, Marea 2 Plus Vaniglia",
+    "aliases_it": [
+      "fianco vaniglia sinistro",
+      "pannello crema"
+    ],
+    "aliases_en": [
+      "vanilla left panel",
+      "cream side panel"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 82.0,
+    "stock": 4,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "CR-6013",
+    "group": "CR",
+    "models": [
+      "marea-2-plus"
+    ],
+    "description_it": "Pannello laterale destro crema, Marea 2 Plus Vaniglia",
+    "description_en": "Side panel right cream, Marea 2 Plus Vaniglia",
+    "aliases_it": [
+      "fianco vaniglia destro"
+    ],
+    "aliases_en": [
+      "vanilla right panel"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 82.0,
+    "stock": 4,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "CR-6014",
+    "group": "CR",
+    "models": [
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Pannello laterale nero (dx/sx), Giglio",
+    "description_en": "Side panel black (left/right), Giglio",
+    "aliases_it": [
+      "fianco Giglio"
+    ],
+    "aliases_en": [
+      "Giglio side panel"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 58.0,
+    "stock": 8,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "CR-6015",
+    "group": "CR",
+    "models": [
+      "giglio-1-plus"
+    ],
+    "description_it": "Pannello laterale crema (dx/sx), Giglio 1 Plus Vaniglia",
+    "description_en": "Side panel cream (left/right), Giglio 1 Plus Vaniglia",
+    "aliases_it": [
+      "fianco Giglio vaniglia"
+    ],
+    "aliases_en": [
+      "Giglio vanilla panel"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 64.0,
+    "stock": 4,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "CR-6016",
+    "group": "CR",
+    "models": [
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Pannello laterale alluminio spazzolato, Onda",
+    "description_en": "Side panel brushed aluminium, Onda",
+    "aliases_it": [
+      "fianco Onda"
+    ],
+    "aliases_en": [
+      "Onda side panel"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 118.0,
+    "stock": 6,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "CR-6020",
+    "group": "CR",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo"
+    ],
+    "description_it": "Pannello posteriore inox, Marea",
+    "description_en": "Rear panel stainless, Marea",
+    "aliases_it": [
+      "pannello posteriore",
+      "schienale"
+    ],
+    "aliases_en": [
+      "rear panel",
+      "back panel"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 62.0,
+    "stock": 8,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "CR-6021",
+    "group": "CR",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo"
+    ],
+    "description_it": "Pannello frontale inox con logo, Marea",
+    "description_en": "Front panel stainless with logo, Marea",
+    "aliases_it": [
+      "frontale",
+      "pannello frontale"
+    ],
+    "aliases_en": [
+      "front panel",
+      "fascia"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 96.0,
+    "stock": 5,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "CR-6025",
+    "group": "CR",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo"
+    ],
+    "description_it": "Griglia scaldatazze inox, Marea 2",
+    "description_en": "Cup warmer grid stainless, Marea 2",
+    "aliases_it": [
+      "griglia scaldatazze",
+      "griglia delle tazze",
+      "piano tazze"
+    ],
+    "aliases_en": [
+      "cup warmer grid",
+      "cup tray",
+      "top grid"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 44.0,
+    "stock": 15,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "CR-6026",
+    "group": "CR",
+    "models": [
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Griglia scaldatazze inox, Giglio",
+    "description_en": "Cup warmer grid stainless, Giglio",
+    "aliases_it": [
+      "griglia tazze Giglio"
+    ],
+    "aliases_en": [
+      "Giglio cup grid"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 32.0,
+    "stock": 12,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "CR-6030",
+    "group": "CR",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo"
+    ],
+    "description_it": "Vaschetta raccogligocce inox, Marea",
+    "description_en": "Drip tray stainless, Marea",
+    "aliases_it": [
+      "vaschetta",
+      "vaschetta di scarico",
+      "raccogligocce"
+    ],
+    "aliases_en": [
+      "drip tray",
+      "drain tray"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 38.0,
+    "stock": 15,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "CR-6031",
+    "group": "CR",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo"
+    ],
+    "description_it": "Griglia vaschetta inox, Marea",
+    "description_en": "Drip tray grid stainless, Marea",
+    "aliases_it": [
+      "griglia della vaschetta",
+      "grigliato"
+    ],
+    "aliases_en": [
+      "drip tray grid",
+      "drip grate"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 24.0,
+    "stock": 25,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "CR-6032",
+    "group": "CR",
+    "models": [
+      "giglio-1",
+      "giglio-1-plus"
+    ],
+    "description_it": "Vaschetta raccogligocce con griglia, Giglio",
+    "description_en": "Drip tray with grid, Giglio",
+    "aliases_it": [
+      "vaschetta Giglio"
+    ],
+    "aliases_en": [
+      "Giglio drip tray"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 42.0,
+    "stock": 12,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "CR-6033",
+    "group": "CR",
+    "models": [
+      "onda-mb2-evo"
+    ],
+    "description_it": "Griglia vaschetta con sede bilance, Onda MB2 Evo",
+    "description_en": "Drip tray grid with scale seat, Onda MB2 Evo",
+    "aliases_it": [
+      "griglia con bilance"
+    ],
+    "aliases_en": [
+      "scale grid"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 58.0,
+    "stock": 6,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "CR-6034",
+    "group": "CR",
+    "models": [
+      "onda-mb2",
+      "onda-mb3"
+    ],
+    "description_it": "Griglia vaschetta inox, Onda MB2 / MB3",
+    "description_en": "Drip tray grid stainless, Onda MB2 / MB3",
+    "aliases_it": [
+      "griglia Onda"
+    ],
+    "aliases_en": [
+      "Onda drip grid"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 36.0,
+    "stock": 10,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "CR-6040",
+    "group": "CR",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo",
+      "monda-65",
+      "monda-65-digit"
+    ],
+    "description_it": "Piedino regolabile M10 (kit 4)",
+    "description_en": "Adjustable foot M10 (kit of 4)",
+    "aliases_it": [
+      "piedini",
+      "piedino regolabile"
+    ],
+    "aliases_en": [
+      "feet",
+      "adjustable foot"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 12.0,
+    "stock": 40,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "CR-6045",
+    "group": "CR",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Logo frontale Sereni cromato",
+    "description_en": "Front badge Sereni chrome",
+    "aliases_it": [
+      "logo",
+      "targhetta"
+    ],
+    "aliases_en": [
+      "badge",
+      "logo"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 9.5,
+    "stock": 30,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "CR-6050",
+    "group": "CR",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Tamper 58 mm alluminio",
+    "description_en": "Tamper 58 mm aluminium",
+    "aliases_it": [
+      "tamper",
+      "pressino"
+    ],
+    "aliases_en": [
+      "tamper"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 22.0,
+    "stock": 40,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "CR-6051",
+    "group": "CR",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Spazzola pulizia gruppo",
+    "description_en": "Group cleaning brush",
+    "aliases_it": [
+      "spazzolino del gruppo"
+    ],
+    "aliases_en": [
+      "group brush"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 4.9,
+    "stock": 80,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "CR-6052",
+    "group": "CR",
+    "models": [
+      "marea-2",
+      "marea-2-plus",
+      "marea-2-evo",
+      "giglio-1",
+      "giglio-1-plus",
+      "onda-mb2",
+      "onda-mb3",
+      "onda-mb2-evo"
+    ],
+    "description_it": "Pastiglie detergente gruppo (barattolo 100)",
+    "description_en": "Group cleaning tablets (jar of 100)",
+    "aliases_it": [
+      "pastiglie",
+      "pastiglie per il lavaggio",
+      "detergente"
+    ],
+    "aliases_en": [
+      "cleaning tablets",
+      "backflush tablets",
+      "detergent"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 19.0,
+    "stock": 60,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "MC-7010",
+    "group": "MC",
+    "models": [
+      "monda-65",
+      "monda-65-digit"
+    ],
+    "description_it": "Coppia macine piane 65 mm acciaio temprato",
+    "description_en": "Pair of flat burrs 65 mm hardened steel",
+    "aliases_it": [
+      "macine",
+      "le macine",
+      "coppia macine",
+      "lame"
+    ],
+    "aliases_en": [
+      "burrs",
+      "burr set",
+      "grinding discs",
+      "blades"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 62.0,
+    "stock": 40,
+    "order_rank": 2,
+    "note": null
+  },
+  {
+    "code": "MC-7011",
+    "group": "MC",
+    "models": [
+      "monda-65",
+      "monda-65-digit"
+    ],
+    "description_it": "Viti fissaggio macine M4 (kit 6)",
+    "description_en": "Burr fixing screws M4 (kit of 6)",
+    "aliases_it": [
+      "viti delle macine"
+    ],
+    "aliases_en": [
+      "burr screws"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 2.4,
+    "stock": 100,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "MC-7015",
+    "group": "MC",
+    "models": [
+      "monda-65",
+      "monda-65-digit"
+    ],
+    "description_it": "Portamacina superiore con ghiera",
+    "description_en": "Upper burr carrier with adjustment ring",
+    "aliases_it": [
+      "portamacina superiore"
+    ],
+    "aliases_en": [
+      "upper burr carrier"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 46.0,
+    "stock": 8,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "MC-7016",
+    "group": "MC",
+    "models": [
+      "monda-65",
+      "monda-65-digit"
+    ],
+    "description_it": "Portamacina inferiore",
+    "description_en": "Lower burr carrier",
+    "aliases_it": [
+      "portamacina inferiore"
+    ],
+    "aliases_en": [
+      "lower burr carrier"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 38.0,
+    "stock": 8,
+    "order_rank": 5,
+    "note": null
+  },
+  {
+    "code": "MC-7020",
+    "group": "MC",
+    "models": [
+      "monda-65",
+      "monda-65-digit"
+    ],
+    "description_it": "Motore 350 W 230 V con condensatore",
+    "description_en": "Motor 350 W 230 V with capacitor",
+    "aliases_it": [
+      "motore",
+      "motore del macinino"
+    ],
+    "aliases_en": [
+      "motor",
+      "grinder motor"
+    ],
+    "voltage": "230V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 118.0,
+    "stock": 10,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "MC-7021",
+    "group": "MC",
+    "models": [
+      "monda-65",
+      "monda-65-digit"
+    ],
+    "description_it": "Motore 350 W 110 V con condensatore",
+    "description_en": "Motor 350 W 110 V with capacitor",
+    "aliases_it": [],
+    "aliases_en": [
+      "grinder motor 110 volt"
+    ],
+    "voltage": "110V",
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 118.0,
+    "stock": 4,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "MC-7025",
+    "group": "MC",
+    "models": [
+      "monda-65",
+      "monda-65-digit"
+    ],
+    "description_it": "Condensatore motore 12 µF",
+    "description_en": "Motor capacitor 12 µF",
+    "aliases_it": [
+      "condensatore"
+    ],
+    "aliases_en": [
+      "capacitor",
+      "run capacitor"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 8.4,
+    "stock": 30,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "MC-7026",
+    "group": "MC",
+    "models": [
+      "monda-65",
+      "monda-65-digit"
+    ],
+    "description_it": "Ventola raffreddamento motore",
+    "description_en": "Motor cooling fan",
+    "aliases_it": [
+      "ventola",
+      "ventolina"
+    ],
+    "aliases_en": [
+      "fan",
+      "cooling fan"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 14.0,
+    "stock": 15,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "MC-7030",
+    "group": "MC",
+    "models": [
+      "monda-65"
+    ],
+    "description_it": "Dosatore completo con stella e leva, Monda 65",
+    "description_en": "Doser complete with star and lever, Monda 65",
+    "aliases_it": [
+      "dosatore",
+      "dosatore completo"
+    ],
+    "aliases_en": [
+      "doser",
+      "doser chamber"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 96.0,
+    "stock": 6,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "MC-7031",
+    "group": "MC",
+    "models": [
+      "monda-65"
+    ],
+    "description_it": "Stella dosatore 6 settori, Monda 65",
+    "description_en": "Doser star 6-sector, Monda 65",
+    "aliases_it": [
+      "stella del dosatore",
+      "girella"
+    ],
+    "aliases_en": [
+      "doser star",
+      "doser vanes"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 16.0,
+    "stock": 15,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "MC-7032",
+    "group": "MC",
+    "models": [
+      "monda-65"
+    ],
+    "description_it": "Leva dosatore con pomello, Monda 65",
+    "description_en": "Doser lever with knob, Monda 65",
+    "aliases_it": [
+      "leva del dosatore",
+      "levetta"
+    ],
+    "aliases_en": [
+      "doser lever",
+      "doser handle"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 12.5,
+    "stock": 20,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "MC-7033",
+    "group": "MC",
+    "models": [
+      "monda-65"
+    ],
+    "description_it": "Molla di richiamo leva dosatore, Monda 65",
+    "description_en": "Doser lever return spring, Monda 65",
+    "aliases_it": [
+      "molla della leva"
+    ],
+    "aliases_en": [
+      "lever spring"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 3.2,
+    "stock": 40,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "MC-7040",
+    "group": "MC",
+    "models": [
+      "monda-65",
+      "monda-65-digit"
+    ],
+    "description_it": "Campana 1,2 kg policarbonato",
+    "description_en": "Hopper 1.2 kg polycarbonate",
+    "aliases_it": [
+      "campana",
+      "tramoggia",
+      "contenitore dei chicchi"
+    ],
+    "aliases_en": [
+      "hopper",
+      "bean hopper"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 28.0,
+    "stock": 20,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "MC-7041",
+    "group": "MC",
+    "models": [
+      "monda-65",
+      "monda-65-digit"
+    ],
+    "description_it": "Saracinesca campana",
+    "description_en": "Hopper shutter slide",
+    "aliases_it": [
+      "saracinesca",
+      "chiusura della campana"
+    ],
+    "aliases_en": [
+      "hopper shutter",
+      "hopper gate"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 6.8,
+    "stock": 30,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "MC-7042",
+    "group": "MC",
+    "models": [
+      "monda-65",
+      "monda-65-digit"
+    ],
+    "description_it": "Coperchio campana",
+    "description_en": "Hopper lid",
+    "aliases_it": [
+      "coperchio della campana"
+    ],
+    "aliases_en": [
+      "hopper lid"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 5.4,
+    "stock": 30,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "MC-7050",
+    "group": "MC",
+    "models": [
+      "monda-65",
+      "monda-65-digit"
+    ],
+    "description_it": "Forcella portafiltro regolabile",
+    "description_en": "Portafilter fork adjustable",
+    "aliases_it": [
+      "forcella",
+      "forchetta del portafiltro"
+    ],
+    "aliases_en": [
+      "portafilter fork",
+      "portafilter holder"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 14.0,
+    "stock": 25,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "MC-7060",
+    "group": "MC",
+    "models": [
+      "monda-65-digit"
+    ],
+    "description_it": "Scheda elettronica dosaggio a tempo, Monda 65 Digit",
+    "description_en": "Timed dosing electronic board, Monda 65 Digit",
+    "aliases_it": [
+      "scheda del Digit",
+      "centralina del macinino"
+    ],
+    "aliases_en": [
+      "Digit board",
+      "grinder control board"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 84.0,
+    "stock": 8,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "MC-7061",
+    "group": "MC",
+    "models": [
+      "monda-65-digit"
+    ],
+    "description_it": "Display con pulsanti, Monda 65 Digit",
+    "description_en": "Display with buttons, Monda 65 Digit",
+    "aliases_it": [
+      "display del macinino"
+    ],
+    "aliases_en": [
+      "grinder display"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 46.0,
+    "stock": 10,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "MC-7062",
+    "group": "MC",
+    "models": [
+      "monda-65-digit"
+    ],
+    "description_it": "Microinterruttore forcella, Monda 65 Digit",
+    "description_en": "Fork microswitch, Monda 65 Digit",
+    "aliases_it": [
+      "micro della forcella",
+      "microinterruttore"
+    ],
+    "aliases_en": [
+      "fork microswitch",
+      "micro switch"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 4.6,
+    "stock": 30,
+    "order_rank": 3,
+    "note": null
+  },
+  {
+    "code": "MC-7063",
+    "group": "MC",
+    "models": [
+      "monda-65-digit"
+    ],
+    "description_it": "Beccuccio uscita caffè antistatico, Monda 65 Digit",
+    "description_en": "Anti-static coffee chute, Monda 65 Digit",
+    "aliases_it": [
+      "beccuccio del caffè",
+      "scivolo"
+    ],
+    "aliases_en": [
+      "coffee chute",
+      "grinds spout"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 11.0,
+    "stock": 20,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "MC-7070",
+    "group": "MC",
+    "models": [
+      "monda-65"
+    ],
+    "description_it": "Interruttore bipolare con spia, Monda 65",
+    "description_en": "Double-pole switch with lamp, Monda 65",
+    "aliases_it": [
+      "interruttore del macinino"
+    ],
+    "aliases_en": [
+      "grinder switch"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 9.2,
+    "stock": 20,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "MC-7075",
+    "group": "MC",
+    "models": [
+      "monda-65",
+      "monda-65-digit"
+    ],
+    "description_it": "Ghiera regolazione macinatura con fermo",
+    "description_en": "Grind adjustment collar with stop",
+    "aliases_it": [
+      "ghiera",
+      "ghiera di regolazione"
+    ],
+    "aliases_en": [
+      "adjustment collar",
+      "grind ring"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 32.0,
+    "stock": 10,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "MC-7076",
+    "group": "MC",
+    "models": [
+      "monda-65",
+      "monda-65-digit"
+    ],
+    "description_it": "Guarnizione ghiera regolazione",
+    "description_en": "Adjustment collar gasket",
+    "aliases_it": [
+      "guarnizione della ghiera"
+    ],
+    "aliases_en": [
+      "collar gasket"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 2.6,
+    "stock": 40,
+    "order_rank": 4,
+    "note": null
+  },
+  {
+    "code": "MC-7080",
+    "group": "MC",
+    "models": [
+      "monda-65",
+      "monda-65-digit"
+    ],
+    "description_it": "Piedino gomma antivibrazione (kit 4)",
+    "description_en": "Anti-vibration rubber foot (kit of 4)",
+    "aliases_it": [
+      "piedini del macinino"
+    ],
+    "aliases_en": [
+      "grinder feet"
+    ],
+    "voltage": null,
+    "supersedes": null,
+    "superseded_by": null,
+    "price_eur": 6.0,
+    "stock": 30,
+    "order_rank": 5,
+    "note": null
+  }
+]
