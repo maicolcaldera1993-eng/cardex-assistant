@@ -9,7 +9,7 @@ Built solo for the [AssemblyAI Voice Agent Hackathon](https://lablab.ai/ai-hacka
 
 ## Status
 
-Day 2 of 15: idea locked, architecture written, fictional catalog built (237 parts, 10 models), streaming spike done. No app code yet.
+Day 2 of 15: idea locked, architecture written, fictional ERP built (SQLite, 14 tables, 237 parts, 10 models), known-defects file for the Marea family, first manual, product sheets, streaming spike done. No app code yet.
 
 ## How AssemblyAI is used
 
@@ -32,6 +32,8 @@ Recorded here as they are made.
 - **2026-09-16** Text-to-speech uses the browser's speech synthesis. AssemblyAI voices exist only inside the Voice Agent API; production would use those.
 
 - **2026-09-16** Streaming spike (`eval/spike_*.py`): six synthetic voices (Italian, US, German, Australian, Turkish and French accents reading English) × three configs. Without keyterms the model missed 16 of 30 model mentions and 14 of 48 codes; with `keyterms_prompt` it missed 2 and 3. "Onda" became "Honda" in every bare run and in none of the keyterm runs. Keyterms are the core of the recognition layer; the contextual `prompt` did not add anything measurable on this small set and will be re-tested in the benchmark. Turn detection needs pauses in the sample audio: continuous TTS produced one 44-second turn.
+
+- **2026-09-16** Knowledge base is structured, not embedded: `data/sereni.db` (SQLite ERP: parts, compatibility, supersessions, stock per warehouse, prices, suppliers, order stats), `data/kb/defects/*.json` (symptom → ordered causes → checks with the question to ask, the answer that confirms, what to do, resolution: remote / part_diy / part_with_support / technician), `data/kb/manuals/*.md`, `data/kb/parts/*.md` (generated from the DB, hand-written notes in `data/part_notes.py`). Retrieval will be fuzzy matching on spoken forms restricted to the detected model. No vector database: a few dozen defects and ten manuals do not need one, and deterministic retrieval is testable.
 
 ## Running locally
 
