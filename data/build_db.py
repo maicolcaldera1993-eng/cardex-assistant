@@ -7,6 +7,7 @@ and models.json.
 from __future__ import annotations
 
 import hashlib
+import json
 import re
 import sqlite3
 import sys
@@ -60,7 +61,7 @@ def supplier_for(p: dict) -> str:
         return "termores"
     if g == "EL" or any(k in d for k in ("sonda", "trasduttore", "flussometro", "sensore", "led")):
         return "elettra"
-    if g == "CR" or any(k in d for k in ("pannello", "griglia", "vaschetta", "lancia", "terminale")):
+    if g == "CR" or any(k in d for k in ("pannello", "griglia", "vaschetta", "lancia", "terminale", "doccetta", "inox")):
         return "inoxlucca"
     if any(k in d for k in ("caldaia", "scambiatore", "coibentazione")):
         return "caldaietoscane"
@@ -113,14 +114,11 @@ def build_db() -> None:
     c = con.cursor()
     c.executescript("""
     CREATE TABLE models (id TEXT PRIMARY KEY, name TEXT, family TEXT, year INTEGER, type TEXT, groups INTEGER, notes TEXT);
-    CREATE TABLE model_aliases (model_id TEXT, alias TEXT, kind TEXT);
     CREATE TABLE editions (id TEXT PRIMARY KEY, name TEXT, finish TEXT, notes TEXT);
     CREATE TABLE edition_models (edition_id TEXT, model_id TEXT);
-    CREATE TABLE edition_aliases (edition_id TEXT, alias TEXT);
     CREATE TABLE suppliers (id TEXT PRIMARY KEY, name TEXT, city TEXT, country TEXT, lead_time_days INTEGER);
     CREATE TABLE parts (code TEXT PRIMARY KEY, group_code TEXT, description_it TEXT, description_en TEXT,
                         unit TEXT, weight_g INTEGER, supplier_id TEXT, mounting_notes TEXT, notes TEXT);
-    CREATE TABLE part_aliases (code TEXT, alias TEXT, lang TEXT);
     CREATE TABLE part_specs (code TEXT, key TEXT, value TEXT);
     CREATE TABLE compatibility (code TEXT, model_id TEXT, quantity_per_machine INTEGER);
     CREATE TABLE supersessions (old_code TEXT, new_code TEXT, since TEXT, requires_code TEXT, note TEXT);
@@ -129,20 +127,14 @@ def build_db() -> None:
     CREATE TABLE order_stats (code TEXT PRIMARY KEY, orders_last_12m INTEGER);
     CREATE TABLE documents (id TEXT PRIMARY KEY, kind TEXT, model_id TEXT, family TEXT, code TEXT, path TEXT, title TEXT, internal INTEGER);
     CREATE INDEX ix_compat_model ON compatibility(model_id);
-    CREATE INDEX ix_alias ON part_aliases(alias);
     """)
     for (i, n, f, y, t, g, aliases) in bc.MODELS:
         c.execute("INSERT INTO models VALUES (?,?,?,?,?,?,?)", (i, n, f, y, t, g, None))
-        for a in aliases:
-            kind = "spoken_it" if a.startswith(("la ", "il ", "un ")) else ("spoken_en" if a.startswith("the ") else "misheard")
-            c.execute("INSERT INTO model_aliases VALUES (?,?,?)", (i, a, kind))
     for e in bc.EDITIONS:
         eid = e["name"].lower()
         c.execute("INSERT INTO editions VALUES (?,?,?,?)", (eid, e["name"], e["finish"], "Finitura crema; cambia solo carrozzeria, manico e manopole."))
         for m in e["models"]:
             c.execute("INSERT INTO edition_models VALUES (?,?)", (eid, m))
-        for a in e["aliases"]:
-            c.execute("INSERT INTO edition_aliases VALUES (?,?)", (eid, a))
     c.executemany("INSERT INTO suppliers VALUES (?,?,?,?,?)", SUPPLIERS)
 
     for p in bc.PARTS:
@@ -151,10 +143,6 @@ def build_db() -> None:
         c.execute("INSERT INTO parts VALUES (?,?,?,?,?,?,?,?,?)", (
             p["code"], p["group"], p["description_it"], p["description_en"], "pz", weight,
             supplier_for(p), notes.get("mounting"), notes.get("notes") or p["note"]))
-        for a in p["aliases_it"]:
-            c.execute("INSERT INTO part_aliases VALUES (?,?,?)", (p["code"], a, "it"))
-        for a in p["aliases_en"]:
-            c.execute("INSERT INTO part_aliases VALUES (?,?,?)", (p["code"], a, "en"))
         for k, v in specs_for(p):
             c.execute("INSERT INTO part_specs VALUES (?,?,?)", (p["code"], k, v))
         for m in p["models"]:
@@ -188,6 +176,21 @@ def build_db() -> None:
     con.close()
 
 
+def write_lexicon() -> None:
+    """Cardex's own pronunciation lexicon: how customers say and how the ASR mis-hears
+    model, edition and part names. Application knowledge, deliberately kept out of the ERP."""
+    out = Path(__file__).resolve().parents[1] / "app" / "lexicon"
+    out.mkdir(parents=True, exist_ok=True)
+    lex = {
+        "models": {i: {"name": n, "spoken": [a for a in al if a.startswith(("la ", "il ", "un ", "the "))],
+                       "misheard": [a for a in al if not a.startswith(("la ", "il ", "un ", "the "))]}
+                   for (i, n, f, y, t, g, al) in bc.MODELS},
+        "editions": {e["name"].lower(): {"name": e["name"], "spoken": e["aliases"]} for e in bc.EDITIONS},
+        "parts": {p["code"]: {"it": p["aliases_it"], "en": p["aliases_en"]} for p in bc.PARTS if p["aliases_it"] or p["aliases_en"]},
+    }
+    (out / "pronunciation.json").write_text(json.dumps(lex, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
 def write_part_sheets() -> None:
     out = KB / "parts"
     out.mkdir(parents=True, exist_ok=True)
@@ -198,13 +201,10 @@ def write_part_sheets() -> None:
         code = p["code"]
         specs = con.execute("SELECT key, value FROM part_specs WHERE code=?", (code,)).fetchall()
         compat = con.execute("SELECT model_id, quantity_per_machine FROM compatibility WHERE code=?", (code,)).fetchall()
-        stock = con.execute("SELECT warehouse, quantity FROM stock WHERE code=?", (code,)).fetchall()
-        price = con.execute("SELECT list_price_eur FROM prices WHERE code=?", (code,)).fetchone()[0]
         sup_new = con.execute("SELECT * FROM supersessions WHERE old_code=?", (code,)).fetchone()
         sup_old = con.execute("SELECT * FROM supersessions WHERE new_code=?", (code,)).fetchall()
-        aliases = con.execute("SELECT alias, lang FROM part_aliases WHERE code=?", (code,)).fetchall()
-        orders = con.execute("SELECT orders_last_12m FROM order_stats WHERE code=?", (code,)).fetchone()[0]
-        lines = [f"# {code} — {p['description_it']}", "", f"*{p['description_en']}*", ""]
+        lines = [f"# {code} — {p['description_it']}", "", f"*{p['description_en']}*", "",
+                 "_Scheda statica. Giacenze, prezzo e tempi di consegna aggiornati: vedere il gestionale._", ""]
         if sup_new:
             lines += [f"> **SOSTITUITO** da **{sup_new['new_code']}** dal {sup_new['since']}." +
                       (f" Richiede anche **{sup_new['requires_code']}**." if sup_new['requires_code'] else "") +
@@ -212,9 +212,7 @@ def write_part_sheets() -> None:
         lines += ["| Campo | Valore |", "|---|---|",
                   f"| Gruppo | {p['group_code']} |",
                   f"| Fornitore | {p['supplier']} ({p['city']}), lead time {p['lead_time_days']} giorni |",
-                  f"| Prezzo di listino | {price:.2f} € |",
-                  f"| Peso | {p['weight_g']} g |",
-                  f"| Ordini ultimi 12 mesi | {orders} |"]
+                  f"| Peso | {p['weight_g']} g |"]
         for s in specs:
             lines.append(f"| {s['key'].capitalize()} | {s['value']} |")
         lines += ["", "## Compatibilità", ""]
@@ -224,11 +222,6 @@ def write_part_sheets() -> None:
             lines += ["", "## Sostituisce", ""]
             for r in sup_old:
                 lines.append(f"- {r['old_code']}" + (f" (richiede {r['requires_code']})" if r['requires_code'] else ""))
-        lines += ["", "## Giacenza", ""]
-        for r in stock:
-            lines.append(f"- {r['warehouse']}: {r['quantity']}")
-        if aliases:
-            lines += ["", "## Come lo chiamano i clienti", "", ", ".join(f"\"{a['alias']}\" ({a['lang']})" for a in aliases)]
         lines += ["", "## Montaggio", "", p["mounting_notes"] or "Sostituzione standard: vedere il libretto del modello, sezione manutenzione. In caso di dubbio chiedere supporto al service."]
         lines += ["", "## Note del service", "", p["notes"] or "Nessuna nota."]
         (out / f"{code}.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -239,8 +232,9 @@ if __name__ == "__main__":
     bc.validate()
     bc.main()
     build_db()
+    write_lexicon()
     write_part_sheets()
     con = sqlite3.connect(DB)
-    for t in ("models", "parts", "compatibility", "supersessions", "stock", "documents", "part_specs", "part_aliases"):
+    for t in ("models", "parts", "compatibility", "supersessions", "stock", "documents", "part_specs"):
         print(f"{t}: {con.execute(f'SELECT COUNT(*) FROM {t}').fetchone()[0]}")
     print("part sheets:", len(list((KB / 'parts').glob('*.md'))))

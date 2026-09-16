@@ -1,0 +1,2270 @@
+{
+  "models": {
+    "marea-2": {
+      "name": "Marea 2",
+      "spoken": [
+        "la Marea due",
+        "the Marea two"
+      ],
+      "misheard": [
+        "Maria 2",
+        "Mariah 2",
+        "Marie 2",
+        "Marea due"
+      ]
+    },
+    "marea-2-plus": {
+      "name": "Marea 2 Plus",
+      "spoken": [
+        "la Marea due plus",
+        "the Marea two plus"
+      ],
+      "misheard": [
+        "Maria 2 Plus",
+        "Mariah 2 Plus"
+      ]
+    },
+    "marea-2-evo": {
+      "name": "Marea 2 Evo",
+      "spoken": [
+        "la Marea due evo",
+        "the Marea two evo"
+      ],
+      "misheard": [
+        "Maria 2 Evo",
+        "Mariah 2 Evo",
+        "Marea 2 Ivo"
+      ]
+    },
+    "giglio-1": {
+      "name": "Giglio 1",
+      "spoken": [
+        "il Giglio uno",
+        "the giggly one"
+      ],
+      "misheard": [
+        "giggly 1",
+        "jiggly 1",
+        "Gigli 1",
+        "Gilio 1",
+        "Jiglio 1"
+      ]
+    },
+    "giglio-1-plus": {
+      "name": "Giglio 1 Plus",
+      "spoken": [
+        "il Giglio uno plus",
+        "the giggly one plus"
+      ],
+      "misheard": [
+        "giggly 1 Plus",
+        "jiggly 1 Plus",
+        "Gigli 1 Plus"
+      ]
+    },
+    "onda-mb2": {
+      "name": "Onda MB2",
+      "spoken": [
+        "la Onda emme bi due",
+        "the Onda M B two"
+      ],
+      "misheard": [
+        "Honda MB2",
+        "Anda MB2",
+        "Onda M B 2"
+      ]
+    },
+    "onda-mb3": {
+      "name": "Onda MB3",
+      "spoken": [
+        "la Onda emme bi tre",
+        "the Onda M B three"
+      ],
+      "misheard": [
+        "Honda MB3",
+        "Anda MB3",
+        "Onda M B 3"
+      ]
+    },
+    "onda-mb2-evo": {
+      "name": "Onda MB2 Evo",
+      "spoken": [
+        "la Onda emme bi due evo",
+        "the Onda M B two evo"
+      ],
+      "misheard": [
+        "Honda MB2 Evo",
+        "Onda M B 2 Evo"
+      ]
+    },
+    "monda-65": {
+      "name": "Monda 65",
+      "spoken": [
+        "la Monda sessantacinque",
+        "the Monda sixty-five"
+      ],
+      "misheard": [
+        "Monday 65",
+        "Mondo 65",
+        "Manda 65"
+      ]
+    },
+    "monda-65-digit": {
+      "name": "Monda 65 Digit",
+      "spoken": [
+        "la Monda sessantacinque digit",
+        "the Monda sixty-five digit"
+      ],
+      "misheard": [
+        "Monday 65 Digit",
+        "Mondo 65 Digit"
+      ]
+    }
+  },
+  "editions": {
+    "vaniglia": {
+      "name": "Vaniglia",
+      "spoken": [
+        "vanilla",
+        "Vanilla edition",
+        "edizione vaniglia",
+        "la crema"
+      ]
+    }
+  },
+  "parts": {
+    "GE-2140": {
+      "it": [
+        "gomma del gruppo",
+        "guarnizione del gruppo",
+        "guarnizione portafiltro"
+      ],
+      "en": [
+        "group gasket",
+        "portafilter gasket",
+        "the rubber ring on the group"
+      ]
+    },
+    "GE-2141": {
+      "it": [
+        "guarnizione sottile"
+      ],
+      "en": [
+        "thin group gasket"
+      ]
+    },
+    "GE-2410": {
+      "it": [
+        "gomma del gruppo Onda"
+      ],
+      "en": [
+        "Onda group gasket"
+      ]
+    },
+    "GE-2150": {
+      "it": [
+        "doccia",
+        "il disco forato",
+        "filtro doccia"
+      ],
+      "en": [
+        "shower screen",
+        "dispersion screen",
+        "the holed disc"
+      ]
+    },
+    "GE-2151": {
+      "it": [
+        "doccia Onda"
+      ],
+      "en": [
+        "Onda shower screen"
+      ]
+    },
+    "GE-2152": {
+      "it": [
+        "vite della doccia"
+      ],
+      "en": [
+        "shower screen screw"
+      ]
+    },
+    "GE-2155": {
+      "it": [
+        "diffusore",
+        "portadoccetta"
+      ],
+      "en": [
+        "diffuser",
+        "shower holder",
+        "dispersion block"
+      ]
+    },
+    "GE-2156": {
+      "it": [
+        "diffusore Onda"
+      ],
+      "en": [
+        "Onda diffuser"
+      ]
+    },
+    "GE-2160": {
+      "it": [
+        "elettrovalvola del gruppo",
+        "valvola tre vie"
+      ],
+      "en": [
+        "three-way solenoid",
+        "group solenoid valve"
+      ]
+    },
+    "GE-2161": {
+      "it": [
+        "elettrovalvola del gruppo 110"
+      ],
+      "en": [
+        "three-way solenoid 110 volt"
+      ]
+    },
+    "GE-2162": {
+      "it": [
+        "elettrovalvola gruppo Onda"
+      ],
+      "en": [
+        "Onda group solenoid"
+      ]
+    },
+    "GE-2165": {
+      "it": [
+        "corpo valvola"
+      ],
+      "en": [
+        "valve body"
+      ]
+    },
+    "GE-2170": {
+      "it": [
+        "gicleur",
+        "restrittore",
+        "ugello del gruppo"
+      ],
+      "en": [
+        "gicleur",
+        "flow restrictor",
+        "group jet"
+      ]
+    },
+    "GE-2171": {
+      "it": [
+        "gicleur zero otto"
+      ],
+      "en": [
+        "gicleur zero point eight"
+      ]
+    },
+    "GE-2175": {
+      "it": [
+        "camera preinfusione"
+      ],
+      "en": [
+        "pre-infusion chamber"
+      ]
+    },
+    "GE-2176": {
+      "it": [
+        "oring preinfusione"
+      ],
+      "en": [
+        "pre-infusion o-ring"
+      ]
+    },
+    "GE-2180": {
+      "it": [
+        "portafiltro doppio",
+        "portafiltro due tazze"
+      ],
+      "en": [
+        "double portafilter",
+        "two-spout portafilter"
+      ]
+    },
+    "GE-2181": {
+      "it": [
+        "portafiltro singolo",
+        "portafiltro una tazza"
+      ],
+      "en": [
+        "single portafilter",
+        "one-spout portafilter"
+      ]
+    },
+    "GE-2182": {
+      "it": [
+        "portafiltro doppio Onda"
+      ],
+      "en": [
+        "Onda double portafilter"
+      ]
+    },
+    "GE-2183": {
+      "it": [
+        "portafiltro nudo",
+        "portafiltro senza beccuccio"
+      ],
+      "en": [
+        "naked portafilter",
+        "bottomless portafilter"
+      ]
+    },
+    "GE-2185": {
+      "it": [
+        "manico del portafiltro"
+      ],
+      "en": [
+        "portafilter handle"
+      ]
+    },
+    "GE-2186": {
+      "it": [
+        "manico vaniglia",
+        "manico crema"
+      ],
+      "en": [
+        "vanilla handle",
+        "cream handle"
+      ]
+    },
+    "GE-2190": {
+      "it": [
+        "cestello doppio",
+        "filtro doppio"
+      ],
+      "en": [
+        "double basket",
+        "two-cup basket"
+      ]
+    },
+    "GE-2191": {
+      "it": [
+        "cestello diciotto grammi"
+      ],
+      "en": [
+        "eighteen gram basket"
+      ]
+    },
+    "GE-2192": {
+      "it": [
+        "cestello singolo",
+        "filtro singolo"
+      ],
+      "en": [
+        "single basket",
+        "one-cup basket"
+      ]
+    },
+    "GE-2193": {
+      "it": [
+        "filtro cieco",
+        "cieco per il lavaggio"
+      ],
+      "en": [
+        "blind basket",
+        "backflush disc",
+        "blank filter"
+      ]
+    },
+    "GE-2195": {
+      "it": [
+        "molletta del filtro"
+      ],
+      "en": [
+        "basket spring",
+        "filter clip"
+      ]
+    },
+    "GE-2196": {
+      "it": [
+        "beccuccio doppio"
+      ],
+      "en": [
+        "double spout"
+      ]
+    },
+    "GE-2197": {
+      "it": [
+        "beccuccio singolo"
+      ],
+      "en": [
+        "single spout"
+      ]
+    },
+    "GE-2200": {
+      "it": [
+        "gruppo completo",
+        "corpo del gruppo"
+      ],
+      "en": [
+        "group head body",
+        "complete group"
+      ]
+    },
+    "GE-2201": {
+      "it": [
+        "gruppo completo Onda"
+      ],
+      "en": [
+        "Onda group body"
+      ]
+    },
+    "GE-2205": {
+      "it": [
+        "guarnizione flangia gruppo"
+      ],
+      "en": [
+        "group flange gasket"
+      ]
+    },
+    "GE-2210": {
+      "it": [
+        "kit gruppo",
+        "kit revisione gruppo"
+      ],
+      "en": [
+        "group service kit",
+        "group rebuild kit"
+      ]
+    },
+    "GE-2211": {
+      "it": [
+        "kit gruppo Onda"
+      ],
+      "en": [
+        "Onda group service kit"
+      ]
+    },
+    "GE-2220": {
+      "it": [
+        "sonda del gruppo",
+        "sensore temperatura gruppo"
+      ],
+      "en": [
+        "group temperature sensor",
+        "group probe"
+      ]
+    },
+    "GE-2221": {
+      "it": [
+        "resistenza del gruppo"
+      ],
+      "en": [
+        "group heater",
+        "group heating element"
+      ]
+    },
+    "GE-2222": {
+      "it": [
+        "resistenza del gruppo 110"
+      ],
+      "en": [
+        "group heater 110 volt"
+      ]
+    },
+    "GE-2230": {
+      "it": [
+        "tubo dello scambiatore"
+      ],
+      "en": [
+        "exchanger pipe"
+      ]
+    },
+    "GE-2231": {
+      "it": [
+        "tubo scambiatore Evo"
+      ],
+      "en": [
+        "Evo exchanger pipe"
+      ]
+    },
+    "GE-2232": {
+      "it": [
+        "tubo scambiatore Giglio"
+      ],
+      "en": [
+        "Giglio exchanger pipe"
+      ]
+    },
+    "GE-2240": {
+      "it": [
+        "raccordo del gruppo"
+      ],
+      "en": [
+        "group fitting"
+      ]
+    },
+    "GE-2245": {
+      "it": [
+        "oring del raccordo"
+      ],
+      "en": [
+        "fitting o-ring"
+      ]
+    },
+    "GE-2250": {
+      "it": [],
+      "en": [
+        "backflush gasket"
+      ]
+    },
+    "GE-2260": {
+      "it": [
+        "levetta erogazione"
+      ],
+      "en": [
+        "brew lever"
+      ]
+    },
+    "CA-1180": {
+      "it": [
+        "resistenza",
+        "resistenza della caldaia"
+      ],
+      "en": [
+        "heating element",
+        "boiler element",
+        "heater"
+      ]
+    },
+    "CA-1181": {
+      "it": [
+        "resistenza centodieci"
+      ],
+      "en": [
+        "heating element 110 volt"
+      ]
+    },
+    "CA-1182": {
+      "it": [
+        "resistenza trifase",
+        "resistenza quattrocento"
+      ],
+      "en": [
+        "three-phase element",
+        "400 volt element"
+      ]
+    },
+    "CA-1185": {
+      "it": [
+        "resistenza Evo"
+      ],
+      "en": [
+        "Evo heating element"
+      ]
+    },
+    "CA-1186": {
+      "it": [],
+      "en": [
+        "Evo element 110 volt"
+      ]
+    },
+    "CA-1187": {
+      "it": [],
+      "en": [
+        "Evo three-phase element"
+      ]
+    },
+    "CA-1190": {
+      "it": [
+        "resistenza Giglio"
+      ],
+      "en": [
+        "Giglio heating element"
+      ]
+    },
+    "CA-1191": {
+      "it": [],
+      "en": [
+        "Giglio element 110 volt"
+      ]
+    },
+    "CA-1200": {
+      "it": [
+        "resistenza vapore",
+        "resistenza caldaia vapore"
+      ],
+      "en": [
+        "steam boiler element",
+        "steam heater"
+      ]
+    },
+    "CA-1201": {
+      "it": [],
+      "en": [
+        "steam element 110 volt"
+      ]
+    },
+    "CA-1202": {
+      "it": [
+        "resistenza vapore MB3"
+      ],
+      "en": [
+        "MB3 steam element"
+      ]
+    },
+    "CA-1203": {
+      "it": [],
+      "en": [
+        "MB3 steam element 230 volt"
+      ]
+    },
+    "CA-1210": {
+      "it": [
+        "resistenza caldaia caffè",
+        "resistenza caldaietta"
+      ],
+      "en": [
+        "coffee boiler element",
+        "brew boiler heater"
+      ]
+    },
+    "CA-1211": {
+      "it": [],
+      "en": [
+        "brew boiler heater 110 volt"
+      ]
+    },
+    "CA-1220": {
+      "it": [
+        "guarnizione della resistenza"
+      ],
+      "en": [
+        "element gasket",
+        "heater flange gasket"
+      ]
+    },
+    "CA-1221": {
+      "it": [
+        "guarnizione resistenza Onda"
+      ],
+      "en": [
+        "Onda element gasket"
+      ]
+    },
+    "CA-1230": {
+      "it": [
+        "sonda livello",
+        "sonda del livello",
+        "sonda dell'acqua"
+      ],
+      "en": [
+        "level probe",
+        "water level sensor",
+        "autofill probe"
+      ]
+    },
+    "CA-1231": {
+      "it": [
+        "sonda livello Onda"
+      ],
+      "en": [
+        "Onda level probe"
+      ]
+    },
+    "CA-1232": {
+      "it": [
+        "isolante della sonda",
+        "teflon della sonda"
+      ],
+      "en": [
+        "probe insulator",
+        "probe teflon"
+      ]
+    },
+    "CA-1240": {
+      "it": [
+        "pressostato",
+        "il pressostato della caldaia"
+      ],
+      "en": [
+        "pressurestat",
+        "pressure switch",
+        "boiler pressure switch"
+      ]
+    },
+    "CA-1241": {
+      "it": [
+        "membrana del pressostato"
+      ],
+      "en": [
+        "pressurestat diaphragm"
+      ]
+    },
+    "CA-1245": {
+      "it": [
+        "sensore di pressione",
+        "trasduttore"
+      ],
+      "en": [
+        "pressure sensor",
+        "pressure transducer"
+      ]
+    },
+    "CA-1250": {
+      "it": [
+        "valvola di sicurezza",
+        "valvola sicurezza caldaia"
+      ],
+      "en": [
+        "safety valve",
+        "pressure relief valve"
+      ]
+    },
+    "CA-1251": {
+      "it": [
+        "valvola sicurezza Onda"
+      ],
+      "en": [
+        "Onda safety valve"
+      ]
+    },
+    "CA-1260": {
+      "it": [
+        "antidepressione",
+        "valvola antivuoto",
+        "la valvolina che fischia"
+      ],
+      "en": [
+        "anti-vacuum valve",
+        "vacuum breaker",
+        "the little valve that hisses"
+      ]
+    },
+    "CA-1261": {
+      "it": [
+        "oring antidepressione"
+      ],
+      "en": [
+        "vacuum valve o-ring"
+      ]
+    },
+    "CA-1270": {
+      "it": [
+        "termostato di sicurezza",
+        "termico",
+        "il termostato che scatta"
+      ],
+      "en": [
+        "safety thermostat",
+        "high-limit thermostat",
+        "thermal cutout"
+      ]
+    },
+    "CA-1271": {
+      "it": [
+        "termostato caldaietta"
+      ],
+      "en": [
+        "brew boiler thermostat"
+      ]
+    },
+    "CA-1280": {
+      "it": [
+        "manometro",
+        "manometro doppio"
+      ],
+      "en": [
+        "dual gauge",
+        "pressure gauge",
+        "manometer"
+      ]
+    },
+    "CA-1281": {
+      "it": [
+        "manometro pompa"
+      ],
+      "en": [
+        "pump gauge"
+      ]
+    },
+    "CA-1290": {
+      "it": [
+        "sonda temperatura",
+        "sonda del PID"
+      ],
+      "en": [
+        "temperature probe",
+        "PID probe"
+      ]
+    },
+    "CA-1291": {
+      "it": [
+        "sonda PT100"
+      ],
+      "en": [
+        "PT100 probe"
+      ]
+    },
+    "CA-1300": {
+      "it": [
+        "scambiatore"
+      ],
+      "en": [
+        "heat exchanger",
+        "HX"
+      ]
+    },
+    "CA-1301": {
+      "it": [
+        "scambiatore Evo"
+      ],
+      "en": [
+        "Evo heat exchanger"
+      ]
+    },
+    "CA-1302": {
+      "it": [
+        "scambiatore Giglio"
+      ],
+      "en": [
+        "Giglio heat exchanger"
+      ]
+    },
+    "CA-1310": {
+      "it": [
+        "rubinetto di scarico",
+        "scarico caldaia"
+      ],
+      "en": [
+        "drain valve",
+        "boiler drain tap"
+      ]
+    },
+    "CA-1311": {
+      "it": [],
+      "en": [
+        "drain tap gasket"
+      ]
+    },
+    "CA-1320": {
+      "it": [
+        "caldaia completa"
+      ],
+      "en": [
+        "complete boiler"
+      ]
+    },
+    "CA-1321": {
+      "it": [
+        "caldaia Evo"
+      ],
+      "en": [
+        "Evo boiler"
+      ]
+    },
+    "CA-1322": {
+      "it": [
+        "caldaia Giglio"
+      ],
+      "en": [
+        "Giglio boiler"
+      ]
+    },
+    "CA-1323": {
+      "it": [
+        "caldaia vapore"
+      ],
+      "en": [
+        "steam boiler"
+      ]
+    },
+    "CA-1324": {
+      "it": [
+        "caldaia vapore MB3"
+      ],
+      "en": [
+        "MB3 steam boiler"
+      ]
+    },
+    "CA-1325": {
+      "it": [
+        "caldaietta",
+        "caldaia caffè"
+      ],
+      "en": [
+        "brew boiler",
+        "coffee boiler"
+      ]
+    },
+    "CA-1330": {
+      "it": [
+        "guarnizione flangia caldaia"
+      ],
+      "en": [
+        "boiler flange gasket"
+      ]
+    },
+    "CA-1331": {
+      "it": [],
+      "en": [
+        "Onda boiler flange gasket"
+      ]
+    },
+    "CA-1340": {
+      "it": [
+        "tappo della caldaia"
+      ],
+      "en": [
+        "boiler plug"
+      ]
+    },
+    "CA-1350": {
+      "it": [
+        "isolamento caldaia",
+        "cappotto della caldaia"
+      ],
+      "en": [
+        "boiler insulation",
+        "boiler jacket"
+      ]
+    },
+    "ID-4010": {
+      "it": [
+        "pompa",
+        "pompa rotativa",
+        "la pompa"
+      ],
+      "en": [
+        "rotary pump",
+        "pump",
+        "procon pump"
+      ]
+    },
+    "ID-4011": {
+      "it": [
+        "pompa MB3"
+      ],
+      "en": [
+        "MB3 pump"
+      ]
+    },
+    "ID-4015": {
+      "it": [
+        "motore della pompa",
+        "motorino pompa"
+      ],
+      "en": [
+        "pump motor"
+      ]
+    },
+    "ID-4016": {
+      "it": [],
+      "en": [
+        "pump motor 110 volt"
+      ]
+    },
+    "ID-4017": {
+      "it": [
+        "giunto della pompa",
+        "giunto pompa motore"
+      ],
+      "en": [
+        "pump coupling",
+        "motor coupling"
+      ]
+    },
+    "ID-4018": {
+      "it": [
+        "fascetta del motore"
+      ],
+      "en": [
+        "motor clamp"
+      ]
+    },
+    "ID-4019": {
+      "it": [
+        "condensatore della pompa"
+      ],
+      "en": [
+        "pump capacitor"
+      ]
+    },
+    "ID-4020": {
+      "it": [
+        "pompa a vibrazione",
+        "pompetta"
+      ],
+      "en": [
+        "vibration pump",
+        "vibe pump",
+        "ulka pump"
+      ]
+    },
+    "ID-4021": {
+      "it": [],
+      "en": [
+        "vibration pump 110 volt"
+      ]
+    },
+    "ID-4025": {
+      "it": [
+        "valvola di espansione",
+        "by-pass",
+        "valvola di sovrapressione"
+      ],
+      "en": [
+        "expansion valve",
+        "over-pressure valve",
+        "OPV"
+      ]
+    },
+    "ID-4026": {
+      "it": [
+        "espansione Onda"
+      ],
+      "en": [
+        "Onda expansion valve"
+      ]
+    },
+    "ID-4027": {
+      "it": [
+        "guarnizioni espansione"
+      ],
+      "en": [
+        "expansion valve seals"
+      ]
+    },
+    "ID-4030": {
+      "it": [
+        "valvola di ritegno",
+        "valvola di non ritorno",
+        "ritegno"
+      ],
+      "en": [
+        "check valve",
+        "non-return valve",
+        "one-way valve"
+      ]
+    },
+    "ID-4031": {
+      "it": [
+        "ritegno Onda"
+      ],
+      "en": [
+        "Onda check valve"
+      ]
+    },
+    "ID-4040": {
+      "it": [
+        "elettrovalvola di carico",
+        "valvola di carico",
+        "elettrovalvola dell'acqua"
+      ],
+      "en": [
+        "fill solenoid",
+        "autofill valve",
+        "inlet solenoid"
+      ]
+    },
+    "ID-4041": {
+      "it": [],
+      "en": [
+        "fill solenoid 110 volt"
+      ]
+    },
+    "ID-4042": {
+      "it": [
+        "carico Onda"
+      ],
+      "en": [
+        "Onda fill solenoid"
+      ]
+    },
+    "ID-4045": {
+      "it": [],
+      "en": [
+        "fill valve body"
+      ]
+    },
+    "ID-4050": {
+      "it": [
+        "flussometro",
+        "contalitri",
+        "il contatore dell'acqua"
+      ],
+      "en": [
+        "flowmeter",
+        "flow meter",
+        "volumetric sensor"
+      ]
+    },
+    "ID-4051": {
+      "it": [
+        "turbina del flussometro",
+        "girante"
+      ],
+      "en": [
+        "flowmeter turbine",
+        "impeller"
+      ]
+    },
+    "ID-4052": {
+      "it": [
+        "sensore del flussometro"
+      ],
+      "en": [
+        "flowmeter sensor",
+        "hall sensor"
+      ]
+    },
+    "ID-4053": {
+      "it": [],
+      "en": [
+        "flowmeter o-ring"
+      ]
+    },
+    "ID-4060": {
+      "it": [
+        "filtro dell'acqua",
+        "filtro ingresso"
+      ],
+      "en": [
+        "inlet filter",
+        "water filter"
+      ]
+    },
+    "ID-4061": {
+      "it": [
+        "cartuccia del filtro"
+      ],
+      "en": [
+        "filter cartridge"
+      ]
+    },
+    "ID-4070": {
+      "it": [
+        "raccordo un quarto"
+      ],
+      "en": [
+        "quarter inch fitting"
+      ]
+    },
+    "ID-4071": {
+      "it": [
+        "raccordo tre ottavi"
+      ],
+      "en": [
+        "three-eighths fitting"
+      ]
+    },
+    "ID-4072": {
+      "it": [
+        "gomito",
+        "raccordo a gomito"
+      ],
+      "en": [
+        "elbow fitting"
+      ]
+    },
+    "ID-4073": {
+      "it": [
+        "raccordo a ti"
+      ],
+      "en": [
+        "tee fitting"
+      ]
+    },
+    "ID-4080": {
+      "it": [
+        "tubo teflon",
+        "tubo bianco"
+      ],
+      "en": [
+        "teflon tube",
+        "PTFE tube"
+      ]
+    },
+    "ID-4081": {
+      "it": [
+        "tubo rame sei"
+      ],
+      "en": [
+        "six millimetre copper tube"
+      ]
+    },
+    "ID-4082": {
+      "it": [
+        "tubo rame otto"
+      ],
+      "en": [
+        "eight millimetre copper tube"
+      ]
+    },
+    "ID-4085": {
+      "it": [
+        "tubo di carico",
+        "tubo dell'acqua"
+      ],
+      "en": [
+        "inlet hose",
+        "water hose",
+        "supply hose"
+      ]
+    },
+    "ID-4086": {
+      "it": [
+        "tubo di scarico"
+      ],
+      "en": [
+        "drain hose"
+      ]
+    },
+    "ID-4090": {
+      "it": [
+        "oring venti quarantatré"
+      ],
+      "en": [
+        "o-ring twenty forty-three"
+      ]
+    },
+    "ID-4091": {
+      "it": [
+        "oring venti sessantadue"
+      ],
+      "en": [
+        "o-ring twenty sixty-two"
+      ]
+    },
+    "ID-4092": {
+      "it": [
+        "oring trenta cinquanta"
+      ],
+      "en": [
+        "o-ring thirty fifty"
+      ]
+    },
+    "ID-4100": {
+      "it": [
+        "kit oring",
+        "kit guarnizioni idraulica"
+      ],
+      "en": [
+        "o-ring kit",
+        "hydraulic seal kit"
+      ]
+    },
+    "ID-4101": {
+      "it": [
+        "kit oring Onda"
+      ],
+      "en": [
+        "Onda seal kit"
+      ]
+    },
+    "ID-4110": {
+      "it": [
+        "riduttore di pressione"
+      ],
+      "en": [
+        "pressure reducer",
+        "pressure regulator"
+      ]
+    },
+    "ID-4120": {
+      "it": [
+        "by-pass della pompa",
+        "vite di regolazione pompa"
+      ],
+      "en": [
+        "pump bypass",
+        "pump adjustment screw"
+      ]
+    },
+    "VA-5010": {
+      "it": [
+        "rubinetto del vapore",
+        "rubinetto vapore completo"
+      ],
+      "en": [
+        "steam valve",
+        "steam tap complete"
+      ]
+    },
+    "VA-5011": {
+      "it": [
+        "joystick del vapore",
+        "levetta vapore"
+      ],
+      "en": [
+        "steam joystick",
+        "steam lever valve"
+      ]
+    },
+    "VA-5015": {
+      "it": [
+        "guarnizioni del vapore",
+        "kit tenute vapore",
+        "guarnizioni rubinetto"
+      ],
+      "en": [
+        "steam valve seals",
+        "steam tap seal kit",
+        "steam valve gaskets"
+      ]
+    },
+    "VA-5016": {
+      "it": [
+        "alberino del vapore",
+        "perno del rubinetto"
+      ],
+      "en": [
+        "steam valve stem",
+        "steam spindle"
+      ]
+    },
+    "VA-5017": {
+      "it": [
+        "manopola del vapore",
+        "pomello vapore"
+      ],
+      "en": [
+        "steam knob"
+      ]
+    },
+    "VA-5018": {
+      "it": [
+        "manopola vaniglia",
+        "manopola crema"
+      ],
+      "en": [
+        "vanilla knob",
+        "cream knob"
+      ]
+    },
+    "VA-5019": {
+      "it": [
+        "guarnizioni joystick"
+      ],
+      "en": [
+        "joystick seals"
+      ]
+    },
+    "VA-5020": {
+      "it": [
+        "lancia del vapore",
+        "lancia vapore",
+        "cannello"
+      ],
+      "en": [
+        "steam wand",
+        "steam arm",
+        "steam pipe"
+      ]
+    },
+    "VA-5021": {
+      "it": [
+        "lancia cool touch",
+        "lancia fredda"
+      ],
+      "en": [
+        "cool-touch wand",
+        "no-burn wand"
+      ]
+    },
+    "VA-5025": {
+      "it": [
+        "beccuccio del vapore",
+        "terminale vapore due fori",
+        "ugello vapore"
+      ],
+      "en": [
+        "steam tip",
+        "two-hole steam tip",
+        "steam nozzle"
+      ]
+    },
+    "VA-5026": {
+      "it": [
+        "terminale quattro fori"
+      ],
+      "en": [
+        "four-hole steam tip"
+      ]
+    },
+    "VA-5027": {
+      "it": [
+        "snodo della lancia",
+        "sfera della lancia"
+      ],
+      "en": [
+        "wand ball joint",
+        "steam wand swivel"
+      ]
+    },
+    "VA-5028": {
+      "it": [
+        "oring della lancia",
+        "guarnizioni dello snodo"
+      ],
+      "en": [
+        "wand o-rings",
+        "swivel o-rings"
+      ]
+    },
+    "VA-5030": {
+      "it": [
+        "gommino della lancia",
+        "antiscottatura"
+      ],
+      "en": [
+        "wand grip",
+        "anti-burn rubber"
+      ]
+    },
+    "VA-5040": {
+      "it": [
+        "lancia dell'acqua calda"
+      ],
+      "en": [
+        "hot water wand",
+        "hot water spout"
+      ]
+    },
+    "VA-5041": {
+      "it": [
+        "rubinetto dell'acqua calda"
+      ],
+      "en": [
+        "hot water tap"
+      ]
+    },
+    "VA-5042": {
+      "it": [
+        "elettrovalvola acqua calda"
+      ],
+      "en": [
+        "hot water solenoid"
+      ]
+    },
+    "VA-5043": {
+      "it": [],
+      "en": [
+        "Onda hot water solenoid"
+      ]
+    },
+    "VA-5045": {
+      "it": [
+        "miscelatore",
+        "miscelatore dell'acqua calda"
+      ],
+      "en": [
+        "mixing valve",
+        "hot water mixer"
+      ]
+    },
+    "VA-5046": {
+      "it": [],
+      "en": [
+        "mixer seals"
+      ]
+    },
+    "VA-5060": {
+      "it": [
+        "leva del joystick"
+      ],
+      "en": [
+        "joystick lever"
+      ]
+    },
+    "VA-5070": {
+      "it": [
+        "kit vapore",
+        "kit revisione vapore"
+      ],
+      "en": [
+        "steam service kit",
+        "steam rebuild kit"
+      ]
+    },
+    "EL-3010": {
+      "it": [
+        "centralina",
+        "scheda",
+        "la scheda elettronica",
+        "cpu"
+      ],
+      "en": [
+        "control box",
+        "control board",
+        "main board",
+        "CPU"
+      ]
+    },
+    "EL-3011": {
+      "it": [
+        "centralina v2",
+        "centralina plus"
+      ],
+      "en": [
+        "v2 control board",
+        "plus control board"
+      ]
+    },
+    "EL-3012": {
+      "it": [
+        "centralina rev bi",
+        "centralina nuova"
+      ],
+      "en": [
+        "rev B board",
+        "replacement control board"
+      ]
+    },
+    "EL-3013": {
+      "it": [
+        "centralina Evo",
+        "centralina v3"
+      ],
+      "en": [
+        "Evo control board",
+        "v3 board"
+      ]
+    },
+    "EL-3020": {
+      "it": [
+        "centralina Onda",
+        "scheda PID"
+      ],
+      "en": [
+        "Onda control board",
+        "PID board"
+      ]
+    },
+    "EL-3021": {
+      "it": [
+        "centralina Onda Evo"
+      ],
+      "en": [
+        "Onda Evo board"
+      ]
+    },
+    "EL-3030": {
+      "it": [
+        "pulsantiera",
+        "tastiera",
+        "i tasti",
+        "tastierino"
+      ],
+      "en": [
+        "touchpad",
+        "keypad",
+        "button pad",
+        "the buttons"
+      ]
+    },
+    "EL-3031": {
+      "it": [
+        "pulsantiera capacitiva",
+        "pulsantiera touch"
+      ],
+      "en": [
+        "capacitive touchpad",
+        "touch keypad"
+      ]
+    },
+    "EL-3032": {
+      "it": [
+        "pulsantiera Evo",
+        "pulsantiera con display"
+      ],
+      "en": [
+        "Evo touchpad",
+        "touchpad with display"
+      ]
+    },
+    "EL-3033": {
+      "it": [
+        "pulsantiera Onda"
+      ],
+      "en": [
+        "Onda touchpad"
+      ]
+    },
+    "EL-3034": {
+      "it": [
+        "touch del gruppo",
+        "pannello touch"
+      ],
+      "en": [
+        "group touch panel"
+      ]
+    },
+    "EL-3035": {
+      "it": [
+        "cavo della pulsantiera",
+        "piattina"
+      ],
+      "en": [
+        "touchpad cable",
+        "ribbon cable"
+      ]
+    },
+    "EL-3036": {
+      "it": [
+        "adattatore della centralina",
+        "cablaggio adattatore"
+      ],
+      "en": [
+        "board adapter harness",
+        "adapter cable"
+      ]
+    },
+    "EL-3040": {
+      "it": [
+        "display",
+        "schermo",
+        "displayino"
+      ],
+      "en": [
+        "display",
+        "screen"
+      ]
+    },
+    "EL-3041": {
+      "it": [
+        "display touch",
+        "schermo touch"
+      ],
+      "en": [
+        "touch screen",
+        "touch display"
+      ]
+    },
+    "EL-3042": {
+      "it": [
+        "cavo del display"
+      ],
+      "en": [
+        "display cable"
+      ]
+    },
+    "EL-3050": {
+      "it": [
+        "teleruttore",
+        "contattore",
+        "relè della resistenza"
+      ],
+      "en": [
+        "contactor",
+        "heater relay",
+        "element contactor"
+      ]
+    },
+    "EL-3051": {
+      "it": [
+        "relè statico",
+        "SSR"
+      ],
+      "en": [
+        "solid state relay",
+        "SSR"
+      ]
+    },
+    "EL-3052": {
+      "it": [
+        "relè del carico"
+      ],
+      "en": [
+        "fill relay"
+      ]
+    },
+    "EL-3055": {
+      "it": [
+        "trasformatore"
+      ],
+      "en": [
+        "transformer"
+      ]
+    },
+    "EL-3056": {
+      "it": [],
+      "en": [
+        "transformer 110 volt"
+      ]
+    },
+    "EL-3057": {
+      "it": [
+        "alimentatore",
+        "alimentatore ventiquattro volt"
+      ],
+      "en": [
+        "power supply",
+        "24 volt PSU"
+      ]
+    },
+    "EL-3060": {
+      "it": [
+        "fusibile dieci ampere",
+        "fusibili"
+      ],
+      "en": [
+        "ten amp fuse",
+        "fuses"
+      ]
+    },
+    "EL-3061": {
+      "it": [
+        "fusibile due ampere"
+      ],
+      "en": [
+        "two amp fuse"
+      ]
+    },
+    "EL-3062": {
+      "it": [
+        "portafusibile"
+      ],
+      "en": [
+        "fuse holder"
+      ]
+    },
+    "EL-3070": {
+      "it": [
+        "interruttore generale",
+        "interruttore principale",
+        "l'interruttore"
+      ],
+      "en": [
+        "main switch",
+        "power switch"
+      ]
+    },
+    "EL-3071": {
+      "it": [
+        "interruttore Onda"
+      ],
+      "en": [
+        "Onda main switch"
+      ]
+    },
+    "EL-3075": {
+      "it": [
+        "cavo di alimentazione",
+        "cavo della corrente"
+      ],
+      "en": [
+        "power cord",
+        "mains cable"
+      ]
+    },
+    "EL-3076": {
+      "it": [],
+      "en": [
+        "power cord 110 volt",
+        "NEMA cord"
+      ]
+    },
+    "EL-3077": {
+      "it": [
+        "cavo trifase"
+      ],
+      "en": [
+        "three-phase cord"
+      ]
+    },
+    "EL-3080": {
+      "it": [
+        "morsettiera"
+      ],
+      "en": [
+        "terminal block"
+      ]
+    },
+    "EL-3085": {
+      "it": [
+        "bobina",
+        "bobina dell'elettrovalvola",
+        "la bobina"
+      ],
+      "en": [
+        "solenoid coil",
+        "coil"
+      ]
+    },
+    "EL-3086": {
+      "it": [],
+      "en": [
+        "coil 110 volt"
+      ]
+    },
+    "EL-3087": {
+      "it": [
+        "bobina Onda",
+        "bobina ventiquattro volt"
+      ],
+      "en": [
+        "Onda coil",
+        "24 volt coil"
+      ]
+    },
+    "EL-3090": {
+      "it": [
+        "modulo PID",
+        "il PID"
+      ],
+      "en": [
+        "PID module",
+        "PID controller"
+      ]
+    },
+    "EL-3095": {
+      "it": [
+        "scheda delle bilance"
+      ],
+      "en": [
+        "scales board"
+      ]
+    },
+    "EL-3096": {
+      "it": [
+        "cella di carico",
+        "bilancia della griglia"
+      ],
+      "en": [
+        "load cell",
+        "tray scale"
+      ]
+    },
+    "EL-3100": {
+      "it": [
+        "led del piano",
+        "luci del piano"
+      ],
+      "en": [
+        "work light",
+        "LED strip"
+      ]
+    },
+    "EL-3101": {
+      "it": [
+        "sensore della vaschetta"
+      ],
+      "en": [
+        "drip tray sensor"
+      ]
+    },
+    "CR-6010": {
+      "it": [
+        "fianco sinistro",
+        "pannello laterale sinistro"
+      ],
+      "en": [
+        "left side panel"
+      ]
+    },
+    "CR-6011": {
+      "it": [
+        "fianco destro"
+      ],
+      "en": [
+        "right side panel"
+      ]
+    },
+    "CR-6012": {
+      "it": [
+        "fianco vaniglia sinistro",
+        "pannello crema"
+      ],
+      "en": [
+        "vanilla left panel",
+        "cream side panel"
+      ]
+    },
+    "CR-6013": {
+      "it": [
+        "fianco vaniglia destro"
+      ],
+      "en": [
+        "vanilla right panel"
+      ]
+    },
+    "CR-6014": {
+      "it": [
+        "fianco Giglio"
+      ],
+      "en": [
+        "Giglio side panel"
+      ]
+    },
+    "CR-6015": {
+      "it": [
+        "fianco Giglio vaniglia"
+      ],
+      "en": [
+        "Giglio vanilla panel"
+      ]
+    },
+    "CR-6016": {
+      "it": [
+        "fianco Onda"
+      ],
+      "en": [
+        "Onda side panel"
+      ]
+    },
+    "CR-6020": {
+      "it": [
+        "pannello posteriore",
+        "schienale"
+      ],
+      "en": [
+        "rear panel",
+        "back panel"
+      ]
+    },
+    "CR-6021": {
+      "it": [
+        "frontale",
+        "pannello frontale"
+      ],
+      "en": [
+        "front panel",
+        "fascia"
+      ]
+    },
+    "CR-6025": {
+      "it": [
+        "griglia scaldatazze",
+        "griglia delle tazze",
+        "piano tazze"
+      ],
+      "en": [
+        "cup warmer grid",
+        "cup tray",
+        "top grid"
+      ]
+    },
+    "CR-6026": {
+      "it": [
+        "griglia tazze Giglio"
+      ],
+      "en": [
+        "Giglio cup grid"
+      ]
+    },
+    "CR-6030": {
+      "it": [
+        "vaschetta",
+        "vaschetta di scarico",
+        "raccogligocce"
+      ],
+      "en": [
+        "drip tray",
+        "drain tray"
+      ]
+    },
+    "CR-6031": {
+      "it": [
+        "griglia della vaschetta",
+        "grigliato"
+      ],
+      "en": [
+        "drip tray grid",
+        "drip grate"
+      ]
+    },
+    "CR-6032": {
+      "it": [
+        "vaschetta Giglio"
+      ],
+      "en": [
+        "Giglio drip tray"
+      ]
+    },
+    "CR-6033": {
+      "it": [
+        "griglia con bilance"
+      ],
+      "en": [
+        "scale grid"
+      ]
+    },
+    "CR-6034": {
+      "it": [
+        "griglia Onda"
+      ],
+      "en": [
+        "Onda drip grid"
+      ]
+    },
+    "CR-6040": {
+      "it": [
+        "piedini",
+        "piedino regolabile"
+      ],
+      "en": [
+        "feet",
+        "adjustable foot"
+      ]
+    },
+    "CR-6045": {
+      "it": [
+        "logo",
+        "targhetta"
+      ],
+      "en": [
+        "badge",
+        "logo"
+      ]
+    },
+    "CR-6050": {
+      "it": [
+        "tamper",
+        "pressino"
+      ],
+      "en": [
+        "tamper"
+      ]
+    },
+    "CR-6051": {
+      "it": [
+        "spazzolino del gruppo"
+      ],
+      "en": [
+        "group brush"
+      ]
+    },
+    "CR-6052": {
+      "it": [
+        "pastiglie",
+        "pastiglie per il lavaggio",
+        "detergente"
+      ],
+      "en": [
+        "cleaning tablets",
+        "backflush tablets",
+        "detergent"
+      ]
+    },
+    "MC-7010": {
+      "it": [
+        "macine",
+        "le macine",
+        "coppia macine",
+        "lame"
+      ],
+      "en": [
+        "burrs",
+        "burr set",
+        "grinding discs",
+        "blades"
+      ]
+    },
+    "MC-7011": {
+      "it": [
+        "viti delle macine"
+      ],
+      "en": [
+        "burr screws"
+      ]
+    },
+    "MC-7015": {
+      "it": [
+        "portamacina superiore"
+      ],
+      "en": [
+        "upper burr carrier"
+      ]
+    },
+    "MC-7016": {
+      "it": [
+        "portamacina inferiore"
+      ],
+      "en": [
+        "lower burr carrier"
+      ]
+    },
+    "MC-7020": {
+      "it": [
+        "motore",
+        "motore del macinino"
+      ],
+      "en": [
+        "motor",
+        "grinder motor"
+      ]
+    },
+    "MC-7021": {
+      "it": [],
+      "en": [
+        "grinder motor 110 volt"
+      ]
+    },
+    "MC-7025": {
+      "it": [
+        "condensatore"
+      ],
+      "en": [
+        "capacitor",
+        "run capacitor"
+      ]
+    },
+    "MC-7026": {
+      "it": [
+        "ventola",
+        "ventolina"
+      ],
+      "en": [
+        "fan",
+        "cooling fan"
+      ]
+    },
+    "MC-7030": {
+      "it": [
+        "dosatore",
+        "dosatore completo"
+      ],
+      "en": [
+        "doser",
+        "doser chamber"
+      ]
+    },
+    "MC-7031": {
+      "it": [
+        "stella del dosatore",
+        "girella"
+      ],
+      "en": [
+        "doser star",
+        "doser vanes"
+      ]
+    },
+    "MC-7032": {
+      "it": [
+        "leva del dosatore",
+        "levetta"
+      ],
+      "en": [
+        "doser lever",
+        "doser handle"
+      ]
+    },
+    "MC-7033": {
+      "it": [
+        "molla della leva"
+      ],
+      "en": [
+        "lever spring"
+      ]
+    },
+    "MC-7040": {
+      "it": [
+        "campana",
+        "tramoggia",
+        "contenitore dei chicchi"
+      ],
+      "en": [
+        "hopper",
+        "bean hopper"
+      ]
+    },
+    "MC-7041": {
+      "it": [
+        "saracinesca",
+        "chiusura della campana"
+      ],
+      "en": [
+        "hopper shutter",
+        "hopper gate"
+      ]
+    },
+    "MC-7042": {
+      "it": [
+        "coperchio della campana"
+      ],
+      "en": [
+        "hopper lid"
+      ]
+    },
+    "MC-7050": {
+      "it": [
+        "forcella",
+        "forchetta del portafiltro"
+      ],
+      "en": [
+        "portafilter fork",
+        "portafilter holder"
+      ]
+    },
+    "MC-7060": {
+      "it": [
+        "scheda del Digit",
+        "centralina del macinino"
+      ],
+      "en": [
+        "Digit board",
+        "grinder control board"
+      ]
+    },
+    "MC-7061": {
+      "it": [
+        "display del macinino"
+      ],
+      "en": [
+        "grinder display"
+      ]
+    },
+    "MC-7062": {
+      "it": [
+        "micro della forcella",
+        "microinterruttore"
+      ],
+      "en": [
+        "fork microswitch",
+        "micro switch"
+      ]
+    },
+    "MC-7063": {
+      "it": [
+        "beccuccio del caffè",
+        "scivolo"
+      ],
+      "en": [
+        "coffee chute",
+        "grinds spout"
+      ]
+    },
+    "MC-7070": {
+      "it": [
+        "interruttore del macinino"
+      ],
+      "en": [
+        "grinder switch"
+      ]
+    },
+    "MC-7075": {
+      "it": [
+        "ghiera",
+        "ghiera di regolazione"
+      ],
+      "en": [
+        "adjustment collar",
+        "grind ring"
+      ]
+    },
+    "MC-7076": {
+      "it": [
+        "guarnizione della ghiera"
+      ],
+      "en": [
+        "collar gasket"
+      ]
+    },
+    "MC-7080": {
+      "it": [
+        "piedini del macinino"
+      ],
+      "en": [
+        "grinder feet"
+      ]
+    }
+  }
+}
