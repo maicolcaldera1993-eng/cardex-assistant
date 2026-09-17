@@ -92,3 +92,15 @@ def test_roles():
     r.swap()
     assert r.role_for("A")[0] == CUSTOMER
     assert RoleTracker(single_speaker_role=CUSTOMER).role_for("A")[0] == CUSTOMER
+
+
+@pytest.mark.parametrize("text,symptom", [
+    # sentences actually spoken by the project owner in the first microphone test
+    ("Abbiamo una macchinetta del caffè Marea 2 Plus e abbiamo notato che il caffè esce in maniera debole.", "marea-weak-coffee"),
+    ("È un po' annacquato, quasi imbevibile.", "marea-weak-coffee"),
+    ("la macchina non si scalda più da ieri", "marea-no-heat"),
+    ("it won't fill, there is no water in the boiler", "marea-level-alarm"),
+])
+def test_symptoms_as_people_really_say_them(text, symptom):
+    hit = lib.match(text, model_id="marea-2-plus")
+    assert hit and hit.symptom_id == symptom

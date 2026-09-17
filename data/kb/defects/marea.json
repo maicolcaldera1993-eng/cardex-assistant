@@ -10,743 +10,1749 @@
   "symptoms": [
     {
       "id": "marea-weak-coffee",
-      "models": ["marea-2", "marea-2-plus", "marea-2-evo", "giglio-1", "giglio-1-plus"],
+      "models": [
+        "marea-2",
+        "marea-2-plus",
+        "marea-2-evo",
+        "giglio-1",
+        "giglio-1-plus"
+      ],
       "group": "GE",
       "symptom_it": "Caffè slavato, acquoso, esce troppo veloce",
       "symptom_en": "Weak, watery coffee that runs too fast",
-      "spoken_forms": ["caffè slavato", "caffè acquoso", "esce come acqua", "esce troppo veloce", "senza crema", "caffè leggero",
-                       "weak coffee", "watery", "watery coffee", "thin shot", "thin and fast", "comes out too fast", "like water", "no crema", "runs fast", "too quick"],
+      "spoken_forms": [
+        "caffè slavato",
+        "caffè acquoso",
+        "esce come acqua",
+        "esce troppo veloce",
+        "senza crema",
+        "caffè leggero",
+        "weak coffee",
+        "watery",
+        "watery coffee",
+        "thin shot",
+        "thin and fast",
+        "comes out too fast",
+        "like water",
+        "no crema",
+        "runs fast",
+        "too quick",
+        "caffè debole",
+        "esce debole",
+        "in maniera debole",
+        "annacquato",
+        "caffè annacquato",
+        "acquoso",
+        "senza corpo",
+        "poco corposo",
+        "sa di acqua",
+        "troppo leggero",
+        "watered down",
+        "weak and watery",
+        "tasteless",
+        "too thin",
+        "very weak"
+      ],
       "opening_it": "Chiedere: da quando, su un gruppo o su entrambi, se hanno cambiato caffè o macinatura.",
       "opening_en": "Ask: since when, on one group or both, whether they changed coffee or grind recently.",
       "start": "time",
       "steps": [
         {
-          "id": "time", "kind": "ask",
+          "id": "time",
+          "kind": "ask",
           "text_it": "Quanto dura l'erogazione di un doppio, dal tasto a quando si ferma?",
           "text_en": "How long does a double shot take, from pressing the button until it stops?",
           "note_it": "Normale: 25-30 secondi per 50-60 ml.",
           "note_en": "Normal: 25-30 seconds for 50-60 ml.",
           "branches": [
-            {"label_it": "Meno di 20 secondi", "label_en": "Under 20 seconds", "then": "grind"},
-            {"label_it": "25-30 secondi, normale", "label_en": "25-30 seconds, normal", "then": "backflush-date"},
-            {"label_it": "Non lo sa", "label_en": "Does not know", "then": "backflush-date"}
+            {
+              "label_it": "Meno di 20 secondi",
+              "label_en": "Under 20 seconds",
+              "then": "grind"
+            },
+            {
+              "label_it": "25-30 secondi, normale",
+              "label_en": "25-30 seconds, normal",
+              "then": "backflush-date"
+            },
+            {
+              "label_it": "Non lo sa",
+              "label_en": "Does not know",
+              "then": "backflush-date"
+            }
           ]
         },
         {
-          "id": "grind", "kind": "do",
+          "id": "grind",
+          "kind": "do",
           "text_it": "Far stringere la macinatura di due tacche sul macinacaffè e pesare la dose: 14 g nel filtro doppio. Rifare un caffè.",
           "text_en": "Tighten the grind by two notches on the grinder and weigh the dose: 14 g in the double basket. Pull another shot.",
           "branches": [
-            {"label_it": "Risolto", "label_en": "Fixed", "then": "outcome:remote"},
-            {"label_it": "Ancora slavato", "label_en": "Still weak", "then": "backflush-date"}
+            {
+              "label_it": "Risolto",
+              "label_en": "Fixed",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Ancora slavato",
+              "label_en": "Still weak",
+              "then": "backflush-date"
+            }
           ]
         },
         {
-          "id": "backflush-date", "kind": "ask", "maintenance": true,
+          "id": "backflush-date",
+          "kind": "ask",
+          "maintenance": true,
           "text_it": "Quando è stato fatto l'ultimo lavaggio dei gruppi con filtro cieco e pastiglia?",
           "text_en": "When did you last clean the groups with the blind filter and a tablet?",
-          "parts": ["CR-6052", "GE-2193"],
+          "parts": [
+            "CR-6052",
+            "GE-2193"
+          ],
           "branches": [
-            {"label_it": "Più di una settimana fa, o mai", "label_en": "More than a week ago, or never", "then": "backflush"},
-            {"label_it": "Ieri o oggi", "label_en": "Yesterday or today", "then": "screen"}
+            {
+              "label_it": "Più di una settimana fa, o mai",
+              "label_en": "More than a week ago, or never",
+              "then": "backflush"
+            },
+            {
+              "label_it": "Ieri o oggi",
+              "label_en": "Yesterday or today",
+              "then": "screen"
+            }
           ]
         },
         {
-          "id": "backflush", "kind": "do", "maintenance": true,
+          "id": "backflush",
+          "kind": "do",
+          "maintenance": true,
           "text_it": "Far eseguire il lavaggio: una pastiglia nel filtro cieco, 5 cicli da 10 secondi con il tasto continuo, poi 5 cicli di risciacquo. Per ogni gruppo. Rifare un caffè.",
           "text_en": "Have them backflush: one tablet in the blind filter, 5 cycles of 10 seconds with the continuous button, then 5 rinse cycles. Each group. Pull another shot.",
-          "parts": ["CR-6052"],
+          "parts": [
+            "CR-6052"
+          ],
           "branches": [
-            {"label_it": "Risolto", "label_en": "Fixed", "then": "outcome:remote"},
-            {"label_it": "Ancora slavato", "label_en": "Still weak", "then": "screen"},
-            {"label_it": "Non ha pastiglie o filtro cieco", "label_en": "No tablets or blind filter", "then": "screen"}
+            {
+              "label_it": "Risolto",
+              "label_en": "Fixed",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Ancora slavato",
+              "label_en": "Still weak",
+              "then": "screen"
+            },
+            {
+              "label_it": "Non ha pastiglie o filtro cieco",
+              "label_en": "No tablets or blind filter",
+              "then": "screen"
+            }
           ]
         },
         {
-          "id": "screen", "kind": "do",
+          "id": "screen",
+          "kind": "do",
           "text_it": "Far svitare la doccetta (la vite al centro del gruppo) e guardarla controluce.",
           "text_en": "Have them unscrew the shower screen, the screw in the middle of the group, and hold it up to the light.",
           "note_it": "Fori otturati o aloni bianchi: calcare. Disco bombato o fori allargati: da sostituire.",
           "note_en": "Blocked holes or white residue: scale. Domed disc or worn holes: replace.",
           "branches": [
-            {"label_it": "Incrostata ma integra", "label_en": "Scaled but intact", "then": "descale-screen"},
-            {"label_it": "Bombata o fori allargati", "label_en": "Domed or worn holes", "then": "outcome:part_diy:GE-2150"},
-            {"label_it": "Pulita e piatta", "label_en": "Clean and flat", "then": "gasket"},
-            {"label_it": "Non può smontarla", "label_en": "Cannot remove it", "then": "gasket"}
+            {
+              "label_it": "Incrostata ma integra",
+              "label_en": "Scaled but intact",
+              "then": "descale-screen"
+            },
+            {
+              "label_it": "Bombata o fori allargati",
+              "label_en": "Domed or worn holes",
+              "then": "outcome:part_diy:GE-2150"
+            },
+            {
+              "label_it": "Pulita e piatta",
+              "label_en": "Clean and flat",
+              "then": "gasket"
+            },
+            {
+              "label_it": "Non può smontarla",
+              "label_en": "Cannot remove it",
+              "then": "gasket"
+            }
           ]
         },
         {
-          "id": "descale-screen", "kind": "do", "maintenance": true,
+          "id": "descale-screen",
+          "kind": "do",
+          "maintenance": true,
           "text_it": "20 minuti in decalcificante caldo, spazzola, risciacquo, rimontare con la parte convessa verso il basso. Rifare un caffè.",
           "text_en": "20 minutes in hot descaler, brush, rinse, refit with the convex side down. Pull another shot.",
-          "parts": ["CR-6052"],
+          "parts": [
+            "CR-6052"
+          ],
           "branches": [
-            {"label_it": "Risolto", "label_en": "Fixed", "then": "outcome:remote"},
-            {"label_it": "Ancora slavato", "label_en": "Still weak", "then": "gasket"}
+            {
+              "label_it": "Risolto",
+              "label_en": "Fixed",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Ancora slavato",
+              "label_en": "Still weak",
+              "then": "gasket"
+            }
           ]
         },
         {
-          "id": "gasket", "kind": "ask",
+          "id": "gasket",
+          "kind": "ask",
           "text_it": "Il portafiltro si aggancia molto a destra, oltre il centro? Durante l'erogazione si vede acqua sul bordo del portafiltro?",
           "text_en": "Does the portafilter lock far to the right, past the centre? Do you see water around the rim of the portafilter while brewing?",
           "note_it": "Guarnizione più vecchia di un anno: quasi certo.",
           "note_en": "Gasket older than a year: almost certain.",
           "branches": [
-            {"label_it": "Sì, a una delle due", "label_en": "Yes, to either", "then": "outcome:part_diy:GE-2140,GE-2210"},
-            {"label_it": "No", "label_en": "No", "then": "pump"}
+            {
+              "label_it": "Sì, a una delle due",
+              "label_en": "Yes, to either",
+              "then": "outcome:part_diy:GE-2140,GE-2210"
+            },
+            {
+              "label_it": "No",
+              "label_en": "No",
+              "then": "pump"
+            }
           ]
         },
         {
-          "id": "pump", "kind": "ask",
+          "id": "pump",
+          "kind": "ask",
           "text_it": "Con il filtro cieco montato e l'erogazione avviata, a quanto arriva la lancetta della pompa sul manometro?",
           "text_en": "With the blind filter fitted and a shot running, what does the pump needle on the gauge read?",
           "note_it": "Normale: 9 bar.",
           "note_en": "Normal: 9 bar.",
           "branches": [
-            {"label_it": "Sotto 8 bar", "label_en": "Under 8 bar", "then": "bypass"},
-            {"label_it": "9 bar, normale", "label_en": "9 bar, normal", "then": "outcome:technician"},
-            {"label_it": "Non ha il filtro cieco", "label_en": "No blind filter", "then": "outcome:part_diy:GE-2193"}
+            {
+              "label_it": "Sotto 8 bar",
+              "label_en": "Under 8 bar",
+              "then": "bypass"
+            },
+            {
+              "label_it": "9 bar, normale",
+              "label_en": "9 bar, normal",
+              "then": "outcome:technician"
+            },
+            {
+              "label_it": "Non ha il filtro cieco",
+              "label_en": "No blind filter",
+              "then": "outcome:part_diy:GE-2193"
+            }
           ]
         },
         {
-          "id": "bypass", "kind": "do",
+          "id": "bypass",
+          "kind": "do",
           "text_it": "Far girare la vite del by-pass sulla pompa di mezzo giro in senso orario e rileggere il manometro.",
           "text_en": "Have them turn the bypass screw on the pump half a turn clockwise and read the gauge again.",
           "branches": [
-            {"label_it": "Sale a 9 bar", "label_en": "Rises to 9 bar", "then": "outcome:remote"},
-            {"label_it": "Non sale o oscilla", "label_en": "Does not rise or swings", "then": "outcome:part_with_support:ID-4010,ID-4017"}
+            {
+              "label_it": "Sale a 9 bar",
+              "label_en": "Rises to 9 bar",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Non sale o oscilla",
+              "label_en": "Does not rise or swings",
+              "then": "outcome:part_with_support:ID-4010,ID-4017"
+            }
           ]
         }
       ]
     },
     {
       "id": "marea-slow-burnt-coffee",
-      "models": ["marea-2", "marea-2-plus", "marea-2-evo", "giglio-1", "giglio-1-plus"],
+      "models": [
+        "marea-2",
+        "marea-2-plus",
+        "marea-2-evo",
+        "giglio-1",
+        "giglio-1-plus"
+      ],
       "group": "GE",
       "symptom_it": "Caffè bruciato, esce a gocce, troppo lento",
       "symptom_en": "Burnt-tasting coffee, drips out, too slow",
-      "spoken_forms": ["caffè bruciato", "esce a gocce", "gocciola", "troppo lento", "non esce", "esce piano",
-                       "burnt", "bitter", "drips", "dripping", "too slow", "chokes", "choking", "nothing comes out", "barely comes out"],
+      "spoken_forms": [
+        "caffè bruciato",
+        "esce a gocce",
+        "gocciola",
+        "troppo lento",
+        "non esce",
+        "esce piano",
+        "burnt",
+        "bitter",
+        "drips",
+        "dripping",
+        "too slow",
+        "chokes",
+        "choking",
+        "nothing comes out",
+        "barely comes out",
+        "sa di bruciato",
+        "troppo amaro",
+        "esce lentissimo",
+        "non scende",
+        "scende piano",
+        "tastes burnt",
+        "too bitter",
+        "very slow",
+        "takes forever"
+      ],
       "start": "time",
       "steps": [
         {
-          "id": "time", "kind": "ask",
+          "id": "time",
+          "kind": "ask",
           "text_it": "Quanto dura un doppio? Il filtro doppio è pieno fino al bordo?",
           "text_en": "How long does a double take? Is the double basket filled to the rim?",
           "branches": [
-            {"label_it": "Oltre 40 secondi, o dose oltre il bordo", "label_en": "Over 40 seconds, or dose over the rim", "then": "grind"},
-            {"label_it": "Normale", "label_en": "Normal", "then": "backflush-date"}
+            {
+              "label_it": "Oltre 40 secondi, o dose oltre il bordo",
+              "label_en": "Over 40 seconds, or dose over the rim",
+              "then": "grind"
+            },
+            {
+              "label_it": "Normale",
+              "label_en": "Normal",
+              "then": "backflush-date"
+            }
           ]
         },
         {
-          "id": "grind", "kind": "do",
+          "id": "grind",
+          "kind": "do",
           "text_it": "Far allargare la macinatura di due tacche, dose a 14 g, rifare un caffè.",
           "text_en": "Have them open the grind by two notches, dose 14 g, pull another shot.",
           "branches": [
-            {"label_it": "Risolto", "label_en": "Fixed", "then": "outcome:remote"},
-            {"label_it": "Ancora lento", "label_en": "Still slow", "then": "backflush-date"}
+            {
+              "label_it": "Risolto",
+              "label_en": "Fixed",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Ancora lento",
+              "label_en": "Still slow",
+              "then": "backflush-date"
+            }
           ]
         },
         {
-          "id": "backflush-date", "kind": "ask", "maintenance": true,
+          "id": "backflush-date",
+          "kind": "ask",
+          "maintenance": true,
           "text_it": "Quando è stato fatto l'ultimo lavaggio con filtro cieco e pastiglia?",
           "text_en": "When did you last backflush with the blind filter and a tablet?",
-          "parts": ["CR-6052"],
+          "parts": [
+            "CR-6052"
+          ],
           "branches": [
-            {"label_it": "Più di una settimana fa", "label_en": "More than a week ago", "then": "backflush"},
-            {"label_it": "Recente", "label_en": "Recently", "then": "one-group"}
+            {
+              "label_it": "Più di una settimana fa",
+              "label_en": "More than a week ago",
+              "then": "backflush"
+            },
+            {
+              "label_it": "Recente",
+              "label_en": "Recently",
+              "then": "one-group"
+            }
           ]
         },
         {
-          "id": "backflush", "kind": "do", "maintenance": true,
+          "id": "backflush",
+          "kind": "do",
+          "maintenance": true,
           "text_it": "Lavaggio con pastiglia: 5 cicli da 10 secondi, poi 5 di risciacquo. Se non basta, smontare la doccetta e pulirla.",
           "text_en": "Backflush with a tablet: 5 cycles of 10 seconds, then 5 rinse cycles. If not enough, remove the shower screen and clean it.",
-          "parts": ["CR-6052"],
+          "parts": [
+            "CR-6052"
+          ],
           "branches": [
-            {"label_it": "Risolto", "label_en": "Fixed", "then": "outcome:remote"},
-            {"label_it": "Ancora lento", "label_en": "Still slow", "then": "one-group"}
+            {
+              "label_it": "Risolto",
+              "label_en": "Fixed",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Ancora lento",
+              "label_en": "Still slow",
+              "then": "one-group"
+            }
           ]
         },
         {
-          "id": "one-group", "kind": "ask",
+          "id": "one-group",
+          "kind": "ask",
           "text_it": "Succede su un gruppo solo? Senza portafiltro, l'acqua esce a getto pieno o debole?",
           "text_en": "Does it happen on one group only? Without the portafilter, is the water flow full or weak?",
           "branches": [
-            {"label_it": "Un gruppo solo, getto debole", "label_en": "One group only, weak flow", "then": "gicleur"},
-            {"label_it": "Entrambi i gruppi", "label_en": "Both groups", "then": "boiler-pressure"}
+            {
+              "label_it": "Un gruppo solo, getto debole",
+              "label_en": "One group only, weak flow",
+              "then": "gicleur"
+            },
+            {
+              "label_it": "Entrambi i gruppi",
+              "label_en": "Both groups",
+              "then": "boiler-pressure"
+            }
           ]
         },
         {
-          "id": "gicleur", "kind": "do",
+          "id": "gicleur",
+          "kind": "do",
           "text_it": "Il gigleur si svita dal raccordo d'ingresso del gruppo: far pulire il foro con uno spillo e rimontare.",
           "text_en": "The inlet jet unscrews from the group inlet fitting: have them clear the hole with a pin and refit.",
           "branches": [
-            {"label_it": "Risolto", "label_en": "Fixed", "then": "outcome:remote"},
-            {"label_it": "Foro danneggiato o non risolto", "label_en": "Hole damaged or not fixed", "then": "outcome:part_diy:GE-2170"}
+            {
+              "label_it": "Risolto",
+              "label_en": "Fixed",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Foro danneggiato o non risolto",
+              "label_en": "Hole damaged or not fixed",
+              "then": "outcome:part_diy:GE-2170"
+            }
           ]
         },
         {
-          "id": "boiler-pressure", "kind": "ask",
+          "id": "boiler-pressure",
+          "kind": "ask",
           "text_it": "La lancetta della caldaia sul manometro dove sta a macchina calda?",
           "text_en": "Where is the boiler needle on the gauge when the machine is hot?",
           "branches": [
-            {"label_it": "Sopra 1,3 bar", "label_en": "Above 1.3 bar", "then": "outcome:part_diy:CA-1240"},
-            {"label_it": "1,0-1,3 bar, normale", "label_en": "1.0-1.3 bar, normal", "then": "outcome:technician"}
+            {
+              "label_it": "Sopra 1,3 bar",
+              "label_en": "Above 1.3 bar",
+              "then": "outcome:part_diy:CA-1240"
+            },
+            {
+              "label_it": "1,0-1,3 bar, normale",
+              "label_en": "1.0-1.3 bar, normal",
+              "then": "outcome:technician"
+            }
           ]
         }
       ]
     },
     {
       "id": "marea-group-leak",
-      "models": ["marea-2", "marea-2-plus", "marea-2-evo", "giglio-1", "giglio-1-plus"],
+      "models": [
+        "marea-2",
+        "marea-2-plus",
+        "marea-2-evo",
+        "giglio-1",
+        "giglio-1-plus"
+      ],
       "group": "GE",
       "symptom_it": "Perde acqua dal gruppo con il portafiltro agganciato",
       "symptom_en": "Leaks water at the group with the portafilter locked in",
-      "spoken_forms": ["perde dal gruppo", "perde acqua dal gruppo", "perde dal portafiltro", "esce acqua dai bordi",
-                       "leaks at the group", "leaking from the group", "water around the portafilter", "leaks from the portafilter", "leaking around the handle"],
+      "spoken_forms": [
+        "perde dal gruppo",
+        "perde acqua dal gruppo",
+        "perde dal portafiltro",
+        "esce acqua dai bordi",
+        "leaks at the group",
+        "leaking from the group",
+        "water around the portafilter",
+        "leaks from the portafilter",
+        "leaking around the handle",
+        "cola dal gruppo",
+        "gocciola dal gruppo",
+        "perde acqua dal portafiltro",
+        "perde dal bordo",
+        "leaking group",
+        "water leaks around",
+        "leaks when brewing"
+      ],
       "start": "where",
       "steps": [
         {
-          "id": "where", "kind": "ask",
+          "id": "where",
+          "kind": "ask",
           "text_it": "L'acqua esce dal bordo del portafiltro, o dal corpo del gruppo sopra?",
           "text_en": "Does the water come from the rim of the portafilter, or from the group body above it?",
           "branches": [
-            {"label_it": "Dal bordo del portafiltro", "label_en": "From the portafilter rim", "then": "gasket-age"},
-            {"label_it": "Dal corpo del gruppo", "label_en": "From the group body", "then": "outcome:technician"}
+            {
+              "label_it": "Dal bordo del portafiltro",
+              "label_en": "From the portafilter rim",
+              "then": "gasket-age"
+            },
+            {
+              "label_it": "Dal corpo del gruppo",
+              "label_en": "From the group body",
+              "then": "outcome:technician"
+            }
           ]
         },
         {
-          "id": "gasket-age", "kind": "ask",
+          "id": "gasket-age",
+          "kind": "ask",
           "text_it": "Quanto tempo ha la guarnizione? Il portafiltro si aggancia oltre il centro?",
           "text_en": "How old is the gasket? Does the portafilter lock past the centre?",
           "branches": [
-            {"label_it": "Più di un anno, o oltre il centro", "label_en": "Over a year, or past the centre", "then": "outcome:part_diy:GE-2140,GE-2210"},
-            {"label_it": "Guarnizione nuova, perde lo stesso", "label_en": "New gasket, still leaks", "then": "rim"}
+            {
+              "label_it": "Più di un anno, o oltre il centro",
+              "label_en": "Over a year, or past the centre",
+              "then": "outcome:part_diy:GE-2140,GE-2210"
+            },
+            {
+              "label_it": "Guarnizione nuova, perde lo stesso",
+              "label_en": "New gasket, still leaks",
+              "then": "rim"
+            }
           ]
         },
         {
-          "id": "rim", "kind": "ask",
+          "id": "rim",
+          "kind": "ask",
           "text_it": "Il bordo del portafiltro ha segni, tacche o è ovalizzato?",
           "text_en": "Does the portafilter rim show marks, nicks, or is it out of round?",
           "branches": [
-            {"label_it": "Sì", "label_en": "Yes", "then": "outcome:part_diy:GE-2180"},
-            {"label_it": "No", "label_en": "No", "then": "screen-shape"}
+            {
+              "label_it": "Sì",
+              "label_en": "Yes",
+              "then": "outcome:part_diy:GE-2180"
+            },
+            {
+              "label_it": "No",
+              "label_en": "No",
+              "then": "screen-shape"
+            }
           ]
         },
         {
-          "id": "screen-shape", "kind": "ask",
+          "id": "screen-shape",
+          "kind": "ask",
           "text_it": "La doccetta è piatta o bombata verso il basso?",
           "text_en": "Is the shower screen flat or domed downwards?",
           "branches": [
-            {"label_it": "Bombata", "label_en": "Domed", "then": "outcome:part_diy:GE-2150"},
-            {"label_it": "Piatta", "label_en": "Flat", "then": "outcome:technician"}
+            {
+              "label_it": "Bombata",
+              "label_en": "Domed",
+              "then": "outcome:part_diy:GE-2150"
+            },
+            {
+              "label_it": "Piatta",
+              "label_en": "Flat",
+              "then": "outcome:technician"
+            }
           ]
         }
       ]
     },
     {
       "id": "marea-spits-end-of-shot",
-      "models": ["marea-2", "marea-2-plus", "marea-2-evo", "giglio-1", "giglio-1-plus"],
+      "models": [
+        "marea-2",
+        "marea-2-plus",
+        "marea-2-evo",
+        "giglio-1",
+        "giglio-1-plus"
+      ],
       "group": "GE",
       "symptom_it": "Il portafiltro sputa o spruzza quando si toglie a fine erogazione",
       "symptom_en": "The portafilter spits or sprays when removed after the shot",
-      "spoken_forms": ["sputa", "spruzza", "schizza quando lo tolgo", "resta in pressione", "il fondo esce liquido",
-                       "spits", "sprays", "sputters", "spits when I remove", "wet puck", "puck is soupy", "pressure stays"],
+      "spoken_forms": [
+        "sputa",
+        "spruzza",
+        "schizza quando lo tolgo",
+        "resta in pressione",
+        "il fondo esce liquido",
+        "spits",
+        "sprays",
+        "sputters",
+        "spits when I remove",
+        "wet puck",
+        "puck is soupy",
+        "pressure stays",
+        "spruzza caffè",
+        "schizza caffè",
+        "esplode quando lo tolgo",
+        "portafilter sneeze",
+        "sneezes",
+        "sprays coffee"
+      ],
       "start": "discharge",
       "steps": [
         {
-          "id": "discharge", "kind": "ask",
+          "id": "discharge",
+          "kind": "ask",
           "text_it": "A fine erogazione si sente lo sfiato nella vaschetta, un soffio breve?",
           "text_en": "At the end of the shot, do you hear the short discharge into the drip tray?",
           "branches": [
-            {"label_it": "No, nessuno sfiato", "label_en": "No discharge", "then": "backflush-date"},
-            {"label_it": "Sì, ma sputa lo stesso", "label_en": "Yes, but it still spits", "then": "tray"}
+            {
+              "label_it": "No, nessuno sfiato",
+              "label_en": "No discharge",
+              "then": "backflush-date"
+            },
+            {
+              "label_it": "Sì, ma sputa lo stesso",
+              "label_en": "Yes, but it still spits",
+              "then": "tray"
+            }
           ]
         },
         {
-          "id": "backflush-date", "kind": "ask", "maintenance": true,
+          "id": "backflush-date",
+          "kind": "ask",
+          "maintenance": true,
           "text_it": "Quando è stato fatto l'ultimo lavaggio con pastiglia?",
           "text_en": "When did you last backflush with a tablet?",
-          "parts": ["CR-6052"],
+          "parts": [
+            "CR-6052"
+          ],
           "branches": [
-            {"label_it": "Più di una settimana fa", "label_en": "More than a week ago", "then": "backflush"},
-            {"label_it": "Recente", "label_en": "Recently", "then": "valve-body"}
+            {
+              "label_it": "Più di una settimana fa",
+              "label_en": "More than a week ago",
+              "then": "backflush"
+            },
+            {
+              "label_it": "Recente",
+              "label_en": "Recently",
+              "then": "valve-body"
+            }
           ]
         },
         {
-          "id": "backflush", "kind": "do", "maintenance": true,
+          "id": "backflush",
+          "kind": "do",
+          "maintenance": true,
           "text_it": "Lavaggio con pastiglia, 5 cicli. Riprovare.",
           "text_en": "Backflush with a tablet, 5 cycles. Try again.",
-          "parts": ["CR-6052"],
+          "parts": [
+            "CR-6052"
+          ],
           "branches": [
-            {"label_it": "Risolto", "label_en": "Fixed", "then": "outcome:remote"},
-            {"label_it": "Sputa ancora", "label_en": "Still spits", "then": "valve-body"}
+            {
+              "label_it": "Risolto",
+              "label_en": "Fixed",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Sputa ancora",
+              "label_en": "Still spits",
+              "then": "valve-body"
+            }
           ]
         },
         {
-          "id": "valve-body", "kind": "ask",
+          "id": "valve-body",
+          "kind": "ask",
           "text_it": "Il cliente è in grado di smontare il corpo dell'elettrovalvola (tre raccordi, chiave da 17) e pulire il pistoncino?",
           "text_en": "Can the customer open the solenoid valve body (three fittings, 17 mm spanner) and clean the plunger?",
           "branches": [
-            {"label_it": "Sì, lo fa: risolto", "label_en": "Yes, done: fixed", "then": "outcome:remote"},
-            {"label_it": "Sì, ma il pistoncino è rovinato", "label_en": "Yes, but the plunger is damaged", "then": "outcome:part_with_support:GE-2160"},
-            {"label_it": "No", "label_en": "No", "then": "outcome:part_with_support:GE-2160"}
+            {
+              "label_it": "Sì, lo fa: risolto",
+              "label_en": "Yes, done: fixed",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Sì, ma il pistoncino è rovinato",
+              "label_en": "Yes, but the plunger is damaged",
+              "then": "outcome:part_with_support:GE-2160"
+            },
+            {
+              "label_it": "No",
+              "label_en": "No",
+              "then": "outcome:part_with_support:GE-2160"
+            }
           ]
         },
         {
-          "id": "tray", "kind": "ask",
+          "id": "tray",
+          "kind": "ask",
           "text_it": "La vaschetta si svuota regolarmente o resta piena?",
           "text_en": "Does the drip tray drain normally or does it stay full?",
           "branches": [
-            {"label_it": "Resta piena", "label_en": "Stays full", "then": "drain"},
-            {"label_it": "Si svuota", "label_en": "Drains", "then": "outcome:technician"}
+            {
+              "label_it": "Resta piena",
+              "label_en": "Stays full",
+              "then": "drain"
+            },
+            {
+              "label_it": "Si svuota",
+              "label_en": "Drains",
+              "then": "outcome:technician"
+            }
           ]
         },
         {
-          "id": "drain", "kind": "do",
+          "id": "drain",
+          "kind": "do",
           "text_it": "Far pulire il pozzetto e il tubo di scarico; sostituire il tubo se schiacciato.",
           "text_en": "Have them clean the drain box and hose; replace the hose if crushed.",
           "branches": [
-            {"label_it": "Risolto", "label_en": "Fixed", "then": "outcome:remote"},
-            {"label_it": "Tubo da sostituire", "label_en": "Hose needs replacing", "then": "outcome:part_diy:ID-4086"}
+            {
+              "label_it": "Risolto",
+              "label_en": "Fixed",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Tubo da sostituire",
+              "label_en": "Hose needs replacing",
+              "then": "outcome:part_diy:ID-4086"
+            }
           ]
         }
       ]
     },
     {
       "id": "marea-pump-pressure-low",
-      "models": ["marea-2", "marea-2-plus", "marea-2-evo", "giglio-1-plus"],
+      "models": [
+        "marea-2",
+        "marea-2-plus",
+        "marea-2-evo",
+        "giglio-1-plus"
+      ],
       "group": "ID",
       "symptom_it": "Pressione della pompa bassa o instabile",
       "symptom_en": "Pump pressure low or unstable",
-      "spoken_forms": ["pressione bassa", "non sale la pressione", "la pompa non spinge", "pressione che balla", "la pompa fa rumore",
-                       "low pressure", "pressure does not come up", "pump is weak", "pressure swings", "pump is noisy", "pump rattles"],
+      "spoken_forms": [
+        "pressione bassa",
+        "non sale la pressione",
+        "la pompa non spinge",
+        "pressione che balla",
+        "la pompa fa rumore",
+        "low pressure",
+        "pressure does not come up",
+        "pump is weak",
+        "pressure swings",
+        "pump is noisy",
+        "pump rattles",
+        "poca pressione",
+        "pressione della pompa bassa",
+        "la pompa non va in pressione",
+        "pump pressure low",
+        "no pump pressure",
+        "pressure is low"
+      ],
       "start": "gauge",
       "steps": [
         {
-          "id": "gauge", "kind": "ask",
+          "id": "gauge",
+          "kind": "ask",
           "text_it": "Con il filtro cieco montato, il manometro pompa segna una pressione stabile ma bassa, oppure oscilla?",
           "text_en": "With the blind filter fitted, does the pump gauge show a steady but low pressure, or does it swing?",
           "branches": [
-            {"label_it": "Stabile sotto 8 bar", "label_en": "Steady below 8 bar", "then": "bypass"},
-            {"label_it": "Oscilla o fa rumore metallico", "label_en": "Swings or metallic noise", "then": "inlet"},
-            {"label_it": "Zero, il motore ronza", "label_en": "Zero, motor hums", "then": "outcome:part_with_support:ID-4019"},
-            {"label_it": "Zero, nessun rumore", "label_en": "Zero, no noise", "then": "outcome:technician"}
+            {
+              "label_it": "Stabile sotto 8 bar",
+              "label_en": "Steady below 8 bar",
+              "then": "bypass"
+            },
+            {
+              "label_it": "Oscilla o fa rumore metallico",
+              "label_en": "Swings or metallic noise",
+              "then": "inlet"
+            },
+            {
+              "label_it": "Zero, il motore ronza",
+              "label_en": "Zero, motor hums",
+              "then": "outcome:part_with_support:ID-4019"
+            },
+            {
+              "label_it": "Zero, nessun rumore",
+              "label_en": "Zero, no noise",
+              "then": "outcome:technician"
+            }
           ]
         },
         {
-          "id": "bypass", "kind": "do",
+          "id": "bypass",
+          "kind": "do",
           "text_it": "Vite del by-pass sulla pompa: mezzo giro in senso orario, ricontrollare, fino a 9 bar.",
           "text_en": "Bypass screw on the pump: half a turn clockwise, check again, up to 9 bar.",
           "branches": [
-            {"label_it": "Arriva a 9 bar", "label_en": "Reaches 9 bar", "then": "outcome:remote"},
-            {"label_it": "Non sale", "label_en": "Does not rise", "then": "inlet"}
+            {
+              "label_it": "Arriva a 9 bar",
+              "label_en": "Reaches 9 bar",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Non sale",
+              "label_en": "Does not rise",
+              "then": "inlet"
+            }
           ]
         },
         {
-          "id": "inlet", "kind": "ask", "maintenance": true,
+          "id": "inlet",
+          "kind": "ask",
+          "maintenance": true,
           "text_it": "Aprendo il rubinetto dell'acqua calda il getto è pieno? Quando è stata cambiata la cartuccia del filtro d'ingresso?",
           "text_en": "Is the hot water flow full when you open the tap? When was the inlet filter cartridge last changed?",
-          "parts": ["ID-4061"],
+          "parts": [
+            "ID-4061"
+          ],
           "branches": [
-            {"label_it": "Getto debole o cartuccia vecchia", "label_en": "Weak flow or old cartridge", "then": "outcome:part_diy:ID-4061"},
-            {"label_it": "Getto pieno, cartuccia recente", "label_en": "Full flow, recent cartridge", "then": "outcome:part_with_support:ID-4010,ID-4017"}
+            {
+              "label_it": "Getto debole o cartuccia vecchia",
+              "label_en": "Weak flow or old cartridge",
+              "then": "outcome:part_diy:ID-4061"
+            },
+            {
+              "label_it": "Getto pieno, cartuccia recente",
+              "label_en": "Full flow, recent cartridge",
+              "then": "outcome:part_with_support:ID-4010,ID-4017"
+            }
           ]
         }
       ]
     },
     {
       "id": "marea-constant-drain",
-      "models": ["marea-2", "marea-2-plus", "marea-2-evo", "giglio-1", "giglio-1-plus"],
+      "models": [
+        "marea-2",
+        "marea-2-plus",
+        "marea-2-evo",
+        "giglio-1",
+        "giglio-1-plus"
+      ],
       "group": "ID",
       "symptom_it": "Spurga o gocciola in continuazione nello scarico",
       "symptom_en": "Constant dripping or discharge into the drain",
-      "spoken_forms": ["spurga sempre", "gocciola nella vaschetta", "scarica in continuazione", "la vaschetta si riempie da sola",
-                       "constant dripping", "drips into the tray all the time", "always draining", "tray fills up by itself", "water keeps running"],
+      "spoken_forms": [
+        "spurga sempre",
+        "gocciola nella vaschetta",
+        "scarica in continuazione",
+        "la vaschetta si riempie da sola",
+        "constant dripping",
+        "drips into the tray all the time",
+        "always draining",
+        "tray fills up by itself",
+        "water keeps running",
+        "scarica sempre acqua",
+        "perde acqua nello scarico",
+        "esce acqua dallo scarico",
+        "water runs into the drain",
+        "keeps dripping into the tray"
+      ],
       "start": "when",
       "steps": [
         {
-          "id": "when", "kind": "ask",
+          "id": "when",
+          "kind": "ask",
           "text_it": "Gocciola solo mentre eroga, o anche a macchina ferma?",
           "text_en": "Does it drip only while brewing, or also when the machine is idle?",
           "branches": [
-            {"label_it": "Solo durante l'erogazione", "label_en": "Only while brewing", "then": "outcome:part_diy:ID-4025,ID-4027"},
-            {"label_it": "Anche a macchina ferma", "label_en": "Also when idle", "then": "overfill"}
+            {
+              "label_it": "Solo durante l'erogazione",
+              "label_en": "Only while brewing",
+              "then": "outcome:part_diy:ID-4025,ID-4027"
+            },
+            {
+              "label_it": "Anche a macchina ferma",
+              "label_en": "Also when idle",
+              "then": "overfill"
+            }
           ]
         },
         {
-          "id": "overfill", "kind": "ask",
+          "id": "overfill",
+          "kind": "ask",
           "text_it": "Esce acqua dalla valvola di sicurezza o dalla lancia acqua calda chiusa? La caldaia si riempie troppo?",
           "text_en": "Does water come out of the safety valve or the closed hot water wand? Does the boiler overfill?",
           "branches": [
-            {"label_it": "Sì", "label_en": "Yes", "then": "close-water"},
-            {"label_it": "No", "label_en": "No", "then": "needle"}
+            {
+              "label_it": "Sì",
+              "label_en": "Yes",
+              "then": "close-water"
+            },
+            {
+              "label_it": "No",
+              "label_en": "No",
+              "then": "needle"
+            }
           ]
         },
         {
-          "id": "close-water", "kind": "do",
+          "id": "close-water",
+          "kind": "do",
           "text_it": "Far chiudere subito il rubinetto dell'acqua. L'elettrovalvola di carico non chiude: sostituirla.",
           "text_en": "Have them close the water tap now. The fill solenoid is stuck open: replace it.",
           "branches": [
-            {"label_it": "Ordinare", "label_en": "Order", "then": "outcome:part_diy:ID-4040"}
+            {
+              "label_it": "Ordinare",
+              "label_en": "Order",
+              "then": "outcome:part_diy:ID-4040"
+            }
           ]
         },
         {
-          "id": "needle", "kind": "ask",
+          "id": "needle",
+          "kind": "ask",
           "text_it": "A macchina ferma la lancetta della pompa scende a zero lentamente?",
           "text_en": "When idle, does the pump needle slowly drop to zero?",
           "branches": [
-            {"label_it": "Sì", "label_en": "Yes", "then": "outcome:part_diy:ID-4030"},
-            {"label_it": "No", "label_en": "No", "then": "outcome:technician"}
+            {
+              "label_it": "Sì",
+              "label_en": "Yes",
+              "then": "outcome:part_diy:ID-4030"
+            },
+            {
+              "label_it": "No",
+              "label_en": "No",
+              "then": "outcome:technician"
+            }
           ]
         }
       ]
     },
     {
       "id": "marea-level-alarm",
-      "models": ["marea-2", "marea-2-plus", "marea-2-evo", "giglio-1", "giglio-1-plus"],
+      "models": [
+        "marea-2",
+        "marea-2-plus",
+        "marea-2-evo",
+        "giglio-1",
+        "giglio-1-plus"
+      ],
       "group": "CA",
       "symptom_it": "Allarme livello, non carica acqua, oppure carica sempre",
       "symptom_en": "Level alarm, does not fill, or fills all the time",
-      "spoken_forms": ["allarme livello", "non carica", "non carica acqua", "carica sempre", "la pompa va sempre", "spia livello",
-                       "level alarm", "not filling", "does not fill", "keeps filling", "pump runs all the time", "autofill", "water level light"],
+      "spoken_forms": [
+        "allarme livello",
+        "non carica",
+        "non carica acqua",
+        "carica sempre",
+        "la pompa va sempre",
+        "spia livello",
+        "level alarm",
+        "not filling",
+        "does not fill",
+        "keeps filling",
+        "pump runs all the time",
+        "autofill",
+        "water level light",
+        "non prende acqua",
+        "manca acqua in caldaia",
+        "non si riempie",
+        "no water in the boiler",
+        "will not fill",
+        "won't fill",
+        "boiler is empty"
+      ],
       "start": "tap",
       "steps": [
         {
-          "id": "tap", "kind": "ask",
+          "id": "tap",
+          "kind": "ask",
           "text_it": "Il rubinetto dell'acqua sotto il banco è aperto? Aprendo l'acqua calda esce un getto pieno?",
           "text_en": "Is the water tap under the counter open? Does a full flow come out when you open the hot water?",
           "branches": [
-            {"label_it": "Rubinetto chiuso", "label_en": "Tap closed", "then": "outcome:remote"},
-            {"label_it": "Aperto, getto debole", "label_en": "Open, weak flow", "then": "outcome:part_diy:ID-4061"},
-            {"label_it": "Aperto, getto pieno", "label_en": "Open, full flow", "then": "click"}
+            {
+              "label_it": "Rubinetto chiuso",
+              "label_en": "Tap closed",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Aperto, getto debole",
+              "label_en": "Open, weak flow",
+              "then": "outcome:part_diy:ID-4061"
+            },
+            {
+              "label_it": "Aperto, getto pieno",
+              "label_en": "Open, full flow",
+              "then": "click"
+            }
           ]
         },
         {
-          "id": "click", "kind": "ask",
+          "id": "click",
+          "kind": "ask",
           "text_it": "Quando la macchina prova a caricare, si sente il click dell'elettrovalvola dietro?",
           "text_en": "When the machine tries to fill, do you hear the solenoid click at the back?",
           "branches": [
-            {"label_it": "Click, ma non carica", "label_en": "Clicks, but does not fill", "then": "probe"},
-            {"label_it": "Nessun click", "label_en": "No click", "then": "outcome:part_diy:EL-3085,ID-4040"},
-            {"label_it": "Carica sempre, non si ferma", "label_en": "Fills all the time", "then": "probe"}
+            {
+              "label_it": "Click, ma non carica",
+              "label_en": "Clicks, but does not fill",
+              "then": "probe"
+            },
+            {
+              "label_it": "Nessun click",
+              "label_en": "No click",
+              "then": "outcome:part_diy:EL-3085,ID-4040"
+            },
+            {
+              "label_it": "Carica sempre, non si ferma",
+              "label_en": "Fills all the time",
+              "then": "probe"
+            }
           ]
         },
         {
-          "id": "probe", "kind": "do", "maintenance": true,
+          "id": "probe",
+          "kind": "do",
+          "maintenance": true,
           "text_it": "Far svitare la sonda di livello dalla sommità della caldaia (chiave da 13) a macchina spenta e guardare la punta: se è bianca di calcare, pulirla con carta abrasiva fine e rimontare.",
           "text_en": "With the machine off, have them unscrew the level probe from the top of the boiler (13 mm spanner) and look at the tip: if it is white with scale, clean it with fine abrasive paper and refit.",
-          "parts": ["ID-4061"],
+          "parts": [
+            "ID-4061"
+          ],
           "branches": [
-            {"label_it": "Pulita: risolto", "label_en": "Cleaned: fixed", "then": "outcome:remote"},
-            {"label_it": "Isolante crepato", "label_en": "Insulator cracked", "then": "outcome:part_diy:CA-1230,CA-1232"},
-            {"label_it": "Pulita, non risolto", "label_en": "Cleaned, not fixed", "then": "valve-mesh"},
-            {"label_it": "Non può smontarla", "label_en": "Cannot remove it", "then": "outcome:part_with_support:CA-1230"}
+            {
+              "label_it": "Pulita: risolto",
+              "label_en": "Cleaned: fixed",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Isolante crepato",
+              "label_en": "Insulator cracked",
+              "then": "outcome:part_diy:CA-1230,CA-1232"
+            },
+            {
+              "label_it": "Pulita, non risolto",
+              "label_en": "Cleaned, not fixed",
+              "then": "valve-mesh"
+            },
+            {
+              "label_it": "Non può smontarla",
+              "label_en": "Cannot remove it",
+              "then": "outcome:part_with_support:CA-1230"
+            }
           ]
         },
         {
-          "id": "valve-mesh", "kind": "do",
+          "id": "valve-mesh",
+          "kind": "do",
           "text_it": "Far smontare l'elettrovalvola di carico e pulire la retina interna dal calcare.",
           "text_en": "Have them open the fill solenoid and clean the internal mesh of scale.",
           "branches": [
-            {"label_it": "Risolto", "label_en": "Fixed", "then": "outcome:remote"},
-            {"label_it": "Non risolto o non può", "label_en": "Not fixed or cannot", "then": "outcome:part_with_support:ID-4040,EL-3012,EL-3036"}
+            {
+              "label_it": "Risolto",
+              "label_en": "Fixed",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Non risolto o non può",
+              "label_en": "Not fixed or cannot",
+              "then": "outcome:part_with_support:ID-4040,EL-3012,EL-3036"
+            }
           ]
         }
       ]
     },
     {
       "id": "marea-no-heat",
-      "models": ["marea-2", "marea-2-plus", "marea-2-evo", "giglio-1", "giglio-1-plus"],
+      "models": [
+        "marea-2",
+        "marea-2-plus",
+        "marea-2-evo",
+        "giglio-1",
+        "giglio-1-plus"
+      ],
       "group": "CA",
       "symptom_it": "Non scalda, resta fredda, pressione caldaia a zero",
       "symptom_en": "Does not heat, stays cold, boiler pressure at zero",
-      "spoken_forms": ["non scalda", "resta fredda", "è fredda", "non va in pressione", "pressione a zero", "niente vapore e niente caffè caldo",
-                       "does not heat", "not heating", "stays cold", "no pressure", "cold machine", "no steam at all", "gauge at zero"],
+      "spoken_forms": [
+        "non scalda",
+        "resta fredda",
+        "è fredda",
+        "non va in pressione",
+        "pressione a zero",
+        "niente vapore e niente caffè caldo",
+        "does not heat",
+        "not heating",
+        "stays cold",
+        "no pressure",
+        "cold machine",
+        "no steam at all",
+        "gauge at zero",
+        "non si scalda",
+        "rimane fredda",
+        "acqua fredda",
+        "non fa pressione",
+        "won't heat",
+        "no heat",
+        "not getting hot",
+        "water is cold"
+      ],
       "start": "lights",
       "steps": [
         {
-          "id": "lights", "kind": "ask",
+          "id": "lights",
+          "kind": "ask",
           "text_it": "Le spie e la pulsantiera sono accese? La caldaia si è riempita (nessun allarme livello)?",
           "text_en": "Are the lights and touchpad on? Has the boiler filled (no level alarm)?",
           "branches": [
-            {"label_it": "Tutto spento", "label_en": "Everything off", "then": "outcome:technician"},
-            {"label_it": "Allarme livello", "label_en": "Level alarm", "then": "outcome:remote"},
-            {"label_it": "Accese, caldaia piena, fredda", "label_en": "On, boiler full, cold", "then": "reset"}
+            {
+              "label_it": "Tutto spento",
+              "label_en": "Everything off",
+              "then": "outcome:technician"
+            },
+            {
+              "label_it": "Allarme livello",
+              "label_en": "Level alarm",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Accese, caldaia piena, fredda",
+              "label_en": "On, boiler full, cold",
+              "then": "reset"
+            }
           ]
         },
         {
-          "id": "reset", "kind": "do",
+          "id": "reset",
+          "kind": "do",
           "text_it": "A macchina spenta, dietro il pannello posteriore c'è un pulsantino rosso sul corpo caldaia: farlo premere. Riaccendere e attendere 10 minuti.",
           "text_en": "With the machine off, behind the rear panel there is a small red button on the boiler body: have them press it. Switch on and wait 10 minutes.",
           "note_it": "Chiedere se la caldaia era rimasta senza acqua: il termostato scatta per quello.",
           "note_en": "Ask whether the boiler had run dry: that is why the thermostat trips.",
           "branches": [
-            {"label_it": "Scalda: risolto", "label_en": "Heats: fixed", "then": "outcome:remote"},
-            {"label_it": "Resta fredda", "label_en": "Still cold", "then": "contactor"},
-            {"label_it": "Non trova il pulsante", "label_en": "Cannot find the button", "then": "outcome:part_with_support:CA-1270"}
+            {
+              "label_it": "Scalda: risolto",
+              "label_en": "Heats: fixed",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Resta fredda",
+              "label_en": "Still cold",
+              "then": "contactor"
+            },
+            {
+              "label_it": "Non trova il pulsante",
+              "label_en": "Cannot find the button",
+              "then": "outcome:part_with_support:CA-1270"
+            }
           ]
         },
         {
-          "id": "contactor", "kind": "ask",
+          "id": "contactor",
+          "kind": "ask",
           "text_it": "All'accensione si sente il click del teleruttore dietro il pannello?",
           "text_en": "At power-on, do you hear the contactor click behind the panel?",
           "branches": [
-            {"label_it": "Click, ma non scalda", "label_en": "Clicks, but no heat", "then": "element"},
-            {"label_it": "Nessun click", "label_en": "No click", "then": "pressurestat"}
+            {
+              "label_it": "Click, ma non scalda",
+              "label_en": "Clicks, but no heat",
+              "then": "element"
+            },
+            {
+              "label_it": "Nessun click",
+              "label_en": "No click",
+              "then": "pressurestat"
+            }
           ]
         },
         {
-          "id": "element", "kind": "ask",
+          "id": "element",
+          "kind": "ask",
           "text_it": "Che tensione ha la macchina (targhetta): 230 V, 110 V o 400 V trifase? Che modello e anno?",
           "text_en": "What voltage is the machine (rating plate): 230 V, 110 V or 400 V three-phase? Which model and year?",
           "note_it": "Resistenza bruciata. Ordinare la versione giusta per tensione e modello, con la guarnizione. Evo ha flangia diversa.",
           "note_en": "Burnt-out element. Order the right version for voltage and model, with the gasket. Evo has a different flange.",
           "branches": [
-            {"label_it": "Marea 2 / Plus, 230 V", "label_en": "Marea 2 / Plus, 230 V", "then": "outcome:part_with_support:CA-1180,CA-1220"},
-            {"label_it": "Marea 2 / Plus, 110 V", "label_en": "Marea 2 / Plus, 110 V", "then": "outcome:part_with_support:CA-1181,CA-1220"},
-            {"label_it": "Marea 2 / Plus, 400 V", "label_en": "Marea 2 / Plus, 400 V", "then": "outcome:part_with_support:CA-1182,CA-1220"},
-            {"label_it": "Marea 2 Evo", "label_en": "Marea 2 Evo", "then": "outcome:part_with_support:CA-1185,CA-1220"},
-            {"label_it": "Giglio", "label_en": "Giglio", "then": "outcome:part_with_support:CA-1190,CA-1220"}
+            {
+              "label_it": "Marea 2 / Plus, 230 V",
+              "label_en": "Marea 2 / Plus, 230 V",
+              "then": "outcome:part_with_support:CA-1180,CA-1220"
+            },
+            {
+              "label_it": "Marea 2 / Plus, 110 V",
+              "label_en": "Marea 2 / Plus, 110 V",
+              "then": "outcome:part_with_support:CA-1181,CA-1220"
+            },
+            {
+              "label_it": "Marea 2 / Plus, 400 V",
+              "label_en": "Marea 2 / Plus, 400 V",
+              "then": "outcome:part_with_support:CA-1182,CA-1220"
+            },
+            {
+              "label_it": "Marea 2 Evo",
+              "label_en": "Marea 2 Evo",
+              "then": "outcome:part_with_support:CA-1185,CA-1220"
+            },
+            {
+              "label_it": "Giglio",
+              "label_en": "Giglio",
+              "then": "outcome:part_with_support:CA-1190,CA-1220"
+            }
           ]
         },
         {
-          "id": "pressurestat", "kind": "do",
+          "id": "pressurestat",
+          "kind": "do",
           "text_it": "Far girare la vite del pressostato di un quarto di giro in senso orario e riaccendere.",
           "text_en": "Have them turn the pressurestat screw a quarter turn clockwise and switch on again.",
           "branches": [
-            {"label_it": "Ora scalda", "label_en": "Now it heats", "then": "outcome:remote"},
-            {"label_it": "Nessun cambiamento", "label_en": "No change", "then": "outcome:part_with_support:EL-3050,CA-1240"}
+            {
+              "label_it": "Ora scalda",
+              "label_en": "Now it heats",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Nessun cambiamento",
+              "label_en": "No change",
+              "then": "outcome:part_with_support:EL-3050,CA-1240"
+            }
           ]
         }
       ]
     },
     {
       "id": "marea-boiler-pressure",
-      "models": ["marea-2", "marea-2-plus", "giglio-1", "giglio-1-plus"],
+      "models": [
+        "marea-2",
+        "marea-2-plus",
+        "giglio-1",
+        "giglio-1-plus"
+      ],
       "group": "CA",
       "symptom_it": "Pressione della caldaia troppo alta o troppo bassa",
       "symptom_en": "Boiler pressure too high or too low",
-      "spoken_forms": ["pressione caldaia alta", "pressione caldaia bassa", "va sopra i due bar", "sfiata la valvola", "la lancetta della caldaia",
-                       "boiler pressure high", "boiler pressure low", "goes over 2 bar", "safety valve hisses", "boiler needle", "too much steam pressure"],
+      "spoken_forms": [
+        "pressione caldaia alta",
+        "pressione caldaia bassa",
+        "va sopra i due bar",
+        "sfiata la valvola",
+        "la lancetta della caldaia",
+        "boiler pressure high",
+        "boiler pressure low",
+        "goes over 2 bar",
+        "safety valve hisses",
+        "boiler needle",
+        "too much steam pressure",
+        "troppa pressione in caldaia",
+        "poca pressione in caldaia",
+        "pressione troppo alta",
+        "too much pressure",
+        "pressure too high"
+      ],
       "start": "reading",
       "steps": [
         {
-          "id": "reading", "kind": "ask",
+          "id": "reading",
+          "kind": "ask",
           "text_it": "A macchina calda la lancetta della caldaia dove si ferma? Oscilla?",
           "text_en": "When hot, where does the boiler needle settle? Does it swing?",
           "note_it": "Normale 1,0-1,3 bar.",
           "note_en": "Normal 1.0-1.3 bar.",
           "branches": [
-            {"label_it": "Sopra 1,8 bar, la valvola sfiata", "label_en": "Above 1.8 bar, safety valve vents", "then": "switch-off"},
-            {"label_it": "Fuori range ma stabile", "label_en": "Out of range but steady", "then": "adjust"},
-            {"label_it": "Oscilla molto", "label_en": "Swings a lot", "then": "outcome:part_diy:CA-1241,CA-1240"}
+            {
+              "label_it": "Sopra 1,8 bar, la valvola sfiata",
+              "label_en": "Above 1.8 bar, safety valve vents",
+              "then": "switch-off"
+            },
+            {
+              "label_it": "Fuori range ma stabile",
+              "label_en": "Out of range but steady",
+              "then": "adjust"
+            },
+            {
+              "label_it": "Oscilla molto",
+              "label_en": "Swings a lot",
+              "then": "outcome:part_diy:CA-1241,CA-1240"
+            }
           ]
         },
         {
-          "id": "switch-off", "kind": "do",
+          "id": "switch-off",
+          "kind": "do",
           "text_it": "Far spegnere la macchina. A macchina fredda, staccare il capillare del pressostato e soffiarlo; pulire il raccordo sulla caldaia. Riaccendere.",
           "text_en": "Have them switch the machine off. When cold, remove the pressurestat capillary and blow it through; clean the fitting on the boiler. Switch on.",
           "branches": [
-            {"label_it": "Ora regola: risolto", "label_en": "Now regulates: fixed", "then": "outcome:remote"},
-            {"label_it": "Sale ancora oltre 1,8", "label_en": "Still climbs past 1.8", "then": "outcome:part_diy:CA-1240"},
-            {"label_it": "Sfiata anche a 1,2 bar", "label_en": "Vents even at 1.2 bar", "then": "outcome:part_diy:CA-1250"}
+            {
+              "label_it": "Ora regola: risolto",
+              "label_en": "Now regulates: fixed",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Sale ancora oltre 1,8",
+              "label_en": "Still climbs past 1.8",
+              "then": "outcome:part_diy:CA-1240"
+            },
+            {
+              "label_it": "Sfiata anche a 1,2 bar",
+              "label_en": "Vents even at 1.2 bar",
+              "then": "outcome:part_diy:CA-1250"
+            }
           ]
         },
         {
-          "id": "adjust", "kind": "do",
+          "id": "adjust",
+          "kind": "do",
           "text_it": "Far regolare la vite del pressostato (senso orario alza) fino a 1,1-1,2 bar.",
           "text_en": "Have them adjust the pressurestat screw (clockwise raises) to 1.1-1.2 bar.",
           "branches": [
-            {"label_it": "Tiene la regolazione", "label_en": "Holds the setting", "then": "outcome:remote"},
-            {"label_it": "Non tiene", "label_en": "Does not hold", "then": "outcome:part_diy:CA-1240"}
+            {
+              "label_it": "Tiene la regolazione",
+              "label_en": "Holds the setting",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Non tiene",
+              "label_en": "Does not hold",
+              "then": "outcome:part_diy:CA-1240"
+            }
           ]
         }
       ]
     },
     {
       "id": "marea-hiss-at-startup",
-      "models": ["marea-2", "marea-2-plus", "marea-2-evo", "giglio-1", "giglio-1-plus"],
+      "models": [
+        "marea-2",
+        "marea-2-plus",
+        "marea-2-evo",
+        "giglio-1",
+        "giglio-1-plus"
+      ],
       "group": "CA",
       "symptom_it": "Sibila all'accensione, o esce vapore dalla valvolina sopra la caldaia",
       "symptom_en": "Hisses at start-up, or steam comes out of the small valve on top of the boiler",
-      "spoken_forms": ["sibila", "fischia all'accensione", "esce vapore da sopra", "la valvolina fischia", "soffia quando si accende",
-                       "hisses", "hissing", "whistles when it heats up", "steam from the top", "little valve leaks", "hissing noise at start"],
+      "spoken_forms": [
+        "sibila",
+        "fischia all'accensione",
+        "esce vapore da sopra",
+        "la valvolina fischia",
+        "soffia quando si accende",
+        "hisses",
+        "hissing",
+        "whistles when it heats up",
+        "steam from the top",
+        "little valve leaks",
+        "hissing noise at start",
+        "fa un fischio",
+        "sfiata da sopra",
+        "perde vapore da sopra",
+        "whistling noise",
+        "steam leaking on top"
+      ],
       "start": "duration",
       "steps": [
         {
-          "id": "duration", "kind": "ask",
+          "id": "duration",
+          "kind": "ask",
           "text_it": "Il sibilo smette da solo entro 5 minuti dall'accensione? Il vapore esce dalla valvolina sopra la caldaia o da un giunto?",
           "text_en": "Does the hiss stop by itself within 5 minutes of switching on? Does the steam come from the small valve on top of the boiler or from a joint?",
           "branches": [
-            {"label_it": "Smette entro 5 minuti", "label_en": "Stops within 5 minutes", "then": "outcome:remote"},
-            {"label_it": "Continua, dalla valvolina", "label_en": "Continues, from the small valve", "then": "clean-valve"},
-            {"label_it": "Da un giunto della caldaia", "label_en": "From a boiler joint", "then": "outcome:part_with_support:CA-1330,CA-1220"}
+            {
+              "label_it": "Smette entro 5 minuti",
+              "label_en": "Stops within 5 minutes",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Continua, dalla valvolina",
+              "label_en": "Continues, from the small valve",
+              "then": "clean-valve"
+            },
+            {
+              "label_it": "Da un giunto della caldaia",
+              "label_en": "From a boiler joint",
+              "then": "outcome:part_with_support:CA-1330,CA-1220"
+            }
           ]
         },
         {
-          "id": "clean-valve", "kind": "do",
+          "id": "clean-valve",
+          "kind": "do",
           "text_it": "A macchina fredda far svitare la valvola antidepressione (chiave da 14), pulire lo spillo dal calcare e rimontare con teflon sul filetto.",
           "text_en": "With the machine cold, have them unscrew the anti-vacuum valve (14 mm spanner), clean the pin of scale and refit with PTFE tape on the thread.",
           "branches": [
-            {"label_it": "Risolto", "label_en": "Fixed", "then": "outcome:remote"},
-            {"label_it": "OR consumato", "label_en": "Worn o-ring", "then": "outcome:part_diy:CA-1261"},
-            {"label_it": "Perde ancora", "label_en": "Still leaks", "then": "outcome:part_diy:CA-1260"}
+            {
+              "label_it": "Risolto",
+              "label_en": "Fixed",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "OR consumato",
+              "label_en": "Worn o-ring",
+              "then": "outcome:part_diy:CA-1261"
+            },
+            {
+              "label_it": "Perde ancora",
+              "label_en": "Still leaks",
+              "then": "outcome:part_diy:CA-1260"
+            }
           ]
         }
       ]
     },
     {
       "id": "marea-steam-weak-or-dripping",
-      "models": ["marea-2", "marea-2-plus", "marea-2-evo", "giglio-1", "giglio-1-plus"],
+      "models": [
+        "marea-2",
+        "marea-2-plus",
+        "marea-2-evo",
+        "giglio-1",
+        "giglio-1-plus"
+      ],
       "group": "VA",
       "symptom_it": "Vapore debole, o lancia che gocciola con il rubinetto chiuso",
       "symptom_en": "Weak steam, or wand dripping with the tap closed",
-      "spoken_forms": ["vapore debole", "poco vapore", "non monta il latte", "la lancia gocciola", "perde dalla lancia", "esce acqua dalla lancia",
-                       "weak steam", "not enough steam", "cannot steam milk", "wand drips", "steam wand leaks", "water from the wand", "steam tap leaks"],
+      "spoken_forms": [
+        "vapore debole",
+        "poco vapore",
+        "non monta il latte",
+        "la lancia gocciola",
+        "perde dalla lancia",
+        "esce acqua dalla lancia",
+        "weak steam",
+        "not enough steam",
+        "cannot steam milk",
+        "wand drips",
+        "steam wand leaks",
+        "water from the wand",
+        "steam tap leaks",
+        "non esce vapore",
+        "vapore scarso",
+        "la lancia perde",
+        "poco vapore dalla lancia",
+        "no steam",
+        "steam is weak",
+        "steam wand is weak"
+      ],
       "start": "which",
       "steps": [
         {
-          "id": "which", "kind": "ask",
+          "id": "which",
+          "kind": "ask",
           "text_it": "Il problema è vapore debole, o gocciola a rubinetto chiuso?",
           "text_en": "Is the problem weak steam, or dripping with the tap closed?",
           "branches": [
-            {"label_it": "Vapore debole", "label_en": "Weak steam", "then": "boiler-ok"},
-            {"label_it": "Gocciola dalla lancia", "label_en": "Drips from the wand", "then": "outcome:part_diy:VA-5015,VA-5070"},
-            {"label_it": "Perde dallo snodo", "label_en": "Leaks at the joint", "then": "outcome:part_diy:VA-5028"}
+            {
+              "label_it": "Vapore debole",
+              "label_en": "Weak steam",
+              "then": "boiler-ok"
+            },
+            {
+              "label_it": "Gocciola dalla lancia",
+              "label_en": "Drips from the wand",
+              "then": "outcome:part_diy:VA-5015,VA-5070"
+            },
+            {
+              "label_it": "Perde dallo snodo",
+              "label_en": "Leaks at the joint",
+              "then": "outcome:part_diy:VA-5028"
+            }
           ]
         },
         {
-          "id": "boiler-ok", "kind": "ask",
+          "id": "boiler-ok",
+          "kind": "ask",
           "text_it": "La lancetta della caldaia è a 1,1-1,2 bar?",
           "text_en": "Is the boiler needle at 1.1-1.2 bar?",
           "branches": [
-            {"label_it": "Sì", "label_en": "Yes", "then": "tip"},
-            {"label_it": "Sotto 1 bar", "label_en": "Below 1 bar", "then": "outcome:part_diy:CA-1240"}
+            {
+              "label_it": "Sì",
+              "label_en": "Yes",
+              "then": "tip"
+            },
+            {
+              "label_it": "Sotto 1 bar",
+              "label_en": "Below 1 bar",
+              "then": "outcome:part_diy:CA-1240"
+            }
           ]
         },
         {
-          "id": "tip", "kind": "do", "maintenance": true,
+          "id": "tip",
+          "kind": "do",
+          "maintenance": true,
           "text_it": "Far svitare il terminale della lancia: 30 minuti in acqua calda con pastiglia, spillo nei fori, rimontare.",
           "text_en": "Have them unscrew the steam tip: 30 minutes in hot water with a tablet, pin through the holes, refit.",
-          "parts": ["CR-6052"],
+          "parts": [
+            "CR-6052"
+          ],
           "branches": [
-            {"label_it": "Risolto", "label_en": "Fixed", "then": "outcome:remote"},
-            {"label_it": "Fori allargati", "label_en": "Holes worn open", "then": "outcome:part_diy:VA-5025"},
-            {"label_it": "Ancora debole", "label_en": "Still weak", "then": "outcome:part_with_support:VA-5010"}
+            {
+              "label_it": "Risolto",
+              "label_en": "Fixed",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Fori allargati",
+              "label_en": "Holes worn open",
+              "then": "outcome:part_diy:VA-5025"
+            },
+            {
+              "label_it": "Ancora debole",
+              "label_en": "Still weak",
+              "then": "outcome:part_with_support:VA-5010"
+            }
           ]
         }
       ]
     },
     {
       "id": "marea-doses-and-buttons",
-      "models": ["marea-2", "marea-2-plus", "marea-2-evo", "giglio-1-plus"],
+      "models": [
+        "marea-2",
+        "marea-2-plus",
+        "marea-2-evo",
+        "giglio-1-plus"
+      ],
       "group": "EL",
       "symptom_it": "Dosi sbagliate o irregolari, oppure un tasto non risponde",
       "symptom_en": "Wrong or inconsistent doses, or a button not responding",
-      "spoken_forms": ["dosi sbagliate", "il caffè lungo esce corto", "le dosi cambiano", "non si ferma", "un tasto non funziona", "il tasto non risponde", "allarme dose",
-                       "wrong doses", "doses are off", "dose keeps changing", "does not stop", "runs forever", "button does not work", "button not responding", "dose alarm", "volumetric alarm"],
+      "spoken_forms": [
+        "dosi sbagliate",
+        "il caffè lungo esce corto",
+        "le dosi cambiano",
+        "non si ferma",
+        "un tasto non funziona",
+        "il tasto non risponde",
+        "allarme dose",
+        "wrong doses",
+        "doses are off",
+        "dose keeps changing",
+        "does not stop",
+        "runs forever",
+        "button does not work",
+        "button not responding",
+        "dose alarm",
+        "volumetric alarm",
+        "dose sbagliata",
+        "caffè troppo lunghi",
+        "caffè troppo corti",
+        "i tasti non vanno",
+        "il pulsante non funziona",
+        "wrong dose",
+        "button is dead",
+        "buttons do not work"
+      ],
       "start": "which",
       "steps": [
         {
-          "id": "which", "kind": "ask",
+          "id": "which",
+          "kind": "ask",
           "text_it": "Le dosi sono sbagliate ma sempre uguali, oppure cambiano da un caffè all'altro? O è un tasto che non risponde?",
           "text_en": "Are the doses wrong but always the same, or do they change from one coffee to the next? Or is it a button not responding?",
           "branches": [
-            {"label_it": "Sempre uguali", "label_en": "Always the same", "then": "reprogram"},
-            {"label_it": "Cambiano, o non si ferma", "label_en": "They change, or it does not stop", "then": "flowmeter"},
-            {"label_it": "Un tasto non risponde", "label_en": "A button does not respond", "then": "button"}
+            {
+              "label_it": "Sempre uguali",
+              "label_en": "Always the same",
+              "then": "reprogram"
+            },
+            {
+              "label_it": "Cambiano, o non si ferma",
+              "label_en": "They change, or it does not stop",
+              "then": "flowmeter"
+            },
+            {
+              "label_it": "Un tasto non risponde",
+              "label_en": "A button does not respond",
+              "then": "button"
+            }
           ]
         },
         {
-          "id": "reprogram", "kind": "do",
+          "id": "reprogram",
+          "kind": "do",
           "text_it": "Riprogrammare: tenere premuto il tasto continuo 5 secondi finché i led lampeggiano, avviare la dose, premere il tasto alla quantità voluta.",
           "text_en": "Reprogram: hold the continuous button 5 seconds until the LEDs flash, start the dose, press the button at the desired amount.",
           "branches": [
-            {"label_it": "Risolto", "label_en": "Fixed", "then": "outcome:remote"},
-            {"label_it": "Non memorizza", "label_en": "Does not store it", "then": "board"}
+            {
+              "label_it": "Risolto",
+              "label_en": "Fixed",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Non memorizza",
+              "label_en": "Does not store it",
+              "then": "board"
+            }
           ]
         },
         {
-          "id": "flowmeter", "kind": "do",
+          "id": "flowmeter",
+          "kind": "do",
           "text_it": "Far smontare il flussometro del gruppo interessato (due raccordi, il sensore si sfila) e pulire la turbina dal calcare.",
           "text_en": "Have them remove the flowmeter of that group (two fittings, the sensor slides off) and clean the turbine of scale.",
           "branches": [
-            {"label_it": "Risolto", "label_en": "Fixed", "then": "outcome:remote"},
-            {"label_it": "Turbina rotta", "label_en": "Turbine broken", "then": "outcome:part_diy:ID-4051"},
-            {"label_it": "Pulita, non conta ancora", "label_en": "Cleaned, still not counting", "then": "outcome:part_diy:ID-4052"},
-            {"label_it": "Non può smontarlo", "label_en": "Cannot remove it", "then": "outcome:part_with_support:ID-4050"}
+            {
+              "label_it": "Risolto",
+              "label_en": "Fixed",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Turbina rotta",
+              "label_en": "Turbine broken",
+              "then": "outcome:part_diy:ID-4051"
+            },
+            {
+              "label_it": "Pulita, non conta ancora",
+              "label_en": "Cleaned, still not counting",
+              "then": "outcome:part_diy:ID-4052"
+            },
+            {
+              "label_it": "Non può smontarlo",
+              "label_en": "Cannot remove it",
+              "then": "outcome:part_with_support:ID-4050"
+            }
           ]
         },
         {
-          "id": "button", "kind": "ask",
+          "id": "button",
+          "kind": "ask",
           "text_it": "Il led del tasto è acceso? Gli altri tasti funzionano?",
           "text_en": "Is the button's LED on? Do the other buttons work?",
           "branches": [
-            {"label_it": "Un tasto solo, gli altri ok", "label_en": "One button only, others fine", "then": "touchpad"},
-            {"label_it": "Tutti i tasti morti", "label_en": "All buttons dead", "then": "board"}
+            {
+              "label_it": "Un tasto solo, gli altri ok",
+              "label_en": "One button only, others fine",
+              "then": "touchpad"
+            },
+            {
+              "label_it": "Tutti i tasti morti",
+              "label_en": "All buttons dead",
+              "then": "board"
+            }
           ]
         },
         {
-          "id": "touchpad", "kind": "ask",
+          "id": "touchpad",
+          "kind": "ask",
           "text_it": "Che modello è?",
           "text_en": "Which model is it?",
           "branches": [
-            {"label_it": "Marea 2 / Giglio 1", "label_en": "Marea 2 / Giglio 1", "then": "outcome:part_diy:EL-3030"},
-            {"label_it": "Marea 2 Plus / Giglio 1 Plus", "label_en": "Marea 2 Plus / Giglio 1 Plus", "then": "outcome:part_diy:EL-3031"},
-            {"label_it": "Marea 2 Evo", "label_en": "Marea 2 Evo", "then": "outcome:part_diy:EL-3032"}
+            {
+              "label_it": "Marea 2 / Giglio 1",
+              "label_en": "Marea 2 / Giglio 1",
+              "then": "outcome:part_diy:EL-3030"
+            },
+            {
+              "label_it": "Marea 2 Plus / Giglio 1 Plus",
+              "label_en": "Marea 2 Plus / Giglio 1 Plus",
+              "then": "outcome:part_diy:EL-3031"
+            },
+            {
+              "label_it": "Marea 2 Evo",
+              "label_en": "Marea 2 Evo",
+              "then": "outcome:part_diy:EL-3032"
+            }
           ]
         },
         {
-          "id": "board", "kind": "ask",
+          "id": "board",
+          "kind": "ask",
           "text_it": "Che modello e che anno è la macchina?",
           "text_en": "Which model and year is the machine?",
           "note_it": "Centralina. L'anno decide il codice e l'adattatore. Montaggio con il service e riprogrammazione dosi.",
           "note_en": "Control board. The year decides the code and the adapter. Fitting with the service team, then reprogram doses.",
           "branches": [
-            {"label_it": "Marea 2 / Giglio 1 del 2024", "label_en": "2024 Marea 2 / Giglio 1", "then": "outcome:part_with_support:EL-3012,EL-3036"},
-            {"label_it": "Marea 2 Plus / Giglio 1 Plus", "label_en": "Marea 2 Plus / Giglio 1 Plus", "then": "outcome:part_with_support:EL-3012"},
-            {"label_it": "Marea 2 Evo", "label_en": "Marea 2 Evo", "then": "outcome:part_with_support:EL-3013"}
+            {
+              "label_it": "Marea 2 / Giglio 1 del 2024",
+              "label_en": "2024 Marea 2 / Giglio 1",
+              "then": "outcome:part_with_support:EL-3012,EL-3036"
+            },
+            {
+              "label_it": "Marea 2 Plus / Giglio 1 Plus",
+              "label_en": "Marea 2 Plus / Giglio 1 Plus",
+              "then": "outcome:part_with_support:EL-3012"
+            },
+            {
+              "label_it": "Marea 2 Evo",
+              "label_en": "Marea 2 Evo",
+              "then": "outcome:part_with_support:EL-3013"
+            }
           ]
         }
       ]
     },
     {
       "id": "marea-machine-dead",
-      "models": ["marea-2", "marea-2-plus", "marea-2-evo", "giglio-1", "giglio-1-plus"],
+      "models": [
+        "marea-2",
+        "marea-2-plus",
+        "marea-2-evo",
+        "giglio-1",
+        "giglio-1-plus"
+      ],
       "group": "EL",
       "symptom_it": "Macchina spenta, nessuna spia, non si accende",
       "symptom_en": "Machine dead, no lights, does not switch on",
-      "spoken_forms": ["è morta", "non si accende", "tutto spento", "nessuna spia", "display spento", "non dà segni di vita",
-                       "dead", "does not turn on", "no lights", "display is off", "completely off", "nothing happens", "no power"],
+      "spoken_forms": [
+        "è morta",
+        "non si accende",
+        "tutto spento",
+        "nessuna spia",
+        "display spento",
+        "non dà segni di vita",
+        "dead",
+        "does not turn on",
+        "no lights",
+        "display is off",
+        "completely off",
+        "nothing happens",
+        "no power",
+        "non parte",
+        "è spenta",
+        "non dà corrente",
+        "non si accende più",
+        "won't turn on",
+        "won't start",
+        "will not start"
+      ],
       "start": "socket",
       "steps": [
         {
-          "id": "socket", "kind": "ask",
+          "id": "socket",
+          "kind": "ask",
           "text_it": "La presa dà corrente (provare un altro apparecchio)? L'interruttore generale è in posizione 2?",
           "text_en": "Is there power at the socket (try another appliance)? Is the main switch in position 2?",
           "branches": [
-            {"label_it": "Presa senza corrente o interruttore su 0", "label_en": "Dead socket or switch at 0", "then": "outcome:remote"},
-            {"label_it": "Corrente ok, interruttore su 2", "label_en": "Power ok, switch at 2", "then": "fuse"}
+            {
+              "label_it": "Presa senza corrente o interruttore su 0",
+              "label_en": "Dead socket or switch at 0",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Corrente ok, interruttore su 2",
+              "label_en": "Power ok, switch at 2",
+              "then": "fuse"
+            }
           ]
         },
         {
-          "id": "fuse", "kind": "do",
+          "id": "fuse",
+          "kind": "do",
           "text_it": "Far controllare il fusibile sul retro (portafusibile a vite): se è bruciato, sostituirlo con uno uguale, 10 A ritardato.",
           "text_en": "Have them check the fuse on the back (screw-in holder): if blown, replace it with the same type, 10 A slow-blow.",
           "branches": [
-            {"label_it": "Fusibile nuovo, si accende", "label_en": "New fuse, switches on", "then": "outcome:remote"},
-            {"label_it": "Brucia di nuovo", "label_en": "Blows again", "then": "outcome:technician"},
-            {"label_it": "Fusibile intero, ancora spenta", "label_en": "Fuse intact, still dead", "then": "heating"}
+            {
+              "label_it": "Fusibile nuovo, si accende",
+              "label_en": "New fuse, switches on",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Brucia di nuovo",
+              "label_en": "Blows again",
+              "then": "outcome:technician"
+            },
+            {
+              "label_it": "Fusibile intero, ancora spenta",
+              "label_en": "Fuse intact, still dead",
+              "then": "heating"
+            }
           ]
         },
         {
-          "id": "heating", "kind": "ask",
+          "id": "heating",
+          "kind": "ask",
           "text_it": "La resistenza scalda (il manometro caldaia sale) mentre pulsantiera e spie restano spente?",
           "text_en": "Does the element heat (boiler gauge rises) while the touchpad and lights stay off?",
           "branches": [
-            {"label_it": "Sì, scalda ma tutto spento", "label_en": "Yes, heats but all dark", "then": "outcome:part_with_support:EL-3055"},
-            {"label_it": "No, niente", "label_en": "No, nothing", "then": "outcome:technician"}
+            {
+              "label_it": "Sì, scalda ma tutto spento",
+              "label_en": "Yes, heats but all dark",
+              "then": "outcome:part_with_support:EL-3055"
+            },
+            {
+              "label_it": "No, niente",
+              "label_en": "No, nothing",
+              "then": "outcome:technician"
+            }
           ]
         }
       ]

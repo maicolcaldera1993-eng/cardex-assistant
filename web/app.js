@@ -16,7 +16,7 @@ const T = {
     outcome: { remote: "Risolto da remoto", part_diy: "Ricambio, lo monta il cliente", part_with_support: "Ricambio con supporto del service", technician: "Serve il tecnico" },
     incompatible: "Non compatibile con questa macchina", superseded: "Sostituito da", requires: "richiede",
     stock: "Giacenza", summary: "Resoconto della chiamata", machine: "Macchina", serial: "Matricola", symptom: "Sintomo", steps: "Verifiche fatte",
-    confirmed: "Ricambi confermati", none: "nessuno", transcript: "Trascritto", again: "Nuova chiamata", outcomeLabel: "Esito",
+    confirmed: "Ricambi confermati", proposed: "Proposti, non confermati", none: "nessuno", transcript: "Trascritto", again: "Nuova chiamata", outcomeLabel: "Esito",
     phase: "Vocabolario fase", terms: "termini", open: "in linea", closed: "chiusa", noSamples: "Nessuna chiamata di esempio caricata",
     tries: ["“Hi, we have a Marea 2 Plus and the coffee comes out weak and watery.”", "“The code on the invoice is G E twenty-one forty.”", "“I need the control board, E L three zero one zero.”"],
   },
@@ -33,7 +33,7 @@ const T = {
     outcome: { remote: "Fixed remotely", part_diy: "Part, fitted by the customer", part_with_support: "Part with service support", technician: "Technician needed" },
     incompatible: "Not compatible with this machine", superseded: "Superseded by", requires: "requires",
     stock: "Stock", summary: "Call report", machine: "Machine", serial: "Serial", symptom: "Symptom", steps: "Checks done",
-    confirmed: "Confirmed parts", none: "none", transcript: "Transcript", again: "New call", outcomeLabel: "Outcome",
+    confirmed: "Confirmed parts", proposed: "Proposed, not confirmed", none: "none", transcript: "Transcript", again: "New call", outcomeLabel: "Outcome",
     phase: "Vocabulary phase", terms: "keyterms", open: "on the line", closed: "closed", noSamples: "No sample calls loaded",
     tries: ["“Hi, we have a Marea 2 Plus and the coffee comes out weak and watery.”", "“The code on the invoice is G E twenty-one forty.”", "“I need the control board, E L three zero one zero.”"],
   },
@@ -166,6 +166,7 @@ function renderSummary(s) {
     `<tr><th>${L.symptom}</th><td>${esc(s.symptom || "—")}</td></tr><tr><th>${L.steps}</th><td>${s.steps.map((h) => `${esc(h.text)} → <strong>${esc(h.answer)}</strong>`).join("<br>") || "—"}</td></tr>` +
     `<tr><th>${L.outcomeLabel}</th><td><strong>${esc(o)}</strong></td></tr>` +
     `<tr><th>${L.confirmed}</th><td>${s.parts_confirmed.map((p) => `${esc(p.code)} — ${esc(p.description)} (${p.price_eur?.toFixed(2)} €)`).join("<br>") || L.none}</td></tr>` +
+    `<tr><th>${L.proposed}</th><td>${(s.parts_proposed || []).map((p) => `${esc(p.code)} — ${esc(p.description)}`).join("<br>") || L.none}</td></tr>` +
     `<tr><th>${L.transcript}</th><td>${s.transcript.map((t) => `<strong>${t.role === "operator" ? L.operator : L.customer}:</strong> ${esc(t.text)}${t.clear ? `<br><em style="color:var(--ok)">${esc(t.clear)}</em>` : ""}`).join("<br>")}</td></tr>` +
     `</table><p><button class="primary" onclick="location.reload()">${L.again}</button></p></div>`;
 }

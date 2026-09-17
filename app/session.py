@@ -400,6 +400,8 @@ class CallSession:
             "outcome": self.outcome,
             "parts_confirmed": [{"code": c["code"], "description": c["description"], "price_eur": c["price_eur"],
                                  "stock": c["stock"]} for c in confirmed],
+            "parts_proposed": [{"code": c["code"], "description": c["description"], "price_eur": c["price_eur"]}
+                               for c in self.cards.values() if c["status"] == "proposed"],
             "parts_dismissed": [c["code"] for c in self.cards.values() if c["status"] == "dismissed"],
             "transcript": [self.turns[k] for k in sorted(self.turns)],
         }})
