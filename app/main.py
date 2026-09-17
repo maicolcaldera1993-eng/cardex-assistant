@@ -14,7 +14,9 @@ from fastapi.staticfiles import StaticFiles
 ROOT = Path(__file__).resolve().parents[1]
 load_dotenv(ROOT / ".env")
 
-from .session import CATALOG, DEFECTS, SAMPLES, VOCAB, CallSession  # noqa: E402
+import markdown  # noqa: E402
+
+from .session import CATALOG, DEFECTS, SAMPLES, SEMANTIC, VOCAB, CallSession  # noqa: E402
 
 API_KEY = os.environ.get("ASSEMBLYAI_API_KEY", "")
 MAX_CONCURRENT = int(os.getenv("MAX_CONCURRENT_SESSIONS", "2"))
@@ -24,6 +26,12 @@ app = FastAPI(title="Cardex Assistant")
 app.mount("/static", StaticFiles(directory=ROOT / "web"), name="static")
 
 
+@app.on_event("startup")
+async def load_semantic_model() -> None:
+    """The embedding model takes a few seconds to load: do it off the event loop, calls can start meanwhile."""
+    asyncio.get_running_loop().run_in_executor(None, SEMANTIC.load)
+
+
 @app.get("/")
 def index() -> FileResponse:
     return FileResponse(ROOT / "web" / "index.html")
@@ -31,7 +39,7 @@ def index() -> FileResponse:
 
 @app.get("/healthz")
 def healthz() -> dict:
-    return {"ok": True, "active_sessions": _active, "key_configured": bool(API_KEY)}
+    return {"ok": True, "active_sessions": _active, "key_configured": bool(API_KEY), "semantic_ready": SEMANTIC.ready}
 
 
 @app.get("/api/samples")
@@ -58,6 +66,28 @@ def part(code: str, model_id: str | None = None) -> dict:
     card = CATALOG.card(code, 1.0, "lookup", model_id)
     sheet = ROOT / "data" / "kb" / "parts" / f"{code}.md"
     return {"card": card.__dict__, "sheet_markdown": sheet.read_text(encoding="utf-8") if sheet.exists() else None}
+
+
+@app.get("/api/docs/render")
+def render_doc(page: str, hl: str | None = None) -> dict:
+    """A knowledge-base page as HTML, headings carrying the same anchors as the section index,
+    and the sentence that matches what was said wrapped in <mark>."""
+    from .data_slug import slug  # noqa: PLC0415
+    kb = (ROOT / "data" / "kb").resolve()
+    f = (kb / page).resolve()
+    if kb not in f.parents or f.suffix != ".md" or not f.exists():
+        raise HTTPException(404, "unknown page")
+    text = f.read_text(encoding="utf-8")
+    if hl:
+        key = hl.strip().rstrip(".:;")[:80]
+        i = text.find(key[:40])
+        if i >= 0:
+            j = i + len(key) if text[i:i + len(key)] == key else text.find("\n", i)
+            j = j if j > i else len(text)
+            text = text[:i] + "<mark>" + text[i:j] + "</mark>" + text[j:]
+    md = markdown.Markdown(extensions=["tables", "toc"], extension_configs={
+        "toc": {"slugify": lambda value, sep: slug(__import__("re").sub(r"^\d+\.\s*", "", value))}})
+    return {"page": page, "html": md.convert(text)}
 
 
 @app.get("/api/manuals/{model_id}", response_class=PlainTextResponse)

@@ -226,3 +226,42 @@ def words_to_digits(text: str) -> str:
     s = re.sub(r"\b(m|em|emme)\s+(b|bee|bi)\s*(\d)\b", r"mb\3", s)
     s = re.sub(r"\bmb\s+(\d)\b", r"mb\1", s)
     return s
+
+
+# --- spans: rewrite codes inside the sentence ----------------------------------
+
+def _tokens_with_spans(text: str) -> list[tuple[str, int, int]]:
+    t = text.replace("-", " ")           # same length, so offsets still point into the original text
+    return [(m.group(0).lower(), m.start(), m.end()) for m in _TOKEN_RE.finditer(t)]
+
+
+def canonicalize_codes(text: str) -> tuple[str, list[str]]:
+    """Returns the sentence with every spoken code rewritten in canonical form, and the codes found.
+    'il control board e L3010' -> 'il control board EL-3010';  'G E twenty-one forty' -> 'GE-2140'."""
+    spans: list[tuple[int, int, str]] = []
+    for m in _WRITTEN.finditer(text):
+        if m.group(1).upper() in PREFIXES:
+            spans.append((m.start(), m.end(), f"{m.group(1).upper()}-{m.group(2)}"))
+    toks = _tokens_with_spans(text)
+    words = [t for t, _, _ in toks]
+    i = 0
+    while i < len(words):
+        pref = read_prefix(words, i)
+        if pref:
+            prefix, j = pref
+            digits, k = read_digits(words, j)
+            if len(digits) == 4 and k > j:
+                start, end = toks[i][1], toks[k - 1][2]
+                if not any(a <= start < b or a < end <= b for a, b, _ in spans):
+                    spans.append((start, end, f"{prefix}-{digits}"))
+                i = k
+                continue
+        i += 1
+    spans.sort()
+    out, last, codes = [], 0, []
+    for a, b, code in spans:
+        if a < last:
+            continue
+        out.append(text[last:a]); out.append(code); codes.append(code); last = b
+    out.append(text[last:])
+    return "".join(out), codes

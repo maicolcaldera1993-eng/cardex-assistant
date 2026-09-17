@@ -1,0 +1,5345 @@
+[
+ {
+  "id": "manual/marea-2-plus#descrizione",
+  "kind": "manual",
+  "page": "manuals/marea-2-plus.md",
+  "anchor": "descrizione",
+  "title": "Descrizione",
+  "models": [
+   "marea-2-plus"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Descrizione",
+   "what machine is this",
+   "how it works",
+   "heat exchanger",
+   "two groups",
+   "com'è fatta la macchina",
+   "come funziona",
+   "La Marea 2 Plus è una macchina professionale a due gruppi per bar e ristoranti fino a 400 caffè al giorno.",
+   "Una caldaia in rame da 11 litri produce vapore e acqua calda;",
+   "l'acqua per il caffè passa in due scambiatori immersi nella caldaia e arriva ai gruppi a 92-94 °C.",
+   "Un controllo PID sullo scambiatore stabilizza la temperatura di erogazione;",
+   "un pressostato mantiene la caldaia a 1,1-1,2 bar.",
+   "La dosatura è volumetrica:",
+   "quattro dosi programmabili per gruppo tramite pulsantiera capacitiva a sei tasti.",
+   "Rispetto alla Marea 2 (2024):",
+   "pulsantiera capacitiva, centralina v2, PID sullo scambiatore, elettrovalvola acqua calda con miscelatore.",
+   "La Marea 2 Evo (2026) ha caldaia coibentata, display e centralina v3:"
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/marea-2-plus#dati-tecnici",
+  "kind": "manual",
+  "page": "manuals/marea-2-plus.md",
+  "anchor": "dati-tecnici",
+  "title": "Dati tecnici",
+  "models": [
+   "marea-2-plus"
+  ],
+  "group": null,
+  "parts": [
+   "CA-1180",
+   "CA-1181",
+   "CA-1182",
+   "CA-1240",
+   "ID-4010",
+   "ID-4015",
+   "ID-4110"
+  ],
+  "refs": [
+   "Dati tecnici",
+   "technical data",
+   "voltage",
+   "power",
+   "boiler size",
+   "pump pressure",
+   "serial number plate",
+   "where is the serial number",
+   "dati tecnici",
+   "tensione",
+   "potenza",
+   "matricola",
+   "targhetta",
+   "--- --- Gruppi 2 Caldaia 11 L, rame Resistenza 3000 W 230 V monofase (CA-1180);",
+   "4500 W 400 V trifase (CA-1182) Pompa rotativa 100 L/h con motore 165 W (ID-4010, ID-4015) Pressione pompa 9 bar (regolabile sul by-pass) Pressione caldaia 1,1-1,2 bar (pressostato CA-1240) Allacciamento idrico 3/8\", pressione di rete 2-4 bar;",
+   "sopra 4 bar usare il riduttore ID-4110 Scarico tubo 20 mm Dimensioni 78 × 55 × 53 cm, 62 kg Matricola targhetta sotto la vaschetta di scarico"
+  ],
+  "n_topics": 12
+ },
+ {
+  "id": "manual/marea-2-plus#installazione",
+  "kind": "manual",
+  "page": "manuals/marea-2-plus.md",
+  "anchor": "installazione",
+  "title": "Installazione",
+  "models": [
+   "marea-2-plus"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Installazione",
+   "installation",
+   "water connection",
+   "water hardness",
+   "softener",
+   "first start-up",
+   "installazione",
+   "allacciamento acqua",
+   "durezza dell'acqua",
+   "addolcitore",
+   "prima accensione",
+   "Solo personale autorizzato.",
+   "Acqua di rete con durezza inferiore a 8 °f oppure con addolcitore:",
+   "la garanzia non copre i danni da calcare.",
+   "Verificare la tensione di targa prima del collegamento.",
+   "Alla prima accensione la caldaia si riempie automaticamente (circa 4 minuti);",
+   "attendere che la lancetta della caldaia raggiunga 1,1 bar prima di erogare.",
+   "Il sibilo dalla valvola antidepressione nei primi minuti è normale."
+  ],
+  "n_topics": 10
+ },
+ {
+  "id": "manual/marea-2-plus#uso-quotidiano",
+  "kind": "manual",
+  "page": "manuals/marea-2-plus.md",
+  "anchor": "uso-quotidiano",
+  "title": "Uso quotidiano",
+  "models": [
+   "marea-2-plus"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Uso quotidiano",
+   "daily use",
+   "switching on",
+   "how to program the doses",
+   "buttons",
+   "steam",
+   "hot water",
+   "uso quotidiano",
+   "accensione",
+   "programmare le dosi",
+   "tasti",
+   "interruttore generale in posizione 1 (solo carico acqua), poi 2 (riscaldamento).",
+   "portafiltro agganciato al centro, tasto dose.",
+   "1 caffè corto, 1 lungo, 2 corti, 2 lunghi, continuo, stop.",
+   "tenere premuto il tasto continuo 5 secondi finché i led lampeggiano, avviare la dose, premere lo stesso tasto alla quantità voluta.",
+   "Ripetere per ogni tasto e per ogni gruppo.",
+   "aprire il rubinetto, purgare 2 secondi, immergere la lancia.",
+   "Dopo l'uso purgare e pulire con panno umido.",
+   "tasto acqua calda, temperatura regolabile con il miscelatore."
+  ],
+  "n_topics": 10
+ },
+ {
+  "id": "manual/marea-2-plus#manutenzione-ordinaria",
+  "kind": "manual",
+  "page": "manuals/marea-2-plus.md",
+  "anchor": "manutenzione-ordinaria",
+  "title": "Manutenzione ordinaria",
+  "models": [
+   "marea-2-plus"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Manutenzione ordinaria",
+   "routine maintenance",
+   "what the user must do",
+   "cleaning schedule",
+   "manutenzione ordinaria",
+   "pulizia",
+   "cosa deve fare l'utente",
+   "Tutto ciò che segue è a carico dell'utente.",
+   "Nove chiamate di assistenza su dieci nascono da una di queste operazioni saltata."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/marea-2-plus#ogni-giorno-a-fine-servizio",
+  "kind": "manual",
+  "page": "manuals/marea-2-plus.md",
+  "anchor": "ogni-giorno-a-fine-servizio",
+  "title": "Ogni giorno, a fine servizio",
+  "models": [
+   "marea-2-plus"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6052",
+   "GE-2193",
+   "VA-5025"
+  ],
+  "refs": [
+   "Ogni giorno, a fine servizio",
+   "daily cleaning",
+   "backflush",
+   "clean the groups with the blind filter and a tablet",
+   "how often to clean",
+   "detergent",
+   "pulizia giornaliera",
+   "lavaggio dei gruppi con filtro cieco e pastiglia",
+   "ogni quanto si lava",
+   "Lavaggio dei gruppi con filtro cieco (GE-2193) e pastiglia (CR-6052) :",
+   "una pastiglia nel filtro cieco, 5 cicli da 10 secondi con il tasto continuo, poi 5 cicli senza pastiglia.",
+   "Portafiltri e filtri in acqua calda con pastiglia per 20 minuti, risciacquo.",
+   "purgare, pulire, svitare e sciacquare il terminale (VA-5025) una volta a settimana.",
+   "Svuotare e lavare vaschetta e griglia."
+  ],
+  "n_topics": 8
+ },
+ {
+  "id": "manual/marea-2-plus#ogni-settimana",
+  "kind": "manual",
+  "page": "manuals/marea-2-plus.md",
+  "anchor": "ogni-settimana",
+  "title": "Ogni settimana",
+  "models": [
+   "marea-2-plus"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6051"
+  ],
+  "refs": [
+   "Ogni settimana",
+   "weekly cleaning",
+   "brush the shower screen",
+   "check how the portafilter locks",
+   "pulizia settimanale",
+   "spazzolare la doccetta",
+   "aggancio del portafiltro",
+   "- Spazzolare la doccetta con la spazzola gruppo (CR-6051) senza smontarla.",
+   "- Controllare l'aggancio del portafiltro:",
+   "se arriva oltre il centro, la guarnizione è da cambiare."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/marea-2-plus#ogni-mese",
+  "kind": "manual",
+  "page": "manuals/marea-2-plus.md",
+  "anchor": "ogni-mese",
+  "title": "Ogni mese",
+  "models": [
+   "marea-2-plus"
+  ],
+  "group": null,
+  "parts": [
+   "GE-2150",
+   "ID-4061"
+  ],
+  "refs": [
+   "Ogni mese",
+   "monthly maintenance",
+   "remove and descale the shower screens",
+   "water filter cartridge",
+   "manutenzione mensile",
+   "smontare e decalcificare le doccette",
+   "cartuccia del filtro",
+   "- Smontare le doccette (vite centrale) e lasciarle 20 minuti nel decalcificante;",
+   "sostituire se deformate (GE-2150).",
+   "- Controllare la cartuccia del filtro d'ingresso (ID-4061);",
+   "sostituirla ogni 3 mesi, ogni mese con acqua dura."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/marea-2-plus#ogni-6-12-mesi",
+  "kind": "manual",
+  "page": "manuals/marea-2-plus.md",
+  "anchor": "ogni-6-12-mesi",
+  "title": "Ogni 6-12 mesi",
+  "models": [
+   "marea-2-plus"
+  ],
+  "group": null,
+  "parts": [
+   "GE-2140",
+   "GE-2210",
+   "VA-5015"
+  ],
+  "refs": [
+   "Ogni 6-12 mesi",
+   "replace the group gaskets",
+   "how often to change the gasket",
+   "steam valve seals",
+   "sostituire le guarnizioni sottocoppa",
+   "ogni quanto si cambia la guarnizione",
+   "- Sostituire le guarnizioni sottocoppa (GE-2140) o montare il kit gruppo (GE-2210).",
+   "Operazione da 10 minuti, vedere la scheda del ricambio.",
+   "- Sostituire il kit guarnizioni dei rubinetti vapore (VA-5015) se gocciolano."
+  ],
+  "n_topics": 5
+ },
+ {
+  "id": "manual/marea-2-plus#ogni-2-anni-a-cura-del-service",
+  "kind": "manual",
+  "page": "manuals/marea-2-plus.md",
+  "anchor": "ogni-2-anni-a-cura-del-service",
+  "title": "Ogni 2 anni, a cura del service",
+  "models": [
+   "marea-2-plus"
+  ],
+  "group": null,
+  "parts": [
+   "CA-1230",
+   "CA-1250",
+   "CA-1260",
+   "ID-4100"
+  ],
+  "refs": [
+   "Ogni 2 anni, a cura del service",
+   "two-year service",
+   "safety valve",
+   "anti-vacuum valve",
+   "level probe",
+   "boiler descaling",
+   "revisione biennale",
+   "valvola di sicurezza",
+   "decalcificazione caldaia",
+   "- Valvola di sicurezza (CA-1250), valvola antidepressione (CA-1260), sonda di livello (CA-1230), revisione idraulica (ID-4100), decalcificazione della caldaia."
+  ],
+  "n_topics": 8
+ },
+ {
+  "id": "manual/marea-2-plus#spie-e-segnali",
+  "kind": "manual",
+  "page": "manuals/marea-2-plus.md",
+  "anchor": "spie-e-segnali",
+  "title": "Spie e segnali",
+  "models": [
+   "marea-2-plus"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Spie e segnali",
+   "warning lights",
+   "flashing LEDs",
+   "alarms",
+   "level alarm",
+   "flowmeter alarm",
+   "what does the blinking mean",
+   "spie",
+   "led che lampeggiano",
+   "allarmi",
+   "allarme livello",
+   "allarme flussometro",
+   "Segnale Significato Cosa fare --- --- --- Led dei tasti lampeggiano insieme allarme livello:",
+   "la caldaia non si è riempita in 3 minuti verificare il rubinetto dell'acqua;",
+   "se persiste, chiamare il service Led del tasto lampeggia durante la dose allarme flussometro:",
+   "il contatore non riceve impulsi erogare in continuo;",
+   "se la dose non si ferma, service Sibilo breve all'accensione valvola antidepressione normale se smette entro 5 minuti Sfiato dalla valvola di sicurezza pressione oltre 1,8 bar spegnere, chiamare il service Manometro pompa sotto 8 bar durante l'erogazione pressione bassa vedere il service"
+  ],
+  "n_topics": 11
+ },
+ {
+  "id": "manual/marea-2-plus#cosa-non-fare",
+  "kind": "manual",
+  "page": "manuals/marea-2-plus.md",
+  "anchor": "cosa-non-fare",
+  "title": "Cosa non fare",
+  "models": [
+   "marea-2-plus"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6052"
+  ],
+  "refs": [
+   "Cosa non fare",
+   "what not to do",
+   "warnings",
+   "never adjust the safety valve",
+   "do not run without water",
+   "cosa non fare",
+   "avvertenze",
+   "- Non far funzionare la macchina con l'acqua chiusa.",
+   "- Non regolare la valvola di sicurezza.",
+   "- Non usare detergenti diversi dalle pastiglie CR-6052 nei gruppi.",
+   "- Non sostituire la resistenza, la pompa o la centralina senza il service in linea.",
+   "- Non lasciare la lancia vapore immersa nel latte."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/marea-2-plus#ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
+  "kind": "manual",
+  "page": "manuals/marea-2-plus.md",
+  "anchor": "ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
+  "title": "Ricambi di consumo consigliati a magazzino del cliente",
+  "models": [
+   "marea-2-plus"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6052",
+   "EL-3060",
+   "GE-2140",
+   "GE-2150",
+   "GE-2193",
+   "ID-4061",
+   "VA-5015",
+   "VA-5025"
+  ],
+  "refs": [
+   "Ricambi di consumo consigliati a magazzino del cliente",
+   "spare parts to keep in stock",
+   "consumables",
+   "recommended spares",
+   "ricambi da tenere a magazzino",
+   "consumabili consigliati",
+   "GE-2140 guarnizione sottocoppa (2), GE-2150 doccetta (2), GE-2193 filtro cieco (1), CR-6052 pastiglie (1 barattolo), VA-5015 kit guarnizioni vapore (1), VA-5025 terminale vapore (1), ID-4061 cartuccia filtro (1), EL-3060 fusibili (1 kit)."
+  ],
+  "n_topics": 5
+ },
+ {
+  "id": "manual/marea-2-plus#assistenza",
+  "kind": "manual",
+  "page": "manuals/marea-2-plus.md",
+  "anchor": "assistenza",
+  "title": "Assistenza",
+  "models": [
+   "marea-2-plus"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Assistenza",
+   "how to contact support",
+   "opening hours",
+   "what to have ready when calling",
+   "come contattare l'assistenza",
+   "orari",
+   "cosa tenere pronto",
+   "lun-ven 8-18 CET, in italiano e inglese.",
+   "modello, matricola, anno, tensione, e la fattura dell'ultimo ricambio se si cita un codice."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "symptom/marea-weak-coffee",
+  "kind": "symptom",
+  "page": "symptoms/marea-weak-coffee.md",
+  "anchor": "procedura",
+  "title": "Caffè slavato, acquoso, esce troppo veloce",
+  "title_en": "Weak, watery coffee that runs too fast",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2140",
+   "GE-2150",
+   "GE-2193",
+   "GE-2210",
+   "ID-4010",
+   "ID-4017"
+  ],
+  "refs": [
+   "Weak, watery coffee that runs too fast",
+   "Caffè slavato, acquoso, esce troppo veloce",
+   "caffè slavato",
+   "caffè acquoso",
+   "esce come acqua",
+   "esce troppo veloce",
+   "senza crema",
+   "caffè leggero",
+   "weak coffee",
+   "watery",
+   "watery coffee",
+   "thin shot",
+   "thin and fast",
+   "comes out too fast",
+   "like water",
+   "no crema",
+   "runs fast",
+   "too quick",
+   "caffè debole",
+   "esce debole",
+   "in maniera debole",
+   "annacquato",
+   "caffè annacquato",
+   "acquoso",
+   "senza corpo",
+   "poco corposo",
+   "sa di acqua",
+   "troppo leggero",
+   "watered down",
+   "weak and watery",
+   "tasteless",
+   "too thin",
+   "very weak"
+  ]
+ },
+ {
+  "id": "symptom/marea-slow-burnt-coffee",
+  "kind": "symptom",
+  "page": "symptoms/marea-slow-burnt-coffee.md",
+  "anchor": "procedura",
+  "title": "Caffè bruciato, esce a gocce, troppo lento",
+  "title_en": "Burnt-tasting coffee, drips out, too slow",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "GE",
+  "parts": [
+   "CA-1240",
+   "GE-2170"
+  ],
+  "refs": [
+   "Burnt-tasting coffee, drips out, too slow",
+   "Caffè bruciato, esce a gocce, troppo lento",
+   "caffè bruciato",
+   "esce a gocce",
+   "gocciola",
+   "troppo lento",
+   "non esce",
+   "esce piano",
+   "burnt",
+   "bitter",
+   "drips",
+   "dripping",
+   "too slow",
+   "chokes",
+   "choking",
+   "nothing comes out",
+   "barely comes out",
+   "sa di bruciato",
+   "troppo amaro",
+   "esce lentissimo",
+   "non scende",
+   "scende piano",
+   "tastes burnt",
+   "too bitter",
+   "very slow",
+   "takes forever"
+  ]
+ },
+ {
+  "id": "symptom/marea-group-leak",
+  "kind": "symptom",
+  "page": "symptoms/marea-group-leak.md",
+  "anchor": "procedura",
+  "title": "Perde acqua dal gruppo con il portafiltro agganciato",
+  "title_en": "Leaks water at the group with the portafilter locked in",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2140",
+   "GE-2150",
+   "GE-2180",
+   "GE-2210"
+  ],
+  "refs": [
+   "Leaks water at the group with the portafilter locked in",
+   "Perde acqua dal gruppo con il portafiltro agganciato",
+   "perde dal gruppo",
+   "perde acqua dal gruppo",
+   "perde dal portafiltro",
+   "esce acqua dai bordi",
+   "leaks at the group",
+   "leaking from the group",
+   "water around the portafilter",
+   "leaks from the portafilter",
+   "leaking around the handle",
+   "cola dal gruppo",
+   "gocciola dal gruppo",
+   "perde acqua dal portafiltro",
+   "perde dal bordo",
+   "leaking group",
+   "water leaks around",
+   "leaks when brewing"
+  ]
+ },
+ {
+  "id": "symptom/marea-spits-end-of-shot",
+  "kind": "symptom",
+  "page": "symptoms/marea-spits-end-of-shot.md",
+  "anchor": "procedura",
+  "title": "Il portafiltro sputa o spruzza quando si toglie a fine erogazione",
+  "title_en": "The portafilter spits or sprays when removed after the shot",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2160",
+   "ID-4086"
+  ],
+  "refs": [
+   "The portafilter spits or sprays when removed after the shot",
+   "Il portafiltro sputa o spruzza quando si toglie a fine erogazione",
+   "sputa",
+   "spruzza",
+   "schizza quando lo tolgo",
+   "resta in pressione",
+   "il fondo esce liquido",
+   "spits",
+   "sprays",
+   "sputters",
+   "spits when I remove",
+   "wet puck",
+   "puck is soupy",
+   "pressure stays",
+   "spruzza caffè",
+   "schizza caffè",
+   "esplode quando lo tolgo",
+   "portafilter sneeze",
+   "sneezes",
+   "sprays coffee"
+  ]
+ },
+ {
+  "id": "symptom/marea-pump-pressure-low",
+  "kind": "symptom",
+  "page": "symptoms/marea-pump-pressure-low.md",
+  "anchor": "procedura",
+  "title": "Pressione della pompa bassa o instabile",
+  "title_en": "Pump pressure low or unstable",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1-plus"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4010",
+   "ID-4017",
+   "ID-4019",
+   "ID-4061"
+  ],
+  "refs": [
+   "Pump pressure low or unstable",
+   "Pressione della pompa bassa o instabile",
+   "pressione bassa",
+   "non sale la pressione",
+   "la pompa non spinge",
+   "pressione che balla",
+   "la pompa fa rumore",
+   "low pressure",
+   "pressure does not come up",
+   "pump is weak",
+   "pressure swings",
+   "pump is noisy",
+   "pump rattles",
+   "poca pressione",
+   "pressione della pompa bassa",
+   "la pompa non va in pressione",
+   "pump pressure low",
+   "no pump pressure",
+   "pressure is low"
+  ]
+ },
+ {
+  "id": "symptom/marea-constant-drain",
+  "kind": "symptom",
+  "page": "symptoms/marea-constant-drain.md",
+  "anchor": "procedura",
+  "title": "Spurga o gocciola in continuazione nello scarico",
+  "title_en": "Constant dripping or discharge into the drain",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4025",
+   "ID-4027",
+   "ID-4030",
+   "ID-4040"
+  ],
+  "refs": [
+   "Constant dripping or discharge into the drain",
+   "Spurga o gocciola in continuazione nello scarico",
+   "spurga sempre",
+   "gocciola nella vaschetta",
+   "scarica in continuazione",
+   "la vaschetta si riempie da sola",
+   "constant dripping",
+   "drips into the tray all the time",
+   "always draining",
+   "tray fills up by itself",
+   "water keeps running",
+   "scarica sempre acqua",
+   "perde acqua nello scarico",
+   "esce acqua dallo scarico",
+   "water runs into the drain",
+   "keeps dripping into the tray"
+  ]
+ },
+ {
+  "id": "symptom/marea-level-alarm",
+  "kind": "symptom",
+  "page": "symptoms/marea-level-alarm.md",
+  "anchor": "procedura",
+  "title": "Allarme livello, non carica acqua, oppure carica sempre",
+  "title_en": "Level alarm, does not fill, or fills all the time",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1230",
+   "CA-1232",
+   "EL-3012",
+   "EL-3036",
+   "EL-3085",
+   "ID-4040",
+   "ID-4061"
+  ],
+  "refs": [
+   "Level alarm, does not fill, or fills all the time",
+   "Allarme livello, non carica acqua, oppure carica sempre",
+   "allarme livello",
+   "non carica",
+   "non carica acqua",
+   "carica sempre",
+   "la pompa va sempre",
+   "spia livello",
+   "level alarm",
+   "not filling",
+   "does not fill",
+   "keeps filling",
+   "pump runs all the time",
+   "autofill",
+   "water level light",
+   "non prende acqua",
+   "manca acqua in caldaia",
+   "non si riempie",
+   "no water in the boiler",
+   "will not fill",
+   "won't fill",
+   "boiler is empty"
+  ]
+ },
+ {
+  "id": "symptom/marea-no-heat",
+  "kind": "symptom",
+  "page": "symptoms/marea-no-heat.md",
+  "anchor": "procedura",
+  "title": "Non scalda, resta fredda, pressione caldaia a zero",
+  "title_en": "Does not heat, stays cold, boiler pressure at zero",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1180",
+   "CA-1181",
+   "CA-1182",
+   "CA-1185",
+   "CA-1190",
+   "CA-1220",
+   "CA-1240",
+   "CA-1270",
+   "EL-3050"
+  ],
+  "refs": [
+   "Does not heat, stays cold, boiler pressure at zero",
+   "Non scalda, resta fredda, pressione caldaia a zero",
+   "non scalda",
+   "resta fredda",
+   "è fredda",
+   "non va in pressione",
+   "pressione a zero",
+   "niente vapore e niente caffè caldo",
+   "does not heat",
+   "not heating",
+   "stays cold",
+   "no pressure",
+   "cold machine",
+   "no steam at all",
+   "gauge at zero",
+   "non si scalda",
+   "rimane fredda",
+   "acqua fredda",
+   "non fa pressione",
+   "won't heat",
+   "no heat",
+   "not getting hot",
+   "water is cold"
+  ]
+ },
+ {
+  "id": "symptom/marea-boiler-pressure",
+  "kind": "symptom",
+  "page": "symptoms/marea-boiler-pressure.md",
+  "anchor": "procedura",
+  "title": "Pressione della caldaia troppo alta o troppo bassa",
+  "title_en": "Boiler pressure too high or too low",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1240",
+   "CA-1241",
+   "CA-1250"
+  ],
+  "refs": [
+   "Boiler pressure too high or too low",
+   "Pressione della caldaia troppo alta o troppo bassa",
+   "pressione caldaia alta",
+   "pressione caldaia bassa",
+   "va sopra i due bar",
+   "sfiata la valvola",
+   "la lancetta della caldaia",
+   "boiler pressure high",
+   "boiler pressure low",
+   "goes over 2 bar",
+   "safety valve hisses",
+   "boiler needle",
+   "too much steam pressure",
+   "troppa pressione in caldaia",
+   "poca pressione in caldaia",
+   "pressione troppo alta",
+   "too much pressure",
+   "pressure too high"
+  ]
+ },
+ {
+  "id": "symptom/marea-hiss-at-startup",
+  "kind": "symptom",
+  "page": "symptoms/marea-hiss-at-startup.md",
+  "anchor": "procedura",
+  "title": "Sibila all'accensione, o esce vapore dalla valvolina sopra la caldaia",
+  "title_en": "Hisses at start-up, or steam comes out of the small valve on top of the boiler",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1220",
+   "CA-1260",
+   "CA-1261",
+   "CA-1330"
+  ],
+  "refs": [
+   "Hisses at start-up, or steam comes out of the small valve on top of the boiler",
+   "Sibila all'accensione, o esce vapore dalla valvolina sopra la caldaia",
+   "sibila",
+   "fischia all'accensione",
+   "esce vapore da sopra",
+   "la valvolina fischia",
+   "soffia quando si accende",
+   "hisses",
+   "hissing",
+   "whistles when it heats up",
+   "steam from the top",
+   "little valve leaks",
+   "hissing noise at start",
+   "fa un fischio",
+   "sfiata da sopra",
+   "perde vapore da sopra",
+   "whistling noise",
+   "steam leaking on top"
+  ]
+ },
+ {
+  "id": "symptom/marea-steam-weak-or-dripping",
+  "kind": "symptom",
+  "page": "symptoms/marea-steam-weak-or-dripping.md",
+  "anchor": "procedura",
+  "title": "Vapore debole, o lancia che gocciola con il rubinetto chiuso",
+  "title_en": "Weak steam, or wand dripping with the tap closed",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "VA",
+  "parts": [
+   "CA-1240",
+   "VA-5010",
+   "VA-5015",
+   "VA-5025",
+   "VA-5028",
+   "VA-5070"
+  ],
+  "refs": [
+   "Weak steam, or wand dripping with the tap closed",
+   "Vapore debole, o lancia che gocciola con il rubinetto chiuso",
+   "vapore debole",
+   "poco vapore",
+   "non monta il latte",
+   "la lancia gocciola",
+   "perde dalla lancia",
+   "esce acqua dalla lancia",
+   "weak steam",
+   "not enough steam",
+   "cannot steam milk",
+   "wand drips",
+   "steam wand leaks",
+   "water from the wand",
+   "steam tap leaks",
+   "non esce vapore",
+   "vapore scarso",
+   "la lancia perde",
+   "poco vapore dalla lancia",
+   "no steam",
+   "steam is weak",
+   "steam wand is weak"
+  ]
+ },
+ {
+  "id": "symptom/marea-doses-and-buttons",
+  "kind": "symptom",
+  "page": "symptoms/marea-doses-and-buttons.md",
+  "anchor": "procedura",
+  "title": "Dosi sbagliate o irregolari, oppure un tasto non risponde",
+  "title_en": "Wrong or inconsistent doses, or a button not responding",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1-plus"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3012",
+   "EL-3013",
+   "EL-3030",
+   "EL-3031",
+   "EL-3032",
+   "EL-3036",
+   "ID-4050",
+   "ID-4051",
+   "ID-4052"
+  ],
+  "refs": [
+   "Wrong or inconsistent doses, or a button not responding",
+   "Dosi sbagliate o irregolari, oppure un tasto non risponde",
+   "dosi sbagliate",
+   "il caffè lungo esce corto",
+   "le dosi cambiano",
+   "non si ferma",
+   "un tasto non funziona",
+   "il tasto non risponde",
+   "allarme dose",
+   "wrong doses",
+   "doses are off",
+   "dose keeps changing",
+   "does not stop",
+   "runs forever",
+   "button does not work",
+   "button not responding",
+   "dose alarm",
+   "volumetric alarm",
+   "dose sbagliata",
+   "caffè troppo lunghi",
+   "caffè troppo corti",
+   "i tasti non vanno",
+   "il pulsante non funziona",
+   "wrong dose",
+   "button is dead",
+   "buttons do not work"
+  ]
+ },
+ {
+  "id": "symptom/marea-machine-dead",
+  "kind": "symptom",
+  "page": "symptoms/marea-machine-dead.md",
+  "anchor": "procedura",
+  "title": "Macchina spenta, nessuna spia, non si accende",
+  "title_en": "Machine dead, no lights, does not switch on",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3055"
+  ],
+  "refs": [
+   "Machine dead, no lights, does not switch on",
+   "Macchina spenta, nessuna spia, non si accende",
+   "è morta",
+   "non si accende",
+   "tutto spento",
+   "nessuna spia",
+   "display spento",
+   "non dà segni di vita",
+   "dead",
+   "does not turn on",
+   "no lights",
+   "display is off",
+   "completely off",
+   "nothing happens",
+   "no power",
+   "non parte",
+   "è spenta",
+   "non dà corrente",
+   "non si accende più",
+   "won't turn on",
+   "won't start",
+   "will not start"
+  ]
+ },
+ {
+  "id": "part/CA-1180",
+  "kind": "part",
+  "page": "parts/CA-1180.md",
+  "anchor": "montaggio",
+  "title": "CA-1180 — Resistenza caldaia 3000 W 230 V, Marea 2 / 2 Plus",
+  "models": [
+   "marea-2",
+   "marea-2-plus"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1180"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1181",
+  "kind": "part",
+  "page": "parts/CA-1181.md",
+  "anchor": "montaggio",
+  "title": "CA-1181 — Resistenza caldaia 3000 W 110 V, Marea 2 / 2 Plus",
+  "models": [
+   "marea-2",
+   "marea-2-plus"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1181"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1182",
+  "kind": "part",
+  "page": "parts/CA-1182.md",
+  "anchor": "montaggio",
+  "title": "CA-1182 — Resistenza caldaia 4500 W 400 V trifase, Marea 2 / 2 Plus",
+  "models": [
+   "marea-2",
+   "marea-2-plus"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1182"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1185",
+  "kind": "part",
+  "page": "parts/CA-1185.md",
+  "anchor": "montaggio",
+  "title": "CA-1185 — Resistenza caldaia 3500 W 230 V, Marea 2 Evo",
+  "models": [
+   "marea-2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1185"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1186",
+  "kind": "part",
+  "page": "parts/CA-1186.md",
+  "anchor": "montaggio",
+  "title": "CA-1186 — Resistenza caldaia 3500 W 110 V, Marea 2 Evo",
+  "models": [
+   "marea-2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1186"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1187",
+  "kind": "part",
+  "page": "parts/CA-1187.md",
+  "anchor": "montaggio",
+  "title": "CA-1187 — Resistenza caldaia 5000 W 400 V trifase, Marea 2 Evo",
+  "models": [
+   "marea-2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1187"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1190",
+  "kind": "part",
+  "page": "parts/CA-1190.md",
+  "anchor": "montaggio",
+  "title": "CA-1190 — Resistenza caldaia 1800 W 230 V, Giglio",
+  "models": [
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1190"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1191",
+  "kind": "part",
+  "page": "parts/CA-1191.md",
+  "anchor": "montaggio",
+  "title": "CA-1191 — Resistenza caldaia 1500 W 110 V, Giglio",
+  "models": [
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1191"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1200",
+  "kind": "part",
+  "page": "parts/CA-1200.md",
+  "anchor": "montaggio",
+  "title": "CA-1200 — Resistenza caldaia vapore 3200 W 230 V, Onda MB2 / MB2 Evo",
+  "models": [
+   "onda-mb2",
+   "onda-mb2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1200"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1201",
+  "kind": "part",
+  "page": "parts/CA-1201.md",
+  "anchor": "montaggio",
+  "title": "CA-1201 — Resistenza caldaia vapore 3200 W 110 V, Onda MB2 / MB2 Evo",
+  "models": [
+   "onda-mb2",
+   "onda-mb2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1201"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1202",
+  "kind": "part",
+  "page": "parts/CA-1202.md",
+  "anchor": "montaggio",
+  "title": "CA-1202 — Resistenza caldaia vapore 4800 W 400 V trifase, Onda MB3",
+  "models": [
+   "onda-mb3"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1202"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1203",
+  "kind": "part",
+  "page": "parts/CA-1203.md",
+  "anchor": "montaggio",
+  "title": "CA-1203 — Resistenza caldaia vapore 4800 W 230 V, Onda MB3",
+  "models": [
+   "onda-mb3"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1203"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1210",
+  "kind": "part",
+  "page": "parts/CA-1210.md",
+  "anchor": "montaggio",
+  "title": "CA-1210 — Resistenza caldaia caffè 800 W 230 V (per gruppo), Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1210"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1211",
+  "kind": "part",
+  "page": "parts/CA-1211.md",
+  "anchor": "montaggio",
+  "title": "CA-1211 — Resistenza caldaia caffè 800 W 110 V (per gruppo), Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1211"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1220",
+  "kind": "part",
+  "page": "parts/CA-1220.md",
+  "anchor": "montaggio",
+  "title": "CA-1220 — Guarnizione flangia resistenza, Marea/Giglio",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1220"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1221",
+  "kind": "part",
+  "page": "parts/CA-1221.md",
+  "anchor": "montaggio",
+  "title": "CA-1221 — Guarnizione flangia resistenza, Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1221"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1230",
+  "kind": "part",
+  "page": "parts/CA-1230.md",
+  "anchor": "montaggio",
+  "title": "CA-1230 — Sonda di livello caldaia 100 mm con isolante, Marea/Giglio",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1230"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1231",
+  "kind": "part",
+  "page": "parts/CA-1231.md",
+  "anchor": "montaggio",
+  "title": "CA-1231 — Sonda di livello caldaia vapore 130 mm, Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1231"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1232",
+  "kind": "part",
+  "page": "parts/CA-1232.md",
+  "anchor": "montaggio",
+  "title": "CA-1232 — Isolante teflon sonda di livello (kit 5)",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1232"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1240",
+  "kind": "part",
+  "page": "parts/CA-1240.md",
+  "anchor": "montaggio",
+  "title": "CA-1240 — Pressostato 0,5–1,4 bar",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1240"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1241",
+  "kind": "part",
+  "page": "parts/CA-1241.md",
+  "anchor": "montaggio",
+  "title": "CA-1241 — Membrana pressostato",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1241"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1245",
+  "kind": "part",
+  "page": "parts/CA-1245.md",
+  "anchor": "montaggio",
+  "title": "CA-1245 — Trasduttore di pressione caldaia 0–3 bar",
+  "models": [
+   "marea-2-evo",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1245"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1250",
+  "kind": "part",
+  "page": "parts/CA-1250.md",
+  "anchor": "montaggio",
+  "title": "CA-1250 — Valvola di sicurezza 1,8 bar certificata",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1250"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1251",
+  "kind": "part",
+  "page": "parts/CA-1251.md",
+  "anchor": "montaggio",
+  "title": "CA-1251 — Valvola di sicurezza 2,2 bar caldaia vapore, Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1251"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1260",
+  "kind": "part",
+  "page": "parts/CA-1260.md",
+  "anchor": "montaggio",
+  "title": "CA-1260 — Valvola antidepressione 1/4\"",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1260"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1261",
+  "kind": "part",
+  "page": "parts/CA-1261.md",
+  "anchor": "montaggio",
+  "title": "CA-1261 — OR valvola antidepressione (kit 10)",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1261"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1270",
+  "kind": "part",
+  "page": "parts/CA-1270.md",
+  "anchor": "montaggio",
+  "title": "CA-1270 — Termostato di sicurezza 165 °C a riarmo, Marea/Giglio",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1270"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1271",
+  "kind": "part",
+  "page": "parts/CA-1271.md",
+  "anchor": "montaggio",
+  "title": "CA-1271 — Termostato di sicurezza 140 °C caldaia caffè, Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1271"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1280",
+  "kind": "part",
+  "page": "parts/CA-1280.md",
+  "anchor": "montaggio",
+  "title": "CA-1280 — Manometro doppio pompa/caldaia 0–16 / 0–3 bar",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1280"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1281",
+  "kind": "part",
+  "page": "parts/CA-1281.md",
+  "anchor": "montaggio",
+  "title": "CA-1281 — Manometro singolo pompa 0–16 bar",
+  "models": [
+   "marea-2-evo",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1281"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1290",
+  "kind": "part",
+  "page": "parts/CA-1290.md",
+  "anchor": "montaggio",
+  "title": "CA-1290 — Sonda temperatura caldaia NTC, Marea 2 Plus",
+  "models": [
+   "marea-2-plus"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1290"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1291",
+  "kind": "part",
+  "page": "parts/CA-1291.md",
+  "anchor": "montaggio",
+  "title": "CA-1291 — Sonda temperatura caldaia PT100, Marea 2 Evo / Onda",
+  "models": [
+   "marea-2-evo",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1291"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1300",
+  "kind": "part",
+  "page": "parts/CA-1300.md",
+  "anchor": "montaggio",
+  "title": "CA-1300 — Scambiatore di calore rame, Marea 2 / 2 Plus",
+  "models": [
+   "marea-2",
+   "marea-2-plus"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1300"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1301",
+  "kind": "part",
+  "page": "parts/CA-1301.md",
+  "anchor": "montaggio",
+  "title": "CA-1301 — Scambiatore di calore rame, Marea 2 Evo",
+  "models": [
+   "marea-2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1301"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1302",
+  "kind": "part",
+  "page": "parts/CA-1302.md",
+  "anchor": "montaggio",
+  "title": "CA-1302 — Scambiatore di calore rame, Giglio",
+  "models": [
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1302"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1310",
+  "kind": "part",
+  "page": "parts/CA-1310.md",
+  "anchor": "montaggio",
+  "title": "CA-1310 — Rubinetto scarico caldaia 3/8\"",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1310"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1311",
+  "kind": "part",
+  "page": "parts/CA-1311.md",
+  "anchor": "montaggio",
+  "title": "CA-1311 — Guarnizione rubinetto scarico caldaia",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1311"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1320",
+  "kind": "part",
+  "page": "parts/CA-1320.md",
+  "anchor": "montaggio",
+  "title": "CA-1320 — Caldaia completa 11 L rame, Marea 2 / 2 Plus",
+  "models": [
+   "marea-2",
+   "marea-2-plus"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1320"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1321",
+  "kind": "part",
+  "page": "parts/CA-1321.md",
+  "anchor": "montaggio",
+  "title": "CA-1321 — Caldaia completa 12 L rame coibentata, Marea 2 Evo",
+  "models": [
+   "marea-2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1321"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1322",
+  "kind": "part",
+  "page": "parts/CA-1322.md",
+  "anchor": "montaggio",
+  "title": "CA-1322 — Caldaia completa 4,5 L rame, Giglio",
+  "models": [
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1322"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1323",
+  "kind": "part",
+  "page": "parts/CA-1323.md",
+  "anchor": "montaggio",
+  "title": "CA-1323 — Caldaia vapore 7 L inox, Onda MB2 / MB2 Evo",
+  "models": [
+   "onda-mb2",
+   "onda-mb2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1323"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1324",
+  "kind": "part",
+  "page": "parts/CA-1324.md",
+  "anchor": "montaggio",
+  "title": "CA-1324 — Caldaia vapore 10 L inox, Onda MB3",
+  "models": [
+   "onda-mb3"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1324"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1325",
+  "kind": "part",
+  "page": "parts/CA-1325.md",
+  "anchor": "montaggio",
+  "title": "CA-1325 — Caldaia caffè 0,8 L inox (per gruppo), Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1325"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1330",
+  "kind": "part",
+  "page": "parts/CA-1330.md",
+  "anchor": "montaggio",
+  "title": "CA-1330 — Guarnizione flangia caldaia in fibra, Marea/Giglio",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1330"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1331",
+  "kind": "part",
+  "page": "parts/CA-1331.md",
+  "anchor": "montaggio",
+  "title": "CA-1331 — Guarnizione flangia caldaia, Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1331"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1340",
+  "kind": "part",
+  "page": "parts/CA-1340.md",
+  "anchor": "montaggio",
+  "title": "CA-1340 — Tappo caldaia 3/8\" con OR",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1340"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CA-1350",
+  "kind": "part",
+  "page": "parts/CA-1350.md",
+  "anchor": "montaggio",
+  "title": "CA-1350 — Coibentazione caldaia (kit), Marea 2 Evo / Onda MB2 Evo",
+  "models": [
+   "marea-2-evo",
+   "onda-mb2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1350"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CR-6010",
+  "kind": "part",
+  "page": "parts/CR-6010.md",
+  "anchor": "montaggio",
+  "title": "CR-6010 — Pannello laterale sinistro nero, Marea",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo"
+  ],
+  "group": "CR",
+  "parts": [
+   "CR-6010"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CR-6011",
+  "kind": "part",
+  "page": "parts/CR-6011.md",
+  "anchor": "montaggio",
+  "title": "CR-6011 — Pannello laterale destro nero, Marea",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo"
+  ],
+  "group": "CR",
+  "parts": [
+   "CR-6011"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CR-6012",
+  "kind": "part",
+  "page": "parts/CR-6012.md",
+  "anchor": "montaggio",
+  "title": "CR-6012 — Pannello laterale sinistro crema, Marea 2 Plus Vaniglia",
+  "models": [
+   "marea-2-plus"
+  ],
+  "group": "CR",
+  "parts": [
+   "CR-6012"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CR-6013",
+  "kind": "part",
+  "page": "parts/CR-6013.md",
+  "anchor": "montaggio",
+  "title": "CR-6013 — Pannello laterale destro crema, Marea 2 Plus Vaniglia",
+  "models": [
+   "marea-2-plus"
+  ],
+  "group": "CR",
+  "parts": [
+   "CR-6013"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CR-6014",
+  "kind": "part",
+  "page": "parts/CR-6014.md",
+  "anchor": "montaggio",
+  "title": "CR-6014 — Pannello laterale nero (dx/sx), Giglio",
+  "models": [
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "CR",
+  "parts": [
+   "CR-6014"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CR-6015",
+  "kind": "part",
+  "page": "parts/CR-6015.md",
+  "anchor": "montaggio",
+  "title": "CR-6015 — Pannello laterale crema (dx/sx), Giglio 1 Plus Vaniglia",
+  "models": [
+   "giglio-1-plus"
+  ],
+  "group": "CR",
+  "parts": [
+   "CR-6015"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CR-6016",
+  "kind": "part",
+  "page": "parts/CR-6016.md",
+  "anchor": "montaggio",
+  "title": "CR-6016 — Pannello laterale alluminio spazzolato, Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "CR",
+  "parts": [
+   "CR-6016"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CR-6020",
+  "kind": "part",
+  "page": "parts/CR-6020.md",
+  "anchor": "montaggio",
+  "title": "CR-6020 — Pannello posteriore inox, Marea",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo"
+  ],
+  "group": "CR",
+  "parts": [
+   "CR-6020"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CR-6021",
+  "kind": "part",
+  "page": "parts/CR-6021.md",
+  "anchor": "montaggio",
+  "title": "CR-6021 — Pannello frontale inox con logo, Marea",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo"
+  ],
+  "group": "CR",
+  "parts": [
+   "CR-6021"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CR-6025",
+  "kind": "part",
+  "page": "parts/CR-6025.md",
+  "anchor": "montaggio",
+  "title": "CR-6025 — Griglia scaldatazze inox, Marea 2",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo"
+  ],
+  "group": "CR",
+  "parts": [
+   "CR-6025"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CR-6026",
+  "kind": "part",
+  "page": "parts/CR-6026.md",
+  "anchor": "montaggio",
+  "title": "CR-6026 — Griglia scaldatazze inox, Giglio",
+  "models": [
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "CR",
+  "parts": [
+   "CR-6026"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CR-6030",
+  "kind": "part",
+  "page": "parts/CR-6030.md",
+  "anchor": "montaggio",
+  "title": "CR-6030 — Vaschetta raccogligocce inox, Marea",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo"
+  ],
+  "group": "CR",
+  "parts": [
+   "CR-6030"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CR-6031",
+  "kind": "part",
+  "page": "parts/CR-6031.md",
+  "anchor": "montaggio",
+  "title": "CR-6031 — Griglia vaschetta inox, Marea",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo"
+  ],
+  "group": "CR",
+  "parts": [
+   "CR-6031"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CR-6032",
+  "kind": "part",
+  "page": "parts/CR-6032.md",
+  "anchor": "montaggio",
+  "title": "CR-6032 — Vaschetta raccogligocce con griglia, Giglio",
+  "models": [
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "CR",
+  "parts": [
+   "CR-6032"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CR-6033",
+  "kind": "part",
+  "page": "parts/CR-6033.md",
+  "anchor": "montaggio",
+  "title": "CR-6033 — Griglia vaschetta con sede bilance, Onda MB2 Evo",
+  "models": [
+   "onda-mb2-evo"
+  ],
+  "group": "CR",
+  "parts": [
+   "CR-6033"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CR-6034",
+  "kind": "part",
+  "page": "parts/CR-6034.md",
+  "anchor": "montaggio",
+  "title": "CR-6034 — Griglia vaschetta inox, Onda MB2 / MB3",
+  "models": [
+   "onda-mb2",
+   "onda-mb3"
+  ],
+  "group": "CR",
+  "parts": [
+   "CR-6034"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CR-6040",
+  "kind": "part",
+  "page": "parts/CR-6040.md",
+  "anchor": "montaggio",
+  "title": "CR-6040 — Piedino regolabile M10 (kit 4)",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo",
+   "monda-65",
+   "monda-65-digit"
+  ],
+  "group": "CR",
+  "parts": [
+   "CR-6040"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CR-6045",
+  "kind": "part",
+  "page": "parts/CR-6045.md",
+  "anchor": "montaggio",
+  "title": "CR-6045 — Logo frontale Sereni cromato",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "CR",
+  "parts": [
+   "CR-6045"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CR-6050",
+  "kind": "part",
+  "page": "parts/CR-6050.md",
+  "anchor": "montaggio",
+  "title": "CR-6050 — Tamper 58 mm alluminio",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "CR",
+  "parts": [
+   "CR-6050"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CR-6051",
+  "kind": "part",
+  "page": "parts/CR-6051.md",
+  "anchor": "montaggio",
+  "title": "CR-6051 — Spazzola pulizia gruppo",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "CR",
+  "parts": [
+   "CR-6051"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/CR-6052",
+  "kind": "part",
+  "page": "parts/CR-6052.md",
+  "anchor": "montaggio",
+  "title": "CR-6052 — Pastiglie detergente gruppo (barattolo 100)",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "CR",
+  "parts": [
+   "CR-6052"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3010",
+  "kind": "part",
+  "page": "parts/EL-3010.md",
+  "anchor": "montaggio",
+  "title": "EL-3010 — Centralina elettronica v1, Marea 2 / Giglio 1",
+  "models": [
+   "marea-2",
+   "giglio-1"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3010"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3011",
+  "kind": "part",
+  "page": "parts/EL-3011.md",
+  "anchor": "montaggio",
+  "title": "EL-3011 — Centralina elettronica v2, Marea 2 Plus / Giglio 1 Plus (primo lotto 2025)",
+  "models": [
+   "marea-2-plus",
+   "giglio-1-plus"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3011"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3012",
+  "kind": "part",
+  "page": "parts/EL-3012.md",
+  "anchor": "montaggio",
+  "title": "EL-3012 — Centralina elettronica v2 rev.B, Marea 2 / 2 Plus / Giglio 1 / 1 Plus",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3012"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3013",
+  "kind": "part",
+  "page": "parts/EL-3013.md",
+  "anchor": "montaggio",
+  "title": "EL-3013 — Centralina elettronica v3 con uscita display, Marea 2 Evo",
+  "models": [
+   "marea-2-evo"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3013"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3020",
+  "kind": "part",
+  "page": "parts/EL-3020.md",
+  "anchor": "montaggio",
+  "title": "EL-3020 — Centralina multi-caldaia PID, Onda MB2 / MB3",
+  "models": [
+   "onda-mb2",
+   "onda-mb3"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3020"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3021",
+  "kind": "part",
+  "page": "parts/EL-3021.md",
+  "anchor": "montaggio",
+  "title": "EL-3021 — Centralina multi-caldaia con bilance e touch, Onda MB2 Evo",
+  "models": [
+   "onda-mb2-evo"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3021"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3030",
+  "kind": "part",
+  "page": "parts/EL-3030.md",
+  "anchor": "montaggio",
+  "title": "EL-3030 — Pulsantiera 6 tasti a membrana con led, Marea 2 / Giglio 1",
+  "models": [
+   "marea-2",
+   "giglio-1"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3030"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3031",
+  "kind": "part",
+  "page": "parts/EL-3031.md",
+  "anchor": "montaggio",
+  "title": "EL-3031 — Pulsantiera capacitiva 6 tasti, Marea 2 Plus / Giglio 1 Plus",
+  "models": [
+   "marea-2-plus",
+   "giglio-1-plus"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3031"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3032",
+  "kind": "part",
+  "page": "parts/EL-3032.md",
+  "anchor": "montaggio",
+  "title": "EL-3032 — Pulsantiera capacitiva 6 tasti con display OLED, Marea 2 Evo",
+  "models": [
+   "marea-2-evo"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3032"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3033",
+  "kind": "part",
+  "page": "parts/EL-3033.md",
+  "anchor": "montaggio",
+  "title": "EL-3033 — Pulsantiera 5 tasti retroilluminata, Onda MB2 / MB3",
+  "models": [
+   "onda-mb2",
+   "onda-mb3"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3033"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3034",
+  "kind": "part",
+  "page": "parts/EL-3034.md",
+  "anchor": "montaggio",
+  "title": "EL-3034 — Pannello touch per gruppo, Onda MB2 Evo",
+  "models": [
+   "onda-mb2-evo"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3034"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3035",
+  "kind": "part",
+  "page": "parts/EL-3035.md",
+  "anchor": "montaggio",
+  "title": "EL-3035 — Cavo piatto pulsantiera-centralina 10 poli 60 cm",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3035"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3036",
+  "kind": "part",
+  "page": "parts/EL-3036.md",
+  "anchor": "montaggio",
+  "title": "EL-3036 — Cablaggio adattatore centralina rev.B su Marea 2 / Giglio 1 (2024)",
+  "models": [
+   "marea-2",
+   "giglio-1"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3036"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3040",
+  "kind": "part",
+  "page": "parts/EL-3040.md",
+  "anchor": "montaggio",
+  "title": "EL-3040 — Display TFT 2,8\" con scheda, Marea 2 Evo",
+  "models": [
+   "marea-2-evo"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3040"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3041",
+  "kind": "part",
+  "page": "parts/EL-3041.md",
+  "anchor": "montaggio",
+  "title": "EL-3041 — Display touch 5\" con scheda, Onda MB2 Evo",
+  "models": [
+   "onda-mb2-evo"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3041"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3042",
+  "kind": "part",
+  "page": "parts/EL-3042.md",
+  "anchor": "montaggio",
+  "title": "EL-3042 — Cavo display-centralina",
+  "models": [
+   "marea-2-evo",
+   "onda-mb2-evo"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3042"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3050",
+  "kind": "part",
+  "page": "parts/EL-3050.md",
+  "anchor": "montaggio",
+  "title": "EL-3050 — Teleruttore resistenza 25 A bobina 230 V",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3050"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3051",
+  "kind": "part",
+  "page": "parts/EL-3051.md",
+  "anchor": "montaggio",
+  "title": "EL-3051 — Relè statico resistenza 25 A, Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3051"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3052",
+  "kind": "part",
+  "page": "parts/EL-3052.md",
+  "anchor": "montaggio",
+  "title": "EL-3052 — Relè carico caldaia 10 A",
+  "models": [
+   "marea-2",
+   "giglio-1"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3052"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3055",
+  "kind": "part",
+  "page": "parts/EL-3055.md",
+  "anchor": "montaggio",
+  "title": "EL-3055 — Trasformatore 230/12 V 20 VA",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3055"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3056",
+  "kind": "part",
+  "page": "parts/EL-3056.md",
+  "anchor": "montaggio",
+  "title": "EL-3056 — Trasformatore 110/12 V 20 VA",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3056"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3057",
+  "kind": "part",
+  "page": "parts/EL-3057.md",
+  "anchor": "montaggio",
+  "title": "EL-3057 — Alimentatore switching 24 V 60 W, Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3057"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3060",
+  "kind": "part",
+  "page": "parts/EL-3060.md",
+  "anchor": "montaggio",
+  "title": "EL-3060 — Fusibile 10 A 5x20 ritardato (kit 5)",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo",
+   "monda-65",
+   "monda-65-digit"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3060"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3061",
+  "kind": "part",
+  "page": "parts/EL-3061.md",
+  "anchor": "montaggio",
+  "title": "EL-3061 — Fusibile 2 A 5x20 (kit 5)",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo",
+   "monda-65",
+   "monda-65-digit"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3061"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3062",
+  "kind": "part",
+  "page": "parts/EL-3062.md",
+  "anchor": "montaggio",
+  "title": "EL-3062 — Portafusibile da pannello",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo",
+   "monda-65",
+   "monda-65-digit"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3062"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3070",
+  "kind": "part",
+  "page": "parts/EL-3070.md",
+  "anchor": "montaggio",
+  "title": "EL-3070 — Interruttore generale 3 posizioni 20 A",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3070"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3071",
+  "kind": "part",
+  "page": "parts/EL-3071.md",
+  "anchor": "montaggio",
+  "title": "EL-3071 — Interruttore generale con led, Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3071"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3075",
+  "kind": "part",
+  "page": "parts/EL-3075.md",
+  "anchor": "montaggio",
+  "title": "EL-3075 — Cavo alimentazione 3x2,5 mm² spina Schuko 2 m",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3075"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3076",
+  "kind": "part",
+  "page": "parts/EL-3076.md",
+  "anchor": "montaggio",
+  "title": "EL-3076 — Cavo alimentazione spina NEMA 5-20 2 m",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3076"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3077",
+  "kind": "part",
+  "page": "parts/EL-3077.md",
+  "anchor": "montaggio",
+  "title": "EL-3077 — Cavo alimentazione 5x2,5 mm² trifase 2 m senza spina",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "onda-mb3"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3077"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3080",
+  "kind": "part",
+  "page": "parts/EL-3080.md",
+  "anchor": "montaggio",
+  "title": "EL-3080 — Morsettiera alimentazione 5 poli",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3080"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3085",
+  "kind": "part",
+  "page": "parts/EL-3085.md",
+  "anchor": "montaggio",
+  "title": "EL-3085 — Bobina elettrovalvola 230 V 9 W",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3085"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3086",
+  "kind": "part",
+  "page": "parts/EL-3086.md",
+  "anchor": "montaggio",
+  "title": "EL-3086 — Bobina elettrovalvola 110 V 9 W",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3086"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3087",
+  "kind": "part",
+  "page": "parts/EL-3087.md",
+  "anchor": "montaggio",
+  "title": "EL-3087 — Bobina elettrovalvola 24 V 9 W, Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3087"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3090",
+  "kind": "part",
+  "page": "parts/EL-3090.md",
+  "anchor": "montaggio",
+  "title": "EL-3090 — Modulo PID scambiatore con sonda, Marea 2 Plus",
+  "models": [
+   "marea-2-plus"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3090"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3095",
+  "kind": "part",
+  "page": "parts/EL-3095.md",
+  "anchor": "montaggio",
+  "title": "EL-3095 — Scheda bilance integrate, Onda MB2 Evo",
+  "models": [
+   "onda-mb2-evo"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3095"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3096",
+  "kind": "part",
+  "page": "parts/EL-3096.md",
+  "anchor": "montaggio",
+  "title": "EL-3096 — Cella di carico 2 kg griglia, Onda MB2 Evo",
+  "models": [
+   "onda-mb2-evo"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3096"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3100",
+  "kind": "part",
+  "page": "parts/EL-3100.md",
+  "anchor": "montaggio",
+  "title": "EL-3100 — Striscia led illuminazione piano lavoro 12 V",
+  "models": [
+   "marea-2-plus",
+   "marea-2-evo",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3100"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/EL-3101",
+  "kind": "part",
+  "page": "parts/EL-3101.md",
+  "anchor": "montaggio",
+  "title": "EL-3101 — Sensore livello vaschetta scarico, Marea 2 Evo / Onda MB2 Evo",
+  "models": [
+   "marea-2-evo",
+   "onda-mb2-evo"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3101"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2140",
+  "kind": "part",
+  "page": "parts/GE-2140.md",
+  "anchor": "montaggio",
+  "title": "GE-2140 — Guarnizione sottocoppa 8,5 mm, gruppo Marea/Giglio",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2140"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2141",
+  "kind": "part",
+  "page": "parts/GE-2141.md",
+  "anchor": "montaggio",
+  "title": "GE-2141 — Guarnizione sottocoppa 8 mm sottile, gruppo Marea/Giglio",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2141"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2150",
+  "kind": "part",
+  "page": "parts/GE-2150.md",
+  "anchor": "montaggio",
+  "title": "GE-2150 — Doccetta inox 57 mm, gruppo Marea/Giglio",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2150"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2151",
+  "kind": "part",
+  "page": "parts/GE-2151.md",
+  "anchor": "montaggio",
+  "title": "GE-2151 — Doccetta inox 58,5 mm, gruppo Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2151"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2152",
+  "kind": "part",
+  "page": "parts/GE-2152.md",
+  "anchor": "montaggio",
+  "title": "GE-2152 — Vite doccetta M6 inox",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2152"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2155",
+  "kind": "part",
+  "page": "parts/GE-2155.md",
+  "anchor": "montaggio",
+  "title": "GE-2155 — Portadoccia (diffusore) ottone, gruppo Marea/Giglio",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2155"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2156",
+  "kind": "part",
+  "page": "parts/GE-2156.md",
+  "anchor": "montaggio",
+  "title": "GE-2156 — Portadoccia (diffusore) ottone, gruppo Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2156"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2160",
+  "kind": "part",
+  "page": "parts/GE-2160.md",
+  "anchor": "montaggio",
+  "title": "GE-2160 — Elettrovalvola gruppo 3 vie completa 230 V",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2160"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2161",
+  "kind": "part",
+  "page": "parts/GE-2161.md",
+  "anchor": "montaggio",
+  "title": "GE-2161 — Elettrovalvola gruppo 3 vie completa 110 V",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2161"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2162",
+  "kind": "part",
+  "page": "parts/GE-2162.md",
+  "anchor": "montaggio",
+  "title": "GE-2162 — Elettrovalvola gruppo 3 vie completa 24 V, Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2162"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2165",
+  "kind": "part",
+  "page": "parts/GE-2165.md",
+  "anchor": "montaggio",
+  "title": "GE-2165 — Corpo elettrovalvola 3 vie senza bobina",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2165"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2170",
+  "kind": "part",
+  "page": "parts/GE-2170.md",
+  "anchor": "montaggio",
+  "title": "GE-2170 — Gigleur 0,6 mm ingresso gruppo",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2170"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2171",
+  "kind": "part",
+  "page": "parts/GE-2171.md",
+  "anchor": "montaggio",
+  "title": "GE-2171 — Gigleur 0,8 mm ingresso gruppo",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2171"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2175",
+  "kind": "part",
+  "page": "parts/GE-2175.md",
+  "anchor": "montaggio",
+  "title": "GE-2175 — Camera di preinfusione, gruppo Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2175"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2176",
+  "kind": "part",
+  "page": "parts/GE-2176.md",
+  "anchor": "montaggio",
+  "title": "GE-2176 — OR camera di preinfusione Onda (kit 5)",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2176"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2180",
+  "kind": "part",
+  "page": "parts/GE-2180.md",
+  "anchor": "montaggio",
+  "title": "GE-2180 — Portafiltro completo 2 vie, manico nero, Marea/Giglio",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2180"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2181",
+  "kind": "part",
+  "page": "parts/GE-2181.md",
+  "anchor": "montaggio",
+  "title": "GE-2181 — Portafiltro completo 1 via, manico nero, Marea/Giglio",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2181"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2182",
+  "kind": "part",
+  "page": "parts/GE-2182.md",
+  "anchor": "montaggio",
+  "title": "GE-2182 — Portafiltro completo 2 vie, manico nero, Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2182"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2183",
+  "kind": "part",
+  "page": "parts/GE-2183.md",
+  "anchor": "montaggio",
+  "title": "GE-2183 — Portafiltro senza fondo (naked), Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2183"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2185",
+  "kind": "part",
+  "page": "parts/GE-2185.md",
+  "anchor": "montaggio",
+  "title": "GE-2185 — Manico portafiltro nero con vite",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2185"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2186",
+  "kind": "part",
+  "page": "parts/GE-2186.md",
+  "anchor": "montaggio",
+  "title": "GE-2186 — Manico portafiltro crema, edizione Vaniglia",
+  "models": [
+   "marea-2-plus",
+   "giglio-1-plus"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2186"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2190",
+  "kind": "part",
+  "page": "parts/GE-2190.md",
+  "anchor": "montaggio",
+  "title": "GE-2190 — Filtro 2 tazze 14 g",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2190"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2191",
+  "kind": "part",
+  "page": "parts/GE-2191.md",
+  "anchor": "montaggio",
+  "title": "GE-2191 — Filtro 2 tazze 18 g",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2191"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2192",
+  "kind": "part",
+  "page": "parts/GE-2192.md",
+  "anchor": "montaggio",
+  "title": "GE-2192 — Filtro 1 tazza 7 g",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2192"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2193",
+  "kind": "part",
+  "page": "parts/GE-2193.md",
+  "anchor": "montaggio",
+  "title": "GE-2193 — Filtro cieco per pulizia",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2193"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2195",
+  "kind": "part",
+  "page": "parts/GE-2195.md",
+  "anchor": "montaggio",
+  "title": "GE-2195 — Molla fermafiltro",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2195"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2196",
+  "kind": "part",
+  "page": "parts/GE-2196.md",
+  "anchor": "montaggio",
+  "title": "GE-2196 — Beccuccio 2 vie cromato",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2196"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2197",
+  "kind": "part",
+  "page": "parts/GE-2197.md",
+  "anchor": "montaggio",
+  "title": "GE-2197 — Beccuccio 1 via cromato",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2197"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2200",
+  "kind": "part",
+  "page": "parts/GE-2200.md",
+  "anchor": "montaggio",
+  "title": "GE-2200 — Corpo gruppo completo ottone cromato, Marea/Giglio",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2200"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2201",
+  "kind": "part",
+  "page": "parts/GE-2201.md",
+  "anchor": "montaggio",
+  "title": "GE-2201 — Corpo gruppo completo con camicia riscaldata, Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2201"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2205",
+  "kind": "part",
+  "page": "parts/GE-2205.md",
+  "anchor": "montaggio",
+  "title": "GE-2205 — Guarnizione flangia gruppo-scambiatore",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2205"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2210",
+  "kind": "part",
+  "page": "parts/GE-2210.md",
+  "anchor": "montaggio",
+  "title": "GE-2210 — Kit revisione gruppo Marea/Giglio (guarnizione, doccetta, vite)",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2210"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2211",
+  "kind": "part",
+  "page": "parts/GE-2211.md",
+  "anchor": "montaggio",
+  "title": "GE-2211 — Kit revisione gruppo Onda (guarnizione, doccetta, OR)",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2211"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2220",
+  "kind": "part",
+  "page": "parts/GE-2220.md",
+  "anchor": "montaggio",
+  "title": "GE-2220 — Sonda temperatura gruppo PT100, Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2220"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2221",
+  "kind": "part",
+  "page": "parts/GE-2221.md",
+  "anchor": "montaggio",
+  "title": "GE-2221 — Resistenza camicia gruppo 150 W 230 V, Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2221"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2222",
+  "kind": "part",
+  "page": "parts/GE-2222.md",
+  "anchor": "montaggio",
+  "title": "GE-2222 — Resistenza camicia gruppo 150 W 110 V, Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2222"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2230",
+  "kind": "part",
+  "page": "parts/GE-2230.md",
+  "anchor": "montaggio",
+  "title": "GE-2230 — Tubo rame scambiatore-gruppo, Marea 2 / 2 Plus",
+  "models": [
+   "marea-2",
+   "marea-2-plus"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2230"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2231",
+  "kind": "part",
+  "page": "parts/GE-2231.md",
+  "anchor": "montaggio",
+  "title": "GE-2231 — Tubo rame scambiatore-gruppo, Marea 2 Evo",
+  "models": [
+   "marea-2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2231"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2232",
+  "kind": "part",
+  "page": "parts/GE-2232.md",
+  "anchor": "montaggio",
+  "title": "GE-2232 — Tubo rame scambiatore-gruppo, Giglio",
+  "models": [
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2232"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2240",
+  "kind": "part",
+  "page": "parts/GE-2240.md",
+  "anchor": "montaggio",
+  "title": "GE-2240 — Raccordo ingresso gruppo 1/4\" ottone",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2240"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2245",
+  "kind": "part",
+  "page": "parts/GE-2245.md",
+  "anchor": "montaggio",
+  "title": "GE-2245 — OR raccordo gruppo (kit 10)",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2245"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2250",
+  "kind": "part",
+  "page": "parts/GE-2250.md",
+  "anchor": "montaggio",
+  "title": "GE-2250 — Guarnizione portafiltro cieco silicone (per lavaggio)",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2250"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2260",
+  "kind": "part",
+  "page": "parts/GE-2260.md",
+  "anchor": "montaggio",
+  "title": "GE-2260 — Leva erogazione manuale con micro, Marea 2",
+  "models": [
+   "marea-2"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2260"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/GE-2410",
+  "kind": "part",
+  "page": "parts/GE-2410.md",
+  "anchor": "montaggio",
+  "title": "GE-2410 — Guarnizione sottocoppa 9 mm, gruppo Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2410"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4010",
+  "kind": "part",
+  "page": "parts/ID-4010.md",
+  "anchor": "montaggio",
+  "title": "ID-4010 — Pompa rotativa 100 L/h attacco 3/8\"",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4010"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4011",
+  "kind": "part",
+  "page": "parts/ID-4011.md",
+  "anchor": "montaggio",
+  "title": "ID-4011 — Pompa rotativa 150 L/h attacco 3/8\", Onda MB3",
+  "models": [
+   "onda-mb3"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4011"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4015",
+  "kind": "part",
+  "page": "parts/ID-4015.md",
+  "anchor": "montaggio",
+  "title": "ID-4015 — Motore pompa 165 W 230 V con condensatore",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4015"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4016",
+  "kind": "part",
+  "page": "parts/ID-4016.md",
+  "anchor": "montaggio",
+  "title": "ID-4016 — Motore pompa 165 W 110 V con condensatore",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4016"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4017",
+  "kind": "part",
+  "page": "parts/ID-4017.md",
+  "anchor": "montaggio",
+  "title": "ID-4017 — Giunto motore-pompa",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4017"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4018",
+  "kind": "part",
+  "page": "parts/ID-4018.md",
+  "anchor": "montaggio",
+  "title": "ID-4018 — Fascetta motore pompa con silent block",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4018"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4019",
+  "kind": "part",
+  "page": "parts/ID-4019.md",
+  "anchor": "montaggio",
+  "title": "ID-4019 — Condensatore motore pompa 8 µF",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4019"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4020",
+  "kind": "part",
+  "page": "parts/ID-4020.md",
+  "anchor": "montaggio",
+  "title": "ID-4020 — Pompa a vibrazione 230 V 48 W, Giglio 1",
+  "models": [
+   "giglio-1"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4020"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4021",
+  "kind": "part",
+  "page": "parts/ID-4021.md",
+  "anchor": "montaggio",
+  "title": "ID-4021 — Pompa a vibrazione 110 V 48 W, Giglio 1",
+  "models": [
+   "giglio-1"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4021"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4025",
+  "kind": "part",
+  "page": "parts/ID-4025.md",
+  "anchor": "montaggio",
+  "title": "ID-4025 — Valvola di espansione 12 bar regolabile",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4025"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4026",
+  "kind": "part",
+  "page": "parts/ID-4026.md",
+  "anchor": "montaggio",
+  "title": "ID-4026 — Valvola di espansione 12 bar, Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4026"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4027",
+  "kind": "part",
+  "page": "parts/ID-4027.md",
+  "anchor": "montaggio",
+  "title": "ID-4027 — Kit guarnizioni valvola di espansione",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4027"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4030",
+  "kind": "part",
+  "page": "parts/ID-4030.md",
+  "anchor": "montaggio",
+  "title": "ID-4030 — Valvola di ritegno 3/8\"",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4030"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4031",
+  "kind": "part",
+  "page": "parts/ID-4031.md",
+  "anchor": "montaggio",
+  "title": "ID-4031 — Valvola di ritegno 1/4\", Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4031"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4040",
+  "kind": "part",
+  "page": "parts/ID-4040.md",
+  "anchor": "montaggio",
+  "title": "ID-4040 — Elettrovalvola carico caldaia 2 vie 230 V",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4040"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4041",
+  "kind": "part",
+  "page": "parts/ID-4041.md",
+  "anchor": "montaggio",
+  "title": "ID-4041 — Elettrovalvola carico caldaia 2 vie 110 V",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4041"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4042",
+  "kind": "part",
+  "page": "parts/ID-4042.md",
+  "anchor": "montaggio",
+  "title": "ID-4042 — Elettrovalvola carico caldaia 2 vie 24 V, Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4042"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4045",
+  "kind": "part",
+  "page": "parts/ID-4045.md",
+  "anchor": "montaggio",
+  "title": "ID-4045 — Corpo elettrovalvola carico senza bobina",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4045"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4050",
+  "kind": "part",
+  "page": "parts/ID-4050.md",
+  "anchor": "montaggio",
+  "title": "ID-4050 — Flussometro completo con sensore",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4050"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4051",
+  "kind": "part",
+  "page": "parts/ID-4051.md",
+  "anchor": "montaggio",
+  "title": "ID-4051 — Turbina flussometro",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4051"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4052",
+  "kind": "part",
+  "page": "parts/ID-4052.md",
+  "anchor": "montaggio",
+  "title": "ID-4052 — Sensore Hall flussometro con cavo",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4052"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4053",
+  "kind": "part",
+  "page": "parts/ID-4053.md",
+  "anchor": "montaggio",
+  "title": "ID-4053 — OR flussometro (kit 10)",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4053"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4060",
+  "kind": "part",
+  "page": "parts/ID-4060.md",
+  "anchor": "montaggio",
+  "title": "ID-4060 — Filtro ingresso acqua 3/8\" con cartuccia",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4060"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4061",
+  "kind": "part",
+  "page": "parts/ID-4061.md",
+  "anchor": "montaggio",
+  "title": "ID-4061 — Cartuccia filtro ingresso (kit 3)",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4061"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4070",
+  "kind": "part",
+  "page": "parts/ID-4070.md",
+  "anchor": "montaggio",
+  "title": "ID-4070 — Raccordo diritto 1/4\" ottone",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo",
+   "monda-65",
+   "monda-65-digit"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4070"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4071",
+  "kind": "part",
+  "page": "parts/ID-4071.md",
+  "anchor": "montaggio",
+  "title": "ID-4071 — Raccordo diritto 3/8\" ottone",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4071"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4072",
+  "kind": "part",
+  "page": "parts/ID-4072.md",
+  "anchor": "montaggio",
+  "title": "ID-4072 — Raccordo a gomito 1/4\" ottone",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4072"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4073",
+  "kind": "part",
+  "page": "parts/ID-4073.md",
+  "anchor": "montaggio",
+  "title": "ID-4073 — Raccordo a T 1/4\" ottone",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4073"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4080",
+  "kind": "part",
+  "page": "parts/ID-4080.md",
+  "anchor": "montaggio",
+  "title": "ID-4080 — Tubo teflon 1/4\" (al metro)",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4080"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4081",
+  "kind": "part",
+  "page": "parts/ID-4081.md",
+  "anchor": "montaggio",
+  "title": "ID-4081 — Tubo rame 6 mm (al metro)",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4081"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4082",
+  "kind": "part",
+  "page": "parts/ID-4082.md",
+  "anchor": "montaggio",
+  "title": "ID-4082 — Tubo rame 8 mm (al metro)",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4082"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4085",
+  "kind": "part",
+  "page": "parts/ID-4085.md",
+  "anchor": "montaggio",
+  "title": "ID-4085 — Tubo carico rete 3/8\" 1,5 m inox con guarnizioni",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4085"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4086",
+  "kind": "part",
+  "page": "parts/ID-4086.md",
+  "anchor": "montaggio",
+  "title": "ID-4086 — Tubo scarico 20 mm 1 m con fascetta",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4086"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4090",
+  "kind": "part",
+  "page": "parts/ID-4090.md",
+  "anchor": "montaggio",
+  "title": "ID-4090 — OR 2043 EPDM (kit 10)",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo",
+   "monda-65",
+   "monda-65-digit"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4090"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4091",
+  "kind": "part",
+  "page": "parts/ID-4091.md",
+  "anchor": "montaggio",
+  "title": "ID-4091 — OR 2062 EPDM (kit 10)",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo",
+   "monda-65",
+   "monda-65-digit"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4091"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4092",
+  "kind": "part",
+  "page": "parts/ID-4092.md",
+  "anchor": "montaggio",
+  "title": "ID-4092 — OR 3050 EPDM (kit 10)",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo",
+   "monda-65",
+   "monda-65-digit"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4092"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4100",
+  "kind": "part",
+  "page": "parts/ID-4100.md",
+  "anchor": "montaggio",
+  "title": "ID-4100 — Kit OR revisione idraulica completa, Marea/Giglio",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4100"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4101",
+  "kind": "part",
+  "page": "parts/ID-4101.md",
+  "anchor": "montaggio",
+  "title": "ID-4101 — Kit OR revisione idraulica completa, Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4101"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4110",
+  "kind": "part",
+  "page": "parts/ID-4110.md",
+  "anchor": "montaggio",
+  "title": "ID-4110 — Riduttore di pressione ingresso 3/8\" 3 bar",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4110"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/ID-4120",
+  "kind": "part",
+  "page": "parts/ID-4120.md",
+  "anchor": "montaggio",
+  "title": "ID-4120 — Valvola by-pass pompa rotativa (regolazione 9 bar)",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4120"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/MC-7010",
+  "kind": "part",
+  "page": "parts/MC-7010.md",
+  "anchor": "montaggio",
+  "title": "MC-7010 — Coppia macine piane 65 mm acciaio temprato",
+  "models": [
+   "monda-65",
+   "monda-65-digit"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7010"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/MC-7011",
+  "kind": "part",
+  "page": "parts/MC-7011.md",
+  "anchor": "montaggio",
+  "title": "MC-7011 — Viti fissaggio macine M4 (kit 6)",
+  "models": [
+   "monda-65",
+   "monda-65-digit"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7011"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/MC-7015",
+  "kind": "part",
+  "page": "parts/MC-7015.md",
+  "anchor": "montaggio",
+  "title": "MC-7015 — Portamacina superiore con ghiera",
+  "models": [
+   "monda-65",
+   "monda-65-digit"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7015"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/MC-7016",
+  "kind": "part",
+  "page": "parts/MC-7016.md",
+  "anchor": "montaggio",
+  "title": "MC-7016 — Portamacina inferiore",
+  "models": [
+   "monda-65",
+   "monda-65-digit"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7016"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/MC-7020",
+  "kind": "part",
+  "page": "parts/MC-7020.md",
+  "anchor": "montaggio",
+  "title": "MC-7020 — Motore 350 W 230 V con condensatore",
+  "models": [
+   "monda-65",
+   "monda-65-digit"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7020"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/MC-7021",
+  "kind": "part",
+  "page": "parts/MC-7021.md",
+  "anchor": "montaggio",
+  "title": "MC-7021 — Motore 350 W 110 V con condensatore",
+  "models": [
+   "monda-65",
+   "monda-65-digit"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7021"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/MC-7025",
+  "kind": "part",
+  "page": "parts/MC-7025.md",
+  "anchor": "montaggio",
+  "title": "MC-7025 — Condensatore motore 12 µF",
+  "models": [
+   "monda-65",
+   "monda-65-digit"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7025"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/MC-7026",
+  "kind": "part",
+  "page": "parts/MC-7026.md",
+  "anchor": "montaggio",
+  "title": "MC-7026 — Ventola raffreddamento motore",
+  "models": [
+   "monda-65",
+   "monda-65-digit"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7026"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/MC-7030",
+  "kind": "part",
+  "page": "parts/MC-7030.md",
+  "anchor": "montaggio",
+  "title": "MC-7030 — Dosatore completo con stella e leva, Monda 65",
+  "models": [
+   "monda-65"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7030"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/MC-7031",
+  "kind": "part",
+  "page": "parts/MC-7031.md",
+  "anchor": "montaggio",
+  "title": "MC-7031 — Stella dosatore 6 settori, Monda 65",
+  "models": [
+   "monda-65"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7031"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/MC-7032",
+  "kind": "part",
+  "page": "parts/MC-7032.md",
+  "anchor": "montaggio",
+  "title": "MC-7032 — Leva dosatore con pomello, Monda 65",
+  "models": [
+   "monda-65"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7032"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/MC-7033",
+  "kind": "part",
+  "page": "parts/MC-7033.md",
+  "anchor": "montaggio",
+  "title": "MC-7033 — Molla di richiamo leva dosatore, Monda 65",
+  "models": [
+   "monda-65"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7033"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/MC-7040",
+  "kind": "part",
+  "page": "parts/MC-7040.md",
+  "anchor": "montaggio",
+  "title": "MC-7040 — Campana 1,2 kg policarbonato",
+  "models": [
+   "monda-65",
+   "monda-65-digit"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7040"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/MC-7041",
+  "kind": "part",
+  "page": "parts/MC-7041.md",
+  "anchor": "montaggio",
+  "title": "MC-7041 — Saracinesca campana",
+  "models": [
+   "monda-65",
+   "monda-65-digit"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7041"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/MC-7042",
+  "kind": "part",
+  "page": "parts/MC-7042.md",
+  "anchor": "montaggio",
+  "title": "MC-7042 — Coperchio campana",
+  "models": [
+   "monda-65",
+   "monda-65-digit"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7042"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/MC-7050",
+  "kind": "part",
+  "page": "parts/MC-7050.md",
+  "anchor": "montaggio",
+  "title": "MC-7050 — Forcella portafiltro regolabile",
+  "models": [
+   "monda-65",
+   "monda-65-digit"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7050"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/MC-7060",
+  "kind": "part",
+  "page": "parts/MC-7060.md",
+  "anchor": "montaggio",
+  "title": "MC-7060 — Scheda elettronica dosaggio a tempo, Monda 65 Digit",
+  "models": [
+   "monda-65-digit"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7060"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/MC-7061",
+  "kind": "part",
+  "page": "parts/MC-7061.md",
+  "anchor": "montaggio",
+  "title": "MC-7061 — Display con pulsanti, Monda 65 Digit",
+  "models": [
+   "monda-65-digit"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7061"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/MC-7062",
+  "kind": "part",
+  "page": "parts/MC-7062.md",
+  "anchor": "montaggio",
+  "title": "MC-7062 — Microinterruttore forcella, Monda 65 Digit",
+  "models": [
+   "monda-65-digit"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7062"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/MC-7063",
+  "kind": "part",
+  "page": "parts/MC-7063.md",
+  "anchor": "montaggio",
+  "title": "MC-7063 — Beccuccio uscita caffè antistatico, Monda 65 Digit",
+  "models": [
+   "monda-65-digit"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7063"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/MC-7070",
+  "kind": "part",
+  "page": "parts/MC-7070.md",
+  "anchor": "montaggio",
+  "title": "MC-7070 — Interruttore bipolare con spia, Monda 65",
+  "models": [
+   "monda-65"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7070"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/MC-7075",
+  "kind": "part",
+  "page": "parts/MC-7075.md",
+  "anchor": "montaggio",
+  "title": "MC-7075 — Ghiera regolazione macinatura con fermo",
+  "models": [
+   "monda-65",
+   "monda-65-digit"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7075"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/MC-7076",
+  "kind": "part",
+  "page": "parts/MC-7076.md",
+  "anchor": "montaggio",
+  "title": "MC-7076 — Guarnizione ghiera regolazione",
+  "models": [
+   "monda-65",
+   "monda-65-digit"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7076"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/MC-7080",
+  "kind": "part",
+  "page": "parts/MC-7080.md",
+  "anchor": "montaggio",
+  "title": "MC-7080 — Piedino gomma antivibrazione (kit 4)",
+  "models": [
+   "monda-65",
+   "monda-65-digit"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7080"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/VA-5010",
+  "kind": "part",
+  "page": "parts/VA-5010.md",
+  "anchor": "montaggio",
+  "title": "VA-5010 — Rubinetto vapore completo a volantino, Marea/Giglio",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "VA",
+  "parts": [
+   "VA-5010"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/VA-5011",
+  "kind": "part",
+  "page": "parts/VA-5011.md",
+  "anchor": "montaggio",
+  "title": "VA-5011 — Valvola vapore joystick completa, Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "VA",
+  "parts": [
+   "VA-5011"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/VA-5015",
+  "kind": "part",
+  "page": "parts/VA-5015.md",
+  "anchor": "montaggio",
+  "title": "VA-5015 — Kit guarnizioni rubinetto vapore (tenute + OR)",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "VA",
+  "parts": [
+   "VA-5015"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/VA-5016",
+  "kind": "part",
+  "page": "parts/VA-5016.md",
+  "anchor": "montaggio",
+  "title": "VA-5016 — Alberino rubinetto vapore con premistoppa",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "VA",
+  "parts": [
+   "VA-5016"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/VA-5017",
+  "kind": "part",
+  "page": "parts/VA-5017.md",
+  "anchor": "montaggio",
+  "title": "VA-5017 — Manopola rubinetto vapore nera",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "VA",
+  "parts": [
+   "VA-5017"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/VA-5018",
+  "kind": "part",
+  "page": "parts/VA-5018.md",
+  "anchor": "montaggio",
+  "title": "VA-5018 — Manopola rubinetto vapore crema, edizione Vaniglia",
+  "models": [
+   "marea-2-plus",
+   "giglio-1-plus"
+  ],
+  "group": "VA",
+  "parts": [
+   "VA-5018"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/VA-5019",
+  "kind": "part",
+  "page": "parts/VA-5019.md",
+  "anchor": "montaggio",
+  "title": "VA-5019 — Kit guarnizioni valvola joystick, Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "VA",
+  "parts": [
+   "VA-5019"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/VA-5020",
+  "kind": "part",
+  "page": "parts/VA-5020.md",
+  "anchor": "montaggio",
+  "title": "VA-5020 — Lancia vapore inox 2 curve, Marea/Giglio",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "VA",
+  "parts": [
+   "VA-5020"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/VA-5021",
+  "kind": "part",
+  "page": "parts/VA-5021.md",
+  "anchor": "montaggio",
+  "title": "VA-5021 — Lancia vapore cool-touch, Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "VA",
+  "parts": [
+   "VA-5021"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/VA-5025",
+  "kind": "part",
+  "page": "parts/VA-5025.md",
+  "anchor": "montaggio",
+  "title": "VA-5025 — Terminale vapore 2 fori",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "VA",
+  "parts": [
+   "VA-5025"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/VA-5026",
+  "kind": "part",
+  "page": "parts/VA-5026.md",
+  "anchor": "montaggio",
+  "title": "VA-5026 — Terminale vapore 4 fori",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "VA",
+  "parts": [
+   "VA-5026"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/VA-5027",
+  "kind": "part",
+  "page": "parts/VA-5027.md",
+  "anchor": "montaggio",
+  "title": "VA-5027 — Snodo lancia vapore con OR",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "VA",
+  "parts": [
+   "VA-5027"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/VA-5028",
+  "kind": "part",
+  "page": "parts/VA-5028.md",
+  "anchor": "montaggio",
+  "title": "VA-5028 — OR snodo lancia (kit 10)",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "VA",
+  "parts": [
+   "VA-5028"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/VA-5030",
+  "kind": "part",
+  "page": "parts/VA-5030.md",
+  "anchor": "montaggio",
+  "title": "VA-5030 — Gommino antiscottatura lancia",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "VA",
+  "parts": [
+   "VA-5030"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/VA-5040",
+  "kind": "part",
+  "page": "parts/VA-5040.md",
+  "anchor": "montaggio",
+  "title": "VA-5040 — Lancia acqua calda inox",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "VA",
+  "parts": [
+   "VA-5040"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/VA-5041",
+  "kind": "part",
+  "page": "parts/VA-5041.md",
+  "anchor": "montaggio",
+  "title": "VA-5041 — Rubinetto acqua calda completo a volantino, Marea 2 / Giglio 1",
+  "models": [
+   "marea-2",
+   "giglio-1"
+  ],
+  "group": "VA",
+  "parts": [
+   "VA-5041"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/VA-5042",
+  "kind": "part",
+  "page": "parts/VA-5042.md",
+  "anchor": "montaggio",
+  "title": "VA-5042 — Elettrovalvola acqua calda 230 V, Marea 2 Plus / Evo / Giglio 1 Plus",
+  "models": [
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1-plus"
+  ],
+  "group": "VA",
+  "parts": [
+   "VA-5042"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/VA-5043",
+  "kind": "part",
+  "page": "parts/VA-5043.md",
+  "anchor": "montaggio",
+  "title": "VA-5043 — Elettrovalvola acqua calda 24 V, Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "VA",
+  "parts": [
+   "VA-5043"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/VA-5045",
+  "kind": "part",
+  "page": "parts/VA-5045.md",
+  "anchor": "montaggio",
+  "title": "VA-5045 — Miscelatore acqua calda regolabile",
+  "models": [
+   "marea-2-plus",
+   "marea-2-evo",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "VA",
+  "parts": [
+   "VA-5045"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/VA-5046",
+  "kind": "part",
+  "page": "parts/VA-5046.md",
+  "anchor": "montaggio",
+  "title": "VA-5046 — Kit guarnizioni miscelatore",
+  "models": [
+   "marea-2-plus",
+   "marea-2-evo",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "VA",
+  "parts": [
+   "VA-5046"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/VA-5060",
+  "kind": "part",
+  "page": "parts/VA-5060.md",
+  "anchor": "montaggio",
+  "title": "VA-5060 — Leva joystick vapore con pomello, Onda",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "VA",
+  "parts": [
+   "VA-5060"
+  ],
+  "refs": []
+ },
+ {
+  "id": "part/VA-5070",
+  "kind": "part",
+  "page": "parts/VA-5070.md",
+  "anchor": "montaggio",
+  "title": "VA-5070 — Kit revisione vapore completo (tenute, alberino, OR snodo), Marea/Giglio",
+  "models": [
+   "marea-2",
+   "marea-2-plus",
+   "marea-2-evo",
+   "giglio-1",
+   "giglio-1-plus"
+  ],
+  "group": "VA",
+  "parts": [
+   "VA-5070"
+  ],
+  "refs": []
+ }
+]

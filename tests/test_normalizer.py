@@ -1,6 +1,6 @@
 import pytest
 
-from app.core.normalizer import extract_codes, words_to_digits
+from app.core.normalizer import canonicalize_codes, extract_codes, words_to_digits
 
 
 def codes(text):
@@ -58,3 +58,15 @@ def test_weak_shape_is_flagged():
 ])
 def test_words_to_digits(text, expected):
     assert words_to_digits(text) == expected
+
+
+@pytest.mark.parametrize("text,expected", [
+    ("Ci sarebbe il control board e L3010.", "Ci sarebbe il control board EL-3010."),
+    ("the code is G E twenty-one forty, I think", "the code is GE-2140, I think"),
+    ("Scusate, il codice della fattura è GE-2140.", "Scusate, il codice della fattura è GE-2140."),
+    ("the pump is I D forty ten and the board E L three zero one zero", "the pump is ID-4010 and the board EL-3010"),
+    ("codice gi e ventuno quaranta grazie", "codice GE-2140 grazie"),
+    ("good morning, how are you", "good morning, how are you"),
+])
+def test_canonicalize_codes_in_sentence(text, expected):
+    assert canonicalize_codes(text)[0] == expected

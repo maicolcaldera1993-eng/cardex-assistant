@@ -62,6 +62,7 @@ class Clarifier:
 
     def submit(self, turn_id: int, text: str) -> None:
         if self.enabled and len(text.split()) >= 3:
+            self.queue = [(i, t) for i, t in self.queue if i != turn_id]   # the utterance grew: keep only its latest text
             self.queue.append((turn_id, text))
             self._wake.set()
 

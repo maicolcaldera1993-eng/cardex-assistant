@@ -9,7 +9,7 @@ const T = {
     startSub: "Trascrive la chiamata, ti spiega cosa intende il cliente, riconosce macchina e guasto, ti guida nella diagnosi e trova il ricambio.",
     sample: "Riproduci una chiamata di esempio", mic: "Usa il mio microfono (tu sei il cliente)",
     clarify: "Versione chiara", assistant: "Assistente", talk: "Conversazione", diag: "Diagnosi guidata", parts: "Ricambi proposti",
-    log: "Registro dell'assistente", swap: "Scambia ruoli", end: "Fine chiamata", operator: "Operatore", customer: "Cliente",
+    log: "Registro dell'assistente", docs: "Documenti aperti dall'assistente", noDocs: "Quando si parla di una macchina, di un guasto o di un ricambio, il documento giusto si apre qui, al punto giusto.", choose: "Due guasti possibili. Di quale sta parlando?", merged: "frasi unite", swap: "Scambia ruoli", end: "Fine chiamata", operator: "Operatore", customer: "Cliente",
     noDiag: "Nessun sintomo riconosciuto. Quando il cliente descrive un problema, la procedura compare qui.",
     ask: "Chiedi al cliente", do: "Fagli fare", say: "Da leggere al telefono", confirm: "Conferma", dismiss: "Scarta", sheet: "Scheda",
     maintenance: "Manutenzione ordinaria saltata: consigliare", lowConf: "riconoscimento incerto",
@@ -26,7 +26,7 @@ const T = {
     startSub: "It transcribes the call, tells you what the customer means, recognises the machine and the fault, guides the diagnosis and finds the part.",
     sample: "Play a sample call", mic: "Use my microphone (you are the customer)",
     clarify: "Clear version", assistant: "Assistant", talk: "Conversation", diag: "Guided diagnosis", parts: "Proposed parts",
-    log: "Assistant log", swap: "Swap roles", end: "End call", operator: "Operator", customer: "Customer",
+    log: "Assistant log", docs: "Documents opened by the assistant", noDocs: "When a machine, a fault or a part comes up, the right document opens here, at the right place.", choose: "Two possible faults. Which one is it?", merged: "sentences joined", swap: "Swap roles", end: "End call", operator: "Operator", customer: "Customer",
     noDiag: "No symptom recognised yet. When the customer describes a problem, the procedure appears here.",
     ask: "Ask the customer", do: "Have them do", say: "Read this out", confirm: "Confirm", dismiss: "Dismiss", sheet: "Sheet",
     maintenance: "Routine maintenance skipped: recommend", lowConf: "low recognition confidence",
@@ -44,13 +44,15 @@ let L = T[lang];
 let ws = null, audioCtx = null, micStream = null, timer = null, t0 = 0;
 const cards = new Map();
 const knownCodes = new Set();
+const docs = [];
+let activeDoc = -1;
 
 function applyLanguage() {
   L = T[lang];
   document.documentElement.lang = lang;
   $("tagline").textContent = L.tagline; $("start-title").textContent = L.startTitle; $("start-sub").textContent = L.startSub;
   $("btn-sample").textContent = L.sample; $("btn-mic").textContent = L.mic; $("lb-clarify").textContent = L.clarify; $("lb-assistant").textContent = L.assistant;
-  $("h-talk").textContent = L.talk; $("h-diag").textContent = L.diag; $("h-parts").textContent = L.parts; $("h-log").textContent = L.log;
+  $("h-talk").textContent = L.talk; $("h-diag").textContent = L.diag; $("h-parts").textContent = L.parts; $("h-log").textContent = L.log; $("h-docs").textContent = L.docs; if ($("doc-view").classList.contains("empty")) $("doc-view").textContent = L.noDocs;
   $("btn-swap").textContent = L.swap; $("btn-end").textContent = L.end; $("btn-lang").textContent = lang === "it" ? "EN" : "IT";
   $("try-saying").innerHTML = L.tries.map((t) => `<li>${esc(t)}</li>`).join("");
   if ($("diagnosis").classList.contains("empty")) $("diagnosis").textContent = L.noDiag;
@@ -69,7 +71,7 @@ function send(obj) { if (ws && ws.readyState === 1) ws.send(JSON.stringify(obj))
 function startCall(source) {
   $("start").hidden = true; $("summary").hidden = true; $("call").hidden = false;
   ["turns", "parts", "log"].forEach((id) => ($(id).innerHTML = ""));
-  $("diagnosis").className = "panel empty"; $("diagnosis").textContent = L.noDiag; cards.clear(); knownCodes.clear();
+  $("diagnosis").className = "panel empty"; $("diagnosis").textContent = L.noDiag; cards.clear(); knownCodes.clear(); docs.length = 0; activeDoc = -1; $("doc-tabs").innerHTML = ""; $("doc-view").className = "doc-view empty"; $("doc-view").textContent = L.noDocs;
   const proto = location.protocol === "https:" ? "wss" : "ws";
   ws = new WebSocket(`${proto}://${location.host}/ws/call?source=${encodeURIComponent(source)}&lang=${lang}`);
   ws.binaryType = "arraybuffer";
@@ -106,6 +108,8 @@ function handle(ev) {
     case "parts": ev.cards.forEach((c) => { cards.set(c.code, c); knownCodes.add(c.code); }); renderParts(); break;
     case "part_status": if (cards.has(ev.code)) { cards.get(ev.code).status = ev.status; renderParts(); } break;
     case "diagnosis": renderDiagnosis(ev); break;
+    case "symptom_choice": renderChoice(ev.options); break;
+    case "open_doc": openDoc(ev); break;
     case "agent": { const d = document.createElement("div"); d.innerHTML = `<time>${fmt(ev.at)}</time>${esc(ev.text)}`; $("log").prepend(d); break; }
     case "model_mention": { const d = document.createElement("div"); d.innerHTML = `<button class="ghost" style="padding:2px 8px;font-size:12px">→ ${esc(ev.model)}</button>`; d.querySelector("button").onclick = () => send({ type: "control", action: "set_machine", model_id: ev.model_id }); $("log").prepend(d); break; }
     case "toggles": $("tg-assistant").checked = ev.assistant; $("tg-clarify").checked = ev.clarify; break;
@@ -121,8 +125,10 @@ function renderTurn(ev) {
   let el = $(`turn-${ev.id}`);
   if (!el) { el = document.createElement("div"); el.id = `turn-${ev.id}`; $("turns").appendChild(el); }
   el.className = `turn ${ev.role}`;
+  const keptClear = el.querySelector(".clear")?.textContent || "";
+  const merged = ev.merged > 1 ? `<span class="merged">${ev.merged} ${L.merged}</span>` : "";
   const low = ev.min_conf < 0.6 ? `<span class="low">${L.lowConf} (${ev.min_conf})</span>` : "";
-  el.innerHTML = `<div class="who">${ev.role === "operator" ? L.operator : L.customer}${low}</div><div class="said">${highlight(ev.text)}</div><div class="clear"></div>`;
+  el.innerHTML = `<div class="who">${ev.role === "operator" ? L.operator : L.customer}${merged}${low}</div><div class="said">${highlight(ev.text)}</div><div class="clear">${esc(keptClear)}</div>`;
   el.scrollIntoView({ block: "end", behavior: "smooth" });
 }
 
@@ -141,6 +147,39 @@ function renderDiagnosis(d) {
   p.querySelectorAll("[data-branch]").forEach((b) => (b.onclick = () => send({ type: "control", action: "answer_step", branch: +b.dataset.branch })));
 }
 
+function renderChoice(options) {
+  const p = $("diagnosis"); p.className = "panel";
+  p.innerHTML = `<h3>${L.choose}</h3><div class="choice">${options.map((o) => `<button data-sym="${esc(o.symptom_id)}">${esc(o.title)} <small>(${Math.round(o.score * 100)}%)</small></button>`).join("")}</div>`;
+  p.querySelectorAll("[data-sym]").forEach((b) => (b.onclick = () => send({ type: "control", action: "start_symptom", symptom_id: b.dataset.sym })));
+}
+
+// ---- documents: one tab per opened page, scrolled to the section, with the matching sentence marked
+const KIND = { manual: "📘", symptom: "🩺", part: "🔩" };
+async function openDoc(ev) {
+  let i = docs.findIndex((d) => d.page === ev.page);
+  if (i < 0) { docs.push({ ...ev, fresh: true }); i = docs.length - 1; } else { Object.assign(docs[i], ev, { fresh: true }); }
+  const userIsReading = activeDoc >= 0 && $("doc-view").matches(":hover");
+  if (!userIsReading) await showDoc(i); else renderTabs();
+}
+function renderTabs() {
+  $("doc-tabs").innerHTML = docs.map((d, i) => `<div class="doc-tab ${i === activeDoc ? "active" : ""} ${d.fresh && i !== activeDoc ? "fresh" : ""}" data-doc="${i}" title="${esc(d.title)}"><small>${KIND[d.kind] || ""}</small>${esc(d.title)}</div>`).join("");
+  $("doc-tabs").querySelectorAll("[data-doc]").forEach((t) => (t.onclick = () => showDoc(+t.dataset.doc)));
+}
+async function showDoc(i) {
+  const d = docs[i]; activeDoc = i; d.fresh = false; renderTabs();
+  const q = new URLSearchParams({ page: d.page }); if (d.highlight) q.set("hl", d.highlight);
+  const r = await fetch(`/api/docs/render?${q}`).then((x) => x.json()).catch(() => null);
+  const v = $("doc-view"); v.className = "doc-view"; v.innerHTML = r ? r.html : "—";
+  const head = d.anchor && v.querySelector(`#${CSS.escape(d.anchor)}`);
+  if (head) {
+    head.classList.add("target");
+    const level = +head.tagName[1];
+    for (let n = head.nextElementSibling; n && !(/^H[1-6]$/.test(n.tagName) && +n.tagName[1] <= level); n = n.nextElementSibling) n.classList.add("target");
+  }
+  const focus = v.querySelector("mark") || head;
+  if (focus) v.scrollTop = Math.max(0, focus.offsetTop - v.offsetTop - 40);
+}
+
 function renderParts() {
   const why = { exact: "=", "near-code": "≈", description: "“…”", replacement: "↻", procedure: "✓" };
   $("parts").innerHTML = [...cards.values()].reverse().map((c) => {
@@ -153,8 +192,8 @@ function renderParts() {
   }).join("");
   $("parts").querySelectorAll("[data-act]").forEach((b) => (b.onclick = () => send({ type: "control", action: b.dataset.act, code: b.dataset.code })));
   $("parts").querySelectorAll("[data-sheet]").forEach((b) => (b.onclick = async () => {
-    const r = await fetch(`/api/parts/${b.dataset.sheet}`).then((x) => x.json());
-    $("sheet-body").textContent = r.sheet_markdown || ""; $("sheet").showModal();
+    const c = cards.get(b.dataset.sheet);
+    openDoc({ kind: "part", page: `parts/${b.dataset.sheet}.md`, anchor: "montaggio", title: `${b.dataset.sheet} — ${c ? c.description : ""}`, highlight: null });
   }));
 }
 

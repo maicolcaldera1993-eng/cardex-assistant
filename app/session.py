@@ -20,8 +20,9 @@ from typing import Awaitable, Callable
 from .asr.assemblyai_stream import AssemblyAIStream
 from .core.catalog import Catalog
 from .core.context import ContextDetector
-from .core.normalizer import extract_codes
+from .core.normalizer import canonicalize_codes, extract_codes
 from .core.roles import CUSTOMER, OPERATOR, RoleTracker
+from .core.semantic import AMBIGUITY_GAP, SECTION_THRESHOLD, SYMPTOM_THRESHOLD, SemanticIndex
 from .core.symptoms import DefectsLibrary, Diagnosis, parse_then, Outcome
 from .core.vocabulary import VocabularyManager
 from .llm.clarify import Clarifier
@@ -37,6 +38,13 @@ CATALOG = Catalog()
 CONTEXT = ContextDetector()
 DEFECTS = DefectsLibrary()
 VOCAB = VocabularyManager(CATALOG)
+SEMANTIC = SemanticIndex()      # the model is loaded in the background at server start-up (see main.py)
+
+# Same voice keeps talking: it is the same utterance, however long the pause (reading a code off an invoice
+# takes seconds). Only the other voice, a very long silence or a very long bubble closes it.
+MERGE_WINDOW_S = 60
+MERGE_WINDOW_SINGLE_S = 6      # one-voice demo mode: nobody else can close the utterance, so use time
+MERGE_MAX_WORDS = 70
 
 Emit = Callable[[dict], Awaitable[None]]
 
@@ -72,7 +80,11 @@ class CallSession:
         self.last_vocab_at = 0.0
         self.vocab_trigger: tuple | None = None
         self.cards: dict[str, dict] = {}
-        self.turns: dict[int, dict] = {}
+        self.turns: dict[int, dict] = {}          # utterance id -> utterance (merged turns of one voice)
+        self.utterances: list[dict] = []
+        self.turn_to_utt: dict[int, int] = {}
+        self.opened_docs: set[str] = set()
+        self.offered_choices: set[tuple] = set()
         self.vocab_phase = 0
         self.vocab_key: tuple | None = None
         self.outcome: dict | None = None
@@ -159,7 +171,7 @@ class CallSession:
             await self._on_turn(msg)
         elif t == "SpeakerRevision":
             for rev in msg.get("revisions", msg.get("turns", [])):
-                tid = rev.get("turn_order")
+                tid = self.turn_to_utt.get(rev.get("turn_order"))
                 if tid in self.turns and rev.get("speaker_label"):
                     role, label = self.roles.role_for(rev["speaker_label"])
                     self.turns[tid].update(role=role, speaker=label)
@@ -174,24 +186,46 @@ class CallSession:
         text = (msg.get("transcript") or "").strip()
         if not text:
             return
-        final = bool(msg.get("end_of_turn"))
-        role, label = (self.roles.role_for(msg.get("speaker_label")) if final
-                       else (self.turns.get(tid, {}).get("role") or "?", msg.get("speaker_label")))
+        if not msg.get("end_of_turn"):
+            await self.emit({"type": "turn", "id": tid, "final": False, "text": text})
+            return
+        role, label = self.roles.role_for(msg.get("speaker_label"))
         words = msg.get("words") or []
         min_conf = round(min((w.get("confidence", 1.0) for w in words), default=1.0), 2)
-        await self.emit({"type": "turn", "id": tid, "final": final, "text": text, "role": role,
-                         "speaker": label, "min_conf": min_conf})
-        if not final:
-            return
-        self.turns[tid] = {"id": tid, "text": text, "role": role, "speaker": label, "clear": None,
-                           "at": round(time.monotonic() - self.started, 1)}
+        now = round(time.monotonic() - self.started, 1)
+
+        last = self.utterances[-1] if self.utterances else None
+        window = MERGE_WINDOW_SINGLE_S if self.roles.single else MERGE_WINDOW_S
+        if (last and last["role"] == role and now - last["at_end"] <= window
+                and len(last["raw"].split()) + len(text.split()) <= MERGE_MAX_WORDS):
+            last["raw"] += " " + text
+            last["fragments"].append(text)
+            last["turn_ids"].append(tid)
+            last["min_conf"] = min(last["min_conf"], min_conf)
+            last["at_end"] = now
+            utt = last
+        else:
+            utt = {"id": tid, "raw": text, "fragments": [text], "role": role, "speaker": label, "turn_ids": [tid], "min_conf": min_conf,
+                   "at": now, "at_end": now, "clear": None}
+            self.utterances.append(utt)
+            self.turns[tid] = utt
+        self.turn_to_utt[tid] = utt["id"]
+        utt["text"], utt["codes"] = canonicalize_codes(utt["raw"])      # "e L3010" is shown as "EL-3010"
+
+        await self.emit({"type": "turn", "id": utt["id"], "final": True, "text": utt["text"], "role": role,
+                         "speaker": label, "min_conf": utt["min_conf"], "merged": len(utt["turn_ids"])})
         if role == CUSTOMER and self.clarify_on:
-            self.clarifier.submit(tid, text)
+            self.clarifier.submit(utt["id"], utt["text"])
         if self.assistant_on:
-            await self._assist(tid, text, role, min_conf)
+            # the whole utterance is re-read every time it grows: "the code is..." [4 s] "GE-2140" is one thought
+            # codes need the whole utterance (a code can straddle a pause); meaning is read on what was just said,
+            # the last two fragments, otherwise a long utterance dilutes it
+            recent = canonicalize_codes(" ".join(utt["fragments"][-2:]))[0]
+            await self._assist(utt["id"], utt["text"], role, utt["min_conf"], recent)
 
     # ------------------------------------------------------------------ the assistant
-    async def _assist(self, tid: int, text: str, role: str, min_conf: float) -> None:
+    async def _assist(self, tid: int, text: str, role: str, min_conf: float, recent: str | None = None) -> None:
+        recent = recent or text
         hit = CONTEXT.detect(text)
         changed = False
         if hit.model_id and self.model_id and hit.model_id != self.model_id:
@@ -208,6 +242,7 @@ class CallSession:
             heard = f" (sentito: «{hit.matched}»)" if hit.via_variant else ""
             await self._agent(f"Macchina riconosciuta: {name}{heard}" if self.lang == "it"
                               else f"Machine recognised: {name}" + (f" (heard: “{hit.matched}”)" if hit.via_variant else ""))
+            await self._open_manual(self.model_id)
         elif hit.family and not self.model_id and hit.family != self.family:
             self.family, changed = hit.family, True
             await self._agent(f"Famiglia riconosciuta: {hit.family}. Versione da chiedere." if self.lang == "it"
@@ -223,17 +258,8 @@ class CallSession:
         if changed:
             await self._emit_context()
 
-        if True:  # both voices: early diarization is shaky, and operators restate the symptom
-            s = DEFECTS.match(text, model_id=self.model_id, family=self.family)
-            if s and not (self.diagnosis and self.diagnosis.symptom["id"] == s.symptom_id):
-                if self.diagnosis and not self.diagnosis.outcome:
-                    if s.symptom_id not in self.pending_symptoms:
-                        self.pending_symptoms.append(s.symptom_id)
-                        await self._agent(f"Secondo sintomo in coda: {DEFECTS.symptoms[s.symptom_id][f'symptom_{self.lang}']}"
-                                          if self.lang == "it" else
-                                          f"Second symptom queued: {DEFECTS.symptoms[s.symptom_id]['symptom_en']}")
-                else:
-                    await self._start_diagnosis(s.symptom_id, s.matched)
+        if not await self._detect_symptom(recent):
+            await self._open_matching_section(recent)
 
         cards = []
         codes = extract_codes(text)
@@ -243,7 +269,91 @@ class CallSession:
         if not codes:
             cards += CATALOG.search_description(text, model_id=self.model_id, family=self.family, groups=self.groups)
         await self._add_cards(cards, tid, source="voice")
+        for c in cards:
+            if c.reason in ("exact", "near-code", "description") and c.compatible:
+                await self._open_doc(f"part/{c.code}", "code" if c.reason != "description" else "description")
+                break
         await self._maybe_reload_vocabulary()
+
+    # ------------------------------------------------------------------ meaning and documents
+    async def _detect_symptom(self, text: str) -> bool:
+        """Which known fault is this person describing? Meaning first (any language), exact phrases as a tie-breaker.
+        Only the symptoms that apply to the machine being discussed are candidates."""
+        exact = DEFECTS.match(text, model_id=self.model_id, family=self.family)
+        chosen, heard, options = None, None, []
+        if SEMANTIC.ready:
+            fam = CATALOG.family_models(self.family) if self.family and not self.model_id else None
+            allowed = SEMANTIC.ids_for("symptom", self.model_id, fam)
+            ms = [m for m in SEMANTIC.search(text, allowed=allowed, k=2) if m.score >= SYMPTOM_THRESHOLD]
+            if ms:
+                ids = [m.node_id.split("/", 1)[1] for m in ms]
+                if exact and exact.symptom_id in ids:
+                    chosen, heard = exact.symptom_id, exact.matched
+                elif len(ms) == 2 and ms[0].score - ms[1].score < AMBIGUITY_GAP:
+                    options = ms
+                else:
+                    chosen, heard = ids[0], f"≈ {ms[0].ref}, {ms[0].score:.2f}"
+        if not chosen and not options and exact:
+            chosen, heard = exact.symptom_id, exact.matched
+        active = self.diagnosis.symptom["id"] if self.diagnosis else None
+
+        if options:
+            key = tuple(sorted(m.node_id for m in options))
+            if key not in self.offered_choices and not (self.diagnosis and not self.diagnosis.outcome):
+                self.offered_choices.add(key)
+                await self.emit({"type": "symptom_choice", "options": [
+                    {"symptom_id": m.node_id.split("/", 1)[1], "score": m.score,
+                     "title": DEFECTS.symptoms[m.node_id.split("/", 1)[1]][f"symptom_{self.lang}"]} for m in options]})
+                await self._agent("Due guasti possibili: scegli quello giusto nel pannello." if self.lang == "it"
+                                  else "Two possible faults: pick the right one in the panel.")
+            return True
+        if not chosen:
+            return False
+        if chosen == active:
+            return True
+        if self.diagnosis and not self.diagnosis.outcome:
+            if chosen not in self.pending_symptoms:
+                self.pending_symptoms.append(chosen)
+                await self._agent(f"Secondo sintomo in coda: {DEFECTS.symptoms[chosen][f'symptom_{self.lang}']}" if self.lang == "it"
+                                  else f"Second symptom queued: {DEFECTS.symptoms[chosen]['symptom_en']}")
+        else:
+            await self._start_diagnosis(chosen, heard)
+        return True
+
+    async def _open_matching_section(self, text: str) -> None:
+        """A section of THIS machine's manual that talks about what was just said."""
+        if not (SEMANTIC.ready and self.model_id):
+            return
+        allowed = SEMANTIC.ids_for("manual", self.model_id)
+        for m in SEMANTIC.search(text, allowed=allowed, k=1):
+            if m.score >= SECTION_THRESHOLD:
+                await self._open_doc(m.node_id, "topic", query=text, score=m.score)
+
+    async def _open_manual(self, model_id: str) -> None:
+        ids = sorted(i for i in SEMANTIC.ids_for("manual", model_id))
+        if ids:
+            first = next((i for i in ids if i.endswith("#descrizione")), ids[0])
+            await self._open_doc(first, "machine")
+
+    async def _open_doc(self, node_id: str, reason: str, query: str | None = None, score: float | None = None) -> None:
+        node = SEMANTIC.nodes.get(node_id)
+        if not node or node_id in self.opened_docs:
+            return
+        self.opened_docs.add(node_id)
+        highlight = None
+        if query and SEMANTIC.ready and len(node["refs"]) > 1:
+            best = SEMANTIC.best_sentence(query, node["refs"][1 + node.get("n_topics", 0):])   # skip title and topic keywords
+            if best and best[1] >= 0.55:
+                highlight = best[0]
+        await self.emit({"type": "open_doc", "node_id": node_id, "kind": node["kind"], "page": node["page"],
+                         "anchor": node["anchor"], "title": node["title"], "reason": reason,
+                         "highlight": highlight, "score": score})
+        label = {"machine": "libretto della macchina", "topic": "sezione del libretto", "symptom": "fascicolo difetti",
+                 "code": "scheda del ricambio", "description": "scheda del ricambio", "procedure": "scheda del ricambio"}
+        if self.lang == "it":
+            await self._agent(f"Apro {label.get(reason, 'documento')}: {node['title']}")
+        else:
+            await self._agent(f"Opening {node['kind']} page: {node.get('title_en') or node['title']}")
 
     async def _start_diagnosis(self, symptom_id: str, matched: str | None = None) -> None:
         self.diagnosis = DEFECTS.start(symptom_id)
@@ -254,6 +364,7 @@ class CallSession:
         await self._agent(f"Sintomo riconosciuto: {s['symptom_it']}{heard}. Apro la procedura." if self.lang == "it"
                           else f"Symptom recognised: {s['symptom_en']}{heard}. Opening the procedure.")
         await self._emit_diagnosis()
+        await self._open_doc(f"symptom/{symptom_id}", "symptom")
 
     async def _add_cards(self, cards, tid: int | None, source: str) -> None:
         new = []

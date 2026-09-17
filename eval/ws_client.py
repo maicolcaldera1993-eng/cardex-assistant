@@ -24,7 +24,7 @@ async def main() -> None:
             t = ev["type"]
             if t == "turn":
                 if ev["final"]:
-                    print(f"[{ev['role']:8s}|{ev['speaker']}|{ev['min_conf']}] {ev['text']}")
+                    print(f"[{ev['role']:8s}|x{ev.get('merged', 1)}] {ev['text']}")
             elif t == "clear":
                 print(f"      chiaro #{ev['turn_id']}: {ev['text']}")
             elif t == "agent":
@@ -42,6 +42,12 @@ async def main() -> None:
             elif t == "summary":
                 s = ev["summary"]
                 print("   == RESOCONTO:", {k: s[k] for k in ("duration_s", "machine", "edition", "symptom", "outcome", "maintenance_skipped")})
+            elif t == "open_doc":
+                print(f"   >> DOC [{ev['kind']}] {ev['page']}#{ev['anchor']} ({ev['reason']})")
+                if ev.get("highlight"):
+                    print(f"        evidenzia: «{ev['highlight']}»")
+            elif t == "symptom_choice":
+                print("   ?? scelta tra:", [(o["title"], o["score"]) for o in ev["options"]])
             elif t in ("error", "context", "vocabulary"):
                 print(f"   -- {t}: { {k: v for k, v in ev.items() if k not in ('type', 'sample')} }")
 

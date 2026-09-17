@@ -9,7 +9,7 @@ Built solo for the [AssemblyAI Voice Agent Hackathon](https://lablab.ai/ai-hacka
 
 ## Status
 
-Day 3 of 15: idea locked, architecture written, fictional ERP built (SQLite, 14 tables, 237 parts, 10 models), known-defects file for the Marea family, first manual, product sheets, streaming spike done. Core logic written and tested (normaliser, model/group detection, catalog search, guided diagnosis, keyterm phases, roles). Server, call session and operator page work end to end on a streamed sample call.
+Day 4 of 15: idea locked, architecture written, fictional ERP built (SQLite, 14 tables, 237 parts, 10 models), known-defects file for the Marea family, first manual, product sheets, streaming spike done. Core logic written and tested (normaliser, model/group detection, catalog search, guided diagnosis, keyterm phases, roles). Server, call session and operator page work end to end on a streamed sample call.
 
 ## How AssemblyAI is used
 
@@ -39,6 +39,10 @@ Recorded here as they are made.
 
 - **2026-09-17** LLM Gateway on a free AssemblyAI account: only `qwen3.5-4b-32k-fast` is accessible and about two requests per minute are accepted (HTTP 429 beyond that). The clear-version feature therefore queues customer turns and clarifies them in one batched call per free slot, with a trade glossary in the system prompt; it never blocks the transcript. Endpoint, model and rate are environment variables (`LLM_BASE_URL`, `LLM_MODEL`, `LLM_MAX_PER_MINUTE`).
 - **2026-09-17** A machine mentioned in passing does not move the call context: the assistant logs it and offers a one-click switch. Keyterm reloads happen at once for a new machine or a new symptom, and at most every 15 seconds for a mere change of topic.
+
+- **2026-09-18** Three layers of understanding, each with its own job. (1) Exact words, instant: model names and part codes are closed sets, so lists and AssemblyAI keyterms are the right tool. (2) Meaning, instant: how a person describes a fault is open language in any tongue, so a small local multilingual sentence-embedding model (`paraphrase-multilingual-MiniLM-L12-v2`, CPU, ~10 ms) maps the last things said onto a known symptom. Reference texts exist only in Italian and English; tests cover German, Spanish, Turkish, French, Chinese and Portuguese. Below a threshold nothing is proposed; when two symptoms are close the operator picks. (3) Reading the whole conversation with an LLM: probed (`eval/probe_reader.py`), works even with the 4B model, parked until better LLM Gateway access.
+- **2026-09-18** Documents are a graph, not a vector store. Every page is cut into anchored sections that know which machines they belong to (`data/kb/index.json`, built by `data/build_wiki.py`). Similarity is only allowed to choose among the sections the graph admits for the machine on the call, never to fetch a document by itself: near-identical part sheets (230 V vs 110 V heating element) make plain RAG unsafe in a spare-parts domain. The assistant opens the page at the right section and marks the sentence that matches what was said.
+- **2026-09-18** A clean conversation is the first deliverable. The same voice keeps the same utterance however long the pause (reading a code off an invoice takes seconds): utterances are merged until the other voice speaks, and re-read each time they grow. Codes are rewritten in canonical form inside the sentence ("e L3010" is shown as "EL-3010").
 
 ## Running locally
 
