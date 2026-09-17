@@ -81,7 +81,7 @@ class Catalog:
                         price_eur=price[0] if price else None, stock=stock,
                         compatible=(model_id in self._compat[code]) if model_id else True,
                         superseded_by=sup["new_code"] if sup else None,
-                        requires=sup["requires_code"] if sup else None,
+                        requires=sup["requires_code"] if sup and sup["requires_code"] and (not model_id or model_id in self._compat[sup["requires_code"]]) else None,
                         note=(sup["note"] if sup else None) or p["notes"])
 
     def _prior(self, code: str, groups: list[str]) -> float:
