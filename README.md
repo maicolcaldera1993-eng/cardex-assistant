@@ -9,7 +9,7 @@ Built solo for the [AssemblyAI Voice Agent Hackathon](https://lablab.ai/ai-hacka
 
 ## Status
 
-Day 2 of 15: idea locked, architecture written, fictional ERP built (SQLite, 14 tables, 237 parts, 10 models), known-defects file for the Marea family, first manual, product sheets, streaming spike done. No app code yet.
+Day 3 of 15: idea locked, architecture written, fictional ERP built (SQLite, 14 tables, 237 parts, 10 models), known-defects file for the Marea family, first manual, product sheets, streaming spike done. Core logic written and tested (normaliser, model/group detection, catalog search, guided diagnosis, keyterm phases, roles). No server or UI yet.
 
 ## How AssemblyAI is used
 
