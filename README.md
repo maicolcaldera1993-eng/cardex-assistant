@@ -9,7 +9,7 @@ Built solo for the [AssemblyAI Voice Agent Hackathon](https://lablab.ai/ai-hacka
 
 ## Status
 
-Day 3 of 15: idea locked, architecture written, fictional ERP built (SQLite, 14 tables, 237 parts, 10 models), known-defects file for the Marea family, first manual, product sheets, streaming spike done. Core logic written and tested (normaliser, model/group detection, catalog search, guided diagnosis, keyterm phases, roles). No server or UI yet.
+Day 3 of 15: idea locked, architecture written, fictional ERP built (SQLite, 14 tables, 237 parts, 10 models), known-defects file for the Marea family, first manual, product sheets, streaming spike done. Core logic written and tested (normaliser, model/group detection, catalog search, guided diagnosis, keyterm phases, roles). Server, call session and operator page work end to end on a streamed sample call.
 
 ## How AssemblyAI is used
 
@@ -36,6 +36,9 @@ Recorded here as they are made.
 - **2026-09-16** Known-defects files are step-by-step procedures, not lists of causes: each symptom is a small flowchart (ask/do steps, each answer branches to the next step or to an outcome: remote fix, part the customer fits, part fitted with service support, technician). The operator sees one step at a time with the English sentence to read out, and clicks the customer's answer. The assistant never decides an outcome by itself.
 - **2026-09-16** Pronunciation knowledge (how a German says "Giglio", how the ASR mis-hears "Onda") lives in `app/lexicon/pronunciation.json`, owned by Cardex. The ERP holds only real business data. Product sheets are static (no stock or prices): live figures are read from the database at call time.
 - **2026-09-16** Knowledge base is structured, not embedded: `data/sereni.db` (SQLite ERP: parts, compatibility, supersessions, stock per warehouse, prices, suppliers, order stats), `data/kb/defects/*.json` (symptom → ordered causes → checks with the question to ask, the answer that confirms, what to do, resolution: remote / part_diy / part_with_support / technician), `data/kb/manuals/*.md`, `data/kb/parts/*.md` (generated from the DB, hand-written notes in `data/part_notes.py`). Retrieval will be fuzzy matching on spoken forms restricted to the detected model. No vector database: a few dozen defects and ten manuals do not need one, and deterministic retrieval is testable.
+
+- **2026-09-17** LLM Gateway on a free AssemblyAI account: only `qwen3.5-4b-32k-fast` is accessible and about two requests per minute are accepted (HTTP 429 beyond that). The clear-version feature therefore queues customer turns and clarifies them in one batched call per free slot, with a trade glossary in the system prompt; it never blocks the transcript. Endpoint, model and rate are environment variables (`LLM_BASE_URL`, `LLM_MODEL`, `LLM_MAX_PER_MINUTE`).
+- **2026-09-17** A machine mentioned in passing does not move the call context: the assistant logs it and offers a one-click switch. Keyterm reloads happen at once for a new machine or a new symptom, and at most every 15 seconds for a mere change of topic.
 
 ## Running locally
 

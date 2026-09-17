@@ -20,3 +20,4 @@ Thumbs.db
 .idea/
 .vscode/
 eval/spike_audio/
+samples/dev-*

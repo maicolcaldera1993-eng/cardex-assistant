@@ -102,7 +102,8 @@ class Diagnosis:
         br = st["branches"][branch_index]
         self.history.append({"step": st["id"], "kind": st["kind"], "text_it": st["text_it"], "text_en": st["text_en"],
                              "answer_it": br["label_it"], "answer_en": br["label_en"]})
-        if st.get("maintenance") and branch_index == 0:
+        # an 'ask' step reveals skipped maintenance with its first answer; a 'do' step is itself the overdue maintenance
+        if st.get("maintenance") and (st["kind"] == "do" or branch_index == 0):
             self.maintenance_flags.append(st["id"])
             for p in st.get("parts", []):
                 if p not in self.suggested_parts:

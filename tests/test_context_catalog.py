@@ -93,3 +93,8 @@ def test_description_search():
     cards = cat.search_description("the group gasket", model_id="onda-mb2")
     assert cards and cards[0].code == "GE-2410"
     assert cat.search_description("good morning how are you", model_id="marea-2-plus") == []
+
+
+def test_adapter_only_on_machines_that_need_it():
+    assert [c.code for c in cat.search_code("EL-3010", model_id="marea-2-plus")] == ["EL-3010", "EL-3012"]
+    assert [c.code for c in cat.search_code("EL-3010", model_id="giglio-1")] == ["EL-3010", "EL-3012", "EL-3036"]

@@ -128,9 +128,16 @@ class Catalog:
             out.append(c)
             if c.superseded_by:
                 out.append(self.card(c.superseded_by, c.score, "replacement", model_id))
-                if c.requires:
+                # the adapter harness is only needed on the machines it fits (2024 builds)
+                if c.requires and (not model_id or model_id in self._compat[c.requires]):
                     out.append(self.card(c.requires, c.score, "replacement", model_id))
-        return out
+        seen: set[str] = set()
+        unique = []
+        for c in sorted(out, key=lambda x: x.reason != "replacement" and x.reason != "exact"):  # keep exact + replacement first
+            if c.code not in seen:
+                seen.add(c.code)
+                unique.append(c)
+        return unique
 
     # -- search by words ---------------------------------------------------------
     def search_description(self, text: str, model_id: str | None = None, family: str | None = None,

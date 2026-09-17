@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cardex Assistant</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header>
+    <div class="brand"><strong>Cardex Assistant</strong><span id="tagline"></span></div>
+    <div class="status">
+      <span class="pill" id="st-session">—</span>
+      <span class="pill" id="st-machine">—</span>
+      <span class="pill" id="st-vocab">—</span>
+      <span class="pill" id="st-timer">0:00</span>
+    </div>
+    <div class="controls">
+      <label class="switch"><input type="checkbox" id="tg-clarify" checked><span></span><em id="lb-clarify"></em></label>
+      <label class="switch"><input type="checkbox" id="tg-assistant" checked><span></span><em id="lb-assistant"></em></label>
+      <button id="btn-lang" class="ghost">EN</button>
+    </div>
+  </header>
+
+  <section id="start">
+    <h1 id="start-title"></h1>
+    <p id="start-sub"></p>
+    <div class="start-buttons">
+      <div>
+        <select id="sample-select"></select>
+        <button id="btn-sample" class="primary"></button>
+      </div>
+      <div>
+        <button id="btn-mic" class="primary"></button>
+        <ul id="try-saying"></ul>
+      </div>
+    </div>
+  </section>
+
+  <main id="call" hidden>
+    <section class="col" id="col-talk">
+      <h2 id="h-talk"></h2>
+      <div id="turns"></div>
+      <div id="partial" class="partial"></div>
+    </section>
+    <section class="col" id="col-work">
+      <h2 id="h-diag"></h2>
+      <div id="diagnosis" class="panel empty"></div>
+      <h2 id="h-parts"></h2>
+      <div id="parts"></div>
+    </section>
+    <section class="col" id="col-log">
+      <h2 id="h-log"></h2>
+      <div id="log"></div>
+      <div class="foot">
+        <button id="btn-swap" class="ghost"></button>
+        <button id="btn-end" class="danger"></button>
+      </div>
+    </section>
+  </main>
+
+  <section id="summary" hidden></section>
+  <dialog id="sheet"><article id="sheet-body"></article><button id="sheet-close" class="ghost">×</button></dialog>
+  <script src="/static/app.js" type="module"></script>
+</body>
+</html>
