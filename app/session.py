@@ -30,7 +30,10 @@ from .llm.clarify import Clarifier
 ROOT = Path(__file__).resolve().parents[1]
 SAMPLES = ROOT / "samples"
 DUETS = SAMPLES / "duet"
-MAX_SESSION_SECONDS = int(os.getenv("MAX_SESSION_SECONDS", "300"))
+MAX_SESSION_SECONDS = int(os.getenv("MAX_SESSION_SECONDS", "600"))          # public demo guard
+MAX_REHEARSAL_SECONDS = int(os.getenv("MAX_REHEARSAL_SECONDS", "1500"))     # two-voice rehearsals take longer
+_REQUEST_CUE = re.compile(r"\b(need|order|ordered|send|replace|replacement|spare|part|broken|new one|another|"
+                          r"serve|servono|ordin\w+|mand\w+|sostitu\w+|ricambio|rotto|rotta|nuov[oa])\b", re.I)
 INACTIVITY_TIMEOUT = int(os.getenv("INACTIVITY_TIMEOUT_SECONDS", "60"))
 CHUNK_MS = 50
 
@@ -115,7 +118,7 @@ class CallSession:
                 self.asr = asr
                 self.clarifier.start()
                 await self.emit({"type": "session", "state": "open", "source": self.source, "lang": self.lang,
-                                 "limits": {"max_seconds": MAX_SESSION_SECONDS}})
+                                 "limits": {"max_seconds": MAX_REHEARSAL_SECONDS if self.duet else MAX_SESSION_SECONDS}})
                 await self._emit_vocab(vocab)
                 if self.duet:
                     await self.emit({"type": "duet_script", "id": self.duet["id"], "lines": self.duet["lines"]})
@@ -134,7 +137,11 @@ class CallSession:
             await self._emit_summary()
 
     async def _time_limit(self) -> None:
-        await asyncio.sleep(MAX_SESSION_SECONDS)
+        limit = MAX_REHEARSAL_SECONDS if self.duet else MAX_SESSION_SECONDS
+        await asyncio.sleep(max(0, limit - 45))
+        await self._agent("Tra 45 secondi la chiamata si chiude per il limite di durata." if self.lang == "it"
+                          else "The call closes in 45 seconds (time limit).")
+        await asyncio.sleep(45)
         await self._agent("Limite di durata della demo raggiunto: chiudo la chiamata." if self.lang == "it"
                           else "Demo time limit reached: closing the call.")
         await self.end()
@@ -256,12 +263,56 @@ class CallSession:
             await self.emit({"type": "turn", "id": tid, "final": False, "text": text})
             return
         words = msg.get("words") or []
-        role, label = self.roles.role_for(msg.get("speaker_label"))
-        if self.duet:
-            timed = self._duet_role(words)
-            if timed:
-                role = timed
-                self.diarization_agrees.append((timed, msg.get("speaker_label")))
+        # One AssemblyAI turn can hold both voices when the second starts without a pause ("Okay, what's the
+        # problem? We have a problem with..."). Split it by word: timing in rehearsal mode, word-level speaker
+        # labels otherwise. Each piece is then handled as a turn of its own.
+        segments = self._split_by_speaker(words, msg.get("speaker_label"))
+        if len(segments) <= 1:
+            role, label = (segments[0][0], segments[0][1]) if segments else self.roles.role_for(msg.get("speaker_label"))
+            await self._on_final_piece(tid, text, role, label, words)
+            return
+        for i, (role, label, piece_words) in enumerate(segments):
+            piece = " ".join(w.get("text", "") for w in piece_words).strip()
+            if piece:
+                await self._on_final_piece(tid * 100 + i, piece, role, label, piece_words)
+
+    def _split_by_speaker(self, words: list[dict], turn_label: str | None) -> list[tuple[str, str | None, list[dict]]]:
+        if not words:
+            return []
+        out: list[tuple[str, str | None, list[dict]]] = []
+        prev_role: str | None = None
+        for w in words:
+            if self.duet:
+                role = self._duet_role([w]) or prev_role or OPERATOR
+                label = w.get("speaker") or turn_label
+            else:
+                wl = w.get("speaker")
+                if wl in (None, "", "PENDING") and prev_role:
+                    role, label = prev_role, turn_label
+                else:
+                    role, label = self.roles.role_for(wl or turn_label)
+            if out and out[-1][0] == role:
+                out[-1][2].append(w)
+            else:
+                out.append((role, label, [w]))
+            prev_role = role
+        if not self.duet:
+            # diarization labels flicker: one or two words of the other voice inside a sentence are noise,
+            # not a speaker change. Timing (rehearsal mode) is exact and needs no smoothing.
+            smoothed: list[tuple[str, str | None, list[dict]]] = []
+            for i, seg in enumerate(out):
+                stray = 0 < i < len(out) - 1 and len(seg[2]) <= 2 and out[i - 1][0] == out[i + 1][0]
+                if smoothed and (stray or smoothed[-1][0] == seg[0]):
+                    smoothed[-1][2].extend(seg[2])
+                else:
+                    smoothed.append((seg[0], seg[1], list(seg[2])))
+            out = smoothed
+        else:
+            for role, label, _ in out:
+                self.diarization_agrees.append((role, label))
+        return out
+
+    async def _on_final_piece(self, tid: int, text: str, role: str, label: str | None, words: list[dict]) -> None:
         min_conf = round(min((w.get("confidence", 1.0) for w in words), default=1.0), 2)
         now = round(time.monotonic() - self.started, 1)
 
@@ -349,7 +400,9 @@ class CallSession:
                         break
             cards += CATALOG.search_code(c.code, model_id=self.model_id, family=self.family, groups=self.groups,
                                          min_confidence=conf if c.exact_shape else 0.0)
-        if not codes:
+        if not codes and role == CUSTOMER and _REQUEST_CUE.search(recent[0]):
+            # a part named by description counts only when the CUSTOMER is asking for something, not when the
+            # operator reads a procedure aloud ("14 grams in the double basket" is not an order for baskets)
             cards += CATALOG.search_description(recent[0], model_id=self.model_id, family=self.family, groups=self.groups)
         await self._add_cards(cards, tid, source="voice")
         for c in cards:
