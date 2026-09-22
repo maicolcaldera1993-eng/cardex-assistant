@@ -21,7 +21,7 @@ import numpy as np
 INDEX = Path(__file__).resolve().parents[2] / "data" / "kb" / "index.json"
 MODEL_NAME = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
 
-SYMPTOM_THRESHOLD = 0.60     # measured: small talk scores 0.27-0.44, real fault descriptions 0.65-0.92
+SYMPTOM_THRESHOLD = 0.66     # measured: small talk 0.27-0.44, generic "there is a problem" up to 0.69 (decoy), real faults 0.67-0.92
 SECTION_THRESHOLD = 0.64
 AMBIGUITY_GAP = 0.04         # two symptoms this close: show both, the operator picks
 

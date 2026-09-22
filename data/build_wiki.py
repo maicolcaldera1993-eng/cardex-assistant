@@ -130,7 +130,9 @@ def main() -> None:
                       "the coffee machine is not working properly", "I am calling about the espresso machine", "we need help with the machine",
                       "abbiamo un problema con la macchina del caffè", "la macchina non funziona bene", "chiamo per la macchina",
                       "c'è qualcosa che non va con la macchina", "hello good morning this is the bar calling", "we have an issue since two weeks",
-                      "the coffee is not good anymore", "il caffè non è più buono", "the coffee is bad"]})
+                      "the coffee is not good anymore", "il caffè non è più buono", "the coffee is bad",
+                      "what is your problem", "what is the problem", "which is the problem", "tell me the problem",
+                      "we have a problem with the machine since two weeks", "qual è il problema", "mi dica il problema"]})
     for f in sorted((KB / "parts").glob("*.md")):
         if f.name.endswith(".en.md"):
             continue

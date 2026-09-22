@@ -274,7 +274,7 @@ class CallSession:
         segments = self._split_by_speaker(words, msg.get("speaker_label"))
         if len(segments) <= 1:
             role, label = (segments[0][0], segments[0][1]) if segments else self.roles.role_for(msg.get("speaker_label"))
-            await self._on_final_piece(tid, text, role, label, words)
+            await self._on_final_piece(tid * 100, text, role, label, words)      # same id scale as split pieces
             return
         for i, (role, label, piece_words) in enumerate(segments):
             piece = " ".join(w.get("text", "") for w in piece_words).strip()
@@ -388,7 +388,10 @@ class CallSession:
         if changed:
             await self._emit_context()
 
-        if not await self._detect_symptom(recent):
+        # meaning-based symptom detection listens to the CUSTOMER only: the operator's questions ("what is the
+        # problem?", "how long does a shot take?") are about the fault, not descriptions of it. Exact spoken phrases
+        # still count from either voice (operators restate what they heard).
+        if not await self._detect_symptom(recent, semantic=(role == CUSTOMER)):
             await self._open_matching_section(recent[-1])
 
         cards = []
@@ -416,14 +419,14 @@ class CallSession:
         await self._maybe_reload_vocabulary()
 
     # ------------------------------------------------------------------ meaning and documents
-    async def _detect_symptom(self, texts: list[str]) -> bool:
+    async def _detect_symptom(self, texts: list[str], semantic: bool = True) -> bool:
         """Which known fault is this person describing? Meaning first (any language), exact phrases as a tie-breaker.
         Only the symptoms that apply to the machine being discussed are candidates."""
         exact = DEFECTS.match(texts[-1], model_id=self.model_id, family=self.family)
         chosen, heard, options = None, None, []
         if exact:
             chosen, heard = exact.symptom_id, exact.matched          # an exact spoken phrase is strong evidence
-        elif SEMANTIC.ready:
+        elif SEMANTIC.ready and semantic:
             fam = CATALOG.family_models(self.family) if self.family and not self.model_id else None
             allowed = SEMANTIC.ids_for("symptom", self.model_id, fam)
             best: dict[str, object] = {}
