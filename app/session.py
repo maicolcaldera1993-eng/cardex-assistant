@@ -151,6 +151,17 @@ class CallSession:
     async def end(self) -> None:
         if not self._closing and self.asr:
             self._closing = True
+            # the last thing said has no pause after it: send a little silence so the model hears the end,
+            # force the turn to close, give the final text time to arrive, then terminate
+            try:
+                silence = b"\x00" * (16000 * 2 * CHUNK_MS // 1000)
+                for _ in range(16):
+                    await self.asr.send_audio(silence)
+                    await asyncio.sleep(CHUNK_MS / 1000)
+                await self.asr.force_endpoint()
+                await asyncio.sleep(1.5)
+            except Exception:  # noqa: BLE001
+                pass
             await self.audio_q.put(None)
             await self.asr.terminate()
 

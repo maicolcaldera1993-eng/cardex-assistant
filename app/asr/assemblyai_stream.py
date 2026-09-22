@@ -52,6 +52,13 @@ class AssemblyAIStream:
             msg["prompt"] = prompt
         await self.ws.send(json.dumps(msg))
 
+    async def force_endpoint(self) -> None:
+        """Ask the model to close the turn in progress now (the last sentence before hanging up has no pause after it)."""
+        try:
+            await self.ws.send(json.dumps({"type": "ForceEndpoint"}))
+        except websockets.ConnectionClosed:
+            pass
+
     async def terminate(self) -> None:
         try:
             await self.ws.send(json.dumps({"type": "Terminate"}))
