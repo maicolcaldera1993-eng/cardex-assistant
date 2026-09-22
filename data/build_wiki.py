@@ -105,6 +105,15 @@ def main() -> None:
                           "title": s["symptom_it"], "title_en": s["symptom_en"], "models": s["models"], "group": s["group"],
                           "parts": parts, "refs": [s["symptom_en"], s["symptom_it"]] + s["spoken_forms"]})
 
+    # A decoy: generic "something is wrong" talk lands here instead of on a real symptom.
+    index.append({"id": "symptom/_generic", "kind": "symptom", "page": None, "anchor": None, "title": "(generico)",
+                  "title_en": "(generic)", "models": [m for n in index if n["kind"] == "symptom" for m in n["models"]],
+                  "group": None, "parts": [], "decoy": True, "refs": [
+                      "we have a problem with our coffee machine", "the machine has a problem", "something is wrong with the machine",
+                      "the coffee machine is not working properly", "I am calling about the espresso machine", "we need help with the machine",
+                      "abbiamo un problema con la macchina del caffè", "la macchina non funziona bene", "chiamo per la macchina",
+                      "c'è qualcosa che non va con la macchina", "hello good morning this is the bar calling", "we have an issue since two weeks",
+                      "the coffee is not good anymore", "il caffè non è più buono", "the coffee is bad"]})
     for f in sorted((KB / "parts").glob("*.md")):
         code = f.stem
         index.append({"id": f"part/{code}", "kind": "part", "page": f"parts/{code}.md", "anchor": "montaggio",

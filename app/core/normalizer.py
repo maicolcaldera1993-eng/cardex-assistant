@@ -81,11 +81,12 @@ def number_token(tok: str) -> tuple[str, int] | None:
     return None
 
 
-_TOKEN_RE = re.compile(r"[a-zàèéìòù]+|\d+", re.I)
+_TOKEN_RE = re.compile(r"[a-zàèéìòù]+|\d+|[.!?;,]", re.I)
+BREAK = "\x00"   # sentence boundary token: number words never continue across it
 
 
 def tokenize(text: str) -> list[str]:
-    return [t.lower() for t in _TOKEN_RE.findall(text.replace("-", " "))]
+    return [BREAK if t in ".!?;," else t.lower() for t in _TOKEN_RE.findall(text.replace("-", " "))]
 
 
 def read_digits(tokens: list[str], start: int, want: int = 4) -> tuple[str, int]:
@@ -197,7 +198,7 @@ def extract_codes(text: str) -> list[CodeCandidate]:
                 add(CodeCandidate(f"{prefix}-{digits}", " ".join(tokens[i:k]), True))
                 i = k
                 continue
-            if len(digits) in (3, 5):
+            if len(digits) in (3, 5) and not any(f.code == f"{prefix}-{digits[:4]}" and f.exact_shape for f in found):
                 add(CodeCandidate(f"{prefix}-{digits}", " ".join(tokens[i:k]), False))
                 i = k
                 continue
@@ -220,7 +221,8 @@ def words_to_digits(text: str) -> str:
                 out.append(digits)
                 i = j
                 continue
-        out.append(tokens[i])
+        if tokens[i] != BREAK:
+            out.append(tokens[i])
         i += 1
     s = " ".join(out)
     s = re.sub(r"\b(m|em|emme)\s+(b|bee|bi)\s*(\d)\b", r"mb\3", s)
@@ -232,7 +234,7 @@ def words_to_digits(text: str) -> str:
 
 def _tokens_with_spans(text: str) -> list[tuple[str, int, int]]:
     t = text.replace("-", " ")           # same length, so offsets still point into the original text
-    return [(m.group(0).lower(), m.start(), m.end()) for m in _TOKEN_RE.finditer(t)]
+    return [((BREAK if m.group(0) in ".!?;," else m.group(0).lower()), m.start(), m.end()) for m in _TOKEN_RE.finditer(t)]
 
 
 def canonicalize_codes(text: str) -> tuple[str, list[str]]:

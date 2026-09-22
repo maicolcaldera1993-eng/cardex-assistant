@@ -104,3 +104,11 @@ def test_roles():
 def test_symptoms_as_people_really_say_them(text, symptom):
     hit = lib.match(text, model_id="marea-2-plus")
     assert hit and hit.symptom_id == symptom
+
+
+def test_pinned_customer_label_wins_over_first_speaker_rule():
+    r = RoleTracker()
+    r.pin_customer("A")                       # the recorded customer spoke first
+    assert r.role_for("A")[0] == CUSTOMER
+    assert r.role_for("B")[0] == OPERATOR
+    assert r.role_for("A")[0] == CUSTOMER

@@ -43,7 +43,7 @@ def test_fault_described_in_any_language(lang, text, expected):
     "thank you very much, have a nice day",
 ])
 def test_small_talk_is_not_a_symptom(text):
-    hits = [m for m in sem.search(text, allowed=MAREA, k=1) if m.score >= SYMPTOM_THRESHOLD]
+    hits = [m for m in sem.search(text, allowed=MAREA, k=1) if m.score >= SYMPTOM_THRESHOLD and not sem.nodes[m.node_id].get("decoy")]
     assert hits == []
 
 

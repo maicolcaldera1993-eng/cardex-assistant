@@ -15,8 +15,14 @@ class RoleTracker:
     def __init__(self, single_speaker_role: str | None = None):
         self.single = single_speaker_role          # CUSTOMER in mic demo mode
         self.operator_label: str | None = None
+        self.customer_label: str | None = None    # pinned when we know for sure who a label is (rehearsal mode)
         self.last_label: str | None = None
         self.swapped = False
+
+    def pin_customer(self, label: str) -> None:
+        self.customer_label = label
+        if self.operator_label == label:
+            self.operator_label = None
 
     def role_for(self, speaker_label: str | None) -> tuple[str, str | None]:
         """Returns (role, resolved_label)."""
@@ -27,9 +33,11 @@ class RoleTracker:
             label = self.last_label
         if label is None:
             return OPERATOR if not self.swapped else CUSTOMER, None
+        self.last_label = label
+        if label == self.customer_label:
+            return (CUSTOMER if not self.swapped else OPERATOR), label
         if self.operator_label is None:
             self.operator_label = label
-        self.last_label = label
         is_op = (label == self.operator_label) != self.swapped
         return (OPERATOR if is_op else CUSTOMER), label
 

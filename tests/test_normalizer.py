@@ -20,6 +20,9 @@ def codes(text):
     ("The Onda gasket is G E twenty-four ten.", ["GE-2410"]),
     ("it is G E two thousand one hundred forty", ["GE-2140"]),
     ("GE 21 40", ["GE-2140"]),
+    ("The code on the invoice is GE-2140. One more thing.", ["GE-2140"]),
+    ("the gasket is G E twenty-one forty, one more thing", ["GE-2140"]),
+    ("I need two: G E twenty-one forty and G E twenty-one fifty.", ["GE-2140", "GE-2150"]),
     # italian
     ("codice gi e ventuno quaranta", ["GE-2140"]),
     ("la doccetta, gi e due uno cinque zero", ["GE-2150"]),

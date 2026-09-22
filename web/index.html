@@ -34,11 +34,20 @@
         <button id="btn-mic" class="primary"></button>
         <ul id="try-saying"></ul>
       </div>
+      <div>
+        <select id="duet-select"></select>
+        <button id="btn-duet" class="primary"></button>
+        <p id="duet-help" class="help"></p>
+      </div>
     </div>
   </section>
 
   <main id="call" hidden>
     <section class="col" id="col-talk">
+      <div id="duet-panel" hidden>
+        <h2 id="h-duet"></h2>
+        <div id="duet-lines"></div>
+      </div>
       <h2 id="h-talk"></h2>
       <div id="turns"></div>
       <div id="partial" class="partial"></div>

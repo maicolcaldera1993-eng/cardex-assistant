@@ -68,3 +68,9 @@ dialog { border:1px solid var(--line); border-radius:10px; max-width:720px; widt
 .doc-view mark { background:#ffd98a; font-weight:600; }
 .choice { display:flex; flex-direction:column; gap:6px; margin-top:8px; } .choice button { text-align:left; }
 .turn .merged { font-size:10px; color:var(--mute); margin-left:6px; }
+.help { color:var(--mute); font-size:12px; margin:10px 0 0; }
+#duet-panel { margin-bottom:12px; padding:8px; border:1px dashed var(--cu); border-radius:8px; background:#faf5f9; }
+#duet-lines { display:flex; flex-direction:column; gap:4px; max-height:26vh; overflow:auto; }
+.duet-line { text-align:left; font-size:12px; padding:4px 8px; border-color:#e2cfe0; }
+.duet-line.said { opacity:.45; } .duet-line.playing { border-color:var(--cu); background:#f1e3ee; font-weight:600; }
+.duet-line small { color:var(--mute); margin-right:6px; }

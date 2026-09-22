@@ -29,6 +29,7 @@ from .llm.clarify import Clarifier
 
 ROOT = Path(__file__).resolve().parents[1]
 SAMPLES = ROOT / "samples"
+DUETS = SAMPLES / "duet"
 MAX_SESSION_SECONDS = int(os.getenv("MAX_SESSION_SECONDS", "300"))
 INACTIVITY_TIMEOUT = int(os.getenv("INACTIVITY_TIMEOUT_SECONDS", "60"))
 CHUNK_MS = 50
@@ -66,7 +67,14 @@ _SERIAL = re.compile(r"(?:serial(?: number)?|matricola)\D{0,15}((?:\d[\s\-]?){5,
 class CallSession:
     def __init__(self, api_key: str, emit: Emit, *, source: str = "mic", lang: str = "it"):
         self.api_key, self.emit, self.source, self.lang = api_key, emit, source, lang
-        single = CUSTOMER if source == "mic" else _manifest_single(source)
+        single = CUSTOMER if source == "mic" else _manifest_single(source)      # duet: two real voices, no single role
+        self.duet: dict | None = None
+        self.duet_playing = False
+        self.duet_last_done = -10.0
+        if source.startswith("duet:"):
+            f = DUETS / source.split(":", 1)[1] / "script.json"
+            if f.is_file() and f.resolve().parent.parent == DUETS.resolve():
+                self.duet = json.loads(f.read_text(encoding="utf-8"))
         self.roles = RoleTracker(single_speaker_role=single)
         self.assistant_on, self.clarify_on = True, True
         self.model_id: str | None = None
@@ -106,6 +114,8 @@ class CallSession:
                 await self.emit({"type": "session", "state": "open", "source": self.source, "lang": self.lang,
                                  "limits": {"max_seconds": MAX_SESSION_SECONDS}})
                 await self._emit_vocab(vocab)
+                if self.duet:
+                    await self.emit({"type": "duet_script", "id": self.duet["id"], "lines": self.duet["lines"]})
                 feeder = asyncio.create_task(self._feed_sample() if self.source.startswith("sample:") else self._feed_mic())
                 guard = asyncio.create_task(self._time_limit())
                 try:
@@ -144,7 +154,36 @@ class CallSession:
             chunk = await self.audio_q.get()
             if chunk is None:
                 return
+            if self.duet_playing:
+                continue                      # the recorded customer is talking: the operator's mic stays out of the stream
             await self.asr.send_audio(chunk)
+
+    async def play_duet_line(self, n: int) -> None:
+        """Streams one recorded customer line into the same AssemblyAI session, at real-time pace, while the
+        browser plays it through the speakers for the operator to hear. Two real voices, one stream."""
+        if not self.duet or self.duet_playing or self._closing:
+            return
+        line = next((l for l in self.duet["lines"] if l["n"] == n), None)
+        if not line:
+            return
+        path = DUETS / self.duet["id"] / line["file"]
+        with wave.open(str(path), "rb") as w:
+            pcm = w.readframes(w.getnframes())
+        self.duet_playing = True
+        await self.emit({"type": "duet", "state": "playing", "n": n})
+        try:
+            step = 16000 * 2 * CHUNK_MS // 1000
+            t0 = time.monotonic()
+            for k, i in enumerate(range(0, len(pcm), step)):
+                if self._closing:
+                    return
+                await self.asr.send_audio(pcm[i:i + step].ljust(step, b"\x00"))
+                await asyncio.sleep(max(0.0, t0 + (k + 1) * CHUNK_MS / 1000 - time.monotonic()))
+            await asyncio.sleep(0.4)
+        finally:
+            self.duet_playing = False
+            self.duet_last_done = time.monotonic()
+            await self.emit({"type": "duet", "state": "done", "n": n})
 
     async def _feed_sample(self) -> None:
         name = self.source.split(":", 1)[1]
@@ -159,7 +198,7 @@ class CallSession:
         for n, i in enumerate(range(0, len(pcm), step)):
             if self._closing:
                 return
-            await self.asr.send_audio(pcm[i:i + step])
+            await self.asr.send_audio(pcm[i:i + step].ljust(step, b"\x00"))
             await asyncio.sleep(max(0.0, t0 + (n + 1) * CHUNK_MS / 1000 - time.monotonic()))
         await asyncio.sleep(1.5)
         await self.end()
@@ -189,6 +228,8 @@ class CallSession:
         if not msg.get("end_of_turn"):
             await self.emit({"type": "turn", "id": tid, "final": False, "text": text})
             return
+        if self.duet and (self.duet_playing or time.monotonic() - self.duet_last_done < 2.0) and msg.get("speaker_label") not in (None, "", "PENDING"):
+            self.roles.pin_customer(msg["speaker_label"])
         role, label = self.roles.role_for(msg.get("speaker_label"))
         words = msg.get("words") or []
         min_conf = round(min((w.get("confidence", 1.0) for w in words), default=1.0), 2)
@@ -202,10 +243,11 @@ class CallSession:
             last["fragments"].append(text)
             last["turn_ids"].append(tid)
             last["min_conf"] = min(last["min_conf"], min_conf)
+            last["confs"].append(min_conf)
             last["at_end"] = now
             utt = last
         else:
-            utt = {"id": tid, "raw": text, "fragments": [text], "role": role, "speaker": label, "turn_ids": [tid], "min_conf": min_conf,
+            utt = {"id": tid, "raw": text, "fragments": [text], "confs": [min_conf], "role": role, "speaker": label, "turn_ids": [tid], "min_conf": min_conf,
                    "at": now, "at_end": now, "clear": None}
             self.utterances.append(utt)
             self.turns[tid] = utt
@@ -220,12 +262,15 @@ class CallSession:
             # the whole utterance is re-read every time it grows: "the code is..." [4 s] "GE-2140" is one thought
             # codes need the whole utterance (a code can straddle a pause); meaning is read on what was just said,
             # the last two fragments, otherwise a long utterance dilutes it
-            recent = canonicalize_codes(" ".join(utt["fragments"][-2:]))[0]
-            await self._assist(utt["id"], utt["text"], role, utt["min_conf"], recent)
+            recent = [canonicalize_codes(f)[0] for f in utt["fragments"][-2:]]
+            if len(recent) == 2:
+                recent = [recent[-1], " ".join(recent)]          # what was just said, then with its predecessor for context
+            await self._assist(utt["id"], utt["text"], role, utt["confs"][-1], recent, utt)
 
     # ------------------------------------------------------------------ the assistant
-    async def _assist(self, tid: int, text: str, role: str, min_conf: float, recent: str | None = None) -> None:
-        recent = recent or text
+    async def _assist(self, tid: int, text: str, role: str, min_conf: float, recent: list[str] | None = None,
+                      utt: dict | None = None) -> None:
+        recent = recent or [text]
         hit = CONTEXT.detect(text)
         changed = False
         if hit.model_id and self.model_id and hit.model_id != self.model_id:
@@ -259,15 +304,23 @@ class CallSession:
             await self._emit_context()
 
         if not await self._detect_symptom(recent):
-            await self._open_matching_section(recent)
+            await self._open_matching_section(recent[-1])
 
         cards = []
         codes = extract_codes(text)
         for c in codes:
+            if c.code in self.cards:
+                continue                                       # already on the table from an earlier fragment
+            conf = min_conf
+            if utt:                                            # confidence of the fragment the code was heard in
+                for frag, fc in zip(utt["fragments"], utt["confs"]):
+                    if c.code in canonicalize_codes(frag)[0]:
+                        conf = fc
+                        break
             cards += CATALOG.search_code(c.code, model_id=self.model_id, family=self.family, groups=self.groups,
-                                         min_confidence=min_conf if c.exact_shape else 0.0)
+                                         min_confidence=conf if c.exact_shape else 0.0)
         if not codes:
-            cards += CATALOG.search_description(text, model_id=self.model_id, family=self.family, groups=self.groups)
+            cards += CATALOG.search_description(recent[0], model_id=self.model_id, family=self.family, groups=self.groups)
         await self._add_cards(cards, tid, source="voice")
         for c in cards:
             if c.reason in ("exact", "near-code", "description") and c.compatible:
@@ -276,25 +329,31 @@ class CallSession:
         await self._maybe_reload_vocabulary()
 
     # ------------------------------------------------------------------ meaning and documents
-    async def _detect_symptom(self, text: str) -> bool:
+    async def _detect_symptom(self, texts: list[str]) -> bool:
         """Which known fault is this person describing? Meaning first (any language), exact phrases as a tie-breaker.
         Only the symptoms that apply to the machine being discussed are candidates."""
-        exact = DEFECTS.match(text, model_id=self.model_id, family=self.family)
+        exact = DEFECTS.match(texts[-1], model_id=self.model_id, family=self.family)
         chosen, heard, options = None, None, []
-        if SEMANTIC.ready:
+        if exact:
+            chosen, heard = exact.symptom_id, exact.matched          # an exact spoken phrase is strong evidence
+        elif SEMANTIC.ready:
             fam = CATALOG.family_models(self.family) if self.family and not self.model_id else None
             allowed = SEMANTIC.ids_for("symptom", self.model_id, fam)
-            ms = [m for m in SEMANTIC.search(text, allowed=allowed, k=2) if m.score >= SYMPTOM_THRESHOLD]
+            best: dict[str, object] = {}
+            for q in texts:                                          # the last fragment alone, then with context
+                for m in SEMANTIC.search(q, allowed=allowed, k=3):
+                    if m.node_id not in best or m.score > best[m.node_id].score:
+                        best[m.node_id] = m
+            ms = sorted(best.values(), key=lambda m: m.score, reverse=True)
+            if ms and SEMANTIC.nodes[ms[0].node_id].get("decoy"):
+                ms = []                                              # "we have a problem with the machine": not a symptom yet
+            ms = [m for m in ms if not SEMANTIC.nodes[m.node_id].get("decoy") and m.score >= SYMPTOM_THRESHOLD][:2]
             if ms:
                 ids = [m.node_id.split("/", 1)[1] for m in ms]
-                if exact and exact.symptom_id in ids:
-                    chosen, heard = exact.symptom_id, exact.matched
-                elif len(ms) == 2 and ms[0].score - ms[1].score < AMBIGUITY_GAP:
+                if len(ms) == 2 and ms[0].score - ms[1].score < AMBIGUITY_GAP:
                     options = ms
                 else:
                     chosen, heard = ids[0], f"≈ {ms[0].ref}, {ms[0].score:.2f}"
-        if not chosen and not options and exact:
-            chosen, heard = exact.symptom_id, exact.matched
         active = self.diagnosis.symptom["id"] if self.diagnosis else None
 
         if options:
@@ -430,6 +489,8 @@ class CallSession:
         a = msg.get("action")
         if a == "end_call":
             await self.end()
+        elif a == "play_line" and self.duet:
+            asyncio.create_task(self.play_duet_line(int(msg.get("n", 0))))
         elif a == "swap_roles":
             self.roles.swap()
             await self._agent("Ruoli scambiati." if self.lang == "it" else "Roles swapped.")

@@ -1,0 +1,82 @@
+{
+  "id": "jonas-marea",
+  "title_it": "Jonas, Cafe Berlin (tedesco): Marea 2 Plus, caffè slavato",
+  "title_en": "Jonas, Cafe Berlin (German): Marea 2 Plus, weak coffee",
+  "voice": "de-DE-ConradNeural",
+  "customer_lang": "en",
+  "accent": "de",
+  "lines": [
+    {
+      "n": 1,
+      "file": "01.wav",
+      "seconds": 6.3,
+      "text": "Hello, good morning. This is Jonas, from Cafe Berlin, in Hamburg."
+    },
+    {
+      "n": 2,
+      "file": "02.wav",
+      "seconds": 7.7,
+      "text": "We have a problem with our coffee machine. It is the Marea 2 Plus, the vanilla one, the cream colour."
+    },
+    {
+      "n": 3,
+      "file": "03.wav",
+      "seconds": 9.1,
+      "text": "Since maybe two weeks, the coffee comes out very thin and fast. Like water. No body, no crema."
+    },
+    {
+      "n": 4,
+      "file": "04.wav",
+      "seconds": 6.5,
+      "text": "A double shot takes maybe fifteen, eighteen seconds. Before it was longer."
+    },
+    {
+      "n": 5,
+      "file": "05.wav",
+      "seconds": 6.6,
+      "text": "The last cleaning with the tablet and the blind filter... honestly, I think two or three weeks ago."
+    },
+    {
+      "n": 6,
+      "file": "06.wav",
+      "seconds": 6.8,
+      "text": "Okay, I did the backflush now, five times with the tablet. It is still weak."
+    },
+    {
+      "n": 7,
+      "file": "07.wav",
+      "seconds": 7.4,
+      "text": "I unscrewed the shower screen. It has white scale on it, but the holes are fine, not damaged."
+    },
+    {
+      "n": 8,
+      "file": "08.wav",
+      "seconds": 7.0,
+      "text": "I put it in the descaler and cleaned it. Now the coffee is much better, yes. Thank you."
+    },
+    {
+      "n": 9,
+      "file": "09.wav",
+      "seconds": 11.7,
+      "text": "Also, when I lock the portafilter it goes very far to the right, and water comes around. Last year we ordered the gasket, the code on the invoice is G E twenty-one forty."
+    },
+    {
+      "n": 10,
+      "file": "10.wav",
+      "seconds": 4.3,
+      "text": "The serial number is zero four seven, two one nine."
+    },
+    {
+      "n": 11,
+      "file": "11.wav",
+      "seconds": 9.6,
+      "text": "One more thing. The control board, on the old one is written E L three zero one zero. Is it still the same part?"
+    },
+    {
+      "n": 12,
+      "file": "12.wav",
+      "seconds": 8.0,
+      "text": "Okay, perfect. Please send the gasket and the tablets to Hamburg. Thank you, goodbye."
+    }
+  ]
+}

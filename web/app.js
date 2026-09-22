@@ -7,7 +7,7 @@ const T = {
     tagline: "service di primo ingresso · Sereni Macchine da Caffè",
     startTitle: "Il collega esperto che sta in linea con te.",
     startSub: "Trascrive la chiamata, ti spiega cosa intende il cliente, riconosce macchina e guasto, ti guida nella diagnosi e trova il ricambio.",
-    sample: "Riproduci una chiamata di esempio", mic: "Usa il mio microfono (tu sei il cliente)",
+    sample: "Riproduci una chiamata di esempio", mic: "Usa il mio microfono (tu sei il cliente)", duet: "Prova a due voci (tu operatore, cliente registrato)", duetHelp: "Parla tu al microfono come operatore. Quando tocca al cliente, clicca la battuta che vuoi fargli dire: la senti dalle casse e il microfono resta muto finché parla.", duetPanel: "Cliente registrato: fagli dire…", noDuets: "Nessuna prova a due voci disponibile",
     clarify: "Versione chiara", assistant: "Assistente", talk: "Conversazione", diag: "Diagnosi guidata", parts: "Ricambi proposti",
     log: "Registro dell'assistente", docs: "Documenti aperti dall'assistente", noDocs: "Quando si parla di una macchina, di un guasto o di un ricambio, il documento giusto si apre qui, al punto giusto.", choose: "Due guasti possibili. Di quale sta parlando?", merged: "frasi unite", swap: "Scambia ruoli", end: "Fine chiamata", operator: "Operatore", customer: "Cliente",
     noDiag: "Nessun sintomo riconosciuto. Quando il cliente descrive un problema, la procedura compare qui.",
@@ -24,7 +24,7 @@ const T = {
     tagline: "first-line service desk · Sereni espresso machines",
     startTitle: "The expert colleague who stays on the line with you.",
     startSub: "It transcribes the call, tells you what the customer means, recognises the machine and the fault, guides the diagnosis and finds the part.",
-    sample: "Play a sample call", mic: "Use my microphone (you are the customer)",
+    sample: "Play a sample call", mic: "Use my microphone (you are the customer)", duet: "Two-voice rehearsal (you operator, recorded customer)", duetHelp: "Speak into the microphone as the operator. When it is the customer's turn, click the line you want them to say: you hear it from the speakers and your mic stays muted while they talk.", duetPanel: "Recorded customer: have them say…", noDuets: "No two-voice rehearsal available",
     clarify: "Clear version", assistant: "Assistant", talk: "Conversation", diag: "Guided diagnosis", parts: "Proposed parts",
     log: "Assistant log", docs: "Documents opened by the assistant", noDocs: "When a machine, a fault or a part comes up, the right document opens here, at the right place.", choose: "Two possible faults. Which one is it?", merged: "sentences joined", swap: "Swap roles", end: "End call", operator: "Operator", customer: "Customer",
     noDiag: "No symptom recognised yet. When the customer describes a problem, the procedure appears here.",
@@ -41,7 +41,7 @@ const T = {
 
 let lang = new URLSearchParams(location.search).get("lang") === "en" ? "en" : "it";
 let L = T[lang];
-let ws = null, audioCtx = null, micStream = null, timer = null, t0 = 0;
+let ws = null, audioCtx = null, micStream = null, timer = null, t0 = 0, micMuted = false, duetId = null;
 const cards = new Map();
 const knownCodes = new Set();
 const docs = [];
@@ -51,7 +51,7 @@ function applyLanguage() {
   L = T[lang];
   document.documentElement.lang = lang;
   $("tagline").textContent = L.tagline; $("start-title").textContent = L.startTitle; $("start-sub").textContent = L.startSub;
-  $("btn-sample").textContent = L.sample; $("btn-mic").textContent = L.mic; $("lb-clarify").textContent = L.clarify; $("lb-assistant").textContent = L.assistant;
+  $("btn-sample").textContent = L.sample; $("btn-mic").textContent = L.mic; $("btn-duet").textContent = L.duet; $("duet-help").textContent = L.duetHelp; $("h-duet").textContent = L.duetPanel; $("lb-clarify").textContent = L.clarify; $("lb-assistant").textContent = L.assistant;
   $("h-talk").textContent = L.talk; $("h-diag").textContent = L.diag; $("h-parts").textContent = L.parts; $("h-log").textContent = L.log; $("h-docs").textContent = L.docs; if ($("doc-view").classList.contains("empty")) $("doc-view").textContent = L.noDocs;
   $("btn-swap").textContent = L.swap; $("btn-end").textContent = L.end; $("btn-lang").textContent = lang === "it" ? "EN" : "IT";
   $("try-saying").innerHTML = L.tries.map((t) => `<li>${esc(t)}</li>`).join("");
@@ -64,6 +64,9 @@ async function loadSamples() {
   sel.innerHTML = list.length ? list.map((s) => `<option value="${esc(s.id)}">${esc(s[`title_${lang}`] || s.title || s.id)}</option>`).join("")
     : `<option value="">${esc(L.noSamples)}</option>`;
   $("btn-sample").disabled = !list.length;
+  const duets = await fetch("/api/duets").then((r) => r.json()).catch(() => []);
+  $("duet-select").innerHTML = duets.length ? duets.map((d) => `<option value="${esc(d.id)}">${esc(d[`title_${lang}`] || d.id)}</option>`).join("") : `<option value="">${esc(L.noDuets)}</option>`;
+  $("btn-duet").disabled = !duets.length;
 }
 
 function send(obj) { if (ws && ws.readyState === 1) ws.send(JSON.stringify(obj)); }
@@ -77,7 +80,8 @@ function startCall(source) {
   ws.binaryType = "arraybuffer";
   ws.onmessage = (ev) => handle(JSON.parse(ev.data));
   ws.onclose = () => { stopMic(); clearInterval(timer); $("st-session").textContent = L.closed; $("st-session").classList.remove("on"); };
-  ws.onopen = () => { t0 = Date.now(); timer = setInterval(tick, 500); if (source === "mic") startMic(); };
+  duetId = source.startsWith("duet:") ? source.slice(5) : null; $("duet-panel").hidden = !duetId; $("duet-lines").innerHTML = "";
+  ws.onopen = () => { t0 = Date.now(); timer = setInterval(tick, 500); if (source === "mic" || duetId) startMic(); };
 }
 
 function tick() { const s = Math.floor((Date.now() - t0) / 1000); $("st-timer").textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; }
@@ -87,7 +91,7 @@ async function startMic() {
   audioCtx = new AudioContext();
   await audioCtx.audioWorklet.addModule("/static/worklet.js");
   const node = new AudioWorkletNode(audioCtx, "pcm16-downsampler");
-  node.port.onmessage = (e) => { if (ws && ws.readyState === 1) ws.send(e.data); };
+  node.port.onmessage = (e) => { if (ws && ws.readyState === 1 && !micMuted) ws.send(e.data); };
   audioCtx.createMediaStreamSource(micStream).connect(node);
 }
 function stopMic() { if (micStream) micStream.getTracks().forEach((t) => t.stop()); if (audioCtx) audioCtx.close(); micStream = audioCtx = null; }
@@ -109,6 +113,8 @@ function handle(ev) {
     case "part_status": if (cards.has(ev.code)) { cards.get(ev.code).status = ev.status; renderParts(); } break;
     case "diagnosis": renderDiagnosis(ev); break;
     case "symptom_choice": renderChoice(ev.options); break;
+    case "duet_script": renderDuet(ev.lines); break;
+    case "duet": { const b = document.querySelector(`.duet-line[data-n="${ev.n}"]`); if (b) { b.classList.toggle("playing", ev.state === "playing"); if (ev.state === "done") b.classList.add("said"); } if (ev.state === "done") setTimeout(() => (micMuted = false), 300); break; }
     case "open_doc": openDoc(ev); break;
     case "agent": { const d = document.createElement("div"); d.innerHTML = `<time>${fmt(ev.at)}</time>${esc(ev.text)}`; $("log").prepend(d); break; }
     case "model_mention": { const d = document.createElement("div"); d.innerHTML = `<button class="ghost" style="padding:2px 8px;font-size:12px">→ ${esc(ev.model)}</button>`; d.querySelector("button").onclick = () => send({ type: "control", action: "set_machine", model_id: ev.model_id }); $("log").prepend(d); break; }
@@ -145,6 +151,17 @@ function renderDiagnosis(d) {
     `<div class="say"><small>${L.say}</small>${esc(s.say_in_english)}</div>${s.note ? `<div class="note">${esc(s.note)}</div>` : ""}` +
     `<div class="branches">${s.branches.map((b, i) => `<button data-branch="${i}">${esc(b)}</button>`).join("")}</div></div>`;
   p.querySelectorAll("[data-branch]").forEach((b) => (b.onclick = () => send({ type: "control", action: "answer_step", branch: +b.dataset.branch })));
+}
+
+function renderDuet(lines) {
+  $("duet-lines").innerHTML = lines.map((l) => `<button class="duet-line" data-n="${l.n}"><small>${l.n}</small>${esc(l.text)}</button>`).join("");
+  $("duet-lines").querySelectorAll(".duet-line").forEach((b) => (b.onclick = () => {
+    const n = +b.dataset.n, line = lines.find((x) => x.n === n);
+    micMuted = true;
+    const a = new Audio(`/duet-audio/${duetId}/${line.file}`);
+    a.play().catch(() => {});
+    send({ type: "control", action: "play_line", n });
+  }));
 }
 
 function renderChoice(options) {
@@ -212,6 +229,7 @@ function renderSummary(s) {
 
 $("btn-sample").onclick = () => startCall(`sample:${$("sample-select").value}`);
 $("btn-mic").onclick = () => startCall("mic");
+$("btn-duet").onclick = () => startCall(`duet:${$("duet-select").value}`);
 $("btn-end").onclick = () => send({ type: "control", action: "end_call" });
 $("btn-swap").onclick = () => send({ type: "control", action: "swap_roles" });
 $("tg-clarify").onchange = (e) => send({ type: "control", action: "toggle", what: "clarify", on: e.target.checked });

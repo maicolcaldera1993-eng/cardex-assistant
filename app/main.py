@@ -24,6 +24,8 @@ _active = 0
 
 app = FastAPI(title="Cardex Assistant")
 app.mount("/static", StaticFiles(directory=ROOT / "web"), name="static")
+if (ROOT / "samples" / "duet").is_dir():
+    app.mount("/duet-audio", StaticFiles(directory=ROOT / "samples" / "duet"), name="duet-audio")
 
 
 @app.on_event("startup")
@@ -46,6 +48,15 @@ def healthz() -> dict:
 def samples() -> list[dict]:
     manifest = SAMPLES / "manifest.json"
     return json.loads(manifest.read_text(encoding="utf-8")) if manifest.exists() else []
+
+
+@app.get("/api/duets")
+def duets() -> list[dict]:
+    out = []
+    for f in sorted((ROOT / "samples" / "duet").glob("*/script.json")):
+        d = json.loads(f.read_text(encoding="utf-8"))
+        out.append({"id": d["id"], "title_it": d["title_it"], "title_en": d["title_en"], "lines": len(d["lines"])})
+    return out
 
 
 @app.get("/api/models")
