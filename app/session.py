@@ -35,6 +35,7 @@ MAX_REHEARSAL_SECONDS = int(os.getenv("MAX_REHEARSAL_SECONDS", "1500"))     # tw
 _REQUEST_CUE = re.compile(r"\b(need|order|ordered|send|replace|replacement|spare|part|broken|new one|another|"
                           r"serve|servono|ordin\w+|mand\w+|sostitu\w+|ricambio|rotto|rotta|nuov[oa])\b", re.I)
 INACTIVITY_TIMEOUT = int(os.getenv("INACTIVITY_TIMEOUT_SECONDS", "60"))
+_DEBUG_LOG = os.getenv("CARDEX_DEBUG_TURNS")          # path of a file: raw final turns are appended there
 CHUNK_MS = 50
 
 # Loaded once, shared by every session (read-only).
@@ -183,6 +184,7 @@ class CallSession:
         self.duet_playing = True
         await self.emit({"type": "duet", "state": "playing", "n": n})
         start_ms = self.stream_ms
+        self.duet_windows.append((start_ms, float("inf")))     # open window: turns arrive WHILE the clip plays
         try:
             step = 16000 * 2 * CHUNK_MS // 1000
             t0 = time.monotonic()
@@ -194,7 +196,7 @@ class CallSession:
                 await asyncio.sleep(max(0.0, t0 + (k + 1) * CHUNK_MS / 1000 - time.monotonic()))
             await asyncio.sleep(0.4)
         finally:
-            self.duet_windows.append((start_ms, self.stream_ms))   # where, in stream time, the recorded customer spoke
+            self.duet_windows[-1] = (start_ms, self.stream_ms)     # close the window: where the recorded customer spoke
             self.duet_playing = False
             self.duet_last_done = time.monotonic()
             await self.emit({"type": "duet", "state": "done", "n": n})
@@ -215,7 +217,7 @@ class CallSession:
             return None
         mid = (words[0].get("start", 0) + words[-1].get("end", 0)) / 2
         for a, b in self.duet_windows:
-            if a - 400 <= mid <= b + 400:
+            if a - 50 <= mid <= b + 100:          # the operator's mic is off while the clip plays: edges are sharp
                 return CUSTOMER
         return OPERATOR
 
@@ -255,6 +257,9 @@ class CallSession:
             await self.emit({"type": "error", "text": json.dumps(msg)[:300]})
 
     async def _on_turn(self, msg: dict) -> None:
+        if _DEBUG_LOG and msg.get("end_of_turn"):
+            with open(_DEBUG_LOG, "a", encoding="utf-8") as f:
+                f.write(json.dumps({"stream_ms": round(self.stream_ms), "windows": self.duet_windows, "turn": msg}, ensure_ascii=False) + "\n")
         tid = msg.get("turn_order", 0)
         text = (msg.get("transcript") or "").strip()
         if not text:
