@@ -77,6 +77,7 @@ class CallSession:
         self.duet_last_done = -10.0
         self.duet_windows: list[tuple[float, float]] = []
         self.diarization_agrees: list[tuple[str, str | None]] = []   # (role from timing, label from AssemblyAI)
+        self.label_votes: dict[str, dict[str, int]] = {}             # voice label -> votes for operator / customer
         self.stream_ms = 0.0
         if source.startswith("duet:"):
             f = DUETS / source.split(":", 1)[1] / "script.json"
@@ -288,8 +289,23 @@ class CallSession:
         prev_role: str | None = None
         for w in words:
             if self.duet:
-                role = self._duet_role([w]) or prev_role or OPERATOR
+                # timing teaches which voice label is the customer (the label heard while a clip plays); once a
+                # label has enough votes, the word's own label decides, and timing only fills in unlabeled words
+                timed = self._duet_role([w]) or prev_role or OPERATOR
                 label = w.get("speaker") or turn_label
+                if label not in (None, "", "PENDING"):
+                    votes = self.label_votes.setdefault(label, {OPERATOR: 0, CUSTOMER: 0})
+                    votes[timed] += 1
+                    total = votes[OPERATOR] + votes[CUSTOMER]
+                    leader = max(votes, key=votes.get)
+                    # deep inside or far outside a clip window the clock is trustworthy (labels slip on very short
+                    # turns); near an edge the clock may have drifted, so the learned label decides
+                    mid = (w.get("start", 0) + w.get("end", 0)) / 2
+                    near_edge = any(abs(mid - a) < 800 or abs(mid - b) < 800 for a, b in self.duet_windows if b != float("inf")) \
+                        or any(abs(mid - a) < 800 for a, b in self.duet_windows if b == float("inf"))
+                    role = leader if near_edge and total >= 6 and votes[leader] / total >= 0.7 else timed
+                else:
+                    role = timed
             else:
                 wl = w.get("speaker")
                 if wl in (None, "", "PENDING") and prev_role:
