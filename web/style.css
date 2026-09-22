@@ -77,5 +77,16 @@ dialog { border:1px solid var(--line); border-radius:10px; max-width:720px; widt
 .duet-line.said { opacity:.45; } .duet-line.playing { border-color:var(--cu); background:#f1e3ee; font-weight:600; }
 .duet-line small { color:var(--mute); margin-right:6px; }
 .turn .clear.wait { color:var(--mute); font-size:12px; }
+.closebar { display:flex; gap:6px; align-items:center; justify-content:flex-end; margin-top:8px; flex-wrap:wrap; }
+.closebar .note { margin:0 auto 0 0; }
+button.ok { border-color:var(--ok); color:var(--ok); }
+.handling { display:inline-block; margin-top:6px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; padding:2px 8px; border-radius:999px; }
+.handling.diy { background:#e6f4ea; color:var(--ok); } .handling.support { background:#fdf0dc; color:var(--warn); } .handling.technician { background:#fbe4e4; color:var(--bad); }
+.card .say { margin-top:6px; font-size:12px; }
+.machine { margin-bottom:12px; background:#f3f6fb; border-color:#c9d6ea; }
+.machine .who { color:var(--op); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; margin-bottom:4px; }
+.tag { display:inline-block; font-size:11px; font-weight:700; padding:2px 8px; border-radius:999px; margin-top:4px; }
+.tag.ok { background:#e6f4ea; color:var(--ok); } .tag.bad { background:#fbe4e4; color:var(--bad); }
+
 kbd { display:inline-block; min-width:16px; padding:0 4px; border:1px solid var(--line); border-bottom-width:2px; border-radius:4px; font:11px ui-monospace, Consolas, monospace; color:var(--mute); margin-right:4px; }
 .doc-view h3.target { background:#fff3cd; }

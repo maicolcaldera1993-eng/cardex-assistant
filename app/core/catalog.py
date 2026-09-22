@@ -10,6 +10,7 @@ functional group being discussed and by how often the part is ordered.
 from __future__ import annotations
 
 import json
+import re
 import sqlite3
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -96,6 +97,21 @@ class Catalog:
                         note=(sup["note"] if sup else None) or p["notes"],
                         supplier=supplier["name"] if supplier else None,
                         lead_time_days=supplier["lead_time_days"] if supplier else None, delivery=delivery)
+
+    def machine(self, serial: str) -> dict | None:
+        """The installed-base record for a serial number, tolerant to one mis-heard digit."""
+        digits = re.sub(r"[^0-9A-Z]", "", serial.upper())
+        rows = [dict(r) for r in self.con.execute("SELECT * FROM machines")]
+        exact = [r for r in rows if re.sub(r"[^0-9A-Z]", "", r["serial"].upper()) == digits]
+        cands = exact or [r for r in rows if DamerauLevenshtein.distance(re.sub(r"[^0-9A-Z]", "", r["serial"].upper()), digits) == 1]
+        if len(cands) != 1:
+            return None
+        m = cands[0]
+        m["matched_exactly"] = bool(exact)
+        m["orders"] = [dict(r) for r in self.con.execute(
+            "SELECT o.ordered_on, o.code, o.qty, p.description_it, p.description_en FROM machine_orders o JOIN parts p ON p.code = o.code "
+            "WHERE o.serial=? ORDER BY o.ordered_on DESC", (m["serial"],))]
+        return m
 
     def _prior(self, code: str, groups: list[str]) -> float:
         boost = 0.05 * (self._orders[code] / self._max_orders)

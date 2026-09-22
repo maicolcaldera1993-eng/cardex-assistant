@@ -35,6 +35,28 @@ SUPPLIERS = [
 
 WAREHOUSES = ["FI-01 Firenze", "NL-01 Rotterdam hub"]
 
+# Installed base: the serial number is the key that unlocks build year, warranty and history.
+# serial, model, edition, built (YYYY-MM), voltage, customer, city, country, installed, warranty_until, notes
+MACHINES = [
+    ("047219", "marea-2-plus", "vaniglia", "2025-04", "230V", "Café Berlin", "Hamburg", "DE", "2025-05-12", "2027-05-12", "Water softener installed at delivery."),
+    ("041188", "marea-2", None, "2024-03", "230V", "Bar Centrale", "Lucca", "IT", "2024-04-02", "2026-04-02", "2024 build: control board v1, needs adapter EL-3036 with EL-3012."),
+    ("041302", "marea-2", None, "2024-06", "110V", "Espresso Corner", "Chicago", "US", "2024-08-15", "2026-08-15", None),
+    ("052710", "marea-2-evo", None, "2026-02", "400V", "Hotel Excelsior", "Vienna", "AT", "2026-03-01", "2028-03-01", None),
+    ("043377", "giglio-1", None, "2024-09", "230V", "Galata Kahve", "Istanbul", "TR", "2024-10-20", "2026-10-20", "Very hard water: filter cartridge every month."),
+    ("051040", "giglio-1-plus", "vaniglia", "2026-01", "230V", "Pastelería Sol", "Valencia", "ES", "2026-01-25", "2028-01-25", None),
+    ("044801", "onda-mb2", None, "2024-11", "230V", "Kaffeehaus Nord", "Berlin", "DE", "2024-12-05", "2026-12-05", None),
+    ("049155", "onda-mb3", None, "2025-07", "400V", "Roastery 21", "Rotterdam", "NL", "2025-08-01", "2027-08-01", None),
+    ("053002", "onda-mb2-evo", None, "2026-03", "230V", "Bar Sol", "Valencia", "ES", "2026-04-10", "2028-04-10", None),
+    ("G24-0177", "monda-65", None, "2024-05", "230V", "Café Berlin", "Hamburg", "DE", "2024-06-01", "2026-06-01", None),
+    ("G25-0412", "monda-65-digit", None, "2025-09", "230V", "Bar Sol", "Valencia", "ES", "2025-10-03", "2027-10-03", None),
+]
+MACHINE_ORDERS = [
+    ("047219", "2025-09-18", "GE-2140", 2), ("047219", "2025-09-18", "CR-6052", 1), ("047219", "2026-03-02", "VA-5015", 1),
+    ("041188", "2025-02-11", "GE-2210", 2), ("041188", "2025-11-20", "CA-1230", 1),
+    ("043377", "2025-05-05", "ID-4061", 3), ("043377", "2026-01-14", "CA-1190", 1),
+    ("044801", "2025-10-10", "GE-2410", 2), ("G24-0177", "2025-12-01", "MC-7010", 1),
+]
+
 MODEL_GROUPS = {m[0]: max(m[5], 1) for m in bc.MODELS}
 PER_GROUP_KEYWORDS = ("sottocoppa", "doccetta", "portadoccia", "elettrovalvola gruppo", "gigleur", "preinfusione",
                       "camera", "corpo gruppo", "kit revisione gruppo", "sonda temperatura gruppo", "camicia gruppo",
@@ -126,6 +148,9 @@ def build_db() -> None:
     CREATE TABLE prices (code TEXT, list_price_eur REAL, valid_from TEXT, valid_to TEXT);
     CREATE TABLE order_stats (code TEXT PRIMARY KEY, orders_last_12m INTEGER);
     CREATE TABLE documents (id TEXT PRIMARY KEY, kind TEXT, model_id TEXT, family TEXT, code TEXT, path TEXT, title TEXT, internal INTEGER);
+    CREATE TABLE machines (serial TEXT PRIMARY KEY, model_id TEXT, edition TEXT, built TEXT, voltage TEXT, customer TEXT,
+                           city TEXT, country TEXT, installed TEXT, warranty_until TEXT, notes TEXT);
+    CREATE TABLE machine_orders (serial TEXT, ordered_on TEXT, code TEXT, qty INTEGER);
     CREATE INDEX ix_compat_model ON compatibility(model_id);
     """)
     for (i, n, f, y, t, g, aliases) in bc.MODELS:
@@ -136,6 +161,8 @@ def build_db() -> None:
         for m in e["models"]:
             c.execute("INSERT INTO edition_models VALUES (?,?)", (eid, m))
     c.executemany("INSERT INTO suppliers VALUES (?,?,?,?,?)", SUPPLIERS)
+    c.executemany("INSERT INTO machines VALUES (?,?,?,?,?,?,?,?,?,?,?)", MACHINES)
+    c.executemany("INSERT INTO machine_orders VALUES (?,?,?,?)", MACHINE_ORDERS)
 
     for p in bc.PARTS:
         notes = NOTES.get(p["code"], {})

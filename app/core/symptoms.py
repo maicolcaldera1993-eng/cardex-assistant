@@ -42,12 +42,21 @@ class DefectsLibrary:
     def __init__(self, directory: Path = DEFECTS_DIR):
         self.symptoms: dict[str, dict] = {}
         self.family_of: dict[str, str] = {}
+        self.handling: dict[str, str] = {}          # part code -> "diy" | "support", learned from the procedures
         for f in sorted(directory.glob("*.json")):
             doc = json.loads(f.read_text(encoding="utf-8"))
             for s in doc["symptoms"]:
                 s["_steps"] = {st["id"]: st for st in s["steps"]}
                 self.symptoms[s["id"]] = s
                 self.family_of[s["id"]] = doc["family"]
+                for st in s["steps"]:
+                    for b in st["branches"]:
+                        o = parse_then(b["then"])
+                        if isinstance(o, Outcome) and o.kind in ("part_diy", "part_with_support"):
+                            for code in o.parts:
+                                # a part is "with support" if any procedure says so
+                                prev = self.handling.get(code)
+                                self.handling[code] = "support" if (o.kind == "part_with_support" or prev == "support") else "diy"
 
     def match(self, text: str, model_id: str | None = None, family: str | None = None,
               threshold: float = 0.86) -> SymptomHit | None:

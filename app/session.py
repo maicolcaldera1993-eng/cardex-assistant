@@ -91,6 +91,7 @@ class CallSession:
         self.edition: str | None = None
         self.groups: list[str] = []
         self.serial: str | None = None
+        self.machine: dict | None = None
         self.diagnosis: Diagnosis | None = None
         self.pending_symptoms: list[str] = []
         self.other_models: list[str] = []
@@ -399,7 +400,7 @@ class CallSession:
             self.groups, changed = hit.groups, True
         m = _SERIAL.search(text)
         if m:
-            self.serial = re.sub(r"\D", "", m.group(1))
+            await self._set_serial(re.sub(r"\D", "", m.group(1)))
         if changed:
             await self._emit_context()
 
@@ -519,6 +520,53 @@ class CallSession:
         else:
             await self._agent(f"Opening {node['kind']} page: {node.get('title_en') or node['title']}")
 
+    async def _set_serial(self, serial: str) -> None:
+        if serial == self.serial:
+            return
+        self.serial = serial
+        rec = CATALOG.machine(serial)
+        self.machine = rec
+        if not rec:
+            await self._agent(f"Matricola {serial}: non trovata nel parco installato." if self.lang == "it"
+                              else f"Serial {serial}: not found in the installed base.")
+            await self._emit_context()
+            return
+        if not rec["matched_exactly"]:
+            await self._agent(f"Matricola sentita «{serial}», in archivio c'è {rec['serial']}: confermare." if self.lang == "it"
+                              else f"Heard serial “{serial}”, the records have {rec['serial']}: confirm.")
+        in_warranty = rec["warranty_until"] >= time.strftime("%Y-%m-%d")
+        name = VOCAB.model_names.get(rec["model_id"], rec["model_id"])
+        if rec["model_id"] != self.model_id:
+            if self.model_id:
+                await self._agent(f"Attenzione: la matricola {rec['serial']} è di una {name}, non di una {VOCAB.model_names[self.model_id]}."
+                                  if self.lang == "it" else
+                                  f"Warning: serial {rec['serial']} belongs to a {name}, not a {VOCAB.model_names[self.model_id]}.")
+            else:
+                self.model_id, self.family = rec["model_id"], CONTEXT.family_of[rec["model_id"]].capitalize()
+                await self._agent(f"Macchina dalla matricola: {name}" if self.lang == "it" else f"Machine from the serial: {name}")
+        if rec["edition"]:
+            self.edition = rec["edition"]
+        notes = []
+        notes.append((f"costruita {rec['built']}, installata {rec['installed']} a {rec['city']} ({rec['customer']})") if self.lang == "it"
+                     else f"built {rec['built']}, installed {rec['installed']} in {rec['city']} ({rec['customer']})")
+        notes.append((f"IN GARANZIA fino al {rec['warranty_until']}: l'eventuale tecnico è a carico nostro" if in_warranty
+                      else f"FUORI GARANZIA dal {rec['warranty_until']}: l'eventuale tecnico è a carico del cliente") if self.lang == "it"
+                     else (f"UNDER WARRANTY until {rec['warranty_until']}: a technician visit is on us" if in_warranty
+                           else f"OUT OF WARRANTY since {rec['warranty_until']}: a technician visit is charged to the customer"))
+        if rec["notes"]:
+            notes.append(rec["notes"])
+        for n in notes:
+            await self._agent(n)
+        for o in rec["orders"][:4]:
+            await self._agent((f"Ordine {o['ordered_on']}: {o['code']} ×{o['qty']} ({o['description_it']})") if self.lang == "it"
+                              else f"Order {o['ordered_on']}: {o['code']} ×{o['qty']} ({o['description_en']})")
+        await self.emit({"type": "machine_record", "serial": rec["serial"], "model": name, "edition": rec["edition"],
+                         "built": rec["built"], "voltage": rec["voltage"], "customer": rec["customer"], "city": rec["city"],
+                         "country": rec["country"], "warranty_until": rec["warranty_until"], "in_warranty": in_warranty,
+                         "notes": rec["notes"], "orders": rec["orders"], "exact": rec["matched_exactly"]})
+        await self._emit_context()
+        await self._maybe_reload_vocabulary()
+
     async def _start_diagnosis(self, symptom_id: str, matched: str | None = None) -> None:
         self.diagnosis = DEFECTS.start(symptom_id)
         s = self.diagnosis.symptom
@@ -530,6 +578,18 @@ class CallSession:
         await self._emit_diagnosis()
         await self._open_doc(f"symptom/{symptom_id}", "symptom")
 
+    def _say_for_part(self, c, handling: str) -> str:
+        """One sentence the operator can read out: what we do with this part and when it arrives."""
+        if not c.compatible:
+            return (f"{c.code} does not fit your machine" + (f"; the current part is {c.superseded_by}." if c.superseded_by else "."))
+        where = c.delivery[0] if c.delivery else None
+        ship = (f"I can ship {c.description_en} ({c.code}) from {where['from'].replace('FI-01 ', '').replace('NL-01 ', '')}, "
+                f"{where['days']} working days" if where and where["qty"] > 0 else
+                f"{c.description_en} ({c.code}) is not in stock, {where['days'] if where else '7-10'} working days from the supplier")
+        if handling == "diy":
+            return ship + ". You can fit it yourself: I'll send you the sheet with the steps."
+        return ship + ". Fitting this one needs our service on the line: we'll book a second call when it arrives."
+
     async def _add_cards(self, cards, tid: int | None, source: str) -> None:
         new = []
         for c in cards:
@@ -538,6 +598,8 @@ class CallSession:
             d = asdict(c)
             d.update(status="proposed", source=source, turn_id=tid,
                      description=d[f"description_{self.lang}"])
+            d["handling"] = DEFECTS.handling.get(c.code) or ("support" if c.group in ("CA", "ID", "EL") else "diy")
+            d["say_en"] = self._say_for_part(c, d["handling"])
             self.cards[c.code] = d
             new.append(d)
         if new:
@@ -627,6 +689,15 @@ class CallSession:
             self.outcome = {"kind": msg.get("kind"), "by": "operator"}
             await self._agent(f"Esito impostato dall'operatore: {msg.get('kind')}" if self.lang == "it"
                               else f"Outcome set by the operator: {msg.get('kind')}")
+        elif a == "close_symptom" and self.diagnosis:
+            kind = msg.get("kind", "remote")
+            if kind in ("remote", "part_diy", "part_with_support", "technician"):
+                self.diagnosis.outcome = Outcome(kind, [])
+                self.diagnosis.current = None
+                await self._emit_diagnosis()
+                await self._on_outcome(self.diagnosis.outcome)
+        elif a == "set_serial" and msg.get("serial"):
+            await self._set_serial(re.sub(r"[^0-9A-Za-z]", "", msg["serial"]))
 
     async def _on_outcome(self, outcome: Outcome) -> None:
         self.outcome = {"kind": outcome.kind, "parts": outcome.parts, "by": "procedure"}
@@ -639,7 +710,10 @@ class CallSession:
         cards = [CATALOG.card(code, 0.95, "procedure", self.model_id) for code in outcome.parts if CATALOG.exists(code)]
         await self._add_cards(cards, None, source="procedure")
         if self.pending_symptoms:
-            await self._start_diagnosis(self.pending_symptoms.pop(0))
+            nxt = self.pending_symptoms.pop(0)
+            await self._agent(("Passo al secondo problema segnalato: " + DEFECTS.symptoms[nxt]["symptom_it"]) if self.lang == "it"
+                              else "Moving on to the second problem reported: " + DEFECTS.symptoms[nxt]["symptom_en"])
+            await self._start_diagnosis(nxt)
             await self._maybe_reload_vocabulary()
 
     # ------------------------------------------------------------------ emitters
@@ -679,6 +753,7 @@ class CallSession:
             "steps": self.diagnosis.view(self.lang)["history"] if self.diagnosis else [],
             "maintenance_skipped": bool(self.diagnosis and self.diagnosis.maintenance_flags),
             "outcome": self.outcome,
+            "machine_record": self.machine,
             "parts_confirmed": [{"code": c["code"], "description": c["description"], "price_eur": c["price_eur"],
                                  "stock": c["stock"]} for c in confirmed],
             "parts_proposed": [{"code": c["code"], "description": c["description"], "price_eur": c["price_eur"]}
