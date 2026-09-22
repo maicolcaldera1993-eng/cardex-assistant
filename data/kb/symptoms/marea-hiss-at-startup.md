@@ -4,13 +4,13 @@
 
 Fascicolo difetti noti, famiglia Marea. Documento interno al service.
 
-## Come lo descrivono i clienti
+## Come lo descrivono i clienti {#descrizioni}
 
 «sibila», «fischia all'accensione», «esce vapore da sopra», «la valvolina fischia», «soffia quando si accende», «hisses», «hissing», «whistles when it heats up», «steam from the top», «little valve leaks», «hissing noise at start», «fa un fischio», «sfiata da sopra», «perde vapore da sopra»
 
-## Procedura
+## Procedura {#procedura}
 
-### 1. Chiedere: Il sibilo smette da solo entro 5 minuti dall'accensione? Il vapore esce dalla valvolina sopra la caldaia o da un giunto?
+### 1. Chiedere: Il sibilo smette da solo entro 5 minuti dall'accensione? Il vapore esce dalla valvolina sopra la caldaia o da un giunto? {#passo-1}
 
 *Does the hiss stop by itself within 5 minutes of switching on? Does the steam come from the small valve on top of the boiler or from a joint?*
 
@@ -18,7 +18,7 @@ Fascicolo difetti noti, famiglia Marea. Documento interno al service.
 - Continua, dalla valvolina → vai al passo 2
 - Da un giunto della caldaia → **ricambio con supporto del service**: CA-1330 (Guarnizione flangia caldaia in fibra, Marea/Giglio), CA-1220 (Guarnizione flangia resistenza, Marea/Giglio)
 
-### 2. Far fare: A macchina fredda far svitare la valvola antidepressione (chiave da 14), pulire lo spillo dal calcare e rimontare con teflon sul filetto.
+### 2. Far fare: A macchina fredda far svitare la valvola antidepressione (chiave da 14), pulire lo spillo dal calcare e rimontare con teflon sul filetto. {#passo-2}
 
 *With the machine cold, have them unscrew the anti-vacuum valve (14 mm spanner), clean the pin of scale and refit with PTFE tape on the thread.*
 

@@ -192,39 +192,70 @@ def write_lexicon() -> None:
 
 
 def write_part_sheets() -> None:
+    """Static product sheets, Italian and English, same anchors (caratteristiche, compatibilita, sostituisce,
+    montaggio, note). Live stock, prices and lead times are read from the database at call time."""
+    from part_notes import NOTES_EN  # noqa: PLC0415
     out = KB / "parts"
     out.mkdir(parents=True, exist_ok=True)
     con = sqlite3.connect(DB)
     con.row_factory = sqlite3.Row
     models = {r["id"]: r["name"] for r in con.execute("SELECT id, name FROM models")}
+    T = {
+        "it": {"static": "_Scheda statica. Giacenze, prezzo e tempi di consegna aggiornati: vedere il gestionale._",
+               "superseded": "SOSTITUITO", "by": "da", "since": "dal", "requires": "Richiede anche", "field": "Campo", "value": "Valore",
+               "group": "Gruppo", "supplier": "Fornitore", "lead": "lead time", "days": "giorni", "weight": "Peso",
+               "compat": "Compatibilità", "per_machine": "per macchina", "replaces": "Sostituisce", "req": "richiede",
+               "mount": "Montaggio", "notes": "Note del service",
+               "mount_default": "Sostituzione standard: vedere il libretto del modello, sezione manutenzione. In caso di dubbio chiedere supporto al service.",
+               "no_notes": "Nessuna nota."},
+        "en": {"static": "_Static sheet. Current stock, price and delivery times: see the ERP._",
+               "superseded": "SUPERSEDED", "by": "by", "since": "since", "requires": "Also requires", "field": "Field", "value": "Value",
+               "group": "Group", "supplier": "Supplier", "lead": "lead time", "days": "days", "weight": "Weight",
+               "compat": "Compatibility", "per_machine": "per machine", "replaces": "Replaces", "req": "requires",
+               "mount": "Fitting", "notes": "Service notes",
+               "mount_default": "Standard replacement: see the model's manual, maintenance section. When in doubt ask the service desk.",
+               "no_notes": "No notes."},
+    }
+    SPEC_EN = {"tensione": "voltage", "potenza": "power", "misura": "size", "capacità": "capacity", "portata": "flow rate",
+               "pressione": "pressure", "materiale": "material", "confezione": "pack"}
     for p in con.execute("SELECT p.*, s.name AS supplier, s.city, s.lead_time_days FROM parts p JOIN suppliers s ON s.id = p.supplier_id ORDER BY code"):
         code = p["code"]
         specs = con.execute("SELECT key, value FROM part_specs WHERE code=?", (code,)).fetchall()
         compat = con.execute("SELECT model_id, quantity_per_machine FROM compatibility WHERE code=?", (code,)).fetchall()
         sup_new = con.execute("SELECT * FROM supersessions WHERE old_code=?", (code,)).fetchone()
         sup_old = con.execute("SELECT * FROM supersessions WHERE new_code=?", (code,)).fetchall()
-        lines = [f"# {code} — {p['description_it']}", "", f"*{p['description_en']}*", "",
-                 "_Scheda statica. Giacenze, prezzo e tempi di consegna aggiornati: vedere il gestionale._", ""]
-        if sup_new:
-            lines += [f"> **SOSTITUITO** da **{sup_new['new_code']}** dal {sup_new['since']}." +
-                      (f" Richiede anche **{sup_new['requires_code']}**." if sup_new['requires_code'] else "") +
-                      f" {sup_new['note']}", ""]
-        lines += ["| Campo | Valore |", "|---|---|",
-                  f"| Gruppo | {p['group_code']} |",
-                  f"| Fornitore | {p['supplier']} ({p['city']}), lead time {p['lead_time_days']} giorni |",
-                  f"| Peso | {p['weight_g']} g |"]
-        for s in specs:
-            lines.append(f"| {s['key'].capitalize()} | {s['value']} |")
-        lines += ["", "## Compatibilità", ""]
-        for r in compat:
-            lines.append(f"- {models[r['model_id']]}: {r['quantity_per_machine']} per macchina")
-        if sup_old:
-            lines += ["", "## Sostituisce", ""]
-            for r in sup_old:
-                lines.append(f"- {r['old_code']}" + (f" (richiede {r['requires_code']})" if r['requires_code'] else ""))
-        lines += ["", "## Montaggio", "", p["mounting_notes"] or "Sostituzione standard: vedere il libretto del modello, sezione manutenzione. In caso di dubbio chiedere supporto al service."]
-        lines += ["", "## Note del service", "", p["notes"] or "Nessuna nota."]
-        (out / f"{code}.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+        for lang in ("it", "en"):
+            t = T[lang]
+            desc, other = (p["description_it"], p["description_en"]) if lang == "it" else (p["description_en"], p["description_it"])
+            notes_lang = NOTES_EN.get(code, {}) if lang == "en" else {}
+            mounting = notes_lang.get("mounting") if lang == "en" else p["mounting_notes"]
+            notes = notes_lang.get("notes") if lang == "en" else p["notes"]
+            if lang == "en" and not mounting and p["mounting_notes"]:
+                mounting = p["mounting_notes"] + " *(service note, Italian)*"
+            if lang == "en" and not notes and p["notes"]:
+                notes = p["notes"] + " *(service note, Italian)*"
+            lines = [f"# {code} — {desc}", "", f"*{other}*", "", t["static"], ""]
+            if sup_new:
+                lines += [f"> **{t['superseded']}** {t['by']} **{sup_new['new_code']}** {t['since']} {sup_new['since']}." +
+                          (f" {t['requires']} **{sup_new['requires_code']}**." if sup_new['requires_code'] else "") +
+                          (f" {sup_new['note']}" if lang == "it" else ""), ""]
+            lines += [f"| {t['field']} | {t['value']} |", "|---|---|", f"| {t['group']} | {p['group_code']} |",
+                      f"| {t['supplier']} | {p['supplier']} ({p['city']}), {t['lead']} {p['lead_time_days']} {t['days']} |",
+                      f"| {t['weight']} | {p['weight_g']} g |"]
+            for sp in specs:
+                key = sp["key"] if lang == "it" else SPEC_EN.get(sp["key"], sp["key"])
+                lines.append(f"| {key.capitalize()} | {sp['value']} |")
+            lines += ["", f"## {t['compat']} {{#compatibilita}}", ""]
+            for r in compat:
+                lines.append(f"- {models[r['model_id']]}: {r['quantity_per_machine']} {t['per_machine']}")
+            if sup_old:
+                lines += ["", f"## {t['replaces']} {{#sostituisce}}", ""]
+                for r in sup_old:
+                    lines.append(f"- {r['old_code']}" + (f" ({t['req']} {r['requires_code']})" if r['requires_code'] else ""))
+            lines += ["", f"## {t['mount']} {{#montaggio}}", "", mounting or t["mount_default"]]
+            lines += ["", f"## {t['notes']} {{#note}}", "", notes or t["no_notes"]]
+            name = f"{code}.md" if lang == "it" else f"{code}.en.md"
+            (out / name).write_text("\n".join(lines) + "\n", encoding="utf-8")
     con.close()
 
 
@@ -237,4 +268,4 @@ if __name__ == "__main__":
     con = sqlite3.connect(DB)
     for t in ("models", "parts", "compatibility", "supersessions", "stock", "documents", "part_specs"):
         print(f"{t}: {con.execute(f'SELECT COUNT(*) FROM {t}').fetchone()[0]}")
-    print("part sheets:", len(list((KB / 'parts').glob('*.md'))))
+    print("part sheets:", len(list((KB / "parts").glob("*.md"))))

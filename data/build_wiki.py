@@ -59,26 +59,39 @@ def manual_sections(path: Path, model_id: str) -> list[dict]:
     return out
 
 
-def symptom_page(s: dict, family: str, part_desc: dict[str, str]) -> str:
-    L = [f"# {s['symptom_it']}", "", f"*{s['symptom_en']}*", "",
-         f"Fascicolo difetti noti, famiglia {family}. Documento interno al service.", "",
-         "## Come lo descrivono i clienti", "", ", ".join(f"«{f}»" for f in s["spoken_forms"][:14]), "",
-         "## Procedura", ""]
+OUTCOME_EN = {"remote": "fixed remotely", "part_diy": "part, fitted by the customer",
+              "part_with_support": "part with service support", "technician": "technician"}
+
+
+def symptom_page(s: dict, family: str, part_desc: dict[str, str], lang: str = "it") -> str:
+    """One page per known symptom, in Italian or English, with the SAME anchors in both languages
+    (procedura, passo-1, passo-2...) so the panel can point at the current step whatever the language."""
+    it = lang == "it"
+    title, other = (s["symptom_it"], s["symptom_en"]) if it else (s["symptom_en"], s["symptom_it"])
+    L = [f"# {title}", "", f"*{other}*", "",
+         (f"Fascicolo difetti noti, famiglia {family}. Documento interno al service." if it else
+          f"Known-defects file, {family} family. Internal service document."), "",
+         ("## Come lo descrivono i clienti {#descrizioni}" if it else "## How customers describe it {#descrizioni}"), "",
+         ", ".join(f"«{f}»" for f in s["spoken_forms"][:14]), "",
+         ("## Procedura {#procedura}" if it else "## Procedure {#procedura}"), ""]
     for n, st in enumerate(s["steps"], 1):
-        kind = "Chiedere" if st["kind"] == "ask" else "Far fare"
-        L += [f"### {n}. {kind}: {st['text_it']}", "", f"*{st['text_en']}*", ""]
-        if st.get("note_it"):
-            L += [f"> {st['note_it']}", ""]
+        kind = ("Chiedere" if st["kind"] == "ask" else "Far fare") if it else ("Ask" if st["kind"] == "ask" else "Have them do")
+        L += [f"### {n}. {kind}: {st['text_it'] if it else st['text_en']} {{#passo-{n}}}", "",
+              f"*{st['text_en'] if it else st['text_it']}*", ""]
+        note = st.get("note_it" if it else "note_en")
+        if note:
+            L += [f"> {note}", ""]
         for b in st["branches"]:
             then = b["then"]
             if then.startswith("outcome:"):
                 _, kind_o, *rest = then.split(":")
                 codes = rest[0].split(",") if rest else []
-                tail = f"**{OUTCOME_IT[kind_o]}**" + (": " + ", ".join(f"{c} ({part_desc.get(c, '?')})" for c in codes) if codes else "")
+                tail = f"**{(OUTCOME_IT if it else OUTCOME_EN)[kind_o]}**" + \
+                    (": " + ", ".join(f"{c} ({part_desc.get(c, '?')})" for c in codes) if codes else "")
             else:
                 idx = next(i for i, x in enumerate(s["steps"], 1) if x["id"] == then)
-                tail = f"vai al passo {idx}"
-            L.append(f"- {b['label_it']} → {tail}")
+                tail = f"vai al passo {idx}" if it else f"go to step {idx}"
+            L.append(f"- {b['label_it'] if it else b['label_en']} → {tail}")
         L.append("")
     return "\n".join(L) + "\n"
 
@@ -86,12 +99,15 @@ def symptom_page(s: dict, family: str, part_desc: dict[str, str]) -> str:
 def main() -> None:
     con = sqlite3.connect(HERE / "sereni.db")
     part_desc = {c: d for c, d in con.execute("SELECT code, description_it FROM parts")}
+    part_desc_en = {c: d for c, d in con.execute("SELECT code, description_en FROM parts")}
     compat: dict[str, list[str]] = {}
     for code, mid in con.execute("SELECT code, model_id FROM compatibility"):
         compat.setdefault(code, []).append(mid)
     index: list[dict] = []
 
     for f in sorted((KB / "manuals").glob("*.md")):
+        if f.name.endswith(".en.md"):
+            continue                                   # English twins share the Italian index
         index += manual_sections(f, f.stem)
 
     (KB / "symptoms").mkdir(exist_ok=True)
@@ -99,6 +115,7 @@ def main() -> None:
         doc = json.loads(f.read_text(encoding="utf-8"))
         for s in doc["symptoms"]:
             (KB / "symptoms" / f"{s['id']}.md").write_text(symptom_page(s, doc["family"], part_desc), encoding="utf-8")
+            (KB / "symptoms" / f"{s['id']}.en.md").write_text(symptom_page(s, doc["family"], part_desc_en, "en"), encoding="utf-8")
             parts = sorted({c for st in s["steps"] for b in st["branches"] if b["then"].startswith("outcome:")
                             for c in (b["then"].split(":")[2].split(",") if b["then"].count(":") > 1 else [])})
             index.append({"id": f"symptom/{s['id']}", "kind": "symptom", "page": f"symptoms/{s['id']}.md", "anchor": "procedura",
@@ -115,6 +132,8 @@ def main() -> None:
                       "c'è qualcosa che non va con la macchina", "hello good morning this is the bar calling", "we have an issue since two weeks",
                       "the coffee is not good anymore", "il caffè non è più buono", "the coffee is bad"]})
     for f in sorted((KB / "parts").glob("*.md")):
+        if f.name.endswith(".en.md"):
+            continue
         code = f.stem
         index.append({"id": f"part/{code}", "kind": "part", "page": f"parts/{code}.md", "anchor": "montaggio",
                       "title": f"{code} — {part_desc.get(code, '')}", "models": compat.get(code, []),

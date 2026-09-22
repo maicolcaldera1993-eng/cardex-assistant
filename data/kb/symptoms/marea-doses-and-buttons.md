@@ -4,13 +4,13 @@
 
 Fascicolo difetti noti, famiglia Marea. Documento interno al service.
 
-## Come lo descrivono i clienti
+## Come lo descrivono i clienti {#descrizioni}
 
 «dosi sbagliate», «il caffè lungo esce corto», «le dosi cambiano», «non si ferma», «un tasto non funziona», «il tasto non risponde», «allarme dose», «wrong doses», «doses are off», «dose keeps changing», «does not stop», «runs forever», «button does not work», «button not responding»
 
-## Procedura
+## Procedura {#procedura}
 
-### 1. Chiedere: Le dosi sono sbagliate ma sempre uguali, oppure cambiano da un caffè all'altro? O è un tasto che non risponde?
+### 1. Chiedere: Le dosi sono sbagliate ma sempre uguali, oppure cambiano da un caffè all'altro? O è un tasto che non risponde? {#passo-1}
 
 *Are the doses wrong but always the same, or do they change from one coffee to the next? Or is it a button not responding?*
 
@@ -18,14 +18,14 @@ Fascicolo difetti noti, famiglia Marea. Documento interno al service.
 - Cambiano, o non si ferma → vai al passo 3
 - Un tasto non risponde → vai al passo 4
 
-### 2. Far fare: Riprogrammare: tenere premuto il tasto continuo 5 secondi finché i led lampeggiano, avviare la dose, premere il tasto alla quantità voluta.
+### 2. Far fare: Riprogrammare: tenere premuto il tasto continuo 5 secondi finché i led lampeggiano, avviare la dose, premere il tasto alla quantità voluta. {#passo-2}
 
 *Reprogram: hold the continuous button 5 seconds until the LEDs flash, start the dose, press the button at the desired amount.*
 
 - Risolto → **risolto da remoto**
 - Non memorizza → vai al passo 6
 
-### 3. Far fare: Far smontare il flussometro del gruppo interessato (due raccordi, il sensore si sfila) e pulire la turbina dal calcare.
+### 3. Far fare: Far smontare il flussometro del gruppo interessato (due raccordi, il sensore si sfila) e pulire la turbina dal calcare. {#passo-3}
 
 *Have them remove the flowmeter of that group (two fittings, the sensor slides off) and clean the turbine of scale.*
 
@@ -34,14 +34,14 @@ Fascicolo difetti noti, famiglia Marea. Documento interno al service.
 - Pulita, non conta ancora → **ricambio, lo monta il cliente**: ID-4052 (Sensore Hall flussometro con cavo)
 - Non può smontarlo → **ricambio con supporto del service**: ID-4050 (Flussometro completo con sensore)
 
-### 4. Chiedere: Il led del tasto è acceso? Gli altri tasti funzionano?
+### 4. Chiedere: Il led del tasto è acceso? Gli altri tasti funzionano? {#passo-4}
 
 *Is the button's LED on? Do the other buttons work?*
 
 - Un tasto solo, gli altri ok → vai al passo 5
 - Tutti i tasti morti → vai al passo 6
 
-### 5. Chiedere: Che modello è?
+### 5. Chiedere: Che modello è? {#passo-5}
 
 *Which model is it?*
 
@@ -49,7 +49,7 @@ Fascicolo difetti noti, famiglia Marea. Documento interno al service.
 - Marea 2 Plus / Giglio 1 Plus → **ricambio, lo monta il cliente**: EL-3031 (Pulsantiera capacitiva 6 tasti, Marea 2 Plus / Giglio 1 Plus)
 - Marea 2 Evo → **ricambio, lo monta il cliente**: EL-3032 (Pulsantiera capacitiva 6 tasti con display OLED, Marea 2 Evo)
 
-### 6. Chiedere: Che modello e che anno è la macchina?
+### 6. Chiedere: Che modello e che anno è la macchina? {#passo-6}
 
 *Which model and year is the machine?*
 

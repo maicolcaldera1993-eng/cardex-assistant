@@ -39,6 +39,13 @@ class PartCard:
     superseded_by: str | None = None
     requires: str | None = None
     note: str | None = None
+    supplier: str | None = None
+    lead_time_days: int | None = None
+    delivery: list[dict] = field(default_factory=list)   # [{"from": warehouse, "qty": n, "days": "1-2"}, ...]
+
+
+# Shipping estimates from each warehouse (working days). Fictional but plausible for a Florence maker with a Dutch hub.
+DELIVERY_DAYS = {"FI-01 Firenze": "2-4", "NL-01 Rotterdam hub": "1-2"}
 
 
 class Catalog:
@@ -76,13 +83,19 @@ class Catalog:
         price = self.con.execute("SELECT list_price_eur FROM prices WHERE code=? AND valid_to IS NULL", (code,)).fetchone()
         stock = {r["warehouse"]: r["quantity"] for r in self.con.execute("SELECT warehouse, quantity FROM stock WHERE code=?", (code,))}
         sup = self.con.execute("SELECT new_code, requires_code, note FROM supersessions WHERE old_code=?", (code,)).fetchone()
+        supplier = self.con.execute("SELECT name, lead_time_days FROM suppliers WHERE id=?", (p["supplier_id"],)).fetchone()
+        delivery = [{"from": w, "qty": q, "days": DELIVERY_DAYS.get(w, "3-5")} for w, q in stock.items() if q > 0]
+        if not delivery and supplier:
+            delivery = [{"from": supplier["name"], "qty": 0, "days": f"{supplier['lead_time_days'] + 2}-{supplier['lead_time_days'] + 5}"}]
         return PartCard(code=code, description_it=p["description_it"], description_en=p["description_en"],
                         group=p["group_code"], score=round(score, 3), reason=reason,
                         price_eur=price[0] if price else None, stock=stock,
                         compatible=(model_id in self._compat[code]) if model_id else True,
                         superseded_by=sup["new_code"] if sup else None,
                         requires=sup["requires_code"] if sup and sup["requires_code"] and (not model_id or model_id in self._compat[sup["requires_code"]]) else None,
-                        note=(sup["note"] if sup else None) or p["notes"])
+                        note=(sup["note"] if sup else None) or p["notes"],
+                        supplier=supplier["name"] if supplier else None,
+                        lead_time_days=supplier["lead_time_days"] if supplier else None, delivery=delivery)
 
     def _prior(self, code: str, groups: list[str]) -> float:
         boost = 0.05 * (self._orders[code] / self._max_orders)

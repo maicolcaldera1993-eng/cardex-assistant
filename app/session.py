@@ -206,10 +206,9 @@ class CallSession:
         """Rehearsal only: did AssemblyAI's speaker labels agree with the roles we know from timing?"""
         if not self.diarization_agrees:
             return None
-        by_role: dict[str, dict[str, int]] = {}
-        for role, label in self.diarization_agrees:
-            by_role.setdefault(role, {})[label or "PENDING"] = by_role.setdefault(role, {}).get(label or "PENDING", 0) + 1
-        return by_role
+        n = len(self.diarization_agrees)
+        ok = sum(1 for truth, said in self.diarization_agrees if truth == said)
+        return {"segments": n, "attributed_correctly": ok, "accuracy": round(ok / n, 2) if n else None}
 
     def _duet_role(self, words: list[dict]) -> str | None:
         """In rehearsal mode roles come from timing, not from diarization: a turn whose words fall inside a
@@ -283,55 +282,38 @@ class CallSession:
                 await self._on_final_piece(tid * 100 + i, piece, role, label, piece_words)
 
     def _split_by_speaker(self, words: list[dict], turn_label: str | None) -> list[tuple[str, str | None, list[dict]]]:
+        """Roles come from AssemblyAI's word-level voice labels, in every mode: the first voice with a final
+        turn is the operator (they answered the phone), the other one the customer. In rehearsal mode the clip
+        timing is used only to CHECK the labels (the report's diarization line), never to decide."""
         if not words:
             return []
         out: list[tuple[str, str | None, list[dict]]] = []
         prev_role: str | None = None
         for w in words:
-            if self.duet:
-                # timing teaches which voice label is the customer (the label heard while a clip plays); once a
-                # label has enough votes, the word's own label decides, and timing only fills in unlabeled words
-                timed = self._duet_role([w]) or prev_role or OPERATOR
-                label = w.get("speaker") or turn_label
-                if label not in (None, "", "PENDING"):
-                    votes = self.label_votes.setdefault(label, {OPERATOR: 0, CUSTOMER: 0})
-                    votes[timed] += 1
-                    total = votes[OPERATOR] + votes[CUSTOMER]
-                    leader = max(votes, key=votes.get)
-                    # deep inside or far outside a clip window the clock is trustworthy (labels slip on very short
-                    # turns); near an edge the clock may have drifted, so the learned label decides
-                    mid = (w.get("start", 0) + w.get("end", 0)) / 2
-                    near_edge = any(abs(mid - a) < 800 or abs(mid - b) < 800 for a, b in self.duet_windows if b != float("inf")) \
-                        or any(abs(mid - a) < 800 for a, b in self.duet_windows if b == float("inf"))
-                    role = leader if near_edge and total >= 6 and votes[leader] / total >= 0.7 else timed
-                else:
-                    role = timed
+            wl = w.get("speaker")
+            if wl in (None, "", "PENDING") and prev_role:
+                role, label = prev_role, turn_label
             else:
-                wl = w.get("speaker")
-                if wl in (None, "", "PENDING") and prev_role:
-                    role, label = prev_role, turn_label
-                else:
-                    role, label = self.roles.role_for(wl or turn_label)
+                role, label = self.roles.role_for(wl or turn_label)
             if out and out[-1][0] == role:
                 out[-1][2].append(w)
             else:
                 out.append((role, label, [w]))
             prev_role = role
-        if not self.duet:
-            # diarization labels flicker: one or two words of the other voice inside a sentence are noise,
-            # not a speaker change. Timing (rehearsal mode) is exact and needs no smoothing.
-            smoothed: list[tuple[str, str | None, list[dict]]] = []
-            for i, seg in enumerate(out):
-                stray = 0 < i < len(out) - 1 and len(seg[2]) <= 2 and out[i - 1][0] == out[i + 1][0]
-                if smoothed and (stray or smoothed[-1][0] == seg[0]):
-                    smoothed[-1][2].extend(seg[2])
-                else:
-                    smoothed.append((seg[0], seg[1], list(seg[2])))
-            out = smoothed
-        else:
-            for role, label, _ in out:
-                self.diarization_agrees.append((role, label))
-        return out
+        # diarization labels flicker: one or two words of the other voice inside a sentence are noise, not a speaker change
+        smoothed: list[tuple[str, str | None, list[dict]]] = []
+        for i, seg in enumerate(out):
+            stray = 0 < i < len(out) - 1 and len(seg[2]) <= 2 and out[i - 1][0] == out[i + 1][0]
+            if smoothed and (stray or smoothed[-1][0] == seg[0]):
+                smoothed[-1][2].extend(seg[2])
+            else:
+                smoothed.append((seg[0], seg[1], list(seg[2])))
+        if self.duet:
+            for role, label, ws in smoothed:
+                truth = self._duet_role(ws)
+                if truth:
+                    self.diarization_agrees.append((truth, role))     # (who really spoke, who we said)
+        return smoothed
 
     async def _on_final_piece(self, tid: int, text: str, role: str, label: str | None, words: list[dict]) -> None:
         min_conf = round(min((w.get("confidence", 1.0) for w in words), default=1.0), 2)
@@ -360,6 +342,7 @@ class CallSession:
                          "speaker": label, "min_conf": utt["min_conf"], "merged": len(utt["turn_ids"])})
         if role == CUSTOMER and self.clarify_on:
             self.clarifier.submit(utt["id"], utt["text"])
+            await self.emit({"type": "clear_pending", "turn_id": utt["id"]})
         if self.assistant_on:
             # the whole utterance is re-read every time it grows: "the code is..." [4 s] "GE-2140" is one thought
             # codes need the whole utterance (a code can straddle a pause); meaning is read on what was just said,
@@ -663,7 +646,11 @@ class CallSession:
 
     async def _emit_diagnosis(self) -> None:
         if self.diagnosis:
-            await self.emit({"type": "diagnosis", **self.diagnosis.view(self.lang)})
+            view = self.diagnosis.view(self.lang)
+            step_ids = [st["id"] for st in self.diagnosis.symptom["steps"]]
+            view["doc"] = {"page": f"symptoms/{self.diagnosis.symptom['id']}.md",
+                           "anchor": f"passo-{step_ids.index(self.diagnosis.current) + 1}" if self.diagnosis.current else "procedura"}
+            await self.emit({"type": "diagnosis", **view})
 
     async def _emit_summary(self) -> None:
         confirmed = [c for c in self.cards.values() if c["status"] == "confirmed"]

@@ -22,9 +22,10 @@ button:disabled { opacity:.5; cursor:default; }
 .start-buttons > div { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:18px; }
 .start-buttons select { width:100%; margin-bottom:10px; padding:8px; font:inherit; }
 #try-saying { color:var(--mute); padding-left:18px; margin:12px 0 0; } #try-saying li { margin:4px 0; }
-main { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.1fr) minmax(0,1.15fr); gap:12px; padding:12px 16px; align-items:start; }
+main { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.1fr) minmax(0,1.15fr); gap:12px; padding:12px 16px; align-items:stretch; height:calc(100vh - 58px); box-sizing:border-box; }
 @media (max-width:980px) { main { grid-template-columns:1fr; } }
-.col { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px; min-height:200px; }
+.col { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px; min-height:200px; overflow:auto; scroll-behavior:smooth; }
+@media (max-width:980px) { main { height:auto; } .col { max-height:70vh; } }
 h2 { font-size:11px; text-transform:uppercase; letter-spacing:.8px; color:var(--mute); margin:0 0 8px; }
 #col-work h2:not(:first-child) { margin-top:16px; }
 .turn { border-left:3px solid var(--line); padding:4px 0 4px 10px; margin:0 0 10px; }
@@ -48,7 +49,7 @@ mark { background:#fde9c8; padding:0 2px; border-radius:3px; }
 .card .code { font:700 15px ui-monospace, Consolas, monospace; } .card .why { font-size:11px; color:var(--mute); margin-left:8px; }
 .card .meta { font-size:12px; color:var(--mute); margin-top:4px; } .card .flag { color:var(--bad); font-size:12px; font-weight:600; margin-top:4px; }
 .card .actions { display:flex; gap:6px; margin-top:8px; } .card .actions button { padding:3px 10px; font-size:12px; }
-#log { font-size:12px; max-height:22vh; overflow:auto; } #log div { padding:4px 0; border-bottom:1px dashed var(--line); } #log time { color:var(--mute); margin-right:6px; font-variant-numeric:tabular-nums; }
+#log { font-size:12px; max-height:18vh; overflow:auto; } #log div { padding:4px 0; border-bottom:1px dashed var(--line); } #log time { color:var(--mute); margin-right:6px; font-variant-numeric:tabular-nums; }
 .foot { display:flex; gap:8px; margin-top:12px; justify-content:space-between; }
 #summary { max-width:900px; margin:24px auto; padding:0 16px; } #summary .panel { background:var(--card); }
 #summary table { border-collapse:collapse; width:100%; } #summary td, #summary th { border-bottom:1px solid var(--line); padding:6px 8px; text-align:left; vertical-align:top; }
@@ -59,7 +60,7 @@ dialog { border:1px solid var(--line); border-radius:10px; max-width:720px; widt
 .doc-tab.active { background:#fff; font-weight:600; border-color:var(--accent); color:var(--accent); }
 .doc-tab.fresh::before { content:"● "; color:var(--ok); }
 .doc-tab small { color:var(--mute); font-weight:400; margin-right:4px; }
-.doc-view { border:1px solid var(--line); border-radius:0 8px 8px 8px; background:#fff; padding:10px 14px; max-height:48vh; overflow:auto; font-size:13px; }
+.doc-view { border:1px solid var(--line); border-radius:0 8px 8px 8px; background:#fff; padding:10px 14px; max-height:52vh; overflow:auto; font-size:13px; scroll-behavior:smooth; }
 .doc-view.empty { color:var(--mute); }
 .doc-view h1 { font-size:16px; margin:4px 0 8px; } .doc-view h2 { font-size:13px; text-transform:none; letter-spacing:0; color:var(--ink); margin:14px 0 6px; border-bottom:1px solid var(--line); padding-bottom:3px; }
 .doc-view h3 { font-size:13px; margin:12px 0 4px; } .doc-view table { border-collapse:collapse; width:100%; font-size:12px; } .doc-view td, .doc-view th { border:1px solid var(--line); padding:3px 6px; text-align:left; }
@@ -75,3 +76,6 @@ dialog { border:1px solid var(--line); border-radius:10px; max-width:720px; widt
 .duet-line { text-align:left; font-size:12px; padding:4px 8px; border-color:#e2cfe0; }
 .duet-line.said { opacity:.45; } .duet-line.playing { border-color:var(--cu); background:#f1e3ee; font-weight:600; }
 .duet-line small { color:var(--mute); margin-right:6px; }
+.turn .clear.wait { color:var(--mute); font-size:12px; }
+kbd { display:inline-block; min-width:16px; padding:0 4px; border:1px solid var(--line); border-bottom-width:2px; border-radius:4px; font:11px ui-monospace, Consolas, monospace; color:var(--mute); margin-right:4px; }
+.doc-view h3.target { background:#fff3cd; }

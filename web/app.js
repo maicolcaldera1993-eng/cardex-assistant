@@ -9,7 +9,7 @@ const T = {
     startSub: "Trascrive la chiamata, ti spiega cosa intende il cliente, riconosce macchina e guasto, ti guida nella diagnosi e trova il ricambio.",
     sample: "Riproduci una chiamata di esempio", mic: "Usa il mio microfono (tu sei il cliente)", duet: "Prova a due voci (tu operatore, cliente registrato)", duetHelp: "Parla tu al microfono come operatore. Quando tocca al cliente, clicca la battuta che vuoi fargli dire: la senti dalle casse e il microfono resta muto finché parla.", duetPanel: "Cliente registrato: fagli dire…", noDuets: "Nessuna prova a due voci disponibile",
     clarify: "Versione chiara", assistant: "Assistente", talk: "Conversazione", diag: "Diagnosi guidata", parts: "Ricambi proposti",
-    log: "Registro dell'assistente", docs: "Documenti aperti dall'assistente", noDocs: "Quando si parla di una macchina, di un guasto o di un ricambio, il documento giusto si apre qui, al punto giusto.", choose: "Due guasti possibili. Di quale sta parlando?", merged: "frasi unite", micMuted: "mic muto (parla il cliente)", micDenied: "permesso negato", swap: "Scambia ruoli", end: "Fine chiamata", operator: "Operatore", customer: "Cliente",
+    log: "Registro dell'assistente", docs: "Documenti aperti dall'assistente", noDocs: "Quando si parla di una macchina, di un guasto o di un ricambio, il documento giusto si apre qui, al punto giusto.", choose: "Due guasti possibili. Di quale sta parlando?", merged: "frasi unite", micMuted: "mic muto (parla il cliente)", micDenied: "permesso negato", clearWait: "versione chiara in arrivo…", delivery: "Consegna", fromSupplier: "dal fornitore", days: "gg", keys: "tasti 1-4", showTranscript: "Mostra il trascritto completo", diarCheck: "Attribuzione delle voci", swap: "Scambia ruoli", end: "Fine chiamata", operator: "Operatore", customer: "Cliente",
     noDiag: "Nessun sintomo riconosciuto. Quando il cliente descrive un problema, la procedura compare qui.",
     ask: "Chiedi al cliente", do: "Fagli fare", say: "Da leggere al telefono", confirm: "Conferma", dismiss: "Scarta", sheet: "Scheda",
     maintenance: "Manutenzione ordinaria saltata: consigliare", lowConf: "riconoscimento incerto",
@@ -26,7 +26,7 @@ const T = {
     startSub: "It transcribes the call, tells you what the customer means, recognises the machine and the fault, guides the diagnosis and finds the part.",
     sample: "Play a sample call", mic: "Use my microphone (you are the customer)", duet: "Two-voice rehearsal (you operator, recorded customer)", duetHelp: "Speak into the microphone as the operator. When it is the customer's turn, click the line you want them to say: you hear it from the speakers and your mic stays muted while they talk.", duetPanel: "Recorded customer: have them say…", noDuets: "No two-voice rehearsal available",
     clarify: "Clear version", assistant: "Assistant", talk: "Conversation", diag: "Guided diagnosis", parts: "Proposed parts",
-    log: "Assistant log", docs: "Documents opened by the assistant", noDocs: "When a machine, a fault or a part comes up, the right document opens here, at the right place.", choose: "Two possible faults. Which one is it?", merged: "sentences joined", micMuted: "mic muted (customer talking)", micDenied: "permission denied", swap: "Swap roles", end: "End call", operator: "Operator", customer: "Customer",
+    log: "Assistant log", docs: "Documents opened by the assistant", noDocs: "When a machine, a fault or a part comes up, the right document opens here, at the right place.", choose: "Two possible faults. Which one is it?", merged: "sentences joined", micMuted: "mic muted (customer talking)", micDenied: "permission denied", clearWait: "clear version on its way…", delivery: "Delivery", fromSupplier: "from supplier", days: "days", keys: "keys 1-4", showTranscript: "Show the full transcript", diarCheck: "Voice attribution", swap: "Swap roles", end: "End call", operator: "Operator", customer: "Customer",
     noDiag: "No symptom recognised yet. When the customer describes a problem, the procedure appears here.",
     ask: "Ask the customer", do: "Have them do", say: "Read this out", confirm: "Confirm", dismiss: "Dismiss", sheet: "Sheet",
     maintenance: "Routine maintenance skipped: recommend", lowConf: "low recognition confidence",
@@ -118,7 +118,8 @@ function handle(ev) {
   switch (ev.type) {
     case "session": $("st-session").textContent = L.open; $("st-session").classList.add("on"); break;
     case "turn": renderTurn(ev); break;
-    case "clear": { const el = document.querySelector(`#turn-${ev.turn_id} .clear`); if (el) el.textContent = ev.text; break; }
+    case "clear": { const el = document.querySelector(`#turn-${ev.turn_id} .clear`); if (el) { el.textContent = ev.text; el.classList.remove("wait"); } break; }
+    case "clear_pending": { const el = document.querySelector(`#turn-${ev.turn_id} .clear`); if (el && !el.textContent) { el.textContent = L.clearWait; el.classList.add("wait"); } break; }
     case "context": $("st-machine").textContent = [ev.model || ev.family || "—", ev.edition ? "Vaniglia" : "", ev.serial ? `#${ev.serial}` : ""].filter(Boolean).join(" · "); $("st-machine").classList.toggle("on", !!(ev.model || ev.family)); break;
     case "vocabulary": $("st-vocab").textContent = `${L.phase} ${ev.phase} · ${ev.count} ${L.terms}`; $("st-vocab").classList.toggle("on", ev.phase > 1); $("st-vocab").title = ev.sample.join(", "); break;
     case "parts": ev.cards.forEach((c) => { cards.set(c.code, c); knownCodes.add(c.code); }); renderParts(); break;
@@ -146,8 +147,11 @@ function renderTurn(ev) {
   const keptClear = el.querySelector(".clear")?.textContent || "";
   const merged = ev.merged > 1 ? `<span class="merged">${ev.merged} ${L.merged}</span>` : "";
   const low = ev.min_conf < 0.6 ? `<span class="low">${L.lowConf} (${ev.min_conf})</span>` : "";
-  el.innerHTML = `<div class="who">${ev.role === "operator" ? L.operator : L.customer}${merged}${low}</div><div class="said">${highlight(ev.text)}</div><div class="clear">${esc(keptClear)}</div>`;
-  el.scrollIntoView({ block: "end", behavior: "smooth" });
+  const wasWaiting = el.querySelector(".clear")?.classList.contains("wait");
+  el.innerHTML = `<div class="who">${ev.role === "operator" ? L.operator : L.customer}${merged}${low}</div><div class="said">${highlight(ev.text)}</div><div class="clear ${wasWaiting ? "wait" : ""}">${esc(keptClear)}</div>`;
+  const box = $("col-talk");
+  const nearBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 160;
+  if (nearBottom) box.scrollTop = box.scrollHeight;
 }
 
 function renderDiagnosis(d) {
@@ -161,8 +165,35 @@ function renderDiagnosis(d) {
   const s = d.step;
   p.innerHTML = `<h3>${esc(d.symptom)}</h3>${hist}${maint}<div class="step"><div class="kind">${s.kind === "ask" ? L.ask : L.do}</div><div>${esc(s.text)}</div>` +
     `<div class="say"><small>${L.say}</small>${esc(s.say_in_english)}</div>${s.note ? `<div class="note">${esc(s.note)}</div>` : ""}` +
-    `<div class="branches">${s.branches.map((b, i) => `<button data-branch="${i}">${esc(b)}</button>`).join("")}</div></div>`;
+    `<div class="branches">${s.branches.map((b, i) => `<button data-branch="${i}"><kbd>${i + 1}</kbd> ${esc(b)}</button>`).join("")}</div><div class="note">${L.keys}</div></div>`;
   p.querySelectorAll("[data-branch]").forEach((b) => (b.onclick = () => send({ type: "control", action: "answer_step", branch: +b.dataset.branch })));
+  currentBranches = s.branches.length;
+  if (d.doc) followStep(d.doc);
+}
+let currentBranches = 0;
+document.addEventListener("keydown", (e) => {
+  if (e.target.matches("input, textarea, select")) return;
+  const n = parseInt(e.key, 10);
+  if (n >= 1 && n <= currentBranches && !$("call").hidden) { send({ type: "control", action: "answer_step", branch: n - 1 }); currentBranches = 0; }
+});
+// the symptom page follows the procedure: the current step is the highlighted section
+function followStep(doc) {
+  const i = docs.findIndex((d) => d.page === doc.page);
+  if (i < 0) return;
+  docs[i].anchor = doc.anchor;
+  if (i === activeDoc) applyAnchor(docs[i]); else { docs[i].fresh = true; renderTabs(); }
+}
+function applyAnchor(d) {
+  const v = $("doc-view");
+  v.querySelectorAll(".target").forEach((n) => n.classList.remove("target"));
+  const head = d.anchor && v.querySelector(`#${CSS.escape(d.anchor)}`);
+  if (head) {
+    head.classList.add("target");
+    const level = +head.tagName[1];
+    for (let n = head.nextElementSibling; n && !(/^H[1-6]$/.test(n.tagName) && +n.tagName[1] <= level); n = n.nextElementSibling) n.classList.add("target");
+  }
+  const focus = v.querySelector("mark") || head;
+  if (focus) v.scrollTop = Math.max(0, focus.offsetTop - v.offsetTop - 40);
 }
 
 function renderDuet(lines) {
@@ -187,8 +218,7 @@ const KIND = { manual: "📘", symptom: "🩺", part: "🔩" };
 async function openDoc(ev) {
   let i = docs.findIndex((d) => d.page === ev.page);
   if (i < 0) { docs.push({ ...ev, fresh: true }); i = docs.length - 1; } else { Object.assign(docs[i], ev, { fresh: true }); }
-  const userIsReading = activeDoc >= 0 && $("doc-view").matches(":hover");
-  if (!userIsReading) await showDoc(i); else renderTabs();
+  if (activeDoc < 0) await showDoc(i); else renderTabs();
 }
 function renderTabs() {
   $("doc-tabs").innerHTML = docs.map((d, i) => `<div class="doc-tab ${i === activeDoc ? "active" : ""} ${d.fresh && i !== activeDoc ? "fresh" : ""}" data-doc="${i}" title="${esc(d.title)}"><small>${KIND[d.kind] || ""}</small>${esc(d.title)}</div>`).join("");
@@ -196,26 +226,19 @@ function renderTabs() {
 }
 async function showDoc(i) {
   const d = docs[i]; activeDoc = i; d.fresh = false; renderTabs();
-  const q = new URLSearchParams({ page: d.page }); if (d.highlight) q.set("hl", d.highlight);
+  const q = new URLSearchParams({ page: d.page, lang }); if (d.highlight) q.set("hl", d.highlight);
   const r = await fetch(`/api/docs/render?${q}`).then((x) => x.json()).catch(() => null);
   const v = $("doc-view"); v.className = "doc-view"; v.innerHTML = r ? r.html : "—";
-  const head = d.anchor && v.querySelector(`#${CSS.escape(d.anchor)}`);
-  if (head) {
-    head.classList.add("target");
-    const level = +head.tagName[1];
-    for (let n = head.nextElementSibling; n && !(/^H[1-6]$/.test(n.tagName) && +n.tagName[1] <= level); n = n.nextElementSibling) n.classList.add("target");
-  }
-  const focus = v.querySelector("mark") || head;
-  if (focus) v.scrollTop = Math.max(0, focus.offsetTop - v.offsetTop - 40);
+  applyAnchor(d);
 }
 
 function renderParts() {
   const why = { exact: "=", "near-code": "≈", description: "“…”", replacement: "↻", procedure: "✓" };
   $("parts").innerHTML = [...cards.values()].reverse().map((c) => {
-    const stock = Object.entries(c.stock || {}).map(([w, q]) => `${esc(w.split(" ")[0])}: ${q}`).join(" · ");
+    const stock = (c.delivery || []).map((d) => d.qty > 0 ? `${esc(d.from.replace(/^[A-Z]{2}-\d+ /, ""))}: ${d.qty} · ${d.days} ${L.days}` : `${L.fromSupplier} ${esc(d.from)}: ${d.days} ${L.days}`).join(" | ");
     const flags = [!c.compatible ? L.incompatible : "", c.superseded_by ? `${L.superseded} ${c.superseded_by}${c.requires ? `, ${L.requires} ${c.requires}` : ""}` : ""].filter(Boolean);
     return `<div class="card ${c.status}"><span class="code">${esc(c.code)}</span><span class="why">${why[c.reason] || ""} ${Math.round(c.score * 100)}%</span>` +
-      `<div>${esc(c.description)}</div><div class="meta">${c.price_eur != null ? c.price_eur.toFixed(2) + " € · " : ""}${L.stock} ${stock}</div>` +
+      `<div>${esc(c.description)}</div><div class="meta"><strong>${c.price_eur != null ? c.price_eur.toFixed(2) + " €" : ""}</strong> · ${L.delivery}: ${stock}</div>` +
       (flags.length ? `<div class="flag">${flags.map(esc).join(" · ")}</div>` : "") +
       `<div class="actions"><button data-act="confirm_part" data-code="${esc(c.code)}">${L.confirm}</button><button data-act="dismiss_part" data-code="${esc(c.code)}">${L.dismiss}</button><button data-sheet="${esc(c.code)}" class="ghost">${L.sheet}</button></div></div>`;
   }).join("");
@@ -229,15 +252,18 @@ function renderParts() {
 function renderSummary(s) {
   $("call").hidden = true; $("summary").hidden = false;
   const o = s.outcome ? `${L.outcome[s.outcome.kind] || s.outcome.kind}${s.outcome.parts?.length ? " · " + s.outcome.parts.join(", ") : ""}` : "—";
-  $("summary").innerHTML = `<div class="panel"><h3>${L.summary}</h3><table>` +
-    `<tr><th>${L.machine}</th><td>${esc(s.machine || "—")}${s.edition ? " · Vaniglia" : ""}</td></tr><tr><th>${L.serial}</th><td>${esc(s.serial || "—")}</td></tr>` +
-    `<tr><th>${L.symptom}</th><td>${esc(s.symptom || "—")}</td></tr><tr><th>${L.steps}</th><td>${s.steps.map((h) => `${esc(h.text)} → <strong>${esc(h.answer)}</strong>`).join("<br>") || "—"}</td></tr>` +
-    `<tr><th>${L.outcomeLabel}</th><td><strong>${esc(o)}</strong></td></tr>` +
-    `<tr><th>${L.confirmed}</th><td>${s.parts_confirmed.map((p) => `${esc(p.code)} — ${esc(p.description)} (${p.price_eur?.toFixed(2)} €)`).join("<br>") || L.none}</td></tr>` +
-    `<tr><th>${L.proposed}</th><td>${(s.parts_proposed || []).map((p) => `${esc(p.code)} — ${esc(p.description)}`).join("<br>") || L.none}</td></tr>` +
-    (s.diarization_check ? `<tr><th>Diarizzazione</th><td><code>${esc(JSON.stringify(s.diarization_check))}</code></td></tr>` : "") +
-    `<tr><th>${L.transcript}</th><td>${s.transcript.map((t) => `<strong>${t.role === "operator" ? L.operator : L.customer}:</strong> ${esc(t.text)}${t.clear ? `<br><em style="color:var(--ok)">${esc(t.clear)}</em>` : ""}`).join("<br>")}</td></tr>` +
-    `</table><p><button class="primary" onclick="location.reload()">${L.again}</button></p></div>`;
+  const row = (k, v) => `<tr><th>${k}</th><td>${v}</td></tr>`;
+  const parts = s.parts_confirmed.map((p) => `<strong>${esc(p.code)}</strong> — ${esc(p.description)} (${p.price_eur?.toFixed(2)} €)`).join("<br>") || L.none;
+  const proposed = (s.parts_proposed || []).map((p) => `${esc(p.code)} — ${esc(p.description)}`).join("<br>") || L.none;
+  const steps = s.steps.map((h) => `${esc(h.text)} → <strong>${esc(h.answer)}</strong>`).join("<br>") || "—";
+  const diar = s.diarization_check ? `${s.diarization_check.attributed_correctly}/${s.diarization_check.segments} (${Math.round((s.diarization_check.accuracy || 0) * 100)}%)` : null;
+  const transcript = s.transcript.map((t) => `<div class="turn ${t.role}"><div class="who">${t.role === "operator" ? L.operator : L.customer}</div>${esc(t.text)}${t.clear ? `<div class="clear">${esc(t.clear)}</div>` : ""}</div>`).join("");
+  $("summary").innerHTML = `<div class="panel"><h3>${L.summary}</h3>
+    <div class="outcome ${s.outcome ? s.outcome.kind : ""}" style="margin:0 0 10px">${esc(o)}</div>
+    <table>${row(L.machine, esc(s.machine || "—") + (s.edition ? " · Vaniglia" : ""))}${row(L.serial, esc(s.serial || "—"))}${row(L.symptom, esc(s.symptom || "—"))}
+    ${row(L.steps, steps)}${row(L.confirmed, parts)}${row(L.proposed, proposed)}${diar ? row(L.diarCheck, diar) : ""}</table>
+    <details style="margin-top:12px"><summary>${L.showTranscript} (${s.transcript.length})</summary><div style="margin-top:8px">${transcript}</div></details>
+    <p><button class="primary" onclick="location.reload()">${L.again}</button></p></div>`;
 }
 
 $("btn-sample").onclick = () => startCall(`sample:${$("sample-select").value}`);

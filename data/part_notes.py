@@ -168,3 +168,105 @@ NOTES: dict[str, dict[str, str]] = {
         "notes": "Il consumabile da proporre in quasi ogni chiamata sul gruppo. Una al giorno per gruppo.",
     },
 }
+
+
+# English versions of the hand-written notes (same keys as NOTES).
+NOTES_EN: dict[str, dict[str, str]] = {
+    "GE-2140": {
+        "mounting": "Remove the shower screen (centre screw), lever the old gasket out with a flat screwdriver from the rim, "
+                    "clean the seat of scale, fit the new one with the chamfered side towards the group. Refit screen and screw. "
+                    "The portafilter should lock at the centre within 5-10 coffees.",
+        "notes": "Best-selling part. Typical life 6-12 months in a bar doing 200 coffees a day. If the portafilter still locks "
+                 "past 6 o'clock with a new gasket, the portafilter rim is worn (GE-2180). Never put silicone grease on the seat: "
+                 "the gasket slips and bypasses.",
+    },
+    "GE-2141": {"mounting": "As GE-2140.",
+                "notes": "8 mm variant for worn group seats where the 8.5 mm locks the portafilter too far left. Only on the service desk's advice."},
+    "GE-2410": {"mounting": "As GE-2140, but on the Onda the shower screen is held by two side screws.",
+                "notes": "Mind the code: GE-2410 (Onda, 9 mm) and GE-2140 (Marea/Giglio, 8.5 mm) sound alike. The 8.5 mm does not seal on the Onda."},
+    "GE-2150": {
+        "mounting": "Undo the M6 centre screw, remove the screen, clean the seat, fit the new one convex side down. Do not exceed 2 Nm.",
+        "notes": "If the holes are intact it can be saved: 20 minutes in hot descaler, brush, rinse. Replace if domed or with worn-open holes. "
+                 "70% of requests come from shops that skip the evening backflush with the blind filter: always suggest CR-6052.",
+    },
+    "GE-2160": {
+        "mounting": "Close the water, release the pressure, disconnect the three fittings (inlet, group, discharge) and the two coil wires. "
+                    "Fit the new valve respecting the arrow. 17 mm spanner, access from the side panel.",
+        "notes": "If the valve clicks but the group spits at the end of the shot it is almost always dirty, not broken: open the body (GE-2165) "
+                 "and clean the plunger. If the coil does not click: EL-3085 first.",
+    },
+    "GE-2180": {"mounting": "No fitting: it locks into the group.",
+                "notes": "Rim worn after 3-4 years: a new gasket is no longer enough. Takes baskets GE-2190/91."},
+    "CA-1180": {
+        "mounting": "Only with the boiler drained and cold. Remove the rear panel, disconnect the wires (note their positions), undo the "
+                    "4 flange nuts, pull the element, always replace gasket CA-1220. Tighten crosswise. Fill the boiler before powering up.",
+        "notes": "Check the rating plate voltage before shipping: CA-1180 is 230 V single-phase, CA-1181 is 110 V, CA-1182 is 400 V "
+                 "three-phase. They look alike. Does NOT fit the Marea 2 Evo: different flange, use CA-1185. Fitting with service support, never alone.",
+    },
+    "CA-1185": {"mounting": "As CA-1180. The Evo flange has 6 nuts.",
+                "notes": "Introduced with the 2026 insulated boiler. Not interchangeable with CA-1180."},
+    "CA-1230": {
+        "mounting": "Unscrew the probe from the top of the boiler with a 13 mm spanner, replace with the new insulator (CA-1232), "
+                    "do not overtighten: a quarter turn past contact.",
+        "notes": "Before replacing: clean the tip with fine abrasive paper. In 60% of 'not filling' or 'always filling' calls it is scale on "
+                 "the probe, not the probe. If the insulator is cracked the probe always reads water and the boiler never fills.",
+    },
+    "CA-1240": {
+        "mounting": "Disconnect the 1/8\" capillary and the two spade terminals, replace, reset with the centre screw to 1.1-1.2 bar with the machine hot.",
+        "notes": "Not fitted on Marea 2 Evo and Onda (transducer CA-1245). If pressure swings by more than 0.3 bar, try the diaphragm "
+                 "CA-1241 and blow the capillary through before replacing.",
+    },
+    "CA-1250": {"mounting": "Unscrew and replace with the boiler cold and drained. Never touch the setting.",
+                "notes": "Safety part with a service life: replace every 2 years or after it has vented. Do not repair, clean or adjust."},
+    "CA-1260": {
+        "mounting": "Unscrew with a 14 mm spanner from the top of the boiler, fit the new one with PTFE tape on the thread.",
+        "notes": "A hiss at start-up lasting more than 5 minutes, or a drop on the valve: first remove and clean the pin, then replace "
+                 "the o-ring CA-1261, then the valve. The customer can do it alone.",
+    },
+    "CA-1270": {"mounting": "On the boiler body, two screws. The red reset button is reachable after removing the rear panel.",
+                "notes": "Before ordering: have the customer press the reset button. If it trips again within a day the cause is upstream (level, pressurestat, element run dry)."},
+    "ID-4010": {
+        "mounting": "With service support. Separate the pump from the motor (clamp and coupling ID-4017), disconnect suction and delivery, "
+                    "fit the new pump respecting the rotation arrow stamped on the body. Set the bypass to 9 bar with the blind filter.",
+        "notes": "Metallic noise and pressure that will not go past 6 bar: pump. Hum and zero pressure: motor or capacitor ID-4019. "
+                 "A pump worn by hard water shows at the coupling: black dust.",
+    },
+    "ID-4025": {"mounting": "On the pump delivery line. Unscrew, replace, set to 12 bar.",
+                "notes": "Constant discharge while brewing: expansion valve. Discharge with the machine idle: check valve ID-4030 or fill valve ID-4040. Tell them apart by asking WHEN it drips."},
+    "ID-4040": {"mounting": "On the water inlet, after the filter. Two fittings and the coil. Respect the flow direction.",
+                "notes": "Clicks but does not fill: internal mesh blocked by scale, cleanable. No click: coil (EL-3085) or board. Fills all the time: probe CA-1230 or valve stuck open."},
+    "ID-4050": {"mounting": "On each group, between solenoid and heat exchanger. Mind the arrow; the sensor slides off without opening the circuit.",
+                "notes": "Doses changing from one day to the next: dirty turbine (ID-4051), cleanable. Endless dose or flowmeter alarm: sensor ID-4052. On first-batch Marea 2 Plus (EL-3011) the alarm was a board bug, not the flowmeter."},
+    "VA-5015": {"mounting": "Close the tap, unscrew the knob and the gland, pull the stem, replace the two seals and the o-ring, refit without overtightening the gland.",
+                "notes": "The customer does it alone in 10 minutes. If it still drips afterwards, the stem is scored (VA-5016)."},
+    "VA-5025": {"mounting": "Unscrews by hand from the wand. Clean the thread.",
+                "notes": "Weak steam with normal boiler pressure: almost always a tip blocked with milk. Have them unscrew it, 30 minutes in hot water with a tablet, a pin through the holes."},
+    "EL-3010": {
+        "mounting": "No longer applicable: see EL-3012.",
+        "notes": "OUT OF PRODUCTION since March 2025. Superseded by EL-3012 (v2 rev.B), which fits 2024 Marea 2 and Giglio 1 ONLY with the "
+                 "adapter harness EL-3036. If the customer reads EL-3010 from an old invoice, order EL-3012 + EL-3036 and plan service support "
+                 "for fitting and dose reprogramming.",
+    },
+    "EL-3011": {"mounting": "No longer applicable: see EL-3012.",
+                "notes": "First batch of v2 boards (Marea 2 Plus and Giglio 1 Plus, January-March 2025): flowmeter counting bug giving dose alarms. Replaced under warranty with EL-3012, no adapter needed."},
+    "EL-3012": {
+        "mounting": "With service support. Power off, photograph the connectors, replace the board, on 2024 machines fit EL-3036 in between. "
+                    "At power-up reprogram the 4 doses per group.",
+        "notes": "Current board for the whole Marea 2 / Marea 2 Plus / Giglio 1 / Giglio 1 Plus family. Replaces EL-3010 (needs EL-3036) and EL-3011 (direct). Does not fit the Marea 2 Evo (EL-3013).",
+    },
+    "EL-3030": {"mounting": "Slides out of the front after removing the bezel; unplug the ribbon cable EL-3035.",
+                "notes": "One dead button with its LED on: membrane. All buttons dead: ribbon cable or board. The customer does it alone."},
+    "EL-3036": {"mounting": "Goes between the machine's 10-pin connector (2024 build) and board EL-3012.",
+                "notes": "Mandatory with EL-3012 on 2024 Marea 2 and Giglio 1. Without it the board powers up but does not read the flowmeter. Always ship together."},
+    "EL-3085": {"mounting": "Slides off the valve body after removing the top nut. Respect the voltage.",
+                "notes": "Coil warm to the touch and no click: burnt. First cause of 'one group does not brew'. The customer replaces it alone."},
+    "MC-7010": {
+        "mounting": "Empty the hopper, open the collar until the upper burr carrier comes off, undo the 3 screws per burr, clean the seats, "
+                    "fit the new burrs, zero the collar at contact and reopen half a turn.",
+        "notes": "Life 600-800 kg of coffee. Signs: slow grinding, burnt-tasting coffee, warm grounds. The customer changes them alone with the sheet. Same on Monda 65 and Monda 65 Digit.",
+    },
+    "MC-7062": {"mounting": "Behind the fork, two screws. Adjust the leaf so it clicks with the portafilter inserted.",
+                "notes": "The Digit does not start and does not click when the portafilter goes in: microswitch. First check that the fork is not loose."},
+    "CR-6052": {"mounting": "One tablet in the blind filter, 5 cycles of 10 seconds per group, then 5 rinse cycles.",
+                "notes": "The consumable to suggest in almost every call about the group. One a day per group."},
+}

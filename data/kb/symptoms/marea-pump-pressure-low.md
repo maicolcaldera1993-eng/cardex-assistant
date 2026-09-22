@@ -4,13 +4,13 @@
 
 Fascicolo difetti noti, famiglia Marea. Documento interno al service.
 
-## Come lo descrivono i clienti
+## Come lo descrivono i clienti {#descrizioni}
 
 «pressione bassa», «non sale la pressione», «la pompa non spinge», «pressione che balla», «la pompa fa rumore», «low pressure», «pressure does not come up», «pump is weak», «pressure swings», «pump is noisy», «pump rattles», «poca pressione», «pressione della pompa bassa», «la pompa non va in pressione»
 
-## Procedura
+## Procedura {#procedura}
 
-### 1. Chiedere: Con il filtro cieco montato, il manometro pompa segna una pressione stabile ma bassa, oppure oscilla?
+### 1. Chiedere: Con il filtro cieco montato, il manometro pompa segna una pressione stabile ma bassa, oppure oscilla? {#passo-1}
 
 *With the blind filter fitted, does the pump gauge show a steady but low pressure, or does it swing?*
 
@@ -19,14 +19,14 @@ Fascicolo difetti noti, famiglia Marea. Documento interno al service.
 - Zero, il motore ronza → **ricambio con supporto del service**: ID-4019 (Condensatore motore pompa 8 µF)
 - Zero, nessun rumore → **tecnico**
 
-### 2. Far fare: Vite del by-pass sulla pompa: mezzo giro in senso orario, ricontrollare, fino a 9 bar.
+### 2. Far fare: Vite del by-pass sulla pompa: mezzo giro in senso orario, ricontrollare, fino a 9 bar. {#passo-2}
 
 *Bypass screw on the pump: half a turn clockwise, check again, up to 9 bar.*
 
 - Arriva a 9 bar → **risolto da remoto**
 - Non sale → vai al passo 3
 
-### 3. Chiedere: Aprendo il rubinetto dell'acqua calda il getto è pieno? Quando è stata cambiata la cartuccia del filtro d'ingresso?
+### 3. Chiedere: Aprendo il rubinetto dell'acqua calda il getto è pieno? Quando è stata cambiata la cartuccia del filtro d'ingresso? {#passo-3}
 
 *Is the hot water flow full when you open the tap? When was the inlet filter cartridge last changed?*
 

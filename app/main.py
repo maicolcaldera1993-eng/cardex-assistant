@@ -89,12 +89,14 @@ def part(code: str, model_id: str | None = None) -> dict:
 
 
 @app.get("/api/docs/render")
-def render_doc(page: str, hl: str | None = None) -> dict:
+def render_doc(page: str, hl: str | None = None, lang: str = "it") -> dict:
     """A knowledge-base page as HTML, headings carrying the same anchors as the section index,
     and the sentence that matches what was said wrapped in <mark>."""
     from .data_slug import slug  # noqa: PLC0415
     kb = (ROOT / "data" / "kb").resolve()
     f = (kb / page).resolve()
+    if lang == "en" and f.with_suffix(".en.md").exists():
+        f = f.with_suffix(".en.md")                      # same anchors, English text
     if kb not in f.parents or f.suffix != ".md" or not f.exists():
         raise HTTPException(404, "unknown page")
     text = f.read_text(encoding="utf-8")
@@ -105,7 +107,7 @@ def render_doc(page: str, hl: str | None = None) -> dict:
             j = i + len(key) if text[i:i + len(key)] == key else text.find("\n", i)
             j = j if j > i else len(text)
             text = text[:i] + "<mark>" + text[i:j] + "</mark>" + text[j:]
-    md = markdown.Markdown(extensions=["tables", "toc"], extension_configs={
+    md = markdown.Markdown(extensions=["tables", "toc", "attr_list"], extension_configs={
         "toc": {"slugify": lambda value, sep: slug(__import__("re").sub(r"^\d+\.\s*", "", value))}})
     return {"page": page, "html": md.convert(text)}
 
