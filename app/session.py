@@ -71,6 +71,9 @@ class CallSession:
         self.duet: dict | None = None
         self.duet_playing = False
         self.duet_last_done = -10.0
+        self.duet_windows: list[tuple[float, float]] = []
+        self.diarization_agrees: list[tuple[str, str | None]] = []   # (role from timing, label from AssemblyAI)
+        self.stream_ms = 0.0
         if source.startswith("duet:"):
             f = DUETS / source.split(":", 1)[1] / "script.json"
             if f.is_file() and f.resolve().parent.parent == DUETS.resolve():
@@ -157,6 +160,7 @@ class CallSession:
             if self.duet_playing:
                 continue                      # the recorded customer is talking: the operator's mic stays out of the stream
             await self.asr.send_audio(chunk)
+            self.stream_ms += len(chunk) / 32          # 16 kHz, 16-bit mono: 32 bytes per millisecond of audio
 
     async def play_duet_line(self, n: int) -> None:
         """Streams one recorded customer line into the same AssemblyAI session, at real-time pace, while the
@@ -171,6 +175,7 @@ class CallSession:
             pcm = w.readframes(w.getnframes())
         self.duet_playing = True
         await self.emit({"type": "duet", "state": "playing", "n": n})
+        start_ms = self.stream_ms
         try:
             step = 16000 * 2 * CHUNK_MS // 1000
             t0 = time.monotonic()
@@ -178,12 +183,34 @@ class CallSession:
                 if self._closing:
                     return
                 await self.asr.send_audio(pcm[i:i + step].ljust(step, b"\x00"))
+                self.stream_ms += step / 32
                 await asyncio.sleep(max(0.0, t0 + (k + 1) * CHUNK_MS / 1000 - time.monotonic()))
             await asyncio.sleep(0.4)
         finally:
+            self.duet_windows.append((start_ms, self.stream_ms))   # where, in stream time, the recorded customer spoke
             self.duet_playing = False
             self.duet_last_done = time.monotonic()
             await self.emit({"type": "duet", "state": "done", "n": n})
+
+    def _diarization_report(self) -> dict | None:
+        """Rehearsal only: did AssemblyAI's speaker labels agree with the roles we know from timing?"""
+        if not self.diarization_agrees:
+            return None
+        by_role: dict[str, dict[str, int]] = {}
+        for role, label in self.diarization_agrees:
+            by_role.setdefault(role, {})[label or "PENDING"] = by_role.setdefault(role, {}).get(label or "PENDING", 0) + 1
+        return by_role
+
+    def _duet_role(self, words: list[dict]) -> str | None:
+        """In rehearsal mode roles come from timing, not from diarization: a turn whose words fall inside a
+        recorded-clip window is the customer, anything else is the operator at the microphone."""
+        if not words:
+            return None
+        mid = (words[0].get("start", 0) + words[-1].get("end", 0)) / 2
+        for a, b in self.duet_windows:
+            if a - 400 <= mid <= b + 400:
+                return CUSTOMER
+        return OPERATOR
 
     async def _feed_sample(self) -> None:
         name = self.source.split(":", 1)[1]
@@ -228,10 +255,13 @@ class CallSession:
         if not msg.get("end_of_turn"):
             await self.emit({"type": "turn", "id": tid, "final": False, "text": text})
             return
-        if self.duet and (self.duet_playing or time.monotonic() - self.duet_last_done < 2.0) and msg.get("speaker_label") not in (None, "", "PENDING"):
-            self.roles.pin_customer(msg["speaker_label"])
-        role, label = self.roles.role_for(msg.get("speaker_label"))
         words = msg.get("words") or []
+        role, label = self.roles.role_for(msg.get("speaker_label"))
+        if self.duet:
+            timed = self._duet_role(words)
+            if timed:
+                role = timed
+                self.diarization_agrees.append((timed, msg.get("speaker_label")))
         min_conf = round(min((w.get("confidence", 1.0) for w in words), default=1.0), 2)
         now = round(time.monotonic() - self.started, 1)
 
@@ -576,4 +606,5 @@ class CallSession:
                                for c in self.cards.values() if c["status"] == "proposed"],
             "parts_dismissed": [c["code"] for c in self.cards.values() if c["status"] == "dismissed"],
             "transcript": [self.turns[k] for k in sorted(self.turns)],
+            "diarization_check": self._diarization_report(),
         }})

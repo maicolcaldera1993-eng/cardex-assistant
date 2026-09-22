@@ -9,7 +9,7 @@ const T = {
     startSub: "Trascrive la chiamata, ti spiega cosa intende il cliente, riconosce macchina e guasto, ti guida nella diagnosi e trova il ricambio.",
     sample: "Riproduci una chiamata di esempio", mic: "Usa il mio microfono (tu sei il cliente)", duet: "Prova a due voci (tu operatore, cliente registrato)", duetHelp: "Parla tu al microfono come operatore. Quando tocca al cliente, clicca la battuta che vuoi fargli dire: la senti dalle casse e il microfono resta muto finché parla.", duetPanel: "Cliente registrato: fagli dire…", noDuets: "Nessuna prova a due voci disponibile",
     clarify: "Versione chiara", assistant: "Assistente", talk: "Conversazione", diag: "Diagnosi guidata", parts: "Ricambi proposti",
-    log: "Registro dell'assistente", docs: "Documenti aperti dall'assistente", noDocs: "Quando si parla di una macchina, di un guasto o di un ricambio, il documento giusto si apre qui, al punto giusto.", choose: "Due guasti possibili. Di quale sta parlando?", merged: "frasi unite", swap: "Scambia ruoli", end: "Fine chiamata", operator: "Operatore", customer: "Cliente",
+    log: "Registro dell'assistente", docs: "Documenti aperti dall'assistente", noDocs: "Quando si parla di una macchina, di un guasto o di un ricambio, il documento giusto si apre qui, al punto giusto.", choose: "Due guasti possibili. Di quale sta parlando?", merged: "frasi unite", micMuted: "mic muto (parla il cliente)", micDenied: "permesso negato", swap: "Scambia ruoli", end: "Fine chiamata", operator: "Operatore", customer: "Cliente",
     noDiag: "Nessun sintomo riconosciuto. Quando il cliente descrive un problema, la procedura compare qui.",
     ask: "Chiedi al cliente", do: "Fagli fare", say: "Da leggere al telefono", confirm: "Conferma", dismiss: "Scarta", sheet: "Scheda",
     maintenance: "Manutenzione ordinaria saltata: consigliare", lowConf: "riconoscimento incerto",
@@ -26,7 +26,7 @@ const T = {
     startSub: "It transcribes the call, tells you what the customer means, recognises the machine and the fault, guides the diagnosis and finds the part.",
     sample: "Play a sample call", mic: "Use my microphone (you are the customer)", duet: "Two-voice rehearsal (you operator, recorded customer)", duetHelp: "Speak into the microphone as the operator. When it is the customer's turn, click the line you want them to say: you hear it from the speakers and your mic stays muted while they talk.", duetPanel: "Recorded customer: have them say…", noDuets: "No two-voice rehearsal available",
     clarify: "Clear version", assistant: "Assistant", talk: "Conversation", diag: "Guided diagnosis", parts: "Proposed parts",
-    log: "Assistant log", docs: "Documents opened by the assistant", noDocs: "When a machine, a fault or a part comes up, the right document opens here, at the right place.", choose: "Two possible faults. Which one is it?", merged: "sentences joined", swap: "Swap roles", end: "End call", operator: "Operator", customer: "Customer",
+    log: "Assistant log", docs: "Documents opened by the assistant", noDocs: "When a machine, a fault or a part comes up, the right document opens here, at the right place.", choose: "Two possible faults. Which one is it?", merged: "sentences joined", micMuted: "mic muted (customer talking)", micDenied: "permission denied", swap: "Swap roles", end: "End call", operator: "Operator", customer: "Customer",
     noDiag: "No symptom recognised yet. When the customer describes a problem, the procedure appears here.",
     ask: "Ask the customer", do: "Have them do", say: "Read this out", confirm: "Confirm", dismiss: "Dismiss", sheet: "Sheet",
     maintenance: "Routine maintenance skipped: recommend", lowConf: "low recognition confidence",
@@ -87,11 +87,23 @@ function startCall(source) {
 function tick() { const s = Math.floor((Date.now() - t0) / 1000); $("st-timer").textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; }
 
 async function startMic() {
-  micStream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true } });
+  try {
+    micStream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true } });
+  } catch (e) {
+    $("st-mic").textContent = "mic: " + (e.name === "NotAllowedError" ? L.micDenied : e.message); $("st-mic").classList.add("bad"); return;
+  }
   audioCtx = new AudioContext();
+  await audioCtx.resume();
   await audioCtx.audioWorklet.addModule("/static/worklet.js");
   const node = new AudioWorkletNode(audioCtx, "pcm16-downsampler");
-  node.port.onmessage = (e) => { if (ws && ws.readyState === 1 && !micMuted) ws.send(e.data); };
+  node.port.onmessage = (e) => {
+    const pcm = new Int16Array(e.data); let peak = 0;
+    for (let i = 0; i < pcm.length; i += 8) { const v = Math.abs(pcm[i]); if (v > peak) peak = v; }
+    const pill = $("st-mic");
+    pill.textContent = micMuted ? L.micMuted : (peak > 1500 ? "mic ●" : "mic ○");
+    pill.classList.toggle("on", !micMuted && peak > 1500);
+    if (ws && ws.readyState === 1 && !micMuted) ws.send(e.data);
+  };
   audioCtx.createMediaStreamSource(micStream).connect(node);
 }
 function stopMic() { if (micStream) micStream.getTracks().forEach((t) => t.stop()); if (audioCtx) audioCtx.close(); micStream = audioCtx = null; }
@@ -223,6 +235,7 @@ function renderSummary(s) {
     `<tr><th>${L.outcomeLabel}</th><td><strong>${esc(o)}</strong></td></tr>` +
     `<tr><th>${L.confirmed}</th><td>${s.parts_confirmed.map((p) => `${esc(p.code)} — ${esc(p.description)} (${p.price_eur?.toFixed(2)} €)`).join("<br>") || L.none}</td></tr>` +
     `<tr><th>${L.proposed}</th><td>${(s.parts_proposed || []).map((p) => `${esc(p.code)} — ${esc(p.description)}`).join("<br>") || L.none}</td></tr>` +
+    (s.diarization_check ? `<tr><th>Diarizzazione</th><td><code>${esc(JSON.stringify(s.diarization_check))}</code></td></tr>` : "") +
     `<tr><th>${L.transcript}</th><td>${s.transcript.map((t) => `<strong>${t.role === "operator" ? L.operator : L.customer}:</strong> ${esc(t.text)}${t.clear ? `<br><em style="color:var(--ok)">${esc(t.clear)}</em>` : ""}`).join("<br>")}</td></tr>` +
     `</table><p><button class="primary" onclick="location.reload()">${L.again}</button></p></div>`;
 }
