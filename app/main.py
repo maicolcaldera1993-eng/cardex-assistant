@@ -24,6 +24,15 @@ _active = 0
 
 app = FastAPI(title="Cardex Assistant")
 app.mount("/static", StaticFiles(directory=ROOT / "web"), name="static")
+
+
+@app.middleware("http")
+async def no_cache_for_the_app_itself(request, call_next):
+    """The page and its script change every day of the hackathon: never let a browser keep an old copy."""
+    response = await call_next(request)
+    if request.url.path == "/" or request.url.path.startswith("/static/"):
+        response.headers["Cache-Control"] = "no-store"
+    return response
 if (ROOT / "samples" / "duet").is_dir():
     app.mount("/duet-audio", StaticFiles(directory=ROOT / "samples" / "duet"), name="duet-audio")
 
