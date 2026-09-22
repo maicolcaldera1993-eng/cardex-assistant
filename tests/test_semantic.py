@@ -4,7 +4,8 @@ import pytest
 
 pytest.importorskip("fastembed")
 
-from app.core.semantic import SYMPTOM_THRESHOLD, SemanticIndex  # noqa: E402
+from app.core.semantic import DECOY_MARGIN, SYMPTOM_THRESHOLD, SemanticIndex  # noqa: E402
+from app.session import sentence_complete  # noqa: E402
 
 sem = SemanticIndex()
 sem.load()
@@ -59,3 +60,29 @@ def test_manual_section_and_sentence_to_highlight():
     assert "ogni-giorno" in top.node_id
     sentence, score = sem.best_sentence("how often should we clean the groups with the tablet?", sem.nodes[top.node_id]["refs"][1 + sem.nodes[top.node_id]["n_topics"]:])
     assert "pastiglia" in sentence.lower() and score > 0.45
+
+
+# --- the "doses instead of weak coffee" rehearsal bug (22 Sept): a sentence cut in two by the turn detector -------------
+def _scores(text):
+    ms = sem.search(text, allowed=MAREA, k=4)
+    decoy = max((m.score for m in ms if sem.nodes[m.node_id].get("decoy")), default=0.0)
+    real = [(m.node_id.split("/", 1)[1], m.score) for m in ms if not sem.nodes[m.node_id].get("decoy")]
+    return decoy, real
+
+
+def test_half_sentence_does_not_clear_the_decoy():
+    decoy, real = _scores("Since maybe 2 weeks, the coffee comes out very")
+    assert real and real[0][1] < decoy + DECOY_MARGIN
+
+
+def test_the_other_half_is_a_clear_symptom():
+    decoy, real = _scores("thin and fast.")
+    assert real[0][0] == "marea-weak-coffee" and real[0][1] >= max(SYMPTOM_THRESHOLD, decoy + DECOY_MARGIN)
+
+
+@pytest.mark.parametrize("text,ok", [
+    ("the coffee comes out very", False), ("thin and fast.", True), ("Is it still the same part?", True),
+    ("No body, no crema!", True), ("the code is GE", False), ("Well...", True),
+])
+def test_sentence_complete(text, ok):
+    assert sentence_complete(text) is ok

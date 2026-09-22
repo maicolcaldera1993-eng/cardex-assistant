@@ -76,6 +76,12 @@ dialog { border:1px solid var(--line); border-radius:10px; max-width:720px; widt
 .duet-line { text-align:left; font-size:12px; padding:4px 8px; border-color:#e2cfe0; }
 .duet-line.said { opacity:.45; } .duet-line.playing { border-color:var(--cu); background:#f1e3ee; font-weight:600; }
 .duet-line small { color:var(--mute); margin-right:6px; }
+#duet-lines { max-height:40vh; }
+.cue { font-size:11px; line-height:1.3; padding:2px 8px; }
+.cue.op { color:#1f4d7a; margin-top:6px; }
+.cue.op::before { content:"Tu: "; font-weight:600; }
+.cue.expect { color:var(--mute); font-style:italic; }
+.cue.expect::before { content:"Atteso: "; font-style:normal; }
 .turn .clear.wait { color:var(--mute); font-size:12px; }
 .closebar { display:flex; gap:6px; align-items:center; justify-content:flex-end; margin-top:8px; flex-wrap:wrap; }
 .closebar .note { margin:0 auto 0 0; }

@@ -22,7 +22,7 @@ from .core.catalog import Catalog
 from .core.context import ContextDetector
 from .core.normalizer import canonicalize_codes, extract_codes
 from .core.roles import CUSTOMER, OPERATOR, RoleTracker
-from .core.semantic import AMBIGUITY_GAP, SECTION_THRESHOLD, SYMPTOM_THRESHOLD, SemanticIndex
+from .core.semantic import AMBIGUITY_GAP, DECOY_MARGIN, SECTION_THRESHOLD, SYMPTOM_THRESHOLD, SemanticIndex
 from .core.symptoms import DefectsLibrary, Diagnosis, parse_then, Outcome
 from .core.vocabulary import VocabularyManager
 from .llm.clarify import Clarifier
@@ -67,6 +67,13 @@ def _manifest_single(source: str) -> str | None:
     return None
 
 _SERIAL = re.compile(r"(?:serial(?: number)?|matricola)\D{0,15}((?:\d[\s\-]?){5,8})", re.I)
+_SENTENCE_END = re.compile(r"[.!?…]\s*$")
+
+
+def sentence_complete(text: str) -> bool:
+    """AssemblyAI closes a turn mid-sentence now and then ("the coffee comes out very" | "thin and fast."). A fragment
+    without final punctuation has not said what the fault is yet: meaning is read only on whole sentences."""
+    return bool(_SENTENCE_END.search(text))
 
 
 class CallSession:
@@ -272,6 +279,13 @@ class CallSession:
         elif t == "Error" or "error" in msg:
             await self.emit({"type": "error", "text": json.dumps(msg)[:300]})
 
+    def _log_decision(self, what: str, **data) -> None:
+        """Same local log as the raw turns: what the assistant decided and why, so a wrong symptom can be traced
+        without re-running the audio."""
+        if _DEBUG_LOG:
+            with open(_DEBUG_LOG, "a", encoding="utf-8") as f:
+                f.write(json.dumps({"stream_ms": round(self.stream_ms), "decision": what, **data}, ensure_ascii=False) + "\n")
+
     async def _on_turn(self, msg: dict) -> None:
         if _DEBUG_LOG and msg.get("end_of_turn"):
             with open(_DEBUG_LOG, "a", encoding="utf-8") as f:
@@ -407,7 +421,7 @@ class CallSession:
         # meaning-based symptom detection listens to the CUSTOMER only: the operator's questions ("what is the
         # problem?", "how long does a shot take?") are about the fault, not descriptions of it. Exact spoken phrases
         # still count from either voice (operators restate what they heard).
-        if not await self._detect_symptom(recent, semantic=(role == CUSTOMER)):
+        if not await self._detect_symptom(recent, semantic=(role == CUSTOMER and sentence_complete(recent[0]))):
             await self._open_matching_section(recent[-1])
 
         cards = []
@@ -451,9 +465,14 @@ class CallSession:
                     if m.node_id not in best or m.score > best[m.node_id].score:
                         best[m.node_id] = m
             ms = sorted(best.values(), key=lambda m: m.score, reverse=True)
-            if ms and SEMANTIC.nodes[ms[0].node_id].get("decoy"):
-                ms = []                                              # "we have a problem with the machine": not a symptom yet
-            ms = [m for m in ms if not SEMANTIC.nodes[m.node_id].get("decoy") and m.score >= SYMPTOM_THRESHOLD][:2]
+            decoy = max((m.score for m in ms if SEMANTIC.nodes[m.node_id].get("decoy")), default=0.0)
+            # "we have a problem with the machine": not a symptom yet. A real fault must clear the decoy by a margin,
+            # otherwise a half sentence read with its context can edge past it (measured: "the coffee comes out very"
+            # scored decoy 0.73 vs doses 0.72)
+            ms = [m for m in ms if not SEMANTIC.nodes[m.node_id].get("decoy")
+                  and m.score >= max(SYMPTOM_THRESHOLD, decoy + DECOY_MARGIN)][:2]
+            self._log_decision("symptom_scores", texts=texts, decoy=round(decoy, 3),
+                               top=[(m.node_id, round(m.score, 3)) for m in sorted(best.values(), key=lambda m: m.score, reverse=True)[:3]])
             if ms:
                 ids = [m.node_id.split("/", 1)[1] for m in ms]
                 if len(ms) == 2 and ms[0].score - ms[1].score < AMBIGUITY_GAP:
@@ -461,6 +480,9 @@ class CallSession:
                 else:
                     chosen, heard = ids[0], f"≈ {ms[0].ref}, {ms[0].score:.2f}"
         active = self.diagnosis.symptom["id"] if self.diagnosis else None
+        if chosen or options:
+            self._log_decision("symptom", text=texts[0], chosen=chosen, heard=heard, active=active,
+                               options=[m.node_id for m in options], semantic=semantic)
 
         if options:
             key = tuple(sorted(m.node_id for m in options))

@@ -24,6 +24,7 @@ MODEL_NAME = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
 SYMPTOM_THRESHOLD = 0.66     # measured: small talk 0.27-0.44, generic "there is a problem" up to 0.69 (decoy), real faults 0.67-0.92
 SECTION_THRESHOLD = 0.64
 AMBIGUITY_GAP = 0.04         # two symptoms this close: show both, the operator picks
+DECOY_MARGIN = 0.03          # a symptom must beat the generic decoy by this much, not just edge past it
 
 
 @dataclass

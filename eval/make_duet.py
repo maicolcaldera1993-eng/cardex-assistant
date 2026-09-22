@@ -1,53 +1,61 @@
-"""Generates the customer side of a two-voice rehearsal call: one clip per line, German-accented
-English (Edge neural voice de-DE reading English text), 16 kHz mono PCM16, plus script.json.
-Rehearsal quality only; the final sample calls will use approved scripts and ElevenLabs.
+"""Generates the customer side of the two-voice rehearsal calls from the scripts in eval/duets/*.json:
+one clip per customer line (Edge neural voice with the customer's accent reading English), 16 kHz mono PCM16,
+plus samples/duet/<id>/script.json with, for every line, the operator's cue (what to say before clicking it)
+and what the assistant is expected to do. Rehearsal quality only; the final sample calls will use approved
+scripts and ElevenLabs.
 
-    .venv/Scripts/python eval/make_duet.py
+    .venv/Scripts/python eval/make_duet.py              # every script; clips already synthesised for the same text are kept
+    .venv/Scripts/python eval/make_duet.py lena-berlin  # one script
 """
 import asyncio
 import json
+import sys
 from pathlib import Path
 
 import miniaudio
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "samples" / "duet" / "jonas-marea"
-OUT.mkdir(parents=True, exist_ok=True)
-VOICE = "de-DE-ConradNeural"
+SCRIPTS = ROOT / "eval" / "duets"
+OUT = ROOT / "samples" / "duet"
 
-LINES = [
-    "Hello, good morning. This is Jonas, from Cafe Berlin, in Hamburg.",
-    "We have a problem with our coffee machine. It is the Marea 2 Plus, the vanilla one, the cream colour.",
-    "Since maybe two weeks, the coffee comes out very thin and fast. Like water. No body, no crema.",
-    "A double shot takes maybe fifteen, eighteen seconds. Before it was longer.",
-    "The last cleaning with the tablet and the blind filter... honestly, I think two or three weeks ago.",
-    "Okay, I did the backflush now, five times with the tablet. It is still weak.",
-    "I unscrewed the shower screen. It has white scale on it, but the holes are fine, not damaged.",
-    "I put it in the descaler and cleaned it. Now the coffee is much better, yes. Thank you.",
-    "Also, when I lock the portafilter it goes very far to the right, and water comes around. Last year we ordered the gasket, the code on the invoice is G E twenty-one forty.",
-    "The serial number is zero four seven, two one nine.",
-    "One more thing. The control board, on the old one is written E L three zero one zero. Is it still the same part?",
-    "Okay, perfect. Please send the gasket and the tablets to Hamburg. Thank you, goodbye.",
-]
+
+async def build(script_path: Path) -> None:
+    import edge_tts
+    spec = json.loads(script_path.read_text(encoding="utf-8"))
+    out = OUT / spec["id"]
+    out.mkdir(parents=True, exist_ok=True)
+    old = {}
+    if (out / "script.json").exists():
+        old = {l["n"]: l for l in json.loads((out / "script.json").read_text(encoding="utf-8"))["lines"]}
+    lines = []
+    for i, line in enumerate(spec["lines"], 1):
+        wav = out / f"{i:02d}.wav"
+        prev = old.get(i)
+        if prev and prev["text"] == line["text"] and prev.get("voice", spec["voice"]) == spec["voice"] and wav.exists():
+            secs = prev["seconds"]
+            status = "kept"
+        else:
+            mp3 = out / f"{i:02d}.mp3"
+            await edge_tts.Communicate(line["text"], spec["voice"], rate="-8%").save(str(mp3))
+            dec = miniaudio.decode_file(str(mp3), output_format=miniaudio.SampleFormat.SIGNED16, nchannels=1, sample_rate=16000)
+            miniaudio.wav_write_file(str(wav), miniaudio.DecodedSoundFile(wav.stem, 1, 16000, miniaudio.SampleFormat.SIGNED16, dec.samples))
+            mp3.unlink()
+            secs = round(len(dec.samples) / 16000, 1)
+            status = "new"
+        lines.append({"n": i, "file": wav.name, "seconds": secs, "text": line["text"], "voice": spec["voice"],
+                      "cue": line.get("cue", ""), "expect_it": line.get("expect_it", "")})
+        print(f"{spec['id']} {i:02d} {secs:4.1f}s {status:4s} {line['text'][:60]}")
+    (out / "script.json").write_text(json.dumps({
+        "id": spec["id"], "title_it": spec["title_it"], "title_en": spec["title_en"], "voice": spec["voice"],
+        "customer_lang": spec.get("customer_lang", "en"), "accent": spec.get("accent", ""), "lines": lines},
+        ensure_ascii=False, indent=2), encoding="utf-8")
 
 
 async def main() -> None:
-    import edge_tts
-    script = []
-    for i, text in enumerate(LINES, 1):
-        mp3 = OUT / f"{i:02d}.mp3"
-        await edge_tts.Communicate(text, VOICE, rate="-8%").save(str(mp3))
-        dec = miniaudio.decode_file(str(mp3), output_format=miniaudio.SampleFormat.SIGNED16, nchannels=1, sample_rate=16000)
-        wav = OUT / f"{i:02d}.wav"
-        miniaudio.wav_write_file(str(wav), miniaudio.DecodedSoundFile(wav.stem, 1, 16000, miniaudio.SampleFormat.SIGNED16, dec.samples))
-        mp3.unlink()
-        secs = len(dec.samples) / 16000
-        script.append({"n": i, "file": wav.name, "seconds": round(secs, 1), "text": text})
-        print(f"{i:02d} {secs:4.1f}s  {text[:70]}")
-    (OUT / "script.json").write_text(json.dumps({
-        "id": "jonas-marea", "title_it": "Jonas, Cafe Berlin (tedesco): Marea 2 Plus, caffè slavato",
-        "title_en": "Jonas, Cafe Berlin (German): Marea 2 Plus, weak coffee",
-        "voice": VOICE, "customer_lang": "en", "accent": "de", "lines": script}, ensure_ascii=False, indent=2), encoding="utf-8")
+    wanted = set(sys.argv[1:])
+    for f in sorted(SCRIPTS.glob("*.json")):
+        if not wanted or f.stem in wanted:
+            await build(f)
 
 
 asyncio.run(main())

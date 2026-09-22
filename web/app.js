@@ -200,7 +200,8 @@ function applyAnchor(d) {
 }
 
 function renderDuet(lines) {
-  $("duet-lines").innerHTML = lines.map((l) => `<button class="duet-line" data-n="${l.n}"><small>${l.n}</small>${esc(l.text)}</button>`).join("");
+  // for every customer line: what the operator says first (cue), the line to click, what the assistant should do
+  $("duet-lines").innerHTML = lines.map((l) => `${l.cue ? `<div class="cue op">${esc(l.cue)}</div>` : ""}<button class="duet-line" data-n="${l.n}"><small>${l.n}</small>${esc(l.text)}</button>${l.expect_it ? `<div class="cue expect">${esc(l.expect_it)}</div>` : ""}`).join("");
   $("duet-lines").querySelectorAll(".duet-line").forEach((b) => (b.onclick = () => {
     const n = +b.dataset.n, line = lines.find((x) => x.n === n);
     if (duetPlaying) return;                                   // one clip at a time: a second click must not mute the mic
