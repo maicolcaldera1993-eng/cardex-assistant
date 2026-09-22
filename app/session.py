@@ -35,7 +35,8 @@ MAX_REHEARSAL_SECONDS = int(os.getenv("MAX_REHEARSAL_SECONDS", "1500"))     # tw
 _REQUEST_CUE = re.compile(r"\b(need|order|ordered|send|replace|replacement|spare|part|broken|new one|another|"
                           r"serve|servono|ordin\w+|mand\w+|sostitu\w+|ricambio|rotto|rotta|nuov[oa])\b", re.I)
 INACTIVITY_TIMEOUT = int(os.getenv("INACTIVITY_TIMEOUT_SECONDS", "60"))
-_DEBUG_LOG = os.getenv("CARDEX_DEBUG_TURNS")          # path of a file: raw final turns are appended there
+_DEBUG_LOG = os.getenv("CARDEX_DEBUG_TURNS") or str(ROOT / "eval" / "logs" / "turns.jsonl")   # raw final turns, local only
+Path(_DEBUG_LOG).parent.mkdir(parents=True, exist_ok=True)
 CHUNK_MS = 50
 
 # Loaded once, shared by every session (read-only).
@@ -185,7 +186,10 @@ class CallSession:
     async def play_duet_line(self, n: int) -> None:
         """Streams one recorded customer line into the same AssemblyAI session, at real-time pace, while the
         browser plays it through the speakers for the operator to hear. Two real voices, one stream."""
-        if not self.duet or self.duet_playing or self._closing:
+        if not self.duet or self._closing:
+            return
+        if self.duet_playing:
+            await self.emit({"type": "duet", "state": "busy", "n": n})    # tell the page, so the mic is never left muted
             return
         line = next((l for l in self.duet["lines"] if l["n"] == n), None)
         if not line:
@@ -424,7 +428,7 @@ class CallSession:
             cards += CATALOG.search_description(recent[0], model_id=self.model_id, family=self.family, groups=self.groups)
         await self._add_cards(cards, tid, source="voice")
         for c in cards:
-            if c.reason in ("exact", "near-code", "description") and c.compatible:
+            if c.reason in ("exact", "near-code", "description", "replacement"):   # an incompatible or superseded code is exactly when the sheet matters
                 await self._open_doc(f"part/{c.code}", "code" if c.reason != "description" else "description")
                 break
         await self._maybe_reload_vocabulary()

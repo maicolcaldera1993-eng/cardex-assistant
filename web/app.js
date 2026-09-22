@@ -41,7 +41,7 @@ const T = {
 
 let lang = new URLSearchParams(location.search).get("lang") === "en" ? "en" : "it";
 let L = T[lang];
-let ws = null, audioCtx = null, micStream = null, timer = null, t0 = 0, micMuted = false, duetId = null;
+let ws = null, audioCtx = null, micStream = null, timer = null, t0 = 0, micMuted = false, duetId = null, duetPlaying = false, micWatchdog = null;
 const cards = new Map();
 const knownCodes = new Set();
 const docs = [];
@@ -127,7 +127,7 @@ function handle(ev) {
     case "diagnosis": renderDiagnosis(ev); break;
     case "symptom_choice": renderChoice(ev.options); break;
     case "duet_script": renderDuet(ev.lines); break;
-    case "duet": { const b = document.querySelector(`.duet-line[data-n="${ev.n}"]`); if (b) { b.classList.toggle("playing", ev.state === "playing"); if (ev.state === "done") b.classList.add("said"); } if (ev.state === "done") setTimeout(() => (micMuted = false), 300); break; }
+    case "duet": { const b = document.querySelector(`.duet-line[data-n="${ev.n}"]`); if (b) { b.classList.toggle("playing", ev.state === "playing"); if (ev.state === "done") b.classList.add("said"); } if (ev.state === "done" || ev.state === "busy") { clearTimeout(micWatchdog); setTimeout(() => { micMuted = false; duetPlaying = false; }, 300); } break; }
     case "open_doc": openDoc(ev); break;
     case "agent": { const d = document.createElement("div"); d.innerHTML = `<time>${fmt(ev.at)}</time>${esc(ev.text)}`; $("log").prepend(d); break; }
     case "model_mention": { const d = document.createElement("div"); d.innerHTML = `<button class="ghost" style="padding:2px 8px;font-size:12px">→ ${esc(ev.model)}</button>`; d.querySelector("button").onclick = () => send({ type: "control", action: "set_machine", model_id: ev.model_id }); $("log").prepend(d); break; }
@@ -200,10 +200,13 @@ function renderDuet(lines) {
   $("duet-lines").innerHTML = lines.map((l) => `<button class="duet-line" data-n="${l.n}"><small>${l.n}</small>${esc(l.text)}</button>`).join("");
   $("duet-lines").querySelectorAll(".duet-line").forEach((b) => (b.onclick = () => {
     const n = +b.dataset.n, line = lines.find((x) => x.n === n);
-    micMuted = true;
+    if (duetPlaying) return;                                   // one clip at a time: a second click must not mute the mic
+    duetPlaying = true; micMuted = true;
     const a = new Audio(`/duet-audio/${duetId}/${line.file}`);
     a.play().catch(() => {});
     send({ type: "control", action: "play_line", n });
+    clearTimeout(micWatchdog);
+    micWatchdog = setTimeout(() => { micMuted = false; duetPlaying = false; }, (line.seconds + 4) * 1000);   // never stuck muted
   }));
 }
 
