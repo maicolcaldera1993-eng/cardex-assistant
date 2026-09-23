@@ -13,6 +13,7 @@ import json
 import re
 import sqlite3
 from dataclasses import dataclass, field
+from datetime import date, timedelta
 from pathlib import Path
 
 from rapidfuzz import fuzz
@@ -112,6 +113,36 @@ class Catalog:
             "SELECT o.ordered_on, o.code, o.qty, p.description_it, p.description_en FROM machine_orders o JOIN parts p ON p.code = o.code "
             "WHERE o.serial=? ORDER BY o.ordered_on DESC", (m["serial"],))]
         return m
+
+    # -- service calendar (fictional, two weeks ahead) ---------------------------
+    def service_zone(self, machine: dict | None) -> str | None:
+        """The on-site service zone of an installed machine: its country, when we have a partner there."""
+        if not machine:
+            return None
+        row = self.con.execute("SELECT zone FROM service_zones WHERE zone=?", (machine.get("country"),)).fetchone()
+        return row["zone"] if row else None
+
+    def service_slots(self, zone: str, from_day: int = 1, limit: int = 4, today: date | None = None) -> list[dict]:
+        """Free slots of a zone's calendar, working days only, starting `from_day` days from today."""
+        z = self.con.execute("SELECT * FROM service_zones WHERE zone=?", (zone,)).fetchone()
+        if not z:
+            return []
+        busy = {(r["day_offset"], r["slot"]) for r in self.con.execute("SELECT day_offset, slot FROM service_busy WHERE zone=?", (zone,))}
+        times = [t.split("-") for t in z["slot_times"].split(",")]
+        today = today or date.today()
+        out: list[dict] = []
+        for off in range(max(1, from_day), 15):
+            d = today + timedelta(days=off)
+            if d.weekday() >= 5:
+                continue
+            for i, (a, b) in enumerate(times):
+                if (off, i) in busy:
+                    continue
+                out.append({"id": f"{zone}:{off}:{i}", "zone": zone, "zone_name": z["name"], "kind": z["kind"],
+                            "technician": z["technician"], "date": d.isoformat(), "day_offset": off, "start": a, "end": b})
+                if len(out) >= limit:
+                    return out
+        return out
 
     def _prior(self, code: str, groups: list[str]) -> float:
         boost = 0.05 * (self._orders[code] / self._max_orders)

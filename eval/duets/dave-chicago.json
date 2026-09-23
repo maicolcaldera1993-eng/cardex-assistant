@@ -26,7 +26,7 @@
      "expect_it": "Tu scegli «Scatta ma non scalda» → passo tensione."},
     {"cue": "What voltage is on the rating plate: 230, 110 or 400?",
      "text": "It is one hundred ten volts, the American version. We bought it in 2024.",
-     "expect_it": "Tu scegli «Marea 2, 110 V» → esito: resistenza CA-1181 + guarnizione CA-1220, con il service. La scheda macchina dice fuori garanzia: paga il cliente."},
+     "expect_it": "Tu scegli «Marea 2, 110 V» → «Cosa fare ora»: CA-1181 + CA-1220 con prezzi e consegna, montaggio con il service, FUORI GARANZIA (paga il cliente), slot della seconda chiamata dopo l'arrivo dei pezzi: prenotane uno e leggi la frase."},
     {"cue": "The heating element has failed. Your warranty ended in August, so the part and the service call are charged. I ship the 110 volt element from Florence; fitting needs our service on the line.",
      "text": "Understood. Please send it. Can you also add a box of the cleaning tablets?",
      "expect_it": "Scheda pastiglie CR-6052 dalla descrizione, lo monta il cliente."},

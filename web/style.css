@@ -93,6 +93,11 @@ dialog { border:1px solid var(--line); border-radius:10px; max-width:720px; widt
 .next .kind { font-size:11px; text-transform:uppercase; letter-spacing:.6px; color:var(--accent); font-weight:700; }
 .next .wline { margin-top:6px; font-weight:600; } .next .wline.ok { color:var(--ok); } .next .wline.bad { color:var(--bad); }
 .nparts { margin:6px 0 0; padding-left:18px; font-size:13px; } .nparts li { margin:3px 0; }
+.booking { margin-top:8px; padding:8px 10px; border-radius:8px; background:#eef3fb; border:1px solid #c9d8ef; }
+.booking .kind { color:#1f4d7a; }
+.slots { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; } .slots button { font-size:12px; padding:4px 8px; }
+.booked { margin-top:6px; font-weight:600; color:var(--ok); } .booked button { margin-left:6px; padding:2px 8px; font-size:12px; }
+#summary td .ok { color:var(--ok); font-weight:600; } #summary td .bad { color:var(--bad); font-weight:600; }
 .closebar .note { margin:0 auto 0 0; }
 button.ok { border-color:var(--ok); color:var(--ok); }
 .handling { display:inline-block; margin-top:6px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; padding:2px 8px; border-radius:999px; }

@@ -60,6 +60,36 @@ MACHINE_ORDERS = [
     ("048530", "2026-02-03", "CR-6052", 2), ("041302", "2025-06-30", "GE-2140", 1), ("041302", "2025-06-30", "CR-6052", 2),
 ]
 
+# Fictional service calendar: one zone per country of the installed base, plus the remote service line in Florence.
+# Slots are day offsets from "today" (working days only, computed at query time), so the calendar never goes stale.
+ONSITE = "09:00-12:00,14:00-17:00"
+SERVICE_ZONES = [
+    ("REMOTE", "Service line, Florence", "remote", "Sereni service desk (video call)", "09:30-10:00,11:00-11:30,15:00-15:30,16:30-17:00"),
+    ("IT", "Italy", "onsite", "Sereni technician, Florence", ONSITE),
+    ("DE", "Germany, Hamburg hub", "onsite", "Markus Weber, Hamburg", ONSITE),
+    ("AT", "Austria, partner service Vienna", "onsite", "Partner service Wien", ONSITE),
+    ("ES", "Spain, Valencia", "onsite", "Servicio técnico Valencia", ONSITE),
+    ("NL", "Benelux, Rotterdam hub", "onsite", "Rotterdam hub technician", ONSITE),
+    ("US", "USA, Chicago", "onsite", "Sereni USA, Chicago", ONSITE),
+    ("TR", "Turkey, partner Istanbul", "onsite", "Partner service Istanbul", ONSITE),
+]
+# how full each calendar is over the next two weeks (a busy partner in Vienna, a quiet one in Florence)
+SERVICE_LOAD = {"REMOTE": 0.35, "IT": 0.3, "DE": 0.6, "AT": 0.75, "ES": 0.4, "NL": 0.45, "US": 0.5, "TR": 0.65}
+
+
+def service_busy_rows() -> list[tuple[str, int, int]]:
+    import random
+    rows = []
+    for zone, _, _, _, times in SERVICE_ZONES:
+        rnd = random.Random(f"sereni-{zone}")            # fixed seed: the same calendar on every rebuild
+        n_slots = len(times.split(","))
+        for off in range(1, 15):
+            for i in range(n_slots):
+                if rnd.random() < SERVICE_LOAD[zone]:
+                    rows.append((zone, off, i))
+    return rows
+
+
 MODEL_GROUPS = {m[0]: max(m[5], 1) for m in bc.MODELS}
 PER_GROUP_KEYWORDS = ("sottocoppa", "doccetta", "portadoccia", "elettrovalvola gruppo", "gigleur", "preinfusione",
                       "camera", "corpo gruppo", "kit revisione gruppo", "sonda temperatura gruppo", "camicia gruppo",
@@ -154,6 +184,8 @@ def build_db() -> None:
     CREATE TABLE machines (serial TEXT PRIMARY KEY, model_id TEXT, edition TEXT, built TEXT, voltage TEXT, customer TEXT,
                            city TEXT, country TEXT, installed TEXT, warranty_until TEXT, notes TEXT);
     CREATE TABLE machine_orders (serial TEXT, ordered_on TEXT, code TEXT, qty INTEGER);
+    CREATE TABLE service_zones (zone TEXT PRIMARY KEY, name TEXT, kind TEXT, technician TEXT, slot_times TEXT);
+    CREATE TABLE service_busy (zone TEXT, day_offset INTEGER, slot INTEGER);
     CREATE INDEX ix_compat_model ON compatibility(model_id);
     """)
     for (i, n, f, y, t, g, aliases) in bc.MODELS:
@@ -166,6 +198,8 @@ def build_db() -> None:
     c.executemany("INSERT INTO suppliers VALUES (?,?,?,?,?)", SUPPLIERS)
     c.executemany("INSERT INTO machines VALUES (?,?,?,?,?,?,?,?,?,?,?)", MACHINES)
     c.executemany("INSERT INTO machine_orders VALUES (?,?,?,?)", MACHINE_ORDERS)
+    c.executemany("INSERT INTO service_zones VALUES (?,?,?,?,?)", SERVICE_ZONES)
+    c.executemany("INSERT INTO service_busy VALUES (?,?,?)", service_busy_rows())
 
     for p in bc.PARTS:
         notes = NOTES.get(p["code"], {})

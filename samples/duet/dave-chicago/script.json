@@ -67,7 +67,7 @@
       "text": "It is one hundred ten volts, the American version. We bought it in 2024.",
       "voice": "en-US-GuyNeural",
       "cue": "What voltage is on the rating plate: 230, 110 or 400?",
-      "expect_it": "Tu scegli «Marea 2, 110 V» → esito: resistenza CA-1181 + guarnizione CA-1220, con il service. La scheda macchina dice fuori garanzia: paga il cliente."
+      "expect_it": "Tu scegli «Marea 2, 110 V» → «Cosa fare ora»: CA-1181 + CA-1220 con prezzi e consegna, montaggio con il service, FUORI GARANZIA (paga il cliente), slot della seconda chiamata dopo l'arrivo dei pezzi: prenotane uno e leggi la frase."
     },
     {
       "n": 8,

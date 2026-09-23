@@ -115,6 +115,7 @@ class CallSession:
         self.vocab_phase = 0
         self.vocab_key: tuple | None = None
         self.outcome: dict | None = None
+        self.booking: dict | None = None         # service slot booked by the operator (fictional calendar)
         self.started = time.monotonic()
         self.asr: AssemblyAIStream | None = None
         self.audio_q: asyncio.Queue[bytes | None] = asyncio.Queue(maxsize=400)
@@ -725,6 +726,19 @@ class CallSession:
             self.pending_symptoms.remove(msg["symptom_id"])
             self.dropped_symptoms.add(msg["symptom_id"])
             await self._emit_diagnosis()
+        elif a == "book_slot" and msg.get("id") and self.diagnosis and self.diagnosis.outcome:
+            zone, off, _ = str(msg["id"]).split(":")
+            slot = next((x for x in CATALOG.service_slots(zone, from_day=int(off), limit=8) if x["id"] == msg["id"]), None)
+            if slot:
+                self.booking = slot
+                v = self._slot_view(slot)
+                await self._agent(f"Prenotato: {v['label']} con {slot['technician']}." if self.lang == "it"
+                                  else f"Booked: {v['label']} with {slot['technician']}.")
+                await self._emit_diagnosis()
+        elif a == "cancel_booking" and self.booking:
+            self.booking = None
+            await self._agent("Prenotazione annullata." if self.lang == "it" else "Booking cancelled.")
+            await self._emit_diagnosis()
         elif a in ("confirm_part", "dismiss_part") and msg.get("code") in self.cards:
             self.cards[msg["code"]]["status"] = "confirmed" if a == "confirm_part" else "dismissed"
             await self.emit({"type": "part_status", "code": msg["code"], "status": self.cards[msg["code"]]["status"]})
@@ -778,9 +792,40 @@ class CallSession:
             out.append({"id": sid, "title": sym[f"symptom_{self.lang}"]})
         return out
 
+    _WD_IT = ["lun", "mar", "mer", "gio", "ven", "sab", "dom"]
+    _MO_IT = ["gen", "feb", "mar", "apr", "mag", "giu", "lug", "ago", "set", "ott", "nov", "dic"]
+
+    def _slot_view(self, slot: dict) -> dict:
+        """A calendar slot with a label in the operator's language and one in English (to read out)."""
+        d = time.strptime(slot["date"], "%Y-%m-%d")
+        it = f"{self._WD_IT[d.tm_wday]} {d.tm_mday} {self._MO_IT[d.tm_mon - 1]}"
+        en = time.strftime("%a %d %b", d)
+        return {**slot, "label": f"{it if self.lang == 'it' else en} {slot['start']}-{slot['end']}",
+                "label_en": f"{en}, {slot['start']} to {slot['end']}"}
+
+    @staticmethod
+    def _max_days(delivery: list[dict]) -> int:
+        """'2-4' working days -> 4; the remote fitting call is booked after the parts can be there."""
+        nums = [int(x) for d in delivery[:1] for x in re.findall(r"\d+", str(d.get("days", "")))]
+        return max(nums) if nums else 3
+
+    def _booking_view(self, kind: str, parts: list[dict]) -> dict:
+        """Which calendar to open for this outcome and its first free slots."""
+        if kind == "technician":
+            zone = CATALOG.service_zone(self.machine)
+            slots = CATALOG.service_slots(zone, from_day=1) if zone else []
+            return {"kind": "onsite", "zone": zone, "need_serial": not self.machine, "no_partner": bool(self.machine) and not zone,
+                    "slots": [self._slot_view(x) for x in slots],
+                    "booked": self._slot_view(self.booking) if self.booking and self.booking["kind"] == "onsite" else None}
+        lead = max([self._max_days(c["delivery"]) for c in parts] + [0])
+        slots = CATALOG.service_slots("REMOTE", from_day=lead + 1)
+        return {"kind": "remote", "zone": "REMOTE", "need_serial": False, "no_partner": False,
+                "slots": [self._slot_view(x) for x in slots],
+                "booked": self._slot_view(self.booking) if self.booking and self.booking["kind"] == "remote" else None}
+
     def _next_step(self) -> dict:
         """What the operator does now that the procedure has an outcome: the parts with price and delivery, who pays,
-        whether a service call or a technician's visit must be booked, and one English sentence to read out."""
+        the service call or the technician's visit to book (with the free slots), and one English sentence to read."""
         o = self.diagnosis.outcome
         it = self.lang == "it"
         w = self.machine.get("in_warranty") if self.machine else None
@@ -808,8 +853,13 @@ class CallSession:
                  "part_diy": "I'll ship the parts; you can fit them yourself with the sheet I'll send you.",
                  "part_with_support": "I'll ship the parts and we'll book a call with our service to fit them when they arrive.",
                  "technician": "We need to send a technician; we'll call you to book the visit."}[o.kind]
+        booking = self._booking_view(o.kind, parts) if o.kind in ("part_with_support", "technician") else None
+        if booking and booking["booked"]:
+            b = booking["booked"]
+            say_k = (f"Our technician can come on {b['label_en']}. Does that work for you?" if booking["kind"] == "onsite"
+                     else f"We'll call you on {b['label_en']} to fit the parts together, once they have arrived. Does that work for you?")
         return {"kind": o.kind, "text": text[0] if it else text[1], "warranty": w, "warranty_text": wt[0] if it else wt[1],
-                "say_en": (say_w + " " + say_k).strip(),
+                "say_en": (say_w + " " + say_k).strip(), "booking": booking,
                 "parts": [{"code": c["code"], "description": c["description"], "price_eur": c["price_eur"],
                            "delivery": c["delivery"], "handling": c["handling"]} for c in parts]}
 
@@ -855,6 +905,8 @@ class CallSession:
             "steps": self.diagnosis.view(self.lang)["history"] if self.diagnosis else [],
             "maintenance_skipped": bool(self.diagnosis and self.diagnosis.maintenance_flags),
             "outcome": self.outcome,
+            "next": self._next_step() if self.diagnosis and self.diagnosis.outcome else None,
+            "booking": self._slot_view(self.booking) if self.booking else None,
             "machine_record": self.machine,
             "parts_confirmed": [{"code": c["code"], "description": c["description"], "price_eur": c["price_eur"],
                                  "stock": c["stock"]} for c in confirmed],

@@ -98,3 +98,34 @@ def test_description_search():
 def test_adapter_only_on_machines_that_need_it():
     assert [c.code for c in cat.search_code("EL-3010", model_id="marea-2-plus")] == ["EL-3010", "EL-3012"]
     assert [c.code for c in cat.search_code("EL-3010", model_id="giglio-1")] == ["EL-3010", "EL-3012", "EL-3036"]
+
+
+# --- fictional service calendar: two weeks ahead, working days, free slots depend on the zone ---------------------
+def test_service_calendar_is_per_zone_and_skips_weekends():
+    from datetime import date
+    from app.core.catalog import Catalog
+    c = Catalog()
+    monday = date(2026, 9, 21)
+    for zone in ("DE", "AT", "REMOTE"):
+        slots = c.service_slots(zone, from_day=1, limit=6, today=monday)
+        assert 1 <= len(slots) <= 6
+        for s in slots:
+            assert date.fromisoformat(s["date"]).weekday() < 5
+            assert s["zone"] == zone and s["id"].startswith(f"{zone}:")
+    # deterministic (fixed seed at build time): same call, same calendar
+    assert c.service_slots("DE", today=monday) == c.service_slots("DE", today=monday)
+    # a busier partner has fewer free slots in the same window
+    free = {z: len(c.service_slots(z, from_day=1, limit=40, today=monday)) for z in ("IT", "AT")}
+    assert free["IT"] > free["AT"]
+    # the remote call is booked after the parts can be there: from_day moves the first slot
+    later = c.service_slots("REMOTE", from_day=5, today=monday)
+    assert all(s["day_offset"] >= 5 for s in later)
+    assert c.service_slots("XX", today=monday) == []
+
+
+def test_service_zone_comes_from_the_machine_record():
+    from app.core.catalog import Catalog
+    c = Catalog()
+    assert c.service_zone(c.machine("041302")) == "US"
+    assert c.service_zone(c.machine("052710")) == "AT"
+    assert c.service_zone(None) is None
