@@ -86,3 +86,20 @@ def test_the_other_half_is_a_clear_symptom():
 ])
 def test_sentence_complete(text, ok):
     assert sentence_complete(text) is ok
+
+
+# --- an exact spoken phrase inside a sentence that clearly means another fault (Lena, automatic mode, 23 Sept) ------
+def test_meaning_overrules_a_stray_exact_phrase():
+    from app.core.symptoms import DefectsLibrary
+    lib = DefectsLibrary()
+    real = {n for n in MAREA if not sem.nodes[n].get("decoy")}
+
+    def verdict(text):
+        exact = lib.match(text, model_id="marea-2-plus").symptom_id
+        sims = {m.node_id.split("/", 1)[1]: m.score for m in sem.search(text, allowed=real, k=5)}
+        top_id, top = max(sims.items(), key=lambda kv: kv[1])
+        overruled = top_id != exact and top >= SYMPTOM_THRESHOLD and top - sims.get(exact, 0.0) >= 0.10
+        return exact, (top_id if overruled else exact)
+
+    assert verdict("The steam is very weak, foaming the milk takes forever.") == ("marea-slow-burnt-coffee", "marea-steam-weak-or-dripping")
+    assert verdict("The coffee takes forever to come out, it drips.")[1] == "marea-slow-burnt-coffee"

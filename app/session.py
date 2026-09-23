@@ -26,6 +26,8 @@ from .core.semantic import AMBIGUITY_GAP, DECOY_MARGIN, SECTION_THRESHOLD, SYMPT
 from .core.symptoms import DefectsLibrary, Diagnosis, parse_then, Outcome
 from .core.vocabulary import VocabularyManager
 from .llm.clarify import Clarifier
+from .agent.dialog import AutoAgent
+from .agent.tts import TTS
 
 ROOT = Path(__file__).resolve().parents[1]
 SAMPLES = ROOT / "samples"
@@ -79,7 +81,7 @@ def sentence_complete(text: str) -> bool:
 class CallSession:
     def __init__(self, api_key: str, emit: Emit, *, source: str = "mic", lang: str = "it"):
         self.api_key, self.emit, self.source, self.lang = api_key, emit, source, lang
-        single = CUSTOMER if source == "mic" else _manifest_single(source)      # duet: two real voices, no single role
+        single = CUSTOMER if source in ("mic", "auto") else _manifest_single(source)   # duet: two real voices, no single role
         self.duet: dict | None = None
         self.duet_playing = False
         self.duet_last_done = -10.0
@@ -121,6 +123,8 @@ class CallSession:
         self.audio_q: asyncio.Queue[bytes | None] = asyncio.Queue(maxsize=400)
         self.clarifier = Clarifier(api_key, lang, self._on_clear)
         self._closing = False
+        # automatic mode: the assistant itself asks the questions (voice) and follows the customer's answers
+        self.auto = AutoAgent(self, TTS, SEMANTIC.similarities) if source == "auto" else None
 
     # ------------------------------------------------------------------ lifecycle
     async def run(self) -> None:
@@ -136,6 +140,8 @@ class CallSession:
                 await self._emit_vocab(vocab)
                 if self.duet:
                     await self.emit({"type": "duet_script", "id": self.duet["id"], "lines": self.duet["lines"]})
+                if self.auto:
+                    await self.auto.start()
                 feeder = asyncio.create_task(self._feed_sample() if self.source.startswith("sample:") else self._feed_mic())
                 guard = asyncio.create_task(self._time_limit())
                 try:
@@ -298,8 +304,11 @@ class CallSession:
         if not text:
             return
         if not msg.get("end_of_turn"):
+            if self.auto:
+                self.auto.still_talking()                  # partial words: the customer has not finished
             await self.emit({"type": "turn", "id": tid, "final": False, "text": text})
             return
+        self.last_eot_confidence = float(msg.get("end_of_turn_confidence") or 1.0)   # the automatic assistant waits longer on a shaky turn end
         words = msg.get("words") or []
         # One AssemblyAI turn can hold both voices when the second starts without a pause ("Okay, what's the
         # problem? We have a problem with..."). Split it by word: timing in rehearsal mode, word-level speaker
@@ -384,6 +393,8 @@ class CallSession:
             if len(recent) == 2:
                 recent = [recent[-1], " ".join(recent)]          # what was just said, then with its predecessor for context
             await self._assist(utt["id"], utt["text"], role, utt["confs"][-1], recent, utt)
+        if self.auto and role == CUSTOMER:
+            self.auto.heard(text)                            # the automatic assistant answers once the customer pauses
 
     # ------------------------------------------------------------------ the assistant
     async def _assist(self, tid: int, text: str, role: str, min_conf: float, recent: list[str] | None = None,
@@ -462,12 +473,22 @@ class CallSession:
         reopens by itself."""
         exact = DEFECTS.match(texts[-1], model_id=self.model_id, family=self.family)
         chosen, heard, options = None, None, []
+        fam = CATALOG.family_models(self.family) if self.family and not self.model_id else None
+        allowed = SEMANTIC.ids_for("symptom", self.model_id, fam) if SEMANTIC.ready else set()
+        decoys = {n for n in allowed if SEMANTIC.nodes[n].get("decoy")}
         if exact:
-            chosen, heard = exact.symptom_id, exact.matched          # an exact spoken phrase is strong evidence
+            chosen, heard = exact.symptom_id, exact.matched          # an exact spoken phrase is strong evidence...
+            if SEMANTIC.ready and semantic:
+                # ...unless the sentence as a whole clearly means another fault: "the steam is very weak, foaming the
+                # milk takes forever" contains the slow-coffee phrase "takes forever", but it is about steam
+                sims = {m.node_id.split("/", 1)[1]: m.score for m in SEMANTIC.search(texts[-1], allowed=allowed - decoys, k=5)}
+                if sims:
+                    top_id, top = max(sims.items(), key=lambda kv: kv[1])
+                    if top_id != chosen and top >= SYMPTOM_THRESHOLD and top - sims.get(chosen, 0.0) >= 0.10:
+                        self._log_decision("exact_overruled", text=texts[-1], exact=chosen, by=top_id,
+                                           scores=[round(top, 3), round(sims.get(chosen, 0.0), 3)])
+                        chosen, heard = top_id, f"≈ {SEMANTIC.nodes['symptom/' + top_id]['title_en']}, {top:.2f}"
         elif SEMANTIC.ready and semantic:
-            fam = CATALOG.family_models(self.family) if self.family and not self.model_id else None
-            allowed = SEMANTIC.ids_for("symptom", self.model_id, fam)
-            decoys = {n for n in allowed if SEMANTIC.nodes[n].get("decoy")}
             best: dict[str, object] = {}
             decoy = 0.0
             for q in texts:                                          # the last fragment alone, then with context
@@ -739,6 +760,8 @@ class CallSession:
             self.booking = None
             await self._agent("Prenotazione annullata." if self.lang == "it" else "Booking cancelled.")
             await self._emit_diagnosis()
+        elif a == "spoken" and self.auto:
+            await self.auto.spoken()
         elif a in ("confirm_part", "dismiss_part") and msg.get("code") in self.cards:
             self.cards[msg["code"]]["status"] = "confirmed" if a == "confirm_part" else "dismissed"
             await self.emit({"type": "part_status", "code": msg["code"], "status": self.cards[msg["code"]]["status"]})
@@ -860,8 +883,8 @@ class CallSession:
                      else f"We'll call you on {b['label_en']} to fit the parts together, once they have arrived. Does that work for you?")
         return {"kind": o.kind, "text": text[0] if it else text[1], "warranty": w, "warranty_text": wt[0] if it else wt[1],
                 "say_en": (say_w + " " + say_k).strip(), "booking": booking,
-                "parts": [{"code": c["code"], "description": c["description"], "price_eur": c["price_eur"],
-                           "delivery": c["delivery"], "handling": c["handling"]} for c in parts]}
+                "parts": [{"code": c["code"], "description": c["description"], "description_en": c["description_en"],
+                           "price_eur": c["price_eur"], "delivery": c["delivery"], "handling": c["handling"]} for c in parts]}
 
     # ------------------------------------------------------------------ emitters
     async def _on_clear(self, turn_id: int, text: str) -> None:

@@ -32,6 +32,7 @@ h2 { font-size:11px; text-transform:uppercase; letter-spacing:.8px; color:var(--
 .turn.operator { border-color:var(--op); } .turn.customer { border-color:var(--cu); }
 .turn .who { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; }
 .turn.operator .who { color:var(--op); } .turn.customer .who { color:var(--cu); }
+.turn.agent { border-color:#7a3fbf; background:#f7f2fc; padding:6px 10px; border-radius:0 8px 8px 0; } .turn.agent .who { color:#7a3fbf; }
 .turn .clear { color:var(--ok); font-style:italic; margin-top:3px; } .turn .low { color:var(--warn); font-size:11px; margin-left:6px; }
 .partial { color:var(--mute); font-style:italic; min-height:20px; }
 mark { background:#fde9c8; padding:0 2px; border-radius:3px; }

@@ -8,7 +8,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
-from fastapi.responses import FileResponse, PlainTextResponse
+from fastapi.responses import FileResponse, PlainTextResponse, Response
 from fastapi.staticfiles import StaticFiles
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -66,6 +66,16 @@ def duets() -> list[dict]:
         d = json.loads(f.read_text(encoding="utf-8"))
         out.append({"id": d["id"], "title_it": d["title_it"], "title_en": d["title_en"], "lines": len(d["lines"])})
     return out
+
+
+@app.get("/api/tts/{key}.mp3")
+def tts_audio(key: str) -> Response:
+    """The automatic assistant's sentences, synthesised on demand and kept in memory."""
+    from .agent.tts import TTS
+    data = TTS.cache.get(key)
+    if data is None:
+        raise HTTPException(404)
+    return Response(content=data, media_type="audio/mpeg", headers={"Cache-Control": "no-store"})
 
 
 @app.get("/api/models")

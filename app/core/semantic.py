@@ -78,6 +78,13 @@ class SemanticIndex:
         ranked = sorted(best.items(), key=lambda kv: kv[1][0], reverse=True)[:k]
         return [Match(nid, round(s, 3), ref) for nid, (s, ref) in ranked]
 
+    def similarities(self, text: str, sentences: list[str]) -> list[float]:
+        """Cosine similarity of `text` with each sentence (0.0 everywhere when the model is not loaded)."""
+        if not self.ready or not sentences:
+            return [0.0] * len(sentences)
+        v = self._embed(sentences) @ self._embed([text])[0]
+        return [float(x) for x in v]
+
     def best_sentence(self, text: str, sentences: list[str]) -> tuple[str, float] | None:
         """The sentence of a section that says the same thing as `text` (to highlight it)."""
         if not self.ready or not sentences:

@@ -7,7 +7,7 @@ const T = {
     tagline: "service di primo ingresso · Sereni Macchine da Caffè",
     startTitle: "Il collega esperto che sta in linea con te.",
     startSub: "Trascrive la chiamata, ti spiega cosa intende il cliente, riconosce macchina e guasto, ti guida nella diagnosi e trova il ricambio.",
-    sample: "Riproduci una chiamata di esempio", mic: "Usa il mio microfono (tu sei il cliente)", duet: "Prova a due voci (tu operatore, cliente registrato)", duetHelp: "Parla tu al microfono come operatore. Quando tocca al cliente, clicca la battuta che vuoi fargli dire: la senti dalle casse e il microfono resta muto finché parla.", duetPanel: "Cliente registrato: fagli dire…", noDuets: "Nessuna prova a due voci disponibile",
+    sample: "Riproduci una chiamata di esempio", mic: "Usa il mio microfono (tu sei il cliente)", duet: "Prova a due voci (tu operatore, cliente registrato)", duetHelp: "Parla tu al microfono come operatore. Quando tocca al cliente, clicca la battuta che vuoi fargli dire: la senti dalle casse e il microfono resta muto finché parla.", duetPanel: "Cliente registrato: fagli dire…", noDuets: "Nessuna prova a due voci disponibile", auto: "Assistente automatico (tu sei il cliente, l'assistente parla)", autoHelp: "Parla in inglese come cliente. L'assistente ti fa le domande a voce e segue le tue risposte; il microfono resta muto mentre parla.", agent: "Assistente",
     clarify: "Versione chiara", assistant: "Assistente", talk: "Conversazione", diag: "Diagnosi guidata", parts: "Ricambi proposti",
     log: "Registro dell'assistente", docs: "Documenti aperti dall'assistente", noDocs: "Quando si parla di una macchina, di un guasto o di un ricambio, il documento giusto si apre qui, al punto giusto.", choose: "Due guasti possibili. Di quale sta parlando?", merged: "frasi unite", micMuted: "mic muto (parla il cliente)", micDenied: "permesso negato", clearWait: "versione chiara in arrivo…", closeRemote: "Risolto da remoto", closeTech: "Serve il tecnico", closeHint: "Chiudi il problema quando il cliente conferma", change: "Fascicolo sbagliato? Cambia…", startProc: "Avvia una procedura a mano…", pending: "In attesa", startNow: "Avvia", drop: "Scarta", nextTitle: "Cosa fare ora", bookTech: "Appuntamento del tecnico", bookCall: "Seconda chiamata con il service", pickSlot: "Scegli uno slot libero e proponilo al cliente", unbook: "Annulla", needSerial: "Serve la matricola per sapere la zona del tecnico.", noPartner: "Nessun partner service in questo paese: passare alla sede.", noSlots: "Nessuno slot libero nelle prossime due settimane.", booked: "Prenotato", nextStep: "Prossimo passo", handling: { diy: "Lo monta il cliente", support: "Montaggio con il service", technician: "Serve il tecnico" }, sayPart: "Da dire al cliente", warranty: "In garanzia fino al", noWarranty: "Fuori garanzia dal", built: "costruita", installed: "installata", orders: "Ordini precedenti", serialHeard: "matricola sentita", serialNotFound: "matricola non in archivio", delivery: "Consegna", fromSupplier: "dal fornitore", days: "gg", keys: "tasti 1-4", showTranscript: "Mostra il trascritto completo", diarCheck: "Attribuzione delle voci", swap: "Scambia ruoli", end: "Fine chiamata", operator: "Operatore", customer: "Cliente",
     noDiag: "Nessun sintomo riconosciuto. Quando il cliente descrive un problema, la procedura compare qui.",
@@ -24,7 +24,7 @@ const T = {
     tagline: "first-line service desk · Sereni espresso machines",
     startTitle: "The expert colleague who stays on the line with you.",
     startSub: "It transcribes the call, tells you what the customer means, recognises the machine and the fault, guides the diagnosis and finds the part.",
-    sample: "Play a sample call", mic: "Use my microphone (you are the customer)", duet: "Two-voice rehearsal (you operator, recorded customer)", duetHelp: "Speak into the microphone as the operator. When it is the customer's turn, click the line you want them to say: you hear it from the speakers and your mic stays muted while they talk.", duetPanel: "Recorded customer: have them say…", noDuets: "No two-voice rehearsal available",
+    sample: "Play a sample call", mic: "Use my microphone (you are the customer)", duet: "Two-voice rehearsal (you operator, recorded customer)", duetHelp: "Speak into the microphone as the operator. When it is the customer's turn, click the line you want them to say: you hear it from the speakers and your mic stays muted while they talk.", duetPanel: "Recorded customer: have them say…", noDuets: "No two-voice rehearsal available", auto: "Automatic assistant (you are the customer, the assistant speaks)", autoHelp: "Speak English as the customer. The assistant asks its questions aloud and follows your answers; the microphone stays muted while it talks.", agent: "Assistant",
     clarify: "Clear version", assistant: "Assistant", talk: "Conversation", diag: "Guided diagnosis", parts: "Proposed parts",
     log: "Assistant log", docs: "Documents opened by the assistant", noDocs: "When a machine, a fault or a part comes up, the right document opens here, at the right place.", choose: "Two possible faults. Which one is it?", merged: "sentences joined", micMuted: "mic muted (customer talking)", micDenied: "permission denied", clearWait: "clear version on its way…", closeRemote: "Fixed remotely", closeTech: "Technician needed", closeHint: "Close the problem when the customer confirms", change: "Wrong file? Change…", startProc: "Start a procedure by hand…", pending: "Waiting", startNow: "Start", drop: "Discard", nextTitle: "What to do now", bookTech: "Technician's visit", bookCall: "Second call with service", pickSlot: "Pick a free slot and propose it to the customer", unbook: "Cancel", needSerial: "The serial number is needed to know the technician's zone.", noPartner: "No service partner in this country: escalate to head office.", noSlots: "No free slot in the next two weeks.", booked: "Booked", nextStep: "Next step", handling: { diy: "Customer fits it", support: "Fitted with service support", technician: "Technician needed" }, sayPart: "Say to the customer", warranty: "Under warranty until", noWarranty: "Out of warranty since", built: "built", installed: "installed", orders: "Previous orders", serialHeard: "serial heard", serialNotFound: "serial not on file", delivery: "Delivery", fromSupplier: "from supplier", days: "days", keys: "keys 1-4", showTranscript: "Show the full transcript", diarCheck: "Voice attribution", swap: "Swap roles", end: "End call", operator: "Operator", customer: "Customer",
     noDiag: "No symptom recognised yet. When the customer describes a problem, the procedure appears here.",
@@ -51,7 +51,7 @@ function applyLanguage() {
   L = T[lang];
   document.documentElement.lang = lang;
   $("tagline").textContent = L.tagline; $("start-title").textContent = L.startTitle; $("start-sub").textContent = L.startSub;
-  $("btn-sample").textContent = L.sample; $("btn-mic").textContent = L.mic; $("btn-duet").textContent = L.duet; $("duet-help").textContent = L.duetHelp; $("h-duet").textContent = L.duetPanel; $("lb-clarify").textContent = L.clarify; $("lb-assistant").textContent = L.assistant;
+  $("btn-sample").textContent = L.sample; $("btn-mic").textContent = L.mic; $("btn-duet").textContent = L.duet; $("duet-help").textContent = L.duetHelp; $("h-duet").textContent = L.duetPanel; $("btn-auto").textContent = L.auto; $("auto-help").textContent = L.autoHelp; $("lb-clarify").textContent = L.clarify; $("lb-assistant").textContent = L.assistant;
   $("h-talk").textContent = L.talk; $("h-diag").textContent = L.diag; $("h-parts").textContent = L.parts; $("h-log").textContent = L.log; $("h-docs").textContent = L.docs; if ($("doc-view").classList.contains("empty")) $("doc-view").textContent = L.noDocs;
   $("btn-swap").textContent = L.swap; $("btn-end").textContent = L.end; $("btn-lang").textContent = lang === "it" ? "EN" : "IT";
   $("try-saying").innerHTML = L.tries.map((t) => `<li>${esc(t)}</li>`).join("");
@@ -81,7 +81,7 @@ function startCall(source) {
   ws.onmessage = (ev) => handle(JSON.parse(ev.data));
   ws.onclose = () => { stopMic(); clearInterval(timer); $("st-session").textContent = L.closed; $("st-session").classList.remove("on"); };
   duetId = source.startsWith("duet:") ? source.slice(5) : null; $("duet-panel").hidden = !duetId; $("duet-lines").innerHTML = "";
-  ws.onopen = () => { t0 = Date.now(); timer = setInterval(tick, 500); if (source === "mic" || duetId) startMic(); };
+  ws.onopen = () => { t0 = Date.now(); timer = setInterval(tick, 500); if (source === "mic" || source === "auto" || duetId) startMic(); };
 }
 
 function tick() { const s = Math.floor((Date.now() - t0) / 1000); $("st-timer").textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; }
@@ -128,6 +128,7 @@ function handle(ev) {
     case "symptom_choice": renderChoice(ev.options); break;
     case "machine_record": renderMachine(ev); break;
     case "duet_script": renderDuet(ev.lines); break;
+    case "speak": speak(ev); break;
     case "duet": { const b = document.querySelector(`.duet-line[data-n="${ev.n}"]`); if (b) { b.classList.toggle("playing", ev.state === "playing"); if (ev.state === "done") b.classList.add("said"); } if (ev.state === "done" || ev.state === "busy") { clearTimeout(micWatchdog); setTimeout(() => { micMuted = false; duetPlaying = false; }, 300); } break; }
     case "open_doc": openDoc(ev); break;
     case "agent": { const d = document.createElement("div"); d.innerHTML = `<time>${fmt(ev.at)}</time>${esc(ev.text)}`; $("log").prepend(d); break; }
@@ -335,6 +336,24 @@ function renderSummary(s) {
 
 $("btn-sample").onclick = () => startCall(`sample:${$("sample-select").value}`);
 $("btn-mic").onclick = () => startCall("mic");
+$("btn-auto").onclick = () => startCall("auto");
+
+// the automatic assistant talks: show the sentence as a turn, play it, keep the mic muted until it has finished,
+// then tell the server so the assistant listens again
+function speak(ev) {
+  const el = document.createElement("div"); el.className = "turn agent";
+  el.innerHTML = `<div class="who">${L.agent}</div><div class="said">${esc(ev.text)}</div>`;
+  $("turns").appendChild(el);
+  const box = $("col-talk"); box.scrollTop = box.scrollHeight;
+  micMuted = true;
+  const a = new Audio(ev.url);
+  let done = false;
+  const finish = () => { if (done) return; done = true; clearTimeout(micWatchdog); setTimeout(() => { micMuted = false; send({ type: "control", action: "spoken" }); }, 250); };
+  a.onended = finish; a.onerror = finish;
+  a.play().catch(finish);
+  clearTimeout(micWatchdog);
+  micWatchdog = setTimeout(finish, (ev.seconds + 6) * 1000);   // never stuck muted
+}
 $("btn-duet").onclick = () => startCall(`duet:${$("duet-select").value}`);
 $("btn-end").onclick = () => send({ type: "control", action: "end_call" });
 $("btn-swap").onclick = () => send({ type: "control", action: "swap_roles" });
