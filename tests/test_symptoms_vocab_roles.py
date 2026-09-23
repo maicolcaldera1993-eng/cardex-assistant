@@ -112,3 +112,22 @@ def test_pinned_customer_label_wins_over_first_speaker_rule():
     assert r.role_for("A")[0] == CUSTOMER
     assert r.role_for("B")[0] == OPERATOR
     assert r.role_for("A")[0] == CUSTOMER
+
+
+# --- while a step is open, the customer's words are answers, not new faults (Dave rehearsal, 22 Sept) ---------------
+def test_answers_to_the_open_step_are_not_new_symptoms():
+    from app.core.symptoms import DefectsLibrary
+    lib = DefectsLibrary()
+    d = lib.start("marea-no-heat")                      # step "lights": are the lights and touchpad on? level alarm?
+    assert d.is_answer("Yes, everything is on, the lights, the buttons.")
+    assert d.is_answer("No alarm.")
+    d.answer(2)                                         # -> reset: press the red button, wait 10 minutes
+    assert d.is_answer("Okay, I found the red button, I pressed it.")
+    assert d.is_answer("10 minutes later, it is still cold.")
+    assert d.is_answer("Nothing.")
+    # a genuinely new fault, said in a full sentence about other things, is not an answer
+    assert not d.is_answer("When I take out the portafilter after the coffee, it sprays everywhere.")
+    d.answer(1)
+    d.answer(0)
+    d.answer(0)                                         # element -> outcome
+    assert d.outcome and not d.is_answer("Nothing.")    # no open step: nothing is an answer any more

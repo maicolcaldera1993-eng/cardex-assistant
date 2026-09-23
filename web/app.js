@@ -9,7 +9,7 @@ const T = {
     startSub: "Trascrive la chiamata, ti spiega cosa intende il cliente, riconosce macchina e guasto, ti guida nella diagnosi e trova il ricambio.",
     sample: "Riproduci una chiamata di esempio", mic: "Usa il mio microfono (tu sei il cliente)", duet: "Prova a due voci (tu operatore, cliente registrato)", duetHelp: "Parla tu al microfono come operatore. Quando tocca al cliente, clicca la battuta che vuoi fargli dire: la senti dalle casse e il microfono resta muto finché parla.", duetPanel: "Cliente registrato: fagli dire…", noDuets: "Nessuna prova a due voci disponibile",
     clarify: "Versione chiara", assistant: "Assistente", talk: "Conversazione", diag: "Diagnosi guidata", parts: "Ricambi proposti",
-    log: "Registro dell'assistente", docs: "Documenti aperti dall'assistente", noDocs: "Quando si parla di una macchina, di un guasto o di un ricambio, il documento giusto si apre qui, al punto giusto.", choose: "Due guasti possibili. Di quale sta parlando?", merged: "frasi unite", micMuted: "mic muto (parla il cliente)", micDenied: "permesso negato", clearWait: "versione chiara in arrivo…", closeRemote: "Risolto da remoto", closeTech: "Serve il tecnico", closeHint: "Chiudi il problema quando il cliente conferma", handling: { diy: "Lo monta il cliente", support: "Montaggio con il service", technician: "Serve il tecnico" }, sayPart: "Da dire al cliente", warranty: "In garanzia fino al", noWarranty: "Fuori garanzia dal", built: "costruita", installed: "installata", orders: "Ordini precedenti", serialHeard: "matricola sentita", serialNotFound: "matricola non in archivio", delivery: "Consegna", fromSupplier: "dal fornitore", days: "gg", keys: "tasti 1-4", showTranscript: "Mostra il trascritto completo", diarCheck: "Attribuzione delle voci", swap: "Scambia ruoli", end: "Fine chiamata", operator: "Operatore", customer: "Cliente",
+    log: "Registro dell'assistente", docs: "Documenti aperti dall'assistente", noDocs: "Quando si parla di una macchina, di un guasto o di un ricambio, il documento giusto si apre qui, al punto giusto.", choose: "Due guasti possibili. Di quale sta parlando?", merged: "frasi unite", micMuted: "mic muto (parla il cliente)", micDenied: "permesso negato", clearWait: "versione chiara in arrivo…", closeRemote: "Risolto da remoto", closeTech: "Serve il tecnico", closeHint: "Chiudi il problema quando il cliente conferma", change: "Fascicolo sbagliato? Cambia…", startProc: "Avvia una procedura a mano…", pending: "In attesa", startNow: "Avvia", drop: "Scarta", nextTitle: "Cosa fare ora", handling: { diy: "Lo monta il cliente", support: "Montaggio con il service", technician: "Serve il tecnico" }, sayPart: "Da dire al cliente", warranty: "In garanzia fino al", noWarranty: "Fuori garanzia dal", built: "costruita", installed: "installata", orders: "Ordini precedenti", serialHeard: "matricola sentita", serialNotFound: "matricola non in archivio", delivery: "Consegna", fromSupplier: "dal fornitore", days: "gg", keys: "tasti 1-4", showTranscript: "Mostra il trascritto completo", diarCheck: "Attribuzione delle voci", swap: "Scambia ruoli", end: "Fine chiamata", operator: "Operatore", customer: "Cliente",
     noDiag: "Nessun sintomo riconosciuto. Quando il cliente descrive un problema, la procedura compare qui.",
     ask: "Chiedi al cliente", do: "Fagli fare", say: "Da leggere al telefono", confirm: "Conferma", dismiss: "Scarta", sheet: "Scheda",
     maintenance: "Manutenzione ordinaria saltata: consigliare", lowConf: "riconoscimento incerto",
@@ -26,7 +26,7 @@ const T = {
     startSub: "It transcribes the call, tells you what the customer means, recognises the machine and the fault, guides the diagnosis and finds the part.",
     sample: "Play a sample call", mic: "Use my microphone (you are the customer)", duet: "Two-voice rehearsal (you operator, recorded customer)", duetHelp: "Speak into the microphone as the operator. When it is the customer's turn, click the line you want them to say: you hear it from the speakers and your mic stays muted while they talk.", duetPanel: "Recorded customer: have them say…", noDuets: "No two-voice rehearsal available",
     clarify: "Clear version", assistant: "Assistant", talk: "Conversation", diag: "Guided diagnosis", parts: "Proposed parts",
-    log: "Assistant log", docs: "Documents opened by the assistant", noDocs: "When a machine, a fault or a part comes up, the right document opens here, at the right place.", choose: "Two possible faults. Which one is it?", merged: "sentences joined", micMuted: "mic muted (customer talking)", micDenied: "permission denied", clearWait: "clear version on its way…", closeRemote: "Fixed remotely", closeTech: "Technician needed", closeHint: "Close the problem when the customer confirms", handling: { diy: "Customer fits it", support: "Fitted with service support", technician: "Technician needed" }, sayPart: "Say to the customer", warranty: "Under warranty until", noWarranty: "Out of warranty since", built: "built", installed: "installed", orders: "Previous orders", serialHeard: "serial heard", serialNotFound: "serial not on file", delivery: "Delivery", fromSupplier: "from supplier", days: "days", keys: "keys 1-4", showTranscript: "Show the full transcript", diarCheck: "Voice attribution", swap: "Swap roles", end: "End call", operator: "Operator", customer: "Customer",
+    log: "Assistant log", docs: "Documents opened by the assistant", noDocs: "When a machine, a fault or a part comes up, the right document opens here, at the right place.", choose: "Two possible faults. Which one is it?", merged: "sentences joined", micMuted: "mic muted (customer talking)", micDenied: "permission denied", clearWait: "clear version on its way…", closeRemote: "Fixed remotely", closeTech: "Technician needed", closeHint: "Close the problem when the customer confirms", change: "Wrong file? Change…", startProc: "Start a procedure by hand…", pending: "Waiting", startNow: "Start", drop: "Discard", nextTitle: "What to do now", handling: { diy: "Customer fits it", support: "Fitted with service support", technician: "Technician needed" }, sayPart: "Say to the customer", warranty: "Under warranty until", noWarranty: "Out of warranty since", built: "built", installed: "installed", orders: "Previous orders", serialHeard: "serial heard", serialNotFound: "serial not on file", delivery: "Delivery", fromSupplier: "from supplier", days: "days", keys: "keys 1-4", showTranscript: "Show the full transcript", diarCheck: "Voice attribution", swap: "Swap roles", end: "End call", operator: "Operator", customer: "Customer",
     noDiag: "No symptom recognised yet. When the customer describes a problem, the procedure appears here.",
     ask: "Ask the customer", do: "Have them do", say: "Read this out", confirm: "Confirm", dismiss: "Dismiss", sheet: "Sheet",
     maintenance: "Routine maintenance skipped: recommend", lowConf: "low recognition confidence",
@@ -55,7 +55,7 @@ function applyLanguage() {
   $("h-talk").textContent = L.talk; $("h-diag").textContent = L.diag; $("h-parts").textContent = L.parts; $("h-log").textContent = L.log; $("h-docs").textContent = L.docs; if ($("doc-view").classList.contains("empty")) $("doc-view").textContent = L.noDocs;
   $("btn-swap").textContent = L.swap; $("btn-end").textContent = L.end; $("btn-lang").textContent = lang === "it" ? "EN" : "IT";
   $("try-saying").innerHTML = L.tries.map((t) => `<li>${esc(t)}</li>`).join("");
-  if ($("diagnosis").classList.contains("empty")) $("diagnosis").textContent = L.noDiag;
+  if ($("diagnosis").classList.contains("empty")) renderEmptyDiag();
 }
 
 async function loadSamples() {
@@ -74,7 +74,7 @@ function send(obj) { if (ws && ws.readyState === 1) ws.send(JSON.stringify(obj))
 function startCall(source) {
   $("start").hidden = true; $("summary").hidden = true; $("call").hidden = false;
   ["turns", "parts", "log"].forEach((id) => ($(id).innerHTML = ""));
-  $("diagnosis").className = "panel empty"; $("diagnosis").textContent = L.noDiag; cards.clear(); knownCodes.clear(); docs.length = 0; activeDoc = -1; $("doc-tabs").innerHTML = ""; $("doc-view").className = "doc-view empty"; $("doc-view").textContent = L.noDocs;
+  symptomMenu = []; renderEmptyDiag(); cards.clear(); knownCodes.clear(); docs.length = 0; activeDoc = -1; $("doc-tabs").innerHTML = ""; $("doc-view").className = "doc-view empty"; $("doc-view").textContent = L.noDocs;
   const proto = location.protocol === "https:" ? "wss" : "ws";
   ws = new WebSocket(`${proto}://${location.host}/ws/call?source=${encodeURIComponent(source)}&lang=${lang}`);
   ws.binaryType = "arraybuffer";
@@ -120,7 +120,7 @@ function handle(ev) {
     case "turn": renderTurn(ev); break;
     case "clear": { const el = document.querySelector(`#turn-${ev.turn_id} .clear`); if (el) { el.textContent = ev.text; el.classList.remove("wait"); } break; }
     case "clear_pending": { const el = document.querySelector(`#turn-${ev.turn_id} .clear`); if (el && !el.textContent) { el.textContent = L.clearWait; el.classList.add("wait"); } break; }
-    case "context": $("st-machine").textContent = [ev.model || ev.family || "—", ev.edition ? "Vaniglia" : "", ev.serial ? `#${ev.serial}` : ""].filter(Boolean).join(" · "); $("st-machine").classList.toggle("on", !!(ev.model || ev.family)); break;
+    case "context": $("st-machine").textContent = [ev.model || ev.family || "—", ev.edition ? "Vaniglia" : "", ev.serial ? `#${ev.serial}` : ""].filter(Boolean).join(" · "); $("st-machine").classList.toggle("on", !!(ev.model || ev.family)); symptomMenu = ev.symptoms || []; if ($("diagnosis").classList.contains("empty")) renderEmptyDiag(); break;
     case "vocabulary": $("st-vocab").textContent = `${L.phase} ${ev.phase} · ${ev.count} ${L.terms}`; $("st-vocab").classList.toggle("on", ev.phase > 1); $("st-vocab").title = ev.sample.join(", "); break;
     case "parts": ev.cards.forEach((c) => { cards.set(c.code, c); knownCodes.add(c.code); }); renderParts(); break;
     case "part_status": if (cards.has(ev.code)) { cards.get(ev.code).status = ev.status; renderParts(); } break;
@@ -155,21 +155,54 @@ function renderTurn(ev) {
   if (nearBottom) box.scrollTop = box.scrollHeight;
 }
 
+let symptomMenu = [];   // procedures that apply to the machine in the call (from the context event)
+function menuSelect(items, placeholder) {
+  return items.length ? `<select class="alt"><option value="">${placeholder}</option>${items.map((a) => `<option value="${esc(a.id)}">${esc(a.title)}</option>`).join("")}</select>` : "";
+}
+function wireDiag(p) {
+  p.querySelectorAll("[data-close]").forEach((b) => (b.onclick = () => send({ type: "control", action: "close_symptom", kind: b.dataset.close })));
+  p.querySelectorAll("[data-branch]").forEach((b) => (b.onclick = () => send({ type: "control", action: "answer_step", branch: +b.dataset.branch })));
+  p.querySelectorAll("[data-start]").forEach((b) => (b.onclick = () => send({ type: "control", action: "start_symptom", symptom_id: b.dataset.start })));
+  p.querySelectorAll("[data-drop]").forEach((b) => (b.onclick = () => send({ type: "control", action: "drop_pending", symptom_id: b.dataset.drop })));
+  const sel = p.querySelector("select.alt");
+  if (sel) sel.onchange = () => { if (sel.value) send({ type: "control", action: "start_symptom", symptom_id: sel.value }); };
+}
+// nothing recognised yet: the operator can still open the right file by hand
+function renderEmptyDiag() {
+  const p = $("diagnosis"); p.className = "panel empty";
+  p.innerHTML = `<div>${esc(L.noDiag)}</div>${menuSelect(symptomMenu, L.startProc)}`;
+  wireDiag(p); currentBranches = 0;
+}
 function renderDiagnosis(d) {
   const p = $("diagnosis"); p.className = "panel";
   const hist = d.history.length ? `<ol class="hist">${d.history.map((h) => `<li>${esc(h.text)} → <strong>${esc(h.answer)}</strong></li>`).join("")}</ol>` : "";
   const maint = d.maintenance_skipped ? `<div class="note">⚠ ${L.maintenance} ${d.suggested_parts.map(esc).join(", ")}</div>` : "";
+  const head = `<div class="dhead"><h3>${esc(d.symptom)}</h3>${menuSelect(d.alternatives || [], L.change)}</div>`;
+  // a second fault heard during the procedure waits here; the operator starts it when the first one is closed
+  const pend = (d.pending || []).length ? `<div class="pending"><small>${L.pending}</small>${d.pending.map((q) =>
+    `<span>${esc(q.title)} <button data-start="${esc(q.id)}" class="ok">${L.startNow}</button><button data-drop="${esc(q.id)}" class="ghost">${L.drop}</button></span>`).join("")}</div>` : "";
   if (d.done) {
-    p.innerHTML = `<h3>${esc(d.symptom)}</h3>${hist}${maint}<div class="outcome ${d.outcome}">${L.outcome[d.outcome]}${d.parts.length ? " · " + d.parts.map(esc).join(", ") : ""}</div>`;
+    // what to do now: parts with price and delivery, who pays, service call or technician, one sentence to read
+    const n = d.next || {};
+    const parts = (n.parts || []).map((c) => {
+      const dl = (c.delivery || [])[0];
+      const when = dl ? (dl.qty > 0 ? esc(dl.from.replace(/^[A-Z]{2}-\d+ /, "")) : L.fromSupplier) + ", " + dl.days + " " + L.days : "";
+      return `<li><strong>${esc(c.code)}</strong> ${esc(c.description)} · ${c.price_eur != null ? c.price_eur.toFixed(2) + " €" : "—"}${when ? " · " + when : ""} · <em>${L.handling[c.handling] || ""}</em></li>`;
+    }).join("");
+    p.innerHTML = `${head}${hist}${maint}<div class="outcome ${d.outcome}">${L.outcome[d.outcome]}</div>` +
+      `<div class="next"><div class="kind">${L.nextTitle}</div><div>${esc(n.text || "")}</div>` +
+      (n.warranty_text ? `<div class="wline ${n.warranty === true ? "ok" : n.warranty === false ? "bad" : ""}">${esc(n.warranty_text)}</div>` : "") +
+      (parts ? `<ul class="nparts">${parts}</ul>` : "") +
+      (n.say_en ? `<div class="say"><small>${L.say}</small>${esc(n.say_en)}</div>` : "") + `</div>${pend}`;
+    wireDiag(p); currentBranches = 0;
     return;
   }
   const s = d.step;
-  p.innerHTML = `<h3>${esc(d.symptom)}</h3>${hist}${maint}<div class="step"><div class="kind">${s.kind === "ask" ? L.ask : L.do}</div><div>${esc(s.text)}</div>` +
+  p.innerHTML = `${head}${hist}${maint}<div class="step"><div class="kind">${s.kind === "ask" ? L.ask : L.do}</div><div>${esc(s.text)}</div>` +
     `<div class="say"><small>${L.say}</small>${esc(s.say_in_english)}</div>${s.note ? `<div class="note">${esc(s.note)}</div>` : ""}` +
     `<div class="branches">${s.branches.map((b, i) => `<button data-branch="${i}"><kbd>${i + 1}</kbd> ${esc(b)}</button>`).join("")}</div><div class="note">${L.keys}</div></div>` +
-    `<div class="closebar"><span class="note">${L.closeHint}</span><button data-close="remote" class="ok">${L.closeRemote}</button><button data-close="technician" class="danger">${L.closeTech}</button></div>`;
-  p.querySelectorAll("[data-close]").forEach((b) => (b.onclick = () => send({ type: "control", action: "close_symptom", kind: b.dataset.close })));
-  p.querySelectorAll("[data-branch]").forEach((b) => (b.onclick = () => send({ type: "control", action: "answer_step", branch: +b.dataset.branch })));
+    `<div class="closebar"><span class="note">${L.closeHint}</span><button data-close="remote" class="ok">${L.closeRemote}</button><button data-close="technician" class="danger">${L.closeTech}</button></div>${pend}`;
+  wireDiag(p);
   currentBranches = s.branches.length;
   if (d.doc) followStep(d.doc);
 }

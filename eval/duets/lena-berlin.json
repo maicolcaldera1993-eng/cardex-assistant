@@ -20,7 +20,7 @@
      "expect_it": "Tu scegli «Sì» → passo pulizia del beccuccio."},
     {"cue": "Unscrew the steam tip, put it thirty minutes in hot water with a cleaning tablet, then a pin through the holes, and refit it.",
      "text": "Okay. I did it, the holes were half closed with milk. Now the steam is strong again. Fixed.",
-     "expect_it": "Clicca «Risolto da remoto». Parte il sintomo in coda con il messaggio «Passo al secondo problema»: «Sputa», passo 1."},
+     "expect_it": "Clicca «Risolto da remoto»: blocco «Cosa fare ora» (remoto). Sotto, «In attesa: Sputa» con il pulsante Avvia: cliccalo."},
     {"cue": "Great. Now the other problem. At the end of the shot, do you hear the short discharge into the drip tray?",
      "text": "No, I hear nothing. Before there was a short pssh sound, now nothing.",
      "expect_it": "Tu scegli «Nessuno scarico» → passo data lavaggio."},

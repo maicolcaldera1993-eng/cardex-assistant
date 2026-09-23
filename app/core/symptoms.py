@@ -90,8 +90,32 @@ class DefectsLibrary:
         return Diagnosis(self.symptoms[symptom_id])
 
 
+_STOP = {"the", "and", "that", "this", "with", "from", "have", "does", "when", "what", "there", "then", "your", "you",
+         "they", "them", "into", "onto", "after", "before", "still", "just", "also", "very", "okay", "yes", "not", "but",
+         "are", "was", "were", "for", "did", "them", "have", "been", "which", "where", "while", "than", "more", "less",
+         "della", "delle", "dello", "degli", "nella", "nelle", "sono", "come", "quando", "anche", "ancora", "oppure"}
+
+
+def content_words(text: str) -> set[str]:
+    """Stems (first five letters) of the words that carry meaning."""
+    return {w[:5] for w in re.findall(r"[a-zàèéìòù']+", text.lower()) if len(w) > 3 and w not in _STOP}
+
+
 class Diagnosis:
     """State of one guided procedure. `answer(i)` follows branch i of the current step."""
+
+    def is_answer(self, text: str) -> bool:
+        """While a step is open, what the customer says is first of all the answer to it. A short reply ("No alarm.",
+        "Nothing.") or a sentence about the things the step asked about (button, lights, minutes) is not a new fault,
+        however much it resembles one ("I pressed the red button" is not "a button does not respond")."""
+        if not self.current:
+            return False
+        if len(text.split()) < 6:
+            return True
+        st = self.step
+        ref = content_words(" ".join([st["text_en"], st["text_it"], st.get("note_en") or "", st.get("note_it") or ""]
+                                     + [b["label_en"] + " " + b["label_it"] for b in st["branches"]]))
+        return bool(content_words(text) & ref)
 
     def __init__(self, symptom: dict):
         self.symptom = symptom

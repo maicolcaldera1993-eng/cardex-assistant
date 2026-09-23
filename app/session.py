@@ -32,7 +32,7 @@ SAMPLES = ROOT / "samples"
 DUETS = SAMPLES / "duet"
 MAX_SESSION_SECONDS = int(os.getenv("MAX_SESSION_SECONDS", "600"))          # public demo guard
 MAX_REHEARSAL_SECONDS = int(os.getenv("MAX_REHEARSAL_SECONDS", "1500"))     # two-voice rehearsals take longer
-_REQUEST_CUE = re.compile(r"\b(need|order|ordered|send|replace|replacement|spare|part|broken|new one|another|"
+_REQUEST_CUE = re.compile(r"\b(need|want|add|box|extra|include|buy|purchase|as well|order|ordered|send|replace|replacement|spare|part|broken|new one|another|"
                           r"serve|servono|ordin\w+|mand\w+|sostitu\w+|ricambio|rotto|rotta|nuov[oa])\b", re.I)
 INACTIVITY_TIMEOUT = int(os.getenv("INACTIVITY_TIMEOUT_SECONDS", "60"))
 _DEBUG_LOG = os.getenv("CARDEX_DEBUG_TURNS") or str(ROOT / "eval" / "logs" / "turns.jsonl")   # raw final turns, local only
@@ -101,6 +101,8 @@ class CallSession:
         self.machine: dict | None = None
         self.diagnosis: Diagnosis | None = None
         self.pending_symptoms: list[str] = []
+        self.closed_symptoms: list[str] = []      # procedures that reached an outcome in this call
+        self.dropped_symptoms: set[str] = set()   # files the operator said were wrong, or discarded from the queue
         self.other_models: list[str] = []
         self.last_vocab_at = 0.0
         self.vocab_trigger: tuple | None = None
@@ -421,8 +423,11 @@ class CallSession:
         # meaning-based symptom detection listens to the CUSTOMER only: the operator's questions ("what is the
         # problem?", "how long does a shot take?") are about the fault, not descriptions of it. Exact spoken phrases
         # still count from either voice (operators restate what they heard).
-        if not await self._detect_symptom(recent, semantic=(role == CUSTOMER and sentence_complete(recent[0]))):
-            await self._open_matching_section(recent[-1])
+        if role == CUSTOMER:
+            # the operator's questions are about the fault, not descriptions of it ("no level alarm?" is a question)
+            if not await self._detect_symptom(recent, semantic=sentence_complete(recent[0])) \
+                    and not (self.diagnosis and self.diagnosis.current):
+                await self._open_matching_section(recent[-1])
 
         cards = []
         codes = extract_codes(text)
@@ -450,8 +455,10 @@ class CallSession:
 
     # ------------------------------------------------------------------ meaning and documents
     async def _detect_symptom(self, texts: list[str], semantic: bool = True) -> bool:
-        """Which known fault is this person describing? Meaning first (any language), exact phrases as a tie-breaker.
-        Only the symptoms that apply to the machine being discussed are candidates."""
+        """Which known fault is the CUSTOMER describing? Meaning first (any language), exact phrases as a tie-breaker.
+        Only the symptoms that apply to the machine being discussed are candidates. While a step is open, what the
+        customer says is first of all an answer to it; a symptom already closed or discarded in this call never
+        reopens by itself."""
         exact = DEFECTS.match(texts[-1], model_id=self.model_id, family=self.family)
         chosen, heard, options = None, None, []
         if exact:
@@ -459,34 +466,46 @@ class CallSession:
         elif SEMANTIC.ready and semantic:
             fam = CATALOG.family_models(self.family) if self.family and not self.model_id else None
             allowed = SEMANTIC.ids_for("symptom", self.model_id, fam)
+            decoys = {n for n in allowed if SEMANTIC.nodes[n].get("decoy")}
             best: dict[str, object] = {}
+            decoy = 0.0
             for q in texts:                                          # the last fragment alone, then with context
-                for m in SEMANTIC.search(q, allowed=allowed, k=3):
+                for m in SEMANTIC.search(q, allowed=allowed - decoys, k=3):
                     if m.node_id not in best or m.score > best[m.node_id].score:
                         best[m.node_id] = m
-            ms = sorted(best.values(), key=lambda m: m.score, reverse=True)
-            decoy = max((m.score for m in ms if SEMANTIC.nodes[m.node_id].get("decoy")), default=0.0)
+                # the generic decoy is always scored, even when it would not be among the top matches
+                decoy = max([decoy] + [m.score for m in SEMANTIC.search(q, allowed=decoys, k=1)])
+            ranked = sorted(best.values(), key=lambda m: m.score, reverse=True)
             # "we have a problem with the machine": not a symptom yet. A real fault must clear the decoy by a margin,
-            # otherwise a half sentence read with its context can edge past it (measured: "the coffee comes out very"
-            # scored decoy 0.73 vs doses 0.72)
-            ms = [m for m in ms if not SEMANTIC.nodes[m.node_id].get("decoy")
-                  and m.score >= max(SYMPTOM_THRESHOLD, decoy + DECOY_MARGIN)][:2]
+            # otherwise a half sentence read with its context can edge past it
+            ms = [m for m in ranked if m.score >= max(SYMPTOM_THRESHOLD, decoy + DECOY_MARGIN)][:2]
             self._log_decision("symptom_scores", texts=texts, decoy=round(decoy, 3),
-                               top=[(m.node_id, round(m.score, 3)) for m in sorted(best.values(), key=lambda m: m.score, reverse=True)[:3]])
+                               top=[(m.node_id, round(m.score, 3)) for m in ranked[:3]])
             if ms:
                 ids = [m.node_id.split("/", 1)[1] for m in ms]
                 if len(ms) == 2 and ms[0].score - ms[1].score < AMBIGUITY_GAP:
                     options = ms
                 else:
                     chosen, heard = ids[0], f"≈ {ms[0].ref}, {ms[0].score:.2f}"
+        if not chosen and not options:
+            return False
         active = self.diagnosis.symptom["id"] if self.diagnosis else None
-        if chosen or options:
-            self._log_decision("symptom", text=texts[0], chosen=chosen, heard=heard, active=active,
-                               options=[m.node_id for m in options], semantic=semantic)
-
+        open_step = bool(self.diagnosis and self.diagnosis.current)
+        if chosen == active:
+            return True
+        if chosen and (chosen in self.closed_symptoms or chosen in self.dropped_symptoms):
+            self._log_decision("symptom_ignored", text=texts[0], chosen=chosen, why="already closed or discarded")
+            return True
+        if open_step and self.diagnosis.is_answer(texts[0]):
+            # "Okay, I found the red button, I pressed it." is the answer to the step, not "a button does not respond"
+            self._log_decision("answer_not_symptom", text=texts[0], step=self.diagnosis.current,
+                               looked_like=chosen or [m.node_id for m in options])
+            return True
+        self._log_decision("symptom", text=texts[0], chosen=chosen, heard=heard, active=active,
+                           options=[m.node_id for m in options], semantic=semantic)
         if options:
             key = tuple(sorted(m.node_id for m in options))
-            if key not in self.offered_choices and not (self.diagnosis and not self.diagnosis.outcome):
+            if key not in self.offered_choices and not open_step:
                 self.offered_choices.add(key)
                 await self.emit({"type": "symptom_choice", "options": [
                     {"symptom_id": m.node_id.split("/", 1)[1], "score": m.score,
@@ -494,15 +513,12 @@ class CallSession:
                 await self._agent("Due guasti possibili: scegli quello giusto nel pannello." if self.lang == "it"
                                   else "Two possible faults: pick the right one in the panel.")
             return True
-        if not chosen:
-            return False
-        if chosen == active:
-            return True
-        if self.diagnosis and not self.diagnosis.outcome:
+        if open_step:
             if chosen not in self.pending_symptoms:
                 self.pending_symptoms.append(chosen)
-                await self._agent(f"Secondo sintomo in coda: {DEFECTS.symptoms[chosen][f'symptom_{self.lang}']}" if self.lang == "it"
-                                  else f"Second symptom queued: {DEFECTS.symptoms[chosen]['symptom_en']}")
+                await self._agent(f"Secondo problema in attesa: {DEFECTS.symptoms[chosen]['symptom_it']}. Lo avvii dal pannello quando hai chiuso questo." if self.lang == "it"
+                                  else f"Second problem waiting: {DEFECTS.symptoms[chosen]['symptom_en']}. Start it from the panel once this one is closed.")
+                await self._emit_diagnosis()
         else:
             await self._start_diagnosis(chosen, heard)
         return True
@@ -557,6 +573,7 @@ class CallSession:
             await self._agent(f"Matricola sentita «{serial}», in archivio c'è {rec['serial']}: confermare." if self.lang == "it"
                               else f"Heard serial “{serial}”, the records have {rec['serial']}: confirm.")
         in_warranty = rec["warranty_until"] >= time.strftime("%Y-%m-%d")
+        rec["in_warranty"] = in_warranty                  # the outcome view needs it to say who pays
         name = VOCAB.model_names.get(rec["model_id"], rec["model_id"])
         if rec["model_id"] != self.model_id:
             if self.model_id:
@@ -691,12 +708,23 @@ class CallSession:
             await self.emit({"type": "toggles", "assistant": self.assistant_on, "clarify": self.clarify_on})
         elif a == "answer_step" and self.diagnosis and not self.diagnosis.outcome:
             self.diagnosis.answer(int(msg["branch"]))
-            await self._emit_diagnosis()
             if self.diagnosis.outcome:
                 await self._on_outcome(self.diagnosis.outcome)
+            else:
+                await self._emit_diagnosis()
         elif a == "start_symptom" and msg.get("symptom_id") in DEFECTS.symptoms:
-            await self._start_diagnosis(msg["symptom_id"])
+            sid = msg["symptom_id"]
+            if self.diagnosis and self.diagnosis.current and self.diagnosis.symptom["id"] != sid:
+                self.dropped_symptoms.add(self.diagnosis.symptom["id"])   # the operator says it was the wrong file
+            if sid in self.pending_symptoms:
+                self.pending_symptoms.remove(sid)
+            self.dropped_symptoms.discard(sid)
+            await self._start_diagnosis(sid, "scelta dall'operatore" if self.lang == "it" else "operator's choice")
             await self._maybe_reload_vocabulary()
+        elif a == "drop_pending" and msg.get("symptom_id") in self.pending_symptoms:
+            self.pending_symptoms.remove(msg["symptom_id"])
+            self.dropped_symptoms.add(msg["symptom_id"])
+            await self._emit_diagnosis()
         elif a in ("confirm_part", "dismiss_part") and msg.get("code") in self.cards:
             self.cards[msg["code"]]["status"] = "confirmed" if a == "confirm_part" else "dismissed"
             await self.emit({"type": "part_status", "code": msg["code"], "status": self.cards[msg["code"]]["status"]})
@@ -716,13 +744,14 @@ class CallSession:
             if kind in ("remote", "part_diy", "part_with_support", "technician"):
                 self.diagnosis.outcome = Outcome(kind, [])
                 self.diagnosis.current = None
-                await self._emit_diagnosis()
                 await self._on_outcome(self.diagnosis.outcome)
         elif a == "set_serial" and msg.get("serial"):
             await self._set_serial(re.sub(r"[^0-9A-Za-z]", "", msg["serial"]))
 
     async def _on_outcome(self, outcome: Outcome) -> None:
         self.outcome = {"kind": outcome.kind, "parts": outcome.parts, "by": "procedure"}
+        if self.diagnosis and self.diagnosis.symptom["id"] not in self.closed_symptoms:
+            self.closed_symptoms.append(self.diagnosis.symptom["id"])
         label = {"remote": "risolto da remoto", "part_diy": "ricambio, montaggio in autonomia",
                  "part_with_support": "ricambio con supporto del service", "technician": "tecnico"}[outcome.kind] \
             if self.lang == "it" else outcome.kind.replace("_", " ")
@@ -731,12 +760,58 @@ class CallSession:
                           f"Procedure outcome: {label}" + (f" ({', '.join(outcome.parts)})" if outcome.parts else ""))
         cards = [CATALOG.card(code, 0.95, "procedure", self.model_id) for code in outcome.parts if CATALOG.exists(code)]
         await self._add_cards(cards, None, source="procedure")
+        await self._emit_diagnosis()                       # closed view: what to do now, parts priced, who pays
+        self.pending_symptoms = [x for x in self.pending_symptoms if x not in self.closed_symptoms and x not in self.dropped_symptoms]
         if self.pending_symptoms:
-            nxt = self.pending_symptoms.pop(0)
-            await self._agent(("Passo al secondo problema segnalato: " + DEFECTS.symptoms[nxt]["symptom_it"]) if self.lang == "it"
-                              else "Moving on to the second problem reported: " + DEFECTS.symptoms[nxt]["symptom_en"])
-            await self._start_diagnosis(nxt)
-            await self._maybe_reload_vocabulary()
+            nxt = self.pending_symptoms[0]
+            await self._agent(("In attesa: " + DEFECTS.symptoms[nxt]["symptom_it"] + ". Avvialo dal pannello quando sei pronto.") if self.lang == "it"
+                              else "Waiting: " + DEFECTS.symptoms[nxt]["symptom_en"] + ". Start it from the panel when ready.")
+
+    def _symptom_menu(self) -> list[dict]:
+        """The procedures that apply to the machine in the call, for the operator to pick by hand."""
+        out = []
+        for sid, sym in DEFECTS.symptoms.items():
+            if self.model_id and self.model_id not in sym["models"]:
+                continue
+            if self.family and not self.model_id and not any(m.startswith(self.family.lower()) for m in sym["models"]):
+                continue
+            out.append({"id": sid, "title": sym[f"symptom_{self.lang}"]})
+        return out
+
+    def _next_step(self) -> dict:
+        """What the operator does now that the procedure has an outcome: the parts with price and delivery, who pays,
+        whether a service call or a technician's visit must be booked, and one English sentence to read out."""
+        o = self.diagnosis.outcome
+        it = self.lang == "it"
+        w = self.machine.get("in_warranty") if self.machine else None
+        parts = [self.cards[c] for c in o.parts if c in self.cards]
+        text = {"remote": ("Problema chiuso da remoto: nessun ricambio, nessun intervento.",
+                           "Fixed remotely: no parts, no visit."),
+                "part_diy": ("Spedire i ricambi qui sotto: il cliente li monta con la scheda.",
+                             "Ship the parts below: the customer fits them with the sheet."),
+                "part_with_support": ("Spedire i ricambi qui sotto e prenotare la seconda chiamata con il service per quando arrivano.",
+                                      "Ship the parts below and book the second call with service for when they arrive."),
+                "technician": ("Fissare l'intervento del tecnico.", "Book the technician's visit.")}[o.kind]
+        wt, say_w = ("", ""), ""
+        if o.kind != "remote":
+            if w is True:
+                wt = ("In garanzia: senza addebito.", "Under warranty: no charge.")
+                say_w = "Your machine is under warranty, so there is no charge."
+            elif w is False:
+                wt = ("Fuori garanzia: ricambi e intervento a pagamento, inviare il preventivo.",
+                      "Out of warranty: parts and labour are charged, send the quote.")
+                say_w = "Your warranty has ended, so parts and labour are charged; we'll send you a quote."
+            else:
+                wt = ("Garanzia sconosciuta: chiedere la matricola.", "Warranty unknown: ask for the serial number.")
+                say_w = "Can you give me the serial number, so I can check the warranty?"
+        say_k = {"remote": "Good, that's fixed. If it comes back, call us with the serial number.",
+                 "part_diy": "I'll ship the parts; you can fit them yourself with the sheet I'll send you.",
+                 "part_with_support": "I'll ship the parts and we'll book a call with our service to fit them when they arrive.",
+                 "technician": "We need to send a technician; we'll call you to book the visit."}[o.kind]
+        return {"kind": o.kind, "text": text[0] if it else text[1], "warranty": w, "warranty_text": wt[0] if it else wt[1],
+                "say_en": (say_w + " " + say_k).strip(),
+                "parts": [{"code": c["code"], "description": c["description"], "price_eur": c["price_eur"],
+                           "delivery": c["delivery"], "handling": c["handling"]} for c in parts]}
 
     # ------------------------------------------------------------------ emitters
     async def _on_clear(self, turn_id: int, text: str) -> None:
@@ -750,7 +825,8 @@ class CallSession:
     async def _emit_context(self) -> None:
         await self.emit({"type": "context", "model_id": self.model_id,
                          "model": VOCAB.model_names.get(self.model_id), "family": self.family,
-                         "edition": self.edition, "groups": self.groups, "serial": self.serial})
+                         "edition": self.edition, "groups": self.groups, "serial": self.serial,
+                         "symptoms": self._symptom_menu()})
 
     async def _emit_vocab(self, vocab) -> None:
         await self.emit({"type": "vocabulary", "phase": vocab.phase, "count": len(vocab.keyterms),
@@ -764,6 +840,10 @@ class CallSession:
             step_ids = [st["id"] for st in self.diagnosis.symptom["steps"]]
             view["doc"] = {"page": f"symptoms/{self.diagnosis.symptom['id']}.md",
                            "anchor": f"passo-{step_ids.index(self.diagnosis.current) + 1}" if self.diagnosis.current else "procedura"}
+            view["pending"] = [{"id": x, "title": DEFECTS.symptoms[x][f"symptom_{self.lang}"]} for x in self.pending_symptoms]
+            view["alternatives"] = [x for x in self._symptom_menu() if x["id"] != self.diagnosis.symptom["id"]]
+            if self.diagnosis.outcome:
+                view["next"] = self._next_step()
             await self.emit({"type": "diagnosis", **view})
 
     async def _emit_summary(self) -> None:

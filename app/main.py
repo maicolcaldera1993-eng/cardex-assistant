@@ -155,8 +155,8 @@ async def call(ws: WebSocket, source: str = "mic", lang: str = "it") -> None:
             elif msg.get("text"):
                 try:
                     await session.control(json.loads(msg["text"]))
-                except (ValueError, KeyError):
-                    pass
+                except Exception as e:  # noqa: BLE001 - a broken click must show up in the log, not vanish
+                    await session.emit({"type": "error", "text": f"control {msg['text'][:80]}: {type(e).__name__}: {e}"})
     except WebSocketDisconnect:
         pass
     finally:

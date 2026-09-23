@@ -49,7 +49,7 @@
       "text": "Okay. I did it, the holes were half closed with milk. Now the steam is strong again. Fixed.",
       "voice": "de-DE-KatjaNeural",
       "cue": "Unscrew the steam tip, put it thirty minutes in hot water with a cleaning tablet, then a pin through the holes, and refit it.",
-      "expect_it": "Clicca «Risolto da remoto». Parte il sintomo in coda con il messaggio «Passo al secondo problema»: «Sputa», passo 1."
+      "expect_it": "Clicca «Risolto da remoto»: blocco «Cosa fare ora» (remoto). Sotto, «In attesa: Sputa» con il pulsante Avvia: cliccalo."
     },
     {
       "n": 6,
