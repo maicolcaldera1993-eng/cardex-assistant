@@ -148,6 +148,8 @@ async def main() -> None:
                 elif t == "session.ended":
                     print(f"[session ended] {m.get('audio_duration_seconds')} s of audio")
                     break
+        except websockets.ConnectionClosed as e:
+            print(f"[agent socket closed] code={e.code} reason={e.reason!r}")
         finally:
             await ours.send(json.dumps({"type": "control", "action": "voice_end"}))
             try:
