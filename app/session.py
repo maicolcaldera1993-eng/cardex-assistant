@@ -28,6 +28,7 @@ from .core.vocabulary import VocabularyManager
 from .llm.clarify import Clarifier
 from .agent.dialog import AutoAgent
 from .agent.tts import TTS
+from .voice.agent import run_tool, tool_result_text
 
 ROOT = Path(__file__).resolve().parents[1]
 SAMPLES = ROOT / "samples"
@@ -125,11 +126,31 @@ class CallSession:
         self._closing = False
         # automatic mode: the assistant itself asks the questions (voice) and follows the customer's answers
         self.auto = AutoAgent(self, TTS, SEMANTIC.similarities) if source == "auto" else None
+        # voice agent mode: AssemblyAI's hosted agent listens and talks; we are its memory and its tools
+        self.voice = source == "voice"
+        self.voice_done = False
+        self.voice_ended = asyncio.Event()
+        self.voice_turn = 0
+        self.notes: list[str] = []                # things the agent could not answer, for the operator
 
     # ------------------------------------------------------------------ lifecycle
     async def run(self) -> None:
         vocab = VOCAB.build()
         self.vocab_phase, self.vocab_key = 1, (None, None, None, ())
+        if self.voice:
+            try:
+                await self.emit({"type": "session", "state": "open", "source": self.source, "lang": self.lang,
+                                 "limits": {"max_seconds": MAX_SESSION_SECONDS}})
+                await self._emit_vocab(vocab)
+                await self._emit_context()
+                await asyncio.wait_for(self.voice_ended.wait(), timeout=MAX_SESSION_SECONDS)
+            except asyncio.TimeoutError:
+                await self._agent("Tempo massimo raggiunto." if self.lang == "it" else "Time limit reached.")
+            except Exception as e:  # noqa: BLE001
+                await self.emit({"type": "error", "text": f"{type(e).__name__}: {e}"})
+            finally:
+                await self._emit_summary()
+            return
         try:
             async with AssemblyAIStream(self.api_key, keyterms=vocab.keyterms, prompt=vocab.prompt,
                                         inactivity_timeout=INACTIVITY_TIMEOUT) as asr:
@@ -167,6 +188,10 @@ class CallSession:
         await self.end()
 
     async def end(self) -> None:
+        if self.voice:
+            self._closing = True
+            self.voice_ended.set()
+            return
         if not self._closing and self.asr:
             self._closing = True
             # the last thing said has no pause after it: send a little silence so the model hears the end,
@@ -435,7 +460,7 @@ class CallSession:
         # meaning-based symptom detection listens to the CUSTOMER only: the operator's questions ("what is the
         # problem?", "how long does a shot take?") are about the fault, not descriptions of it. Exact spoken phrases
         # still count from either voice (operators restate what they heard).
-        if role == CUSTOMER:
+        if role == CUSTOMER and not self.voice:
             # the operator's questions are about the fault, not descriptions of it ("no level alarm?" is a question)
             if not await self._detect_symptom(recent, semantic=sentence_complete(recent[0])) \
                     and not (self.diagnosis and self.diagnosis.current):
@@ -762,6 +787,15 @@ class CallSession:
             await self._emit_diagnosis()
         elif a == "spoken" and self.auto:
             await self.auto.spoken()
+        elif a == "transcript" and self.voice and msg.get("text"):
+            await self.voice_transcript(msg.get("role") or "customer", str(msg["text"]).strip())
+        elif a == "tool" and self.voice:
+            result = await run_tool(self, msg.get("name") or "", msg.get("arguments") or {})
+            self._log_decision("tool", name=msg.get("name"), arguments=msg.get("arguments"), result=result)
+            await self.emit({"type": "tool_result", "call_id": msg.get("call_id"), "name": msg.get("name"),
+                             "result": tool_result_text(result), "end": bool(result.get("end"))})
+        elif a == "voice_end" and self.voice:
+            await self.end()
         elif a in ("confirm_part", "dismiss_part") and msg.get("code") in self.cards:
             self.cards[msg["code"]]["status"] = "confirmed" if a == "confirm_part" else "dismissed"
             await self.emit({"type": "part_status", "code": msg["code"], "status": self.cards[msg["code"]]["status"]})
@@ -784,6 +818,65 @@ class CallSession:
                 await self._on_outcome(self.diagnosis.outcome)
         elif a == "set_serial" and msg.get("serial"):
             await self._set_serial(re.sub(r"[^0-9A-Za-z]", "", msg["serial"]))
+
+    # ------------------------------------------------------------------ voice agent helpers
+    async def voice_transcript(self, role: str, text: str) -> None:
+        """A final utterance relayed from the Voice Agent session: shown as a turn, remembered for the summary,
+        and (for the customer) read for machine, serial and part codes like any other customer turn."""
+        self.voice_turn += 1
+        tid = self.voice_turn * 100
+        who = CUSTOMER if role == "customer" else "agent"
+        text, codes = canonicalize_codes(text)
+        utt = {"id": tid, "raw": text, "text": text, "codes": codes, "fragments": [text], "confs": [1.0], "role": who,
+               "speaker": None, "turn_ids": [tid], "min_conf": 1.0, "at": round(time.monotonic() - self.started, 1),
+               "at_end": round(time.monotonic() - self.started, 1), "clear": None}
+        self.utterances.append(utt)
+        self.turns[tid] = utt
+        await self.emit({"type": "turn", "id": tid, "final": True, "text": text, "role": who, "speaker": None, "min_conf": 1.0, "merged": 1})
+        if who == CUSTOMER and self.assistant_on:
+            await self._assist(tid, text, CUSTOMER, 1.0, [text], utt)
+
+    async def apply_model_words(self, text: str) -> None:
+        """The agent passes the customer's words about the model: same detector as the live transcript."""
+        hit = CONTEXT.detect(text)
+        changed = False
+        if hit.model_id and hit.model_id != self.model_id:
+            self.model_id, self.family, changed = hit.model_id, hit.family, True
+            await self._agent(f"Macchina riconosciuta: {VOCAB.model_names[hit.model_id]}" if self.lang == "it"
+                              else f"Machine recognised: {VOCAB.model_names[hit.model_id]}")
+            await self._open_manual(self.model_id)
+        elif hit.family and not self.model_id and hit.family != self.family:
+            self.family, changed = hit.family, True
+        if hit.edition and hit.edition != self.edition:
+            self.edition, changed = hit.edition, True
+        if changed:
+            await self._emit_context()
+            await self._maybe_reload_vocabulary()
+
+    def symptom_candidates(self, text: str, k: int = 3) -> list[dict]:
+        """The closest procedures for a description that did not open one by itself (for the agent to ask)."""
+        if not SEMANTIC.ready:
+            return []
+        fam = CATALOG.family_models(self.family) if self.family and not self.model_id else None
+        allowed = SEMANTIC.ids_for("symptom", self.model_id, fam)
+        allowed = {n for n in allowed if not SEMANTIC.nodes[n].get("decoy")}
+        out = []
+        for m in SEMANTIC.search(text, allowed=allowed, k=k):
+            if m.score >= 0.45:
+                sid = m.node_id.split("/", 1)[1]
+                out.append({"symptom_id": sid, "title": DEFECTS.symptoms[sid]["symptom_en"], "score": m.score})
+        return out
+
+    async def parts_for(self, query: str) -> list[dict]:
+        """Part cards for a code or a description said by the customer (shown on the panel too)."""
+        text, _ = canonicalize_codes(query)
+        cards = []
+        for c in extract_codes(text):
+            cards += CATALOG.search_code(c.code, model_id=self.model_id, family=self.family, groups=self.groups)
+        if not cards:
+            cards = CATALOG.search_description(text, model_id=self.model_id, family=self.family, groups=self.groups)
+        await self._add_cards(cards, None, source="voice-agent")
+        return [self.cards[c.code] for c in cards if c.code in self.cards]
 
     async def _on_outcome(self, outcome: Outcome) -> None:
         self.outcome = {"kind": outcome.kind, "parts": outcome.parts, "by": "procedure"}
@@ -930,6 +1023,8 @@ class CallSession:
             "outcome": self.outcome,
             "next": self._next_step() if self.diagnosis and self.diagnosis.outcome else None,
             "booking": self._slot_view(self.booking) if self.booking else None,
+            "notes": self.notes,
+            "voice_agent": self.voice,
             "machine_record": self.machine,
             "parts_confirmed": [{"code": c["code"], "description": c["description"], "price_eur": c["price_eur"],
                                  "stock": c["stock"]} for c in confirmed],

@@ -68,6 +68,26 @@ def duets() -> list[dict]:
     return out
 
 
+@app.get("/api/voice/agent")
+async def voice_agent() -> dict:
+    """The stored Voice Agent (created or updated with the current prompt) and the tools the browser declares."""
+    from .voice.agent import TOOLS, ensure_agent, session_config
+    if not API_KEY:
+        raise HTTPException(503, "ASSEMBLYAI_API_KEY is not configured")
+    keyterms = VOCAB.build().keyterms
+    agent_id = await ensure_agent(API_KEY, keyterms)          # kept up to date for the AssemblyAI dashboard
+    return {"agent_id": agent_id, "tools": TOOLS, "session": session_config(keyterms)}
+
+
+@app.get("/api/voice/token")
+async def voice_token() -> dict:
+    """A single-use session token, so the browser never sees the API key."""
+    from .voice.agent import session_token
+    if not API_KEY:
+        raise HTTPException(503, "ASSEMBLYAI_API_KEY is not configured")
+    return {"token": await session_token(API_KEY)}
+
+
 @app.get("/api/tts/{key}.mp3")
 def tts_audio(key: str) -> Response:
     """The automatic assistant's sentences, synthesised on demand and kept in memory."""

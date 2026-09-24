@@ -7,7 +7,7 @@ const T = {
     tagline: "service di primo ingresso · Sereni Macchine da Caffè",
     startTitle: "Il collega esperto che sta in linea con te.",
     startSub: "Trascrive la chiamata, ti spiega cosa intende il cliente, riconosce macchina e guasto, ti guida nella diagnosi e trova il ricambio.",
-    sample: "Riproduci una chiamata di esempio", mic: "Usa il mio microfono (tu sei il cliente)", duet: "Prova a due voci (tu operatore, cliente registrato)", duetHelp: "Parla tu al microfono come operatore. Quando tocca al cliente, clicca la battuta che vuoi fargli dire: la senti dalle casse e il microfono resta muto finché parla.", duetPanel: "Cliente registrato: fagli dire…", noDuets: "Nessuna prova a due voci disponibile", auto: "Assistente automatico (tu sei il cliente, l'assistente parla)", autoHelp: "Parla in inglese come cliente. L'assistente ti fa le domande a voce e segue le tue risposte; il microfono resta muto mentre parla.", agent: "Assistente",
+    sample: "Riproduci una chiamata di esempio", mic: "Usa il mio microfono (tu sei il cliente)", duet: "Prova a due voci (tu operatore, cliente registrato)", duetHelp: "Parla tu al microfono come operatore. Quando tocca al cliente, clicca la battuta che vuoi fargli dire: la senti dalle casse e il microfono resta muto finché parla.", duetPanel: "Cliente registrato: fagli dire…", noDuets: "Nessuna prova a due voci disponibile", auto: "Assistente automatico (tu sei il cliente, l'assistente parla)", autoHelp: "Parla in inglese come cliente. L'assistente ti fa le domande a voce e segue le tue risposte; il microfono resta muto mentre parla.", agent: "Assistente", voice: "Voice Agent AssemblyAI (tu sei il cliente, l'agente dialoga)", voiceHelp: "Parla in inglese come cliente. L'agente ospitato da AssemblyAI ascolta, ragiona e risponde; i fascicoli, i ricambi e il calendario glieli passa questo server. Puoi interromperlo. Circa 4,50 $ l'ora.", voiceNotes: "Note per l'operatore",
     clarify: "Versione chiara", assistant: "Assistente", talk: "Conversazione", diag: "Diagnosi guidata", parts: "Ricambi proposti",
     log: "Registro dell'assistente", docs: "Documenti aperti dall'assistente", noDocs: "Quando si parla di una macchina, di un guasto o di un ricambio, il documento giusto si apre qui, al punto giusto.", choose: "Due guasti possibili. Di quale sta parlando?", merged: "frasi unite", micMuted: "mic muto (parla il cliente)", micDenied: "permesso negato", clearWait: "versione chiara in arrivo…", closeRemote: "Risolto da remoto", closeTech: "Serve il tecnico", closeHint: "Chiudi il problema quando il cliente conferma", change: "Fascicolo sbagliato? Cambia…", startProc: "Avvia una procedura a mano…", pending: "In attesa", startNow: "Avvia", drop: "Scarta", nextTitle: "Cosa fare ora", bookTech: "Appuntamento del tecnico", bookCall: "Seconda chiamata con il service", pickSlot: "Scegli uno slot libero e proponilo al cliente", unbook: "Annulla", needSerial: "Serve la matricola per sapere la zona del tecnico.", noPartner: "Nessun partner service in questo paese: passare alla sede.", noSlots: "Nessuno slot libero nelle prossime due settimane.", booked: "Prenotato", nextStep: "Prossimo passo", handling: { diy: "Lo monta il cliente", support: "Montaggio con il service", technician: "Serve il tecnico" }, sayPart: "Da dire al cliente", warranty: "In garanzia fino al", noWarranty: "Fuori garanzia dal", built: "costruita", installed: "installata", orders: "Ordini precedenti", serialHeard: "matricola sentita", serialNotFound: "matricola non in archivio", delivery: "Consegna", fromSupplier: "dal fornitore", days: "gg", keys: "tasti 1-4", showTranscript: "Mostra il trascritto completo", diarCheck: "Attribuzione delle voci", swap: "Scambia ruoli", end: "Fine chiamata", operator: "Operatore", customer: "Cliente",
     noDiag: "Nessun sintomo riconosciuto. Quando il cliente descrive un problema, la procedura compare qui.",
@@ -24,7 +24,7 @@ const T = {
     tagline: "first-line service desk · Sereni espresso machines",
     startTitle: "The expert colleague who stays on the line with you.",
     startSub: "It transcribes the call, tells you what the customer means, recognises the machine and the fault, guides the diagnosis and finds the part.",
-    sample: "Play a sample call", mic: "Use my microphone (you are the customer)", duet: "Two-voice rehearsal (you operator, recorded customer)", duetHelp: "Speak into the microphone as the operator. When it is the customer's turn, click the line you want them to say: you hear it from the speakers and your mic stays muted while they talk.", duetPanel: "Recorded customer: have them say…", noDuets: "No two-voice rehearsal available", auto: "Automatic assistant (you are the customer, the assistant speaks)", autoHelp: "Speak English as the customer. The assistant asks its questions aloud and follows your answers; the microphone stays muted while it talks.", agent: "Assistant",
+    sample: "Play a sample call", mic: "Use my microphone (you are the customer)", duet: "Two-voice rehearsal (you operator, recorded customer)", duetHelp: "Speak into the microphone as the operator. When it is the customer's turn, click the line you want them to say: you hear it from the speakers and your mic stays muted while they talk.", duetPanel: "Recorded customer: have them say…", noDuets: "No two-voice rehearsal available", auto: "Automatic assistant (you are the customer, the assistant speaks)", autoHelp: "Speak English as the customer. The assistant asks its questions aloud and follows your answers; the microphone stays muted while it talks.", agent: "Assistant", voice: "AssemblyAI Voice Agent (you are the customer, the agent converses)", voiceHelp: "Speak English as the customer. AssemblyAI's hosted agent listens, thinks and answers; the procedures, parts and calendar come from this server. You can interrupt it. About $4.50 per hour.", voiceNotes: "Notes for the operator",
     clarify: "Clear version", assistant: "Assistant", talk: "Conversation", diag: "Guided diagnosis", parts: "Proposed parts",
     log: "Assistant log", docs: "Documents opened by the assistant", noDocs: "When a machine, a fault or a part comes up, the right document opens here, at the right place.", choose: "Two possible faults. Which one is it?", merged: "sentences joined", micMuted: "mic muted (customer talking)", micDenied: "permission denied", clearWait: "clear version on its way…", closeRemote: "Fixed remotely", closeTech: "Technician needed", closeHint: "Close the problem when the customer confirms", change: "Wrong file? Change…", startProc: "Start a procedure by hand…", pending: "Waiting", startNow: "Start", drop: "Discard", nextTitle: "What to do now", bookTech: "Technician's visit", bookCall: "Second call with service", pickSlot: "Pick a free slot and propose it to the customer", unbook: "Cancel", needSerial: "The serial number is needed to know the technician's zone.", noPartner: "No service partner in this country: escalate to head office.", noSlots: "No free slot in the next two weeks.", booked: "Booked", nextStep: "Next step", handling: { diy: "Customer fits it", support: "Fitted with service support", technician: "Technician needed" }, sayPart: "Say to the customer", warranty: "Under warranty until", noWarranty: "Out of warranty since", built: "built", installed: "installed", orders: "Previous orders", serialHeard: "serial heard", serialNotFound: "serial not on file", delivery: "Delivery", fromSupplier: "from supplier", days: "days", keys: "keys 1-4", showTranscript: "Show the full transcript", diarCheck: "Voice attribution", swap: "Swap roles", end: "End call", operator: "Operator", customer: "Customer",
     noDiag: "No symptom recognised yet. When the customer describes a problem, the procedure appears here.",
@@ -51,7 +51,7 @@ function applyLanguage() {
   L = T[lang];
   document.documentElement.lang = lang;
   $("tagline").textContent = L.tagline; $("start-title").textContent = L.startTitle; $("start-sub").textContent = L.startSub;
-  $("btn-sample").textContent = L.sample; $("btn-mic").textContent = L.mic; $("btn-duet").textContent = L.duet; $("duet-help").textContent = L.duetHelp; $("h-duet").textContent = L.duetPanel; $("btn-auto").textContent = L.auto; $("auto-help").textContent = L.autoHelp; $("lb-clarify").textContent = L.clarify; $("lb-assistant").textContent = L.assistant;
+  $("btn-sample").textContent = L.sample; $("btn-mic").textContent = L.mic; $("btn-duet").textContent = L.duet; $("duet-help").textContent = L.duetHelp; $("h-duet").textContent = L.duetPanel; $("btn-auto").textContent = L.auto; $("auto-help").textContent = L.autoHelp; $("btn-voice").textContent = L.voice; $("voice-help").textContent = L.voiceHelp; $("lb-clarify").textContent = L.clarify; $("lb-assistant").textContent = L.assistant;
   $("h-talk").textContent = L.talk; $("h-diag").textContent = L.diag; $("h-parts").textContent = L.parts; $("h-log").textContent = L.log; $("h-docs").textContent = L.docs; if ($("doc-view").classList.contains("empty")) $("doc-view").textContent = L.noDocs;
   $("btn-swap").textContent = L.swap; $("btn-end").textContent = L.end; $("btn-lang").textContent = lang === "it" ? "EN" : "IT";
   $("try-saying").innerHTML = L.tries.map((t) => `<li>${esc(t)}</li>`).join("");
@@ -129,6 +129,7 @@ function handle(ev) {
     case "machine_record": renderMachine(ev); break;
     case "duet_script": renderDuet(ev.lines); break;
     case "speak": speak(ev); break;
+    case "tool_result": voiceToolResult(ev); break;
     case "duet": { const b = document.querySelector(`.duet-line[data-n="${ev.n}"]`); if (b) { b.classList.toggle("playing", ev.state === "playing"); if (ev.state === "done") b.classList.add("said"); } if (ev.state === "done" || ev.state === "busy") { clearTimeout(micWatchdog); setTimeout(() => { micMuted = false; duetPlaying = false; }, 300); } break; }
     case "open_doc": openDoc(ev); break;
     case "agent": { const d = document.createElement("div"); d.innerHTML = `<time>${fmt(ev.at)}</time>${esc(ev.text)}`; $("log").prepend(d); break; }
@@ -150,7 +151,8 @@ function renderTurn(ev) {
   const merged = ev.merged > 1 ? `<span class="merged">${ev.merged} ${L.merged}</span>` : "";
   const low = ev.min_conf < 0.6 ? `<span class="low">${L.lowConf} (${ev.min_conf})</span>` : "";
   const wasWaiting = el.querySelector(".clear")?.classList.contains("wait");
-  el.innerHTML = `<div class="who">${ev.role === "operator" ? L.operator : L.customer}${merged}${low}</div><div class="said">${highlight(ev.text)}</div><div class="clear ${wasWaiting ? "wait" : ""}">${esc(keptClear)}</div>`;
+  const who = ev.role === "operator" ? L.operator : ev.role === "agent" ? L.agent : L.customer;
+  el.innerHTML = `<div class="who">${who}${merged}${low}</div><div class="said">${highlight(ev.text)}</div><div class="clear ${wasWaiting ? "wait" : ""}">${esc(keptClear)}</div>`;
   const box = $("col-talk");
   const nearBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 160;
   if (nearBottom) box.scrollTop = box.scrollHeight;
@@ -329,7 +331,7 @@ function renderSummary(s) {
     <div class="outcome ${s.outcome ? s.outcome.kind : ""}" style="margin:0 0 10px">${esc(o)}</div>
     <table>${row(L.machine, esc(s.machine || "—") + (s.edition ? " · Vaniglia" : ""))}${row(L.serial, esc(s.serial || "—"))}${row(L.symptom, esc(s.symptom || "—"))}
     ${row(L.steps, steps)}${s.next ? row(L.nextStep, esc(s.next.text) + (s.next.warranty_text ? `<br><span class="${s.next.warranty === true ? "ok" : s.next.warranty === false ? "bad" : ""}">${esc(s.next.warranty_text)}</span>` : "")) : ""}
-    ${s.booking ? row(L.booked, `${esc(s.booking.label)} · ${esc(s.booking.technician)}`) : ""}${row(L.confirmed, parts)}${row(L.proposed, proposed)}${diar ? row(L.diarCheck, diar) : ""}</table>
+    ${s.booking ? row(L.booked, `${esc(s.booking.label)} · ${esc(s.booking.technician)}`) : ""}${(s.notes || []).length ? row(L.voiceNotes, s.notes.map(esc).join("<br>")) : ""}${row(L.confirmed, parts)}${row(L.proposed, proposed)}${diar ? row(L.diarCheck, diar) : ""}</table>
     <details style="margin-top:12px"><summary>${L.showTranscript} (${s.transcript.length})</summary><div style="margin-top:8px">${transcript}</div></details>
     <p><button class="primary" onclick="location.reload()">${L.again}</button></p></div>`;
 }
@@ -337,6 +339,77 @@ function renderSummary(s) {
 $("btn-sample").onclick = () => startCall(`sample:${$("sample-select").value}`);
 $("btn-mic").onclick = () => startCall("mic");
 $("btn-auto").onclick = () => startCall("auto");
+$("btn-voice").onclick = () => startVoice();
+
+// ---- AssemblyAI Voice Agent: the hosted agent listens and talks over its own socket; this page relays its
+// transcripts and tool calls to our server (memory, procedures, parts, calendar) and the results back
+let vws = null, vCtx = null, vStream = null, vNext = 0, vSources = [];
+async function startVoice() {
+  startCall("voice");                                                    // our socket: panel events, tools, transcript
+  let agent, tok;
+  try {
+    agent = await fetch("/api/voice/agent").then((r) => r.json());
+    tok = await fetch("/api/voice/token").then((r) => r.json());
+  } catch (e) { logLine("voice agent: " + e.message, true); return; }
+  if (!agent.agent_id || !tok.token) { logLine("voice agent: " + JSON.stringify(agent.detail || tok.detail || agent), true); return; }
+  const url = new URL("wss://agents.assemblyai.com/v1/ws"); url.searchParams.set("token", tok.token);
+  vws = new WebSocket(url.toString());
+  vws.onopen = () => { vws.send(JSON.stringify({ type: "session.update", session: agent.session })); };   // the whole agent inline, with our function tools
+  vws.onmessage = (e) => {
+    const m = JSON.parse(e.data);
+    switch (m.type) {
+      case "session.ready": $("st-session").textContent = "voice agent"; startVoiceMic(); break;
+      case "transcript.user": send({ type: "control", action: "transcript", role: "customer", text: m.text }); break;
+      case "transcript.agent": send({ type: "control", action: "transcript", role: "agent", text: m.text }); break;
+      case "reply.audio": voicePlay(m.data || m.audio); break;
+      case "reply.done": if (m.status === "interrupted") voiceStop(); break;
+      case "tool.call": send({ type: "control", action: "tool", call_id: m.call_id, name: m.name, arguments: m.arguments }); logLine("tool: " + m.name + " " + JSON.stringify(m.arguments || {})); break;
+      case "session.error": case "error": logLine("voice agent: " + (m.message || m.code || e.data), true); break;
+      case "session.ended": logLine(`voice agent: ${Math.round(m.audio_duration_seconds || 0)} s of audio`); vws.close(); break;
+    }
+  };
+  vws.onclose = () => { stopVoiceMic(); vws = null; send({ type: "control", action: "voice_end" }); };
+}
+function voiceToolResult(ev) {
+  if (!vws || vws.readyState !== 1) return;
+  vws.send(JSON.stringify({ type: "tool.result", call_id: ev.call_id, result: ev.result, is_error: false }));
+  if (ev.end) setTimeout(voiceEnd, 2500);                                 // after the goodbye
+}
+function voiceEnd() { if (vws && vws.readyState === 1) { try { vws.send(JSON.stringify({ type: "session.end" })); } catch (e) { /* closing */ } } }
+async function startVoiceMic() {
+  try {
+    vStream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true } });
+  } catch (e) {
+    $("st-mic").textContent = "mic: " + (e.name === "NotAllowedError" ? L.micDenied : e.message); $("st-mic").classList.add("bad"); return;
+  }
+  vCtx = new AudioContext({ sampleRate: 24000 });
+  await vCtx.resume();
+  await vCtx.audioWorklet.addModule("/static/worklet.js");
+  const node = new AudioWorkletNode(vCtx, "pcm16-downsampler", { processorOptions: { rate: 24000 } });
+  node.port.onmessage = (e) => {
+    const bytes = new Uint8Array(e.data); let bin = "";
+    for (let i = 0; i < bytes.length; i += 0x2000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x2000));
+    if (vws && vws.readyState === 1) vws.send(JSON.stringify({ type: "input.audio", audio: btoa(bin) }));
+    const pcm = new Int16Array(e.data); let peak = 0;
+    for (let i = 0; i < pcm.length; i += 8) { const v = Math.abs(pcm[i]); if (v > peak) peak = v; }
+    $("st-mic").textContent = peak > 1500 ? "mic ●" : "mic ○"; $("st-mic").classList.toggle("on", peak > 1500);
+  };
+  vCtx.createMediaStreamSource(vStream).connect(node);
+}
+function stopVoiceMic() { if (vStream) vStream.getTracks().forEach((t) => t.stop()); if (vCtx) vCtx.close(); vStream = vCtx = null; }
+function voicePlay(b64) {
+  if (!vCtx || !b64) return;
+  const bin = atob(b64); const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  const pcm = new Int16Array(bytes.buffer); const f32 = new Float32Array(pcm.length);
+  for (let i = 0; i < pcm.length; i++) f32[i] = pcm[i] / 32768;
+  const buf = vCtx.createBuffer(1, f32.length, 24000); buf.getChannelData(0).set(f32);
+  const src = vCtx.createBufferSource(); src.buffer = buf; src.connect(vCtx.destination);
+  const at = Math.max(vCtx.currentTime + 0.05, vNext); src.start(at); vNext = at + buf.duration;
+  vSources.push(src); src.onended = () => { vSources = vSources.filter((s) => s !== src); };
+}
+function voiceStop() { vSources.forEach((s) => { try { s.stop(); } catch (e) { /* already done */ } }); vSources = []; vNext = 0; }
+function logLine(text, bad) { const d = document.createElement("div"); if (bad) d.style.color = "var(--bad)"; d.textContent = text; $("log").prepend(d); }
 
 // the automatic assistant talks: show the sentence as a turn, play it, keep the mic muted until it has finished,
 // then tell the server so the assistant listens again
@@ -355,7 +428,7 @@ function speak(ev) {
   micWatchdog = setTimeout(finish, (ev.seconds + 6) * 1000);   // never stuck muted
 }
 $("btn-duet").onclick = () => startCall(`duet:${$("duet-select").value}`);
-$("btn-end").onclick = () => send({ type: "control", action: "end_call" });
+$("btn-end").onclick = () => { voiceEnd(); send({ type: "control", action: "end_call" }); };   // voice agent first, then our session
 $("btn-swap").onclick = () => send({ type: "control", action: "swap_roles" });
 $("tg-clarify").onchange = (e) => send({ type: "control", action: "toggle", what: "clarify", on: e.target.checked });
 $("tg-assistant").onchange = (e) => send({ type: "control", action: "toggle", what: "assistant", on: e.target.checked });
