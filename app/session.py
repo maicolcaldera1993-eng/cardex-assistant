@@ -133,6 +133,7 @@ class CallSession:
         self.voice_turn = 0
         self.notes: list[str] = []                # things the agent could not answer, for the operator
         self.unclear_steps: set[str] = set()      # steps where the agent's reported answer was rejected once
+        self.end_refused = False                  # end_call refused once because a step was still open
 
     # ------------------------------------------------------------------ lifecycle
     async def run(self) -> None:

@@ -19,10 +19,10 @@ MAX_ATTEMPTS = 2           # misunderstood twice: spell the options out / move o
 _END = re.compile(r"[.!?…]\s*$")
 
 YES = {"yes", "yeah", "yep", "correct", "exactly", "fixed", "works", "working", "better", "good", "true", "perfect",
-       "solved", "normal", "great"}
+       "solved", "normal", "great", "sì", "si", "funziona", "risolto", "esatto", "giusto", "certo", "sí", "ja", "oui"}
 ACK = {"ok", "okay", "sure", "alright", "fine", "please", "book", "go", "ahead", "right", "do", "it"}   # "ok, book it"
 NO = {"no", "nope", "not", "never", "nothing", "still", "same", "doesn't", "dont", "don't", "isn't", "cannot", "can't",
-      "cant", "unchanged", "worse", "dead", "damaged", "broken"}
+      "cant", "unchanged", "worse", "dead", "damaged", "broken", "ancora", "niente", "nulla", "rotto", "rotta", "uguale"}
 BYE = {"bye", "goodbye", "thanks", "thank", "that's all", "nothing else", "no thanks", "all good"}
 
 DIGIT_WORDS = {"zero": "0", "oh": "0", "one": "1", "two": "2", "three": "3", "four": "4", "five": "5", "six": "6",
@@ -33,14 +33,14 @@ GREETING = ("Sereni service, this is the automatic assistant. Which machine are 
 
 def polarity(text: str) -> int:
     """+1 for a yes-like text, -1 for a no-like one, 0 when unclear ("okay, I did it, still weak" is not a yes)."""
-    w = set(re.findall(r"[a-z']+", text.lower()))
+    w = set(re.findall(r"[a-zàèéìòùí']+", text.lower()))
     y, n = len(w & YES), len(w & NO)
     return 0 if y == n else (1 if y > n else -1)
 
 
 def affirmative(text: str) -> bool:
     """Did they agree? 'yes', 'ok book it', 'sure' count; anything with a no-word does not."""
-    w = set(re.findall(r"[a-z']+", text.lower()))
+    w = set(re.findall(r"[a-zàèéìòùí']+", text.lower()))
     return not (w & NO) and bool(w & (YES | ACK))
 
 
@@ -136,7 +136,7 @@ def classify_branch(text: str, branches: list[dict], similarities: Callable[[str
     signals that the embedding misses: numbers ('110 volts'), on/off-style antonyms, yes/no polarity, shared words,
     and 'the first one' after the options were read out. Returns (index, confidence) or (None, best score)."""
     labels = [b["label_en"] for b in branches]
-    words = re.findall(r"[a-z']+", text.lower())
+    words = re.findall(r"[a-zàèéìòùí']+", text.lower())
     for w in words:
         if w in ORDINALS and ORDINALS[w] < len(labels):
             return ORDINALS[w], 1.0

@@ -20,18 +20,28 @@ from ..core.normalizer import extract_codes
 AGENTS_URL = "https://agents.assemblyai.com/v1"
 AGENT_NAME = "Cardex Assistant"
 VOICE_ID = os.getenv("CARDEX_VOICE", "alba")
+# one native voice per language the API can speak (input understands 18 languages on its own)
+LANGUAGES = {"en": ("English", "alba"), "it": ("Italian", "giovanni"), "es": ("Spanish", "lola"),
+             "de": ("German", "juergen"), "fr": ("French", "estelle"), "pt": ("Portuguese", "rafael")}
+GREETINGS = {"en": "Sereni service, good morning. Which machine are you calling about, and what is it doing?",
+             "it": "Servizio assistenza Sereni, buongiorno. Per quale macchina chiama, e cosa fa?",
+             "es": "Servicio técnico Sereni, buenos días. ¿Por qué máquina llama, y qué le pasa?",
+             "de": "Sereni Kundendienst, guten Tag. Um welche Maschine geht es, und was macht sie?",
+             "fr": "Service Sereni, bonjour. Pour quelle machine appelez-vous, et que fait-elle ?",
+             "pt": "Assistência Sereni, bom dia. Sobre qual máquina liga, e o que ela está a fazer?"}
 
 SYSTEM_PROMPT = """You are the first-line service assistant of Sereni, an espresso machine maker in Florence, Italy. You are on the phone with a customer, usually a barista abroad, and you speak simple, clear English.
 
 HOW YOU WORK
 1. You do not diagnose. The troubleshooting procedure decides. The moment the customer has described what the machine is doing, call find_procedure with their words, before saying anything else. Then ask what the current step asks, in your own natural words, one question at a time. The ONLY questions you may ask about the fault are the ones the steps give you: never add checks of your own ("is the gasket dirty?").
 2. After the customer answers a step (or reports what happened after doing what you asked), call answer_step with the number of the option that matches their words. If their words do not answer the question, do not choose for them: ask the step's question again, plainly. Never call answer_step to guess.
+3c. If find_procedure returns candidates, read them to the customer and call start_procedure ONLY after the customer has said which one applies. Never pick one yourself.
 3b. The customer cannot interrupt you while you talk: keep every reply to one or two short sentences, and never repeat a question the customer has already answered.
 3. When a step asks the customer to do something (press, unscrew, clean, backflush), explain it simply, wait for them to do it and tell you the result, then call answer_step.
 4. Order of things: as soon as the fault is described, call find_procedure and ask its first question. Right after the customer answers that first question, ask for the serial number (it is on the plate at the back) and call identify_machine with the digits and the model words the customer used: it tells you the machine, whether it is under warranty and who pays. Then continue with the steps.
 5. Say prices, delivery times, part codes, warranty, totals and dates ONLY when they come from a tool result in this conversation. Never invent a number, never name a part the tools did not return, never explain what broke beyond what the step or the outcome says. Use the "spoken" forms given in the results for codes and prices (for example "C A twelve seventy, twelve euros sixty").
 6. Customer questions: answer from tool results when you can. The outcome gives the total of the parts (parts_total_eur), the delivery days, the warranty and whether labour is charged, and whether a service call or a technician is needed; use them. Call note_for_operator only for things the tools do not cover (discounts, invoices, complaints, anything outside the procedure), say the operator will follow up, then return to the procedure.
-7. At the outcome, explain what happens next (parts shipped, second call with service, technician's visit), who pays, and propose the first free slot from the result. When the customer agrees, call book_slot with that slot id. If they prefer another, propose the next one.
+7. At the outcome, explain what happens next (parts shipped FROM our warehouse to the customer, second call with service, technician's visit), who pays, and propose the first free slot from the result. When the customer agrees, call book_slot with that slot id. If they prefer another, propose the next one. When the customer agrees to receive the parts, call confirm_parts with their codes: without it nothing is ordered.
 8. Keep every reply to one or two short sentences. Warm and professional, never chatty. Repeat numbers back to confirm them.
 10. If a tool result says "stale" or "error", call answer_step again right away with the step_id given in that result and the option matching the customer's words. Never guess the outcome yourself and never use find_part to work out which part is needed: only the procedure's outcome names the parts. find_part is for parts the customer asks about by code or by name.
 9. When there is nothing else, thank them, say goodbye, and call end_call.
@@ -68,6 +78,10 @@ TOOLS: list[dict] = [
      "description": "Call when the customer accepts one of the free slots you proposed for the service call or the technician's visit. Pass the slot id exactly as given in the outcome.",
      "parameters": {"type": "object", "properties": {"slot_id": {"type": "string", "pattern": "^[A-Z]+:[0-9]+:[0-9]+$"}},
                     "required": ["slot_id"]}, "execution_mode": "hold"},
+    {"name": "confirm_parts",
+     "description": "Call when the customer agrees to receive the parts named in the outcome (or a part from find_part). Records the order for the operator, who approves it before shipping. Never say the parts are on their way without calling this.",
+     "parameters": {"type": "object", "properties": {"codes": {"type": "array", "items": {"type": "string"}, "description": "The part codes the customer accepted, e.g. [\"GE-2140\", \"GE-2210\"]"}},
+                    "required": ["codes"]}, "execution_mode": "hold"},
     {"name": "note_for_operator",
      "description": "Call when the customer asks for something you cannot answer from tool results (discounts, invoices, anything outside the procedure) or wants something done by a person. Tell the customer the operator will follow up.",
      "parameters": {"type": "object", "properties": {"note": {"type": "string"}}, "required": ["note"]}, "execution_mode": "interactive"},
@@ -76,10 +90,10 @@ TOOLS: list[dict] = [
      "parameters": {"type": "object", "properties": {}, "required": []}, "execution_mode": "interactive"},
 ]
 
-def session_config(keyterms: list[str]) -> dict:
+def session_config(keyterms: list[str], lang: str = "en") -> dict:
     """What the browser sends in session.update: the whole agent inline (a stored agent_id cannot be combined
     with per-session tools, and our tools are client-side functions executed by this server)."""
-    cfg = agent_config(keyterms)
+    cfg = agent_config(keyterms, lang)
     return {"system_prompt": cfg["system_prompt"], "greeting": cfg["greeting"], "input": cfg["input"],
             "output": cfg["output"], "tools": [{"type": "function", **t} for t in TOOLS]}   # "function" = executed by the client
 
@@ -87,13 +101,19 @@ def session_config(keyterms: list[str]) -> dict:
 _agent_id: str | None = None
 
 
-def agent_config(keyterms: list[str]) -> dict:
-    return {"name": AGENT_NAME, "system_prompt": SYSTEM_PROMPT, "greeting": GREETING,
-            "voice": {"voice_id": VOICE_ID},
+def agent_config(keyterms: list[str], lang: str = "en") -> dict:
+    lang = lang if lang in LANGUAGES else "en"
+    name, voice = LANGUAGES[lang]
+    prompt = SYSTEM_PROMPT + (f"\n\nLANGUAGE: speak {name} with the customer, always. The tools answer in English: translate "
+                              f"what they say into natural {name}; keep part codes as they are and say prices in words.")
+    return {"name": AGENT_NAME, "system_prompt": prompt, "greeting": GREETINGS[lang],
+            "voice": {"voice_id": voice},
             "input": {"format": {"encoding": "audio/pcm", "sample_rate": 24000}, "keyterms": keyterms[:100],
-                      # half duplex: the browser keeps the mic closed while the agent talks, so no barge-in here either
-                      "turn_detection": {"vad_threshold": 0.5, "min_silence": 700, "max_silence": 2000, "interrupt_response": False}},
-            "output": {"voice": VOICE_ID, "format": {"encoding": "audio/pcm", "sample_rate": 24000}, "volume": 100},
+                      # The browser keeps the mic closed while the agent's voice PLAYS (half duplex), so the customer
+                      # cannot talk over it. interrupt_response stays on for the gap before playback: if the turn was
+                      # closed too early ("Buongiorno." | "sono Mario...") the reply is dropped instead of the words.
+                      "turn_detection": {"vad_threshold": 0.5, "min_silence": 1000, "max_silence": 2500, "interrupt_response": True}},
+            "output": {"voice": voice, "format": {"encoding": "audio/pcm", "sample_rate": 24000}, "volume": 100},
             "tools": [], "llm": []}                        # managed model; tools are declared per session by the browser
 
 
@@ -266,7 +286,13 @@ async def run_tool(s, name: str, args: dict) -> dict:
         #   no match, first  -> "unclear": the agent asks the step's question again; the second call is accepted
         st = d.step
         from ..session import SEMANTIC
-        j, conf = classify_branch(words, st["branches"], SEMANTIC.similarities, question=st["text_en"] if st["kind"] == "ask" else "")
+        # read the words against the options in English AND Italian (the customer may speak either): best reading wins
+        readings = []
+        for lab, q in (("label_en", "text_en"), ("label_it", "text_it")):
+            brs = [{**b, "label_en": b.get(lab) or b["label_en"]} for b in st["branches"]]
+            readings.append(classify_branch(words, brs, SEMANTIC.similarities, question=st[q] if st["kind"] == "ask" else ""))
+        found = [r for r in readings if r[0] is not None]
+        j, conf = max(found, key=lambda r: r[1]) if found else max(readings, key=lambda r: r[1])
         stale = bool(args.get("step_id")) and args["step_id"] != d.current
         if j is None and stale:
             return {"status": "stale", "hint": f"step '{args['step_id']}' was already answered and these words do not answer "
@@ -298,6 +324,17 @@ async def run_tool(s, name: str, args: dict) -> dict:
             v = s._slot_view(s.booking)
             return {"status": "booked", "when": v["label_en"], "with": s.booking["technician"]}
         return {"status": "error", "hint": "slot id not free or unknown; propose another from the outcome"}
+    if name == "confirm_parts":
+        codes = [str(c).upper().strip() for c in (args.get("codes") or [])]
+        done = []
+        for code in codes:
+            if code in s.cards:
+                await s.control({"action": "confirm_part", "code": code})
+                done.append(code)
+        if not done:
+            return {"status": "error", "hint": "none of these codes is on the table; use the codes from the outcome or from find_part"}
+        return {"status": "confirmed", "codes": done,
+                "say": "the order is recorded; an operator approves it and the parts are shipped from our warehouse"}
     if name == "note_for_operator":
         note = (args.get("note") or "").strip()
         if note:
@@ -305,6 +342,13 @@ async def run_tool(s, name: str, args: dict) -> dict:
             await s._agent(("Nota per l'operatore: " if s.lang == "it" else "Note for the operator: ") + note)
         return {"status": "noted", "say": "the operator will follow up on this"}
     if name == "end_call":
+        d = s.diagnosis
+        if d and d.current and not s.end_refused:
+            # the procedure is still open: the customer's last answer must be recorded first ("it works now")
+            s.end_refused = True
+            return {"status": "open_step", "end": False,
+                    "hint": "a procedure step is still open. Call answer_step now with the customer's last answer to it "
+                            "(for example 'fixed'), then say goodbye and call end_call again.", **_step_view(s)}
         s.voice_done = True
         return {"status": "ok", "end": True}
     return {"status": "error", "hint": f"unknown tool {name}"}

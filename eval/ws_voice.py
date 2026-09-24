@@ -34,6 +34,15 @@ SCENARIOS = {
         "Yes, please book it.",
         "No, that's all. Thank you, goodbye.",
     ]),
+    "mario": ("it-IT-DiegoNeural", [          # Italian customer, Italian agent (lang=it): Carmen's level alarm
+        "Buongiorno, sono Mario del Bar Centrale di Lucca. Abbiamo la Marea 2. La macchina non carica l'acqua, la spia del livello lampeggia e la pompa va sempre.",
+        "La matricola è zero quattro uno, uno otto otto.",
+        "Sì, il rubinetto sotto il banco è aperto, e l'acqua calda esce bene, piena.",
+        "Sì, sento un clic dietro, ma non carica.",
+        "L'ho svitata. La punta è tutta bianca di calcare.",
+        "L'ho pulita e rimessa. Adesso la pompa si è fermata e la caldaia è piena, funziona.",
+        "No, grazie, è tutto. Arrivederci.",
+    ]),
     "lena": ("de-DE-KatjaNeural", [
         "Hello, this is Lena from Kaffeehaus Nord in Berlin, about our Marea 2 Plus. The steam is very weak, foaming the milk takes forever.",
         "The serial is zero four eight, five three zero.",
@@ -61,7 +70,8 @@ async def clip(text: str, voice: str) -> bytes:
 async def main() -> None:
     voice, lines = SCENARIOS[WHO]
     queue = list(lines)
-    agent = httpx.get(f"http://127.0.0.1:{PORT}/api/voice/agent", timeout=60).json()
+    lang = {"mario": "it"}.get(WHO, "en")
+    agent = httpx.get(f"http://127.0.0.1:{PORT}/api/voice/agent", params={"lang": lang}, timeout=60).json()
     token = httpx.get(f"http://127.0.0.1:{PORT}/api/voice/token", timeout=30).json()["token"]
     async with websockets.connect(f"ws://127.0.0.1:{PORT}/ws/call?source=voice&lang=it", max_size=None) as ours, \
             websockets.connect(f"wss://agents.assemblyai.com/v1/ws?token={token}", max_size=None) as agent_ws:

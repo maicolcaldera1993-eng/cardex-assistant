@@ -348,7 +348,7 @@ async function startVoice() {
   startCall("voice");                                                    // our socket: panel events, tools, transcript
   let agent, tok;
   try {
-    agent = await fetch("/api/voice/agent").then((r) => r.json());
+    agent = await fetch(`/api/voice/agent?lang=${encodeURIComponent($("voice-lang").value || "en")}`).then((r) => r.json());   // the customer's language: voice and greeting
     tok = await fetch("/api/voice/token").then((r) => r.json());
   } catch (e) { logLine("voice agent: " + e.message, true); return; }
   if (!agent.agent_id || !tok.token) { logLine("voice agent: " + JSON.stringify(agent.detail || tok.detail || agent), true); return; }

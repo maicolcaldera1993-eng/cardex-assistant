@@ -69,14 +69,16 @@ def duets() -> list[dict]:
 
 
 @app.get("/api/voice/agent")
-async def voice_agent() -> dict:
-    """The stored Voice Agent (created or updated with the current prompt) and the tools the browser declares."""
-    from .voice.agent import TOOLS, ensure_agent, session_config
+async def voice_agent(lang: str = "en") -> dict:
+    """The stored Voice Agent (created or updated with the current prompt) and the inline session config the
+    browser sends, with the voice and greeting of the customer's language."""
+    from .voice.agent import LANGUAGES, TOOLS, ensure_agent, session_config
     if not API_KEY:
         raise HTTPException(503, "ASSEMBLYAI_API_KEY is not configured")
     keyterms = VOCAB.build().keyterms
     agent_id = await ensure_agent(API_KEY, keyterms)          # kept up to date for the AssemblyAI dashboard
-    return {"agent_id": agent_id, "tools": TOOLS, "session": session_config(keyterms)}
+    return {"agent_id": agent_id, "tools": TOOLS, "session": session_config(keyterms, lang),
+            "languages": {k: v[0] for k, v in LANGUAGES.items()}}
 
 
 @app.get("/api/voice/token")

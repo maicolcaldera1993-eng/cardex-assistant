@@ -126,3 +126,34 @@ def test_agent_cannot_advance_on_words_that_do_not_answer_the_step():
     assert r["status"] == "unclear" and s.diagnosis.current == "gasket-age" and not s.diagnosis.outcome
     ok = run(run_tool(s, "answer_step", {"step_id": "gasket-age", "option_number": 1, "customer_words": "The original gasket, and the handle goes past the centre, almost to the right."}))
     assert ok["status"] == "outcome" and ok["outcome"] == "part_diy" and {x["code"] for x in ok["parts"]} == {"GE-2140", "GE-2210"}
+
+
+def test_confirm_parts_records_the_order_for_the_operator():
+    s, events = make_session()
+    run(run_tool(s, "identify_machine", {"model_text": "Marea 2 Evo", "serial": "052710"}))
+    run(run_tool(s, "find_procedure", {"description": "water comes out around the edge of the portafilter when I lock it"}))
+    run(run_tool(s, "answer_step", {"step_id": "where", "option_number": 1, "customer_words": "From the rim, not from the group above."}))
+    o = run(run_tool(s, "answer_step", {"step_id": "gasket-age", "option_number": 1, "customer_words": "The original one, and the handle goes past the centre."}))
+    assert o["status"] == "outcome"
+    bad = run(run_tool(s, "confirm_parts", {"codes": ["XX-0000"]}))
+    assert bad["status"] == "error"
+    ok = run(run_tool(s, "confirm_parts", {"codes": ["ge-2140", "GE-2210"]}))
+    assert ok["status"] == "confirmed" and ok["codes"] == ["GE-2140", "GE-2210"]
+    assert {c["code"] for c in s.cards.values() if c["status"] == "confirmed"} == {"GE-2140", "GE-2210"}
+
+
+def test_session_config_speaks_the_customer_language():
+    from app.voice.agent import session_config
+    it = session_config(["Marea"], "it")
+    assert it["output"]["voice"] == "giovanni" and it["greeting"].startswith("Servizio assistenza Sereni")
+    assert "speak Italian" in it["system_prompt"] and it["input"]["turn_detection"]["min_silence"] == 1000
+    assert session_config([], "xx")["output"]["voice"] == "alba"
+
+
+def test_end_call_waits_for_the_open_step():
+    s, _ = make_session()
+    run(run_tool(s, "identify_machine", {"model_text": "Marea 2", "serial": "041188"}))
+    run(run_tool(s, "find_procedure", {"description": "La macchina non carica l'acqua, la spia del livello lampeggia e la pompa va sempre."}))
+    r = run(run_tool(s, "end_call", {}))
+    assert r["status"] == "open_step" and r["end"] is False and not s.voice_done
+    assert run(run_tool(s, "end_call", {}))["end"] is True
