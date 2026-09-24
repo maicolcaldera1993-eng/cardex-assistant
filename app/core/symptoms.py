@@ -97,8 +97,8 @@ _STOP = {"the", "and", "that", "this", "with", "from", "have", "does", "when", "
 
 
 def content_words(text: str) -> set[str]:
-    """Stems (first five letters) of the words that carry meaning."""
-    return {w[:5] for w in re.findall(r"[a-zàèéìòù']+", text.lower()) if len(w) > 3 and w not in _STOP}
+    """Stems (first five letters) of the words that carry meaning ("rim" counts, "the" does not)."""
+    return {w[:5] for w in re.findall(r"[a-zàèéìòù']+", text.lower()) if len(w) > 2 and w not in _STOP}
 
 
 class Diagnosis:

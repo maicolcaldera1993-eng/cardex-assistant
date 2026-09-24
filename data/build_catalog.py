@@ -538,7 +538,8 @@ P("CR-6050", "CR", "Tamper 58 mm alluminio", "Tamper 58 mm aluminium",
 P("CR-6051", "CR", "Spazzola pulizia gruppo", "Group cleaning brush",
   MACHINES, 4.90, 80, 3, ["spazzolino del gruppo"], ["group brush"])
 P("CR-6052", "CR", "Pastiglie detergente gruppo (barattolo 100)", "Group cleaning tablets (jar of 100)",
-  MACHINES, 19.00, 60, 2, ["pastiglie", "pastiglie per il lavaggio", "detergente"], ["cleaning tablets", "backflush tablets", "detergent"])
+  MACHINES, 19.00, 60, 2, ["pastiglie", "pastiglie per il lavaggio", "detergente", "prodotto per pulire", "roba per pulire"],
+  ["cleaning tablets", "backflush tablets", "detergent", "cleaning stuff", "cleaning product", "cleaning products", "something to clean", "cleaner for the group"])
 
 # --------------------------------------------------------------------------
 # MC — macinacaffè / grinder

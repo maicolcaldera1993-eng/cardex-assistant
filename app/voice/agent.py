@@ -14,7 +14,7 @@ import re
 
 import httpx
 
-from ..agent.dialog import digits_in, for_customer
+from ..agent.dialog import classify_branch, digits_in, for_customer
 from ..core.normalizer import extract_codes
 
 AGENTS_URL = "https://agents.assemblyai.com/v1"
@@ -24,8 +24,9 @@ VOICE_ID = os.getenv("CARDEX_VOICE", "alba")
 SYSTEM_PROMPT = """You are the first-line service assistant of Sereni, an espresso machine maker in Florence, Italy. You are on the phone with a customer, usually a barista abroad, and you speak simple, clear English.
 
 HOW YOU WORK
-1. You do not diagnose. The troubleshooting procedure decides. When the customer has described what the machine is doing, call find_procedure with their words. Then ask what the current step asks, in your own natural words, one question at a time.
-2. After the customer answers a step (or reports what happened after doing what you asked), call answer_step with the number of the option that matches their words. If nothing matches, ask again and mention the options in plain words. Never call answer_step to guess.
+1. You do not diagnose. The troubleshooting procedure decides. The moment the customer has described what the machine is doing, call find_procedure with their words, before saying anything else. Then ask what the current step asks, in your own natural words, one question at a time. The ONLY questions you may ask about the fault are the ones the steps give you: never add checks of your own ("is the gasket dirty?").
+2. After the customer answers a step (or reports what happened after doing what you asked), call answer_step with the number of the option that matches their words. If their words do not answer the question, do not choose for them: ask the step's question again, plainly. Never call answer_step to guess.
+3b. The customer cannot interrupt you while you talk: keep every reply to one or two short sentences, and never repeat a question the customer has already answered.
 3. When a step asks the customer to do something (press, unscrew, clean, backflush), explain it simply, wait for them to do it and tell you the result, then call answer_step.
 4. Order of things: as soon as the fault is described, call find_procedure and ask its first question. Right after the customer answers that first question, ask for the serial number (it is on the plate at the back) and call identify_machine with the digits and the model words the customer used: it tells you the machine, whether it is under warranty and who pays. Then continue with the steps.
 5. Say prices, delivery times, part codes, warranty, totals and dates ONLY when they come from a tool result in this conversation. Never invent a number, never name a part the tools did not return, never explain what broke beyond what the step or the outcome says. Use the "spoken" forms given in the results for codes and prices (for example "C A twelve seventy, twelve euros sixty").
@@ -90,7 +91,8 @@ def agent_config(keyterms: list[str]) -> dict:
     return {"name": AGENT_NAME, "system_prompt": SYSTEM_PROMPT, "greeting": GREETING,
             "voice": {"voice_id": VOICE_ID},
             "input": {"format": {"encoding": "audio/pcm", "sample_rate": 24000}, "keyterms": keyterms[:100],
-                      "turn_detection": {"vad_threshold": 0.5, "min_silence": 900, "max_silence": 2500, "interrupt_response": True}},
+                      # half duplex: the browser keeps the mic closed while the agent talks, so no barge-in here either
+                      "turn_detection": {"vad_threshold": 0.5, "min_silence": 700, "max_silence": 2000, "interrupt_response": False}},
             "output": {"voice": VOICE_ID, "format": {"encoding": "audio/pcm", "sample_rate": 24000}, "volume": 100},
             "tools": [], "llm": []}                        # managed model; tools are declared per session by the browser
 
@@ -261,7 +263,19 @@ async def run_tool(s, name: str, args: dict) -> dict:
         i = int(args.get("option_number") or 0) - 1
         if not 0 <= i < len(d.step["branches"]):
             return {"status": "error", "hint": "option_number must be one of the options", "options": _step_view(s)["options"]}
-        s._log_decision("branch", step=d.current, text=args.get("customer_words", ""), chosen=i, by="voice-agent")
+        words = args.get("customer_words") or ""
+        # the guard: the customer's own words must answer this step. Our classifier (numbers, yes/no, on/off, shared
+        # words, meaning) reads them; if they match no option, the agent must ask the step's question, once.
+        st = d.step
+        from ..session import SEMANTIC
+        j, conf = classify_branch(words, st["branches"], SEMANTIC.similarities, question=st["text_en"] if st["kind"] == "ask" else "")
+        if j is None and d.current not in s.unclear_steps:
+            s.unclear_steps.add(d.current)
+            s._log_decision("branch_rejected", step=d.current, text=words, agent_option=i, confidence=conf)
+            return {"status": "unclear",
+                    "hint": "the customer's words do not answer this step. Do not choose for them: ask exactly this question, "
+                            "then call answer_step again with what they say.", **_step_view(s)}
+        s._log_decision("branch", step=d.current, text=words, chosen=i, by="voice-agent", classifier=j, confidence=conf)
         await s.control({"action": "answer_step", "branch": i})
         if d.outcome:
             return {"status": "outcome", **_outcome_view(s)}
@@ -270,7 +284,8 @@ async def run_tool(s, name: str, args: dict) -> dict:
         q = args.get("query") or ""
         cards = await s.parts_for(q)
         if not cards:
-            return {"status": "none", "hint": "no part matches; ask for the code on the invoice or the packaging"}
+            return {"status": "none", "hint": "no part on file matches these words. Do not invent one: call note_for_operator with the "
+                                              "request and tell the customer the operator will follow up (or ask for the code on the invoice)."}
         return {"status": "found", "parts": [_card_view(c) for c in cards]}
     if name == "book_slot":
         await s.control({"action": "book_slot", "id": args.get("slot_id")})

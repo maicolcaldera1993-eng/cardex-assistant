@@ -132,6 +132,7 @@ class CallSession:
         self.voice_ended = asyncio.Event()
         self.voice_turn = 0
         self.notes: list[str] = []                # things the agent could not answer, for the operator
+        self.unclear_steps: set[str] = set()      # steps where the agent's reported answer was rejected once
 
     # ------------------------------------------------------------------ lifecycle
     async def run(self) -> None:
@@ -788,7 +789,7 @@ class CallSession:
         elif a == "spoken" and self.auto:
             await self.auto.spoken()
         elif a == "transcript" and self.voice and msg.get("text"):
-            await self.voice_transcript(msg.get("role") or "customer", str(msg["text"]).strip())
+            await self.voice_transcript(msg.get("role") or "customer", str(msg["text"]).strip(), bool(msg.get("interrupted")))
         elif a == "tool" and self.voice:
             result = await run_tool(self, msg.get("name") or "", msg.get("arguments") or {})
             self._log_decision("tool", name=msg.get("name"), arguments=msg.get("arguments"), result=result)
@@ -820,19 +821,21 @@ class CallSession:
             await self._set_serial(re.sub(r"[^0-9A-Za-z]", "", msg["serial"]))
 
     # ------------------------------------------------------------------ voice agent helpers
-    async def voice_transcript(self, role: str, text: str) -> None:
+    async def voice_transcript(self, role: str, text: str, interrupted: bool = False) -> None:
         """A final utterance relayed from the Voice Agent session: shown as a turn, remembered for the summary,
-        and (for the customer) read for machine, serial and part codes like any other customer turn."""
+        and (for the customer) read for machine, serial and part codes like any other customer turn. An agent
+        sentence cut short by the customer is kept, marked as interrupted."""
         self.voice_turn += 1
         tid = self.voice_turn * 100
         who = CUSTOMER if role == "customer" else "agent"
         text, codes = canonicalize_codes(text)
         utt = {"id": tid, "raw": text, "text": text, "codes": codes, "fragments": [text], "confs": [1.0], "role": who,
                "speaker": None, "turn_ids": [tid], "min_conf": 1.0, "at": round(time.monotonic() - self.started, 1),
-               "at_end": round(time.monotonic() - self.started, 1), "clear": None}
+               "at_end": round(time.monotonic() - self.started, 1), "clear": None, "interrupted": bool(interrupted)}
         self.utterances.append(utt)
         self.turns[tid] = utt
-        await self.emit({"type": "turn", "id": tid, "final": True, "text": text, "role": who, "speaker": None, "min_conf": 1.0, "merged": 1})
+        await self.emit({"type": "turn", "id": tid, "final": True, "text": text, "role": who, "speaker": None, "min_conf": 1.0,
+                         "merged": 1, "interrupted": bool(interrupted)})
         if who == CUSTOMER and self.assistant_on:
             await self._assist(tid, text, CUSTOMER, 1.0, [text], utt)
 

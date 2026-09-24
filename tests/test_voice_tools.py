@@ -112,3 +112,17 @@ def test_spoken_forms_for_the_voice():
     assert spoken_code("VA-5005") == "V A fifty oh five"
     assert spoken_code("CR-6100") == "C R sixty-one hundred"
     assert spoken_price(12.6) == "twelve euros sixty" and spoken_price(96.0) == "ninety-six euros" and spoken_price(2.9) == "two euros ninety"
+
+
+def test_agent_cannot_advance_on_words_that_do_not_answer_the_step():
+    """Mehmet's live call (24 Sept): 'I think it's dirty' was reported as 'over a year, or past the centre'."""
+    s, _ = make_session()
+    run(run_tool(s, "identify_machine", {"model_text": "Marea 2 Evo", "serial": "052710"}))
+    p = run(run_tool(s, "find_procedure", {"description": "when I lock the portafilter, water comes out around the edge and drips into the cup"}))
+    assert p["status"] == "opened" and p["step_id"] == "where"
+    run(run_tool(s, "answer_step", {"step_id": "where", "option_number": 1, "customer_words": "From the rim, not from the group above."}))
+    assert s.diagnosis.current == "gasket-age"
+    r = run(run_tool(s, "answer_step", {"step_id": "gasket-age", "option_number": 1, "customer_words": "Uh, yeah, I think it's dirty. Also some coffee grounds."}))
+    assert r["status"] == "unclear" and s.diagnosis.current == "gasket-age" and not s.diagnosis.outcome
+    ok = run(run_tool(s, "answer_step", {"step_id": "gasket-age", "option_number": 1, "customer_words": "The original gasket, and the handle goes past the centre, almost to the right."}))
+    assert ok["status"] == "outcome" and ok["outcome"] == "part_diy" and {x["code"] for x in ok["parts"]} == {"GE-2140", "GE-2210"}

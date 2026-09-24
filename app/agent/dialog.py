@@ -75,6 +75,15 @@ _SIDES = {w: i for pair in ANTONYMS for i, w in enumerate(pair)}
 _PAIR = {w: pair for pair in ANTONYMS for w in pair}
 
 
+def _negated(words: list[str]) -> set[str]:
+    """Content words within three tokens after a negation ('not from the group' -> {'group'})."""
+    out: set[str] = set()
+    for k, w in enumerate(words):
+        if w in ("not", "no", "never", "without", "isn't", "doesn't", "don't", "nor"):
+            out |= content_words(" ".join(words[k + 1:k + 4]))
+    return out
+
+
 def numbers_in(text: str) -> set[str]:
     """Numbers said in words or digits: 'one hundred ten volts' -> {'110'}, 'at one point two' -> {'1.2'}."""
     out: set[str] = set()
@@ -133,13 +142,20 @@ def classify_branch(text: str, branches: list[dict], similarities: Callable[[str
             return ORDINALS[w], 1.0
     sims = similarities(text, labels) if similarities else [0.0] * len(labels)
     tw, tn, pol_t = content_words(text), numbers_in(text), polarity(text)
+    # "not from the group above": the words right after a negation count against a label that affirms them,
+    # and for a label that negates them too ("Clicks, but no heat")
+    negated = _negated(words)
+    tw = tw - negated
     q_numbers = numbers_in(question) if question else set()
     scores = []
     for lab, sim in zip(labels, sims):
         lw, ln, lwords = content_words(lab), numbers_in(lab), set(re.findall(r"[a-z']+", lab.lower()))
+        l_neg = _negated(re.findall(r"[a-z']+", lab.lower()))
         s = sim
         if lw:
             s += 0.12 * len(lw & tw) / len(lw)
+            s -= 0.15 * len((lw & negated) - l_neg)
+            s += 0.15 * len(negated & l_neg)
         if ln:
             s += 0.5 if ln & tn else (-0.2 if tn else 0.0)
         for w in lwords & set(_SIDES):
