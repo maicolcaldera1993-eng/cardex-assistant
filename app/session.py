@@ -133,7 +133,8 @@ class CallSession:
         self.voice_turn = 0
         self.notes: list[str] = []                # things the agent could not answer, for the operator
         self.unclear_steps: set[str] = set()      # steps where the agent's reported answer was rejected once
-        self.end_refused = False                  # end_call refused once because a step was still open
+        self.end_refused: set[str] = set()        # end_call refused once per reason: open step, parts, no goodbye
+        self.last_agent_text = ""
 
     # ------------------------------------------------------------------ lifecycle
     async def run(self) -> None:
@@ -829,6 +830,8 @@ class CallSession:
         self.voice_turn += 1
         tid = self.voice_turn * 100
         who = CUSTOMER if role == "customer" else "agent"
+        if who == "agent":
+            self.last_agent_text = text
         text, codes = canonicalize_codes(text)
         utt = {"id": tid, "raw": text, "text": text, "codes": codes, "fragments": [text], "confs": [1.0], "role": who,
                "speaker": None, "turn_ids": [tid], "min_conf": 1.0, "at": round(time.monotonic() - self.started, 1),
@@ -853,6 +856,23 @@ class CallSession:
             self.family, changed = hit.family, True
         if hit.edition and hit.edition != self.edition:
             self.edition, changed = hit.edition, True
+        if changed:
+            await self._emit_context()
+            await self._maybe_reload_vocabulary()
+
+    async def adopt_machine_record(self) -> None:
+        """The installed-base record decides model, edition and serial (what was heard only found it)."""
+        m = self.machine
+        changed = False
+        if m["model_id"] != self.model_id:
+            self.model_id, changed = m["model_id"], True
+            self.family = CONTEXT.family_of[self.model_id].capitalize()
+            await self._agent(f"Modello dalla scheda macchina: {VOCAB.model_names[self.model_id]}" if self.lang == "it"
+                              else f"Model from the machine record: {VOCAB.model_names[self.model_id]}")
+        if (m.get("edition") or None) != self.edition:
+            self.edition, changed = m.get("edition"), True
+        if m["serial"] != self.serial:
+            self.serial, changed = m["serial"], True
         if changed:
             await self._emit_context()
             await self._maybe_reload_vocabulary()

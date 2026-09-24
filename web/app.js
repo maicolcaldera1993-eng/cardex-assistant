@@ -343,9 +343,10 @@ $("btn-voice").onclick = () => startVoice();
 
 // ---- AssemblyAI Voice Agent: the hosted agent listens and talks over its own socket; this page relays its
 // transcripts and tool calls to our server (memory, procedures, parts, calendar) and the results back
-let vws = null, vCtx = null, vStream = null, vNext = 0, vSources = [];
+let vws = null, vCtx = null, vStream = null, vNext = 0, vSources = [], vEndPending = false;
 async function startVoice() {
   startCall("voice");                                                    // our socket: panel events, tools, transcript
+  vEndPending = false;
   let agent, tok;
   try {
     agent = await fetch(`/api/voice/agent?lang=${encodeURIComponent($("voice-lang").value || "en")}`).then((r) => r.json());   // the customer's language: voice and greeting
@@ -362,7 +363,10 @@ async function startVoice() {
       case "transcript.user": send({ type: "control", action: "transcript", role: "customer", text: m.text }); break;
       case "transcript.agent": send({ type: "control", action: "transcript", role: "agent", text: m.text, interrupted: !!m.interrupted }); break;
       case "reply.audio": voicePlay(m.data || m.audio); break;
-      case "reply.done": if (m.status === "interrupted") voiceStop(); break;
+      case "reply.done":
+        if (m.status === "interrupted") voiceStop();
+        if (vEndPending) { const left = vCtx ? Math.max(0, vNext - vCtx.currentTime) : 0; setTimeout(voiceEnd, left * 1000 + 800); }
+        break;
       case "tool.call": send({ type: "control", action: "tool", call_id: m.call_id, name: m.name, arguments: m.arguments }); logLine("tool: " + m.name + " " + JSON.stringify(m.arguments || {})); break;
       case "session.error": case "error": logLine("voice agent: " + (m.message || m.code || e.data), true); break;
       case "session.ended": logLine(`voice agent: ${Math.round(m.audio_duration_seconds || 0)} s of audio`); vws.close(); break;
@@ -373,7 +377,7 @@ async function startVoice() {
 function voiceToolResult(ev) {
   if (!vws || vws.readyState !== 1) return;
   vws.send(JSON.stringify({ type: "tool.result", call_id: ev.call_id, result: ev.result, is_error: false }));
-  if (ev.end) setTimeout(voiceEnd, 2500);                                 // after the goodbye
+  if (ev.end) { vEndPending = true; setTimeout(voiceEnd, 15000); }       // normally after the goodbye has played (reply.done)
 }
 function voiceEnd() { if (vws && vws.readyState === 1) { try { vws.send(JSON.stringify({ type: "session.end" })); } catch (e) { /* closing */ } } }
 async function startVoiceMic() {

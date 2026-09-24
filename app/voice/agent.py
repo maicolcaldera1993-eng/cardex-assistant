@@ -99,6 +99,8 @@ def session_config(keyterms: list[str], lang: str = "en") -> dict:
 
 
 _agent_id: str | None = None
+_GOODBYE = re.compile(r"\b(good ?bye|bye|arrivederci|arrivederla|buona giornata|buona serata|adi[oó]s|hasta luego|"
+                      r"auf wieder(h[oö]ren|sehen)|tsch[uü]ss|au revoir|bonne journ[ée]e|adeus|tchau|at[ée] logo)\b", re.I)
 
 
 def agent_config(keyterms: list[str], lang: str = "en") -> dict:
@@ -251,6 +253,8 @@ async def run_tool(s, name: str, args: dict) -> dict:
         serial = digits_in(args.get("serial") or "") or re.sub(r"[^0-9A-Za-z]", "", args.get("serial") or "")
         if len(serial) >= 5:
             await s._set_serial(serial.upper())
+        if s.machine:
+            await s.adopt_machine_record()          # "Giglio 1" said, Giglio 1 Plus on file: the file wins
         from ..session import VOCAB
         return {"model": VOCAB.model_names.get(s.model_id) or s.family or "unknown, ask the customer", "edition": s.edition,
                 "machine": _machine_view(s)}
@@ -322,7 +326,15 @@ async def run_tool(s, name: str, args: dict) -> dict:
         await s.control({"action": "book_slot", "id": args.get("slot_id")})
         if s.booking:
             v = s._slot_view(s.booking)
-            return {"status": "booked", "when": v["label_en"], "with": s.booking["technician"]}
+            ordered = []
+            if s.diagnosis and s.diagnosis.outcome:
+                for code in s.diagnosis.outcome.parts:
+                    if code in s.cards and s.cards[code]["status"] == "proposed":
+                        await s.control({"action": "confirm_part", "code": code})
+                        ordered.append(code)
+            return {"status": "booked", "when": v["label_en"], "with": s.booking["technician"],
+                    "parts_ordered_with_it": ordered,
+                    "next": "ask if there is anything else; if not, say goodbye, THEN call end_call"}
         return {"status": "error", "hint": "slot id not free or unknown; propose another from the outcome"}
     if name == "confirm_parts":
         codes = [str(c).upper().strip() for c in (args.get("codes") or [])]
@@ -343,12 +355,22 @@ async def run_tool(s, name: str, args: dict) -> dict:
         return {"status": "noted", "say": "the operator will follow up on this"}
     if name == "end_call":
         d = s.diagnosis
-        if d and d.current and not s.end_refused:
+        if d and d.current and "step" not in s.end_refused:
             # the procedure is still open: the customer's last answer must be recorded first ("it works now")
-            s.end_refused = True
+            s.end_refused.add("step")
             return {"status": "open_step", "end": False,
                     "hint": "a procedure step is still open. Call answer_step now with the customer's last answer to it "
                             "(for example 'fixed'), then say goodbye and call end_call again.", **_step_view(s)}
+        pending = [c for c in (d.outcome.parts if d and d.outcome else []) if c in s.cards and s.cards[c]["status"] == "proposed"]
+        if pending and "parts" not in s.end_refused:
+            s.end_refused.add("parts")
+            return {"status": "parts_not_confirmed", "end": False, "codes": pending,
+                    "hint": "the outcome's parts are not ordered. If the customer agreed, call confirm_parts with these codes; "
+                            "if not, say so. Then say goodbye and call end_call again."}
+        if not _GOODBYE.search(s.last_agent_text or "") and "bye" not in s.end_refused:
+            s.end_refused.add("bye")
+            return {"status": "no_goodbye", "end": False,
+                    "hint": "ask the customer if there is anything else; if not, thank them and say goodbye, then call end_call again."}
         s.voice_done = True
         return {"status": "ok", "end": True}
     return {"status": "error", "hint": f"unknown tool {name}"}

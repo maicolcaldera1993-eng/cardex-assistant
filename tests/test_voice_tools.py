@@ -75,6 +75,7 @@ def test_dave_end_to_end_through_the_tools():
     note = run(run_tool(s, "note_for_operator", {"note": "asks for a discount on the element"}))
     assert note["status"] == "noted" and s.notes == ["asks for a discount on the element"]
 
+    run(s.voice_transcript("agent", "Thank you for calling Sereni, goodbye."))
     e = run(run_tool(s, "end_call", {}))
     assert e["end"] is True and s.voice_done
     kinds = [ev["type"] for ev in events]
@@ -156,4 +157,24 @@ def test_end_call_waits_for_the_open_step():
     run(run_tool(s, "find_procedure", {"description": "La macchina non carica l'acqua, la spia del livello lampeggia e la pompa va sempre."}))
     r = run(run_tool(s, "end_call", {}))
     assert r["status"] == "open_step" and r["end"] is False and not s.voice_done
+    r = run(run_tool(s, "end_call", {}))
+    assert r["status"] == "no_goodbye" and r["end"] is False
+    run(s.voice_transcript("agent", "Grazie per aver chiamato, arrivederci."))
     assert run(run_tool(s, "end_call", {}))["end"] is True
+
+
+def test_luca_giglio_plus_record_wins_and_booking_orders_the_parts():
+    s, _ = make_session()
+    m = run(run_tool(s, "identify_machine", {"model_text": "Giglio 1 color crema", "serial": "0501040"}))
+    assert s.model_id == "giglio-1-plus" and s.serial == "051040" and s.edition == "vaniglia"
+    assert m["model"] == "Giglio 1 Plus" and m["machine"]["warranty"].startswith("under warranty")
+    run(run_tool(s, "find_procedure", {"description": "when I take out the portafilter after the coffee, it spits and sprays everywhere"}))
+    assert s.diagnosis.current == "discharge"
+    run(run_tool(s, "answer_step", {"step_id": "discharge", "option_number": 1, "customer_words": "No, I don't hear the discharge any more."}))
+    run(run_tool(s, "answer_step", {"step_id": "backflush-date", "option_number": 1, "customer_words": "More than a week ago, three weeks."}))
+    run(run_tool(s, "answer_step", {"step_id": "backflush", "option_number": 2, "customer_words": "I did the five cycles, it still spits."}))
+    o = run(run_tool(s, "answer_step", {"step_id": "valve-body", "option_number": 2, "customer_words": "I opened it, the plunger is scratched and the rubber is broken, damaged."}))
+    assert o["outcome"] == "part_with_support" and [p["code"] for p in o["parts"]] == ["GE-2160"]
+    b = run(run_tool(s, "book_slot", {"slot_id": o["booking"]["free_slots"][0]["slot_id"]}))
+    assert b["status"] == "booked" and b["parts_ordered_with_it"] == ["GE-2160"] and s.cards["GE-2160"]["status"] == "confirmed"
+    assert run(run_tool(s, "end_call", {}))["status"] == "no_goodbye"
