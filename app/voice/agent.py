@@ -255,27 +255,32 @@ async def run_tool(s, name: str, args: dict) -> dict:
         d = s.diagnosis
         if not (d and d.current):
             return {"status": "no_open_step", "hint": "call find_procedure first"} if not (d and d.outcome) else {"status": "outcome", **_outcome_view(s)}
-        if args.get("step_id") and args["step_id"] != d.current:
-            # a repeated or late call: that step is gone, do not apply the answer to the next one
-            return {"status": "stale", "hint": f"step '{args['step_id']}' was already answered. Call answer_step again NOW with step_id "
-                                              f"'{d.current}' and the option matching the customer's words; do not guess the outcome.",
-                    **_step_view(s)}
         i = int(args.get("option_number") or 0) - 1
         if not 0 <= i < len(d.step["branches"]):
             return {"status": "error", "hint": "option_number must be one of the options", "options": _step_view(s)["options"]}
         words = args.get("customer_words") or ""
-        # the guard: the customer's own words must answer this step. Our classifier (numbers, yes/no, on/off, shared
-        # words, meaning) reads them; if they match no option, the agent must ask the step's question, once.
+        # The guard: the customer's own words are the evidence, not the agent's bookkeeping. Our classifier (numbers,
+        # yes/no, on/off, negation, shared words, meaning) reads them against the CURRENT step:
+        #   match            -> apply (even if the agent quoted the previous step_id: it often does)
+        #   no match, stale  -> a repeated call for a step already answered: nothing moves
+        #   no match, first  -> "unclear": the agent asks the step's question again; the second call is accepted
         st = d.step
         from ..session import SEMANTIC
         j, conf = classify_branch(words, st["branches"], SEMANTIC.similarities, question=st["text_en"] if st["kind"] == "ask" else "")
+        stale = bool(args.get("step_id")) and args["step_id"] != d.current
+        if j is None and stale:
+            return {"status": "stale", "hint": f"step '{args['step_id']}' was already answered and these words do not answer "
+                                              f"the current step '{d.current}'. Ask its question now.", **_step_view(s)}
         if j is None and d.current not in s.unclear_steps:
             s.unclear_steps.add(d.current)
             s._log_decision("branch_rejected", step=d.current, text=words, agent_option=i, confidence=conf)
             return {"status": "unclear",
                     "hint": "the customer's words do not answer this step. Do not choose for them: ask exactly this question, "
                             "then call answer_step again with what they say.", **_step_view(s)}
-        s._log_decision("branch", step=d.current, text=words, chosen=i, by="voice-agent", classifier=j, confidence=conf)
+        if j is not None and j != i and conf >= 0.75:
+            s._log_decision("branch_corrected", step=d.current, text=words, agent_option=i, classifier=j, confidence=conf)
+            i = j                                           # the words clearly say otherwise
+        s._log_decision("branch", step=d.current, text=words, chosen=i, by="voice-agent", classifier=j, confidence=conf, stale_id=stale)
         await s.control({"action": "answer_step", "branch": i})
         if d.outcome:
             return {"status": "outcome", **_outcome_view(s)}
