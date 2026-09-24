@@ -1,5 +1,1278 @@
 [
  {
+  "id": "manual/giglio-1-plus#descrizione",
+  "kind": "manual",
+  "page": "manuals/giglio-1-plus.md",
+  "anchor": "descrizione",
+  "title": "Descrizione",
+  "models": [
+   "giglio-1-plus"
+  ],
+  "group": null,
+  "parts": [
+   "VA-5018"
+  ],
+  "refs": [
+   "Descrizione",
+   "what machine is this",
+   "how it works",
+   "com'è fatta la macchina",
+   "come funziona",
+   "La Giglio 1 Plus è una macchina professionale per bar fino a 180 caffè al giorno.",
+   "Una caldaia da 5 L, rame produce vapore e acqua calda;",
+   "l'acqua per il caffè passa in uno scambiatore per gruppo immerso nella caldaia e arriva al gruppo a 92-94 °C.",
+   "Dosatura volumetrica con quattro dosi programmabili per gruppo.",
+   "pompa rotativa silenziosa, pulsantiera capacitiva, centralina v2.",
+   "Disponibile in edizione Vaniglia (finitura crema, manopola VA-5018)."
+  ],
+  "n_topics": 4
+ },
+ {
+  "id": "manual/giglio-1-plus#dati-tecnici",
+  "kind": "manual",
+  "page": "manuals/giglio-1-plus.md",
+  "anchor": "dati-tecnici",
+  "title": "Dati tecnici",
+  "models": [
+   "giglio-1-plus"
+  ],
+  "group": null,
+  "parts": [
+   "CA-1190",
+   "CA-1191",
+   "CA-1240",
+   "EL-3011",
+   "EL-3012",
+   "ID-4010",
+   "ID-4015",
+   "ID-4086",
+   "ID-4110"
+  ],
+  "refs": [
+   "Dati tecnici",
+   "technical data",
+   "voltage",
+   "power",
+   "boiler size",
+   "pump pressure",
+   "serial number plate",
+   "where is the serial number",
+   "dati tecnici",
+   "tensione",
+   "potenza",
+   "matricola",
+   "targhetta",
+   "--- --- Gruppi 1 Caldaia 5 L, rame Resistenza 1800 W 230 V (CA-1190);",
+   "1500 W 110 V (CA-1191) Pompa rotativa 100 L/h con motore 165 W (ID-4010, ID-4015) Pressione caldaia pressostato (CA-1240), caldaia a 1,1-1,2 bar Elettronica Centralina v2 rev.B (EL-3012);",
+   "il primo lotto 2025 montava la v2 (EL-3011), sostituibile direttamente.",
+   "Pulsantiera capacitiva a sei tasti (el-3031).",
+   "Pressione pompa 9 bar (regolabile sul by-pass) Allacciamento idrico 3/8\", pressione di rete 2-4 bar;",
+   "sopra 4 bar usare il riduttore ID-4110 Scarico tubo 20 mm (ID-4086) Dimensioni 45 × 52 × 48 cm, 39 kg Matricola targhetta sotto la vaschetta di scarico, a destra"
+  ],
+  "n_topics": 12
+ },
+ {
+  "id": "manual/giglio-1-plus#installazione",
+  "kind": "manual",
+  "page": "manuals/giglio-1-plus.md",
+  "anchor": "installazione",
+  "title": "Installazione",
+  "models": [
+   "giglio-1-plus"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Installazione",
+   "installation",
+   "water connection",
+   "water hardness",
+   "softener",
+   "first start-up",
+   "installazione",
+   "allacciamento acqua",
+   "durezza dell'acqua",
+   "addolcitore",
+   "prima accensione",
+   "Solo personale autorizzato.",
+   "Acqua di rete con durezza inferiore a 8 °f oppure con addolcitore:",
+   "la garanzia non copre i danni da calcare.",
+   "Verificare la tensione di targa prima del collegamento.",
+   "Alla prima accensione la caldaia si riempie automaticamente (circa 4 minuti);",
+   "attendere 1,1 bar sul manometro prima di erogare.",
+   "Il sibilo della valvola antidepressione nei primi minuti è normale."
+  ],
+  "n_topics": 10
+ },
+ {
+  "id": "manual/giglio-1-plus#uso-quotidiano",
+  "kind": "manual",
+  "page": "manuals/giglio-1-plus.md",
+  "anchor": "uso-quotidiano",
+  "title": "Uso quotidiano",
+  "models": [
+   "giglio-1-plus"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Uso quotidiano",
+   "daily use",
+   "switching on",
+   "how to program the doses",
+   "buttons",
+   "steam",
+   "hot water",
+   "uso quotidiano",
+   "accensione",
+   "programmare le dosi",
+   "tasti",
+   "vapore",
+   "acqua calda",
+   "interruttore generale in posizione 1 (solo carico acqua), poi 2 (riscaldamento).",
+   "portafiltro agganciato al centro, tasto dose.",
+   "tenere premuto il tasto continuo 5 secondi finché lampeggia, avviare la dose, premere lo stesso tasto alla quantità voluta.",
+   "aprire il rubinetto, purgare 2 secondi, immergere la lancia.",
+   "Dopo l'uso purgare e pulire con panno umido."
+  ],
+  "n_topics": 12
+ },
+ {
+  "id": "manual/giglio-1-plus#manutenzione-ordinaria",
+  "kind": "manual",
+  "page": "manuals/giglio-1-plus.md",
+  "anchor": "manutenzione-ordinaria",
+  "title": "Manutenzione ordinaria",
+  "models": [
+   "giglio-1-plus"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Manutenzione ordinaria",
+   "routine maintenance",
+   "what the user must do",
+   "cleaning schedule",
+   "manutenzione ordinaria",
+   "pulizia",
+   "cosa deve fare l'utente",
+   "Tutto ciò che segue è a carico dell'utente.",
+   "Nove chiamate di assistenza su dieci nascono da una di queste operazioni saltata."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/giglio-1-plus#ogni-giorno-a-fine-servizio",
+  "kind": "manual",
+  "page": "manuals/giglio-1-plus.md",
+  "anchor": "ogni-giorno-a-fine-servizio",
+  "title": "Ogni giorno, a fine servizio",
+  "models": [
+   "giglio-1-plus"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6052",
+   "GE-2193",
+   "VA-5025"
+  ],
+  "refs": [
+   "Ogni giorno, a fine servizio",
+   "daily cleaning",
+   "backflush",
+   "clean the groups with the blind filter and a tablet",
+   "how often to clean",
+   "detergent",
+   "pulizia giornaliera",
+   "lavaggio dei gruppi con filtro cieco e pastiglia",
+   "ogni quanto si lava",
+   "Lavaggio dei gruppi con filtro cieco (GE-2193) e pastiglia (CR-6052) :",
+   "una pastiglia nel filtro cieco, 5 cicli da 10 secondi con il tasto continuo, poi 5 cicli senza pastiglia.",
+   "Portafiltri e filtri in acqua calda con pastiglia per 20 minuti, risciacquo.",
+   "svitare e sciacquare il terminale (VA-5025) una volta a settimana.",
+   "Svuotare e lavare vaschetta e griglia."
+  ],
+  "n_topics": 8
+ },
+ {
+  "id": "manual/giglio-1-plus#ogni-settimana",
+  "kind": "manual",
+  "page": "manuals/giglio-1-plus.md",
+  "anchor": "ogni-settimana",
+  "title": "Ogni settimana",
+  "models": [
+   "giglio-1-plus"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6051",
+   "GE-2140"
+  ],
+  "refs": [
+   "Ogni settimana",
+   "weekly cleaning",
+   "brush the shower screen",
+   "check how the portafilter locks",
+   "pulizia settimanale",
+   "spazzolare la doccetta",
+   "aggancio del portafiltro",
+   "- Spazzolare la doccetta con la spazzola gruppo (CR-6051) senza smontarla.",
+   "- Controllare l'aggancio del portafiltro:",
+   "se arriva oltre il centro, la guarnizione (GE-2140) è da cambiare."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/giglio-1-plus#ogni-mese",
+  "kind": "manual",
+  "page": "manuals/giglio-1-plus.md",
+  "anchor": "ogni-mese",
+  "title": "Ogni mese",
+  "models": [
+   "giglio-1-plus"
+  ],
+  "group": null,
+  "parts": [
+   "GE-2150",
+   "ID-4061"
+  ],
+  "refs": [
+   "Ogni mese",
+   "monthly maintenance",
+   "remove and descale the shower screens",
+   "water filter cartridge",
+   "manutenzione mensile",
+   "smontare e decalcificare le doccette",
+   "cartuccia del filtro",
+   "- Smontare le doccette (vite centrale) e lasciarle 20 minuti nel decalcificante;",
+   "sostituire se deformate (GE-2150).",
+   "- Controllare la cartuccia del filtro d'ingresso (ID-4061);",
+   "sostituirla ogni 3 mesi, ogni mese con acqua dura."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/giglio-1-plus#ogni-6-12-mesi",
+  "kind": "manual",
+  "page": "manuals/giglio-1-plus.md",
+  "anchor": "ogni-6-12-mesi",
+  "title": "Ogni 6-12 mesi",
+  "models": [
+   "giglio-1-plus"
+  ],
+  "group": null,
+  "parts": [
+   "GE-2140",
+   "GE-2210",
+   "VA-5015"
+  ],
+  "refs": [
+   "Ogni 6-12 mesi",
+   "replace the group gaskets",
+   "how often to change the gasket",
+   "steam valve seals",
+   "sostituire le guarnizioni sottocoppa",
+   "ogni quanto si cambia la guarnizione",
+   "- Sostituire le guarnizioni sottocoppa (GE-2140) o montare il kit gruppo (GE-2210).",
+   "Operazione da 10 minuti, vedere la scheda del ricambio.",
+   "- Sostituire il kit guarnizioni del rubinetto vapore (VA-5015) se gocciola."
+  ],
+  "n_topics": 5
+ },
+ {
+  "id": "manual/giglio-1-plus#ogni-2-anni-a-cura-del-service",
+  "kind": "manual",
+  "page": "manuals/giglio-1-plus.md",
+  "anchor": "ogni-2-anni-a-cura-del-service",
+  "title": "Ogni 2 anni, a cura del service",
+  "models": [
+   "giglio-1-plus"
+  ],
+  "group": null,
+  "parts": [
+   "CA-1230",
+   "CA-1250",
+   "CA-1260"
+  ],
+  "refs": [
+   "Ogni 2 anni, a cura del service",
+   "two-year service",
+   "safety valve",
+   "anti-vacuum valve",
+   "level probe",
+   "boiler descaling",
+   "revisione biennale",
+   "valvola di sicurezza",
+   "decalcificazione caldaia",
+   "- Valvola di sicurezza (CA-1250), valvola antidepressione (CA-1260), sonda di livello (CA-1230), decalcificazione delle caldaie."
+  ],
+  "n_topics": 8
+ },
+ {
+  "id": "manual/giglio-1-plus#spie-e-segnali",
+  "kind": "manual",
+  "page": "manuals/giglio-1-plus.md",
+  "anchor": "spie-e-segnali",
+  "title": "Spie e segnali",
+  "models": [
+   "giglio-1-plus"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Spie e segnali",
+   "warning lights",
+   "flashing LEDs",
+   "alarms",
+   "level alarm",
+   "error codes",
+   "what does the blinking mean",
+   "spie",
+   "led che lampeggiano",
+   "allarmi",
+   "allarme livello",
+   "errori sul pannello",
+   "Segnale Significato Cosa fare --- --- --- Led dei tasti lampeggiano insieme allarme livello:",
+   "la caldaia non si è riempita in 3 minuti verificare il rubinetto dell'acqua;",
+   "se persiste, chiamare il service Led del tasto lampeggia durante la dose allarme flussometro erogare in continuo;",
+   "se la dose non si ferma, service Sibilo breve all'accensione valvola antidepressione normale se smette entro 5 minuti Sfiato dalla valvola di sicurezza pressione oltre il limite spegnere, chiamare il service"
+  ],
+  "n_topics": 11
+ },
+ {
+  "id": "manual/giglio-1-plus#cosa-non-fare",
+  "kind": "manual",
+  "page": "manuals/giglio-1-plus.md",
+  "anchor": "cosa-non-fare",
+  "title": "Cosa non fare",
+  "models": [
+   "giglio-1-plus"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6052"
+  ],
+  "refs": [
+   "Cosa non fare",
+   "what not to do",
+   "warnings",
+   "never adjust the safety valve",
+   "do not run without water",
+   "cosa non fare",
+   "avvertenze",
+   "- Non far funzionare la macchina con l'acqua chiusa.",
+   "- Non regolare la valvola di sicurezza.",
+   "- Non usare detergenti diversi dalle pastiglie CR-6052 nei gruppi.",
+   "- Non sostituire resistenze, pompa o centralina senza il service in linea.",
+   "- Non lasciare la lancia vapore immersa nel latte."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/giglio-1-plus#ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
+  "kind": "manual",
+  "page": "manuals/giglio-1-plus.md",
+  "anchor": "ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
+  "title": "Ricambi di consumo consigliati a magazzino del cliente",
+  "models": [
+   "giglio-1-plus"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6052",
+   "EL-3060",
+   "GE-2140",
+   "GE-2150",
+   "GE-2193",
+   "ID-4061",
+   "VA-5015",
+   "VA-5025"
+  ],
+  "refs": [
+   "Ricambi di consumo consigliati a magazzino del cliente",
+   "spare parts to keep in stock",
+   "consumables",
+   "recommended spares",
+   "ricambi da tenere a magazzino",
+   "consumabili consigliati",
+   "GE-2140 guarnizione sottocoppa (1), GE-2150 doccetta (1), GE-2193 filtro cieco (1), CR-6052 pastiglie (1 barattolo), VA-5015 kit guarnizioni vapore (1), VA-5025 terminale vapore (1), ID-4061 cartuccia filtro (1), EL-3060 fusibili (1 kit)."
+  ],
+  "n_topics": 5
+ },
+ {
+  "id": "manual/giglio-1-plus#assistenza",
+  "kind": "manual",
+  "page": "manuals/giglio-1-plus.md",
+  "anchor": "assistenza",
+  "title": "Assistenza",
+  "models": [
+   "giglio-1-plus"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Assistenza",
+   "how to contact support",
+   "opening hours",
+   "what to have ready when calling",
+   "come contattare l'assistenza",
+   "orari",
+   "cosa tenere pronto",
+   "lun-ven 8-18 CET, in italiano e inglese;",
+   "anche assistente vocale automatico.",
+   "modello, matricola, anno, tensione, e la fattura dell'ultimo ricambio se si cita un codice."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/giglio-1#descrizione",
+  "kind": "manual",
+  "page": "manuals/giglio-1.md",
+  "anchor": "descrizione",
+  "title": "Descrizione",
+  "models": [
+   "giglio-1"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Descrizione",
+   "what machine is this",
+   "how it works",
+   "com'è fatta la macchina",
+   "come funziona",
+   "La Giglio 1 è una macchina professionale per bar fino a 150 caffè al giorno.",
+   "Una caldaia da 5 L, rame produce vapore e acqua calda;",
+   "l'acqua per il caffè passa in uno scambiatore per gruppo immerso nella caldaia e arriva al gruppo a 92-94 °C.",
+   "Dosatura volumetrica con quattro dosi programmabili per gruppo.",
+   "stesso gruppo e stesse guarnizioni della Marea, caldaia piccola e pompa a vibrazione.",
+   "La Giglio 1 Plus (2026) ha pompa rotativa."
+  ],
+  "n_topics": 4
+ },
+ {
+  "id": "manual/giglio-1#dati-tecnici",
+  "kind": "manual",
+  "page": "manuals/giglio-1.md",
+  "anchor": "dati-tecnici",
+  "title": "Dati tecnici",
+  "models": [
+   "giglio-1"
+  ],
+  "group": null,
+  "parts": [
+   "CA-1190",
+   "CA-1191",
+   "CA-1240",
+   "EL-3010",
+   "EL-3012",
+   "EL-3036",
+   "ID-4020",
+   "ID-4021",
+   "ID-4086",
+   "ID-4110"
+  ],
+  "refs": [
+   "Dati tecnici",
+   "technical data",
+   "voltage",
+   "power",
+   "boiler size",
+   "pump pressure",
+   "serial number plate",
+   "where is the serial number",
+   "dati tecnici",
+   "tensione",
+   "potenza",
+   "matricola",
+   "targhetta",
+   "--- --- Gruppi 1 Caldaia 5 L, rame Resistenza 1800 W 230 V (CA-1190);",
+   "1500 W 110 V (CA-1191) Pompa a vibrazione 48 W (ID-4020 a 230 V, ID-4021 a 110 V) Pressione caldaia pressostato (CA-1240), caldaia a 1,1-1,2 bar Elettronica Centralina v1 (EL-3010), sostituita dalla v2 rev.B (EL-3012) con il cablaggio adattatore EL-3036.",
+   "Pulsantiera a membrana a sei tasti (el-3030).",
+   "Pressione pompa 9 bar (regolabile sul by-pass) Allacciamento idrico 3/8\", pressione di rete 2-4 bar;",
+   "sopra 4 bar usare il riduttore ID-4110 Scarico tubo 20 mm (ID-4086) Dimensioni 45 × 52 × 48 cm, 36 kg Matricola targhetta sotto la vaschetta di scarico, a destra"
+  ],
+  "n_topics": 12
+ },
+ {
+  "id": "manual/giglio-1#installazione",
+  "kind": "manual",
+  "page": "manuals/giglio-1.md",
+  "anchor": "installazione",
+  "title": "Installazione",
+  "models": [
+   "giglio-1"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Installazione",
+   "installation",
+   "water connection",
+   "water hardness",
+   "softener",
+   "first start-up",
+   "installazione",
+   "allacciamento acqua",
+   "durezza dell'acqua",
+   "addolcitore",
+   "prima accensione",
+   "Solo personale autorizzato.",
+   "Acqua di rete con durezza inferiore a 8 °f oppure con addolcitore:",
+   "la garanzia non copre i danni da calcare.",
+   "Verificare la tensione di targa prima del collegamento.",
+   "Alla prima accensione la caldaia si riempie automaticamente (circa 4 minuti);",
+   "attendere 1,1 bar sul manometro prima di erogare.",
+   "Il sibilo della valvola antidepressione nei primi minuti è normale."
+  ],
+  "n_topics": 10
+ },
+ {
+  "id": "manual/giglio-1#uso-quotidiano",
+  "kind": "manual",
+  "page": "manuals/giglio-1.md",
+  "anchor": "uso-quotidiano",
+  "title": "Uso quotidiano",
+  "models": [
+   "giglio-1"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Uso quotidiano",
+   "daily use",
+   "switching on",
+   "how to program the doses",
+   "buttons",
+   "steam",
+   "hot water",
+   "uso quotidiano",
+   "accensione",
+   "programmare le dosi",
+   "tasti",
+   "vapore",
+   "acqua calda",
+   "interruttore generale in posizione 1 (solo carico acqua), poi 2 (riscaldamento).",
+   "portafiltro agganciato al centro, tasto dose.",
+   "tenere premuto il tasto continuo 5 secondi finché lampeggia, avviare la dose, premere lo stesso tasto alla quantità voluta.",
+   "aprire il rubinetto, purgare 2 secondi, immergere la lancia.",
+   "Dopo l'uso purgare e pulire con panno umido."
+  ],
+  "n_topics": 12
+ },
+ {
+  "id": "manual/giglio-1#manutenzione-ordinaria",
+  "kind": "manual",
+  "page": "manuals/giglio-1.md",
+  "anchor": "manutenzione-ordinaria",
+  "title": "Manutenzione ordinaria",
+  "models": [
+   "giglio-1"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Manutenzione ordinaria",
+   "routine maintenance",
+   "what the user must do",
+   "cleaning schedule",
+   "manutenzione ordinaria",
+   "pulizia",
+   "cosa deve fare l'utente",
+   "Tutto ciò che segue è a carico dell'utente.",
+   "Nove chiamate di assistenza su dieci nascono da una di queste operazioni saltata."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/giglio-1#ogni-giorno-a-fine-servizio",
+  "kind": "manual",
+  "page": "manuals/giglio-1.md",
+  "anchor": "ogni-giorno-a-fine-servizio",
+  "title": "Ogni giorno, a fine servizio",
+  "models": [
+   "giglio-1"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6052",
+   "GE-2193",
+   "VA-5025"
+  ],
+  "refs": [
+   "Ogni giorno, a fine servizio",
+   "daily cleaning",
+   "backflush",
+   "clean the groups with the blind filter and a tablet",
+   "how often to clean",
+   "detergent",
+   "pulizia giornaliera",
+   "lavaggio dei gruppi con filtro cieco e pastiglia",
+   "ogni quanto si lava",
+   "Lavaggio dei gruppi con filtro cieco (GE-2193) e pastiglia (CR-6052) :",
+   "una pastiglia nel filtro cieco, 5 cicli da 10 secondi con il tasto continuo, poi 5 cicli senza pastiglia.",
+   "Portafiltri e filtri in acqua calda con pastiglia per 20 minuti, risciacquo.",
+   "svitare e sciacquare il terminale (VA-5025) una volta a settimana.",
+   "Svuotare e lavare vaschetta e griglia."
+  ],
+  "n_topics": 8
+ },
+ {
+  "id": "manual/giglio-1#ogni-settimana",
+  "kind": "manual",
+  "page": "manuals/giglio-1.md",
+  "anchor": "ogni-settimana",
+  "title": "Ogni settimana",
+  "models": [
+   "giglio-1"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6051",
+   "GE-2140"
+  ],
+  "refs": [
+   "Ogni settimana",
+   "weekly cleaning",
+   "brush the shower screen",
+   "check how the portafilter locks",
+   "pulizia settimanale",
+   "spazzolare la doccetta",
+   "aggancio del portafiltro",
+   "- Spazzolare la doccetta con la spazzola gruppo (CR-6051) senza smontarla.",
+   "- Controllare l'aggancio del portafiltro:",
+   "se arriva oltre il centro, la guarnizione (GE-2140) è da cambiare."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/giglio-1#ogni-mese",
+  "kind": "manual",
+  "page": "manuals/giglio-1.md",
+  "anchor": "ogni-mese",
+  "title": "Ogni mese",
+  "models": [
+   "giglio-1"
+  ],
+  "group": null,
+  "parts": [
+   "GE-2150",
+   "ID-4061"
+  ],
+  "refs": [
+   "Ogni mese",
+   "monthly maintenance",
+   "remove and descale the shower screens",
+   "water filter cartridge",
+   "manutenzione mensile",
+   "smontare e decalcificare le doccette",
+   "cartuccia del filtro",
+   "- Smontare le doccette (vite centrale) e lasciarle 20 minuti nel decalcificante;",
+   "sostituire se deformate (GE-2150).",
+   "- Controllare la cartuccia del filtro d'ingresso (ID-4061);",
+   "sostituirla ogni 3 mesi, ogni mese con acqua dura."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/giglio-1#ogni-6-12-mesi",
+  "kind": "manual",
+  "page": "manuals/giglio-1.md",
+  "anchor": "ogni-6-12-mesi",
+  "title": "Ogni 6-12 mesi",
+  "models": [
+   "giglio-1"
+  ],
+  "group": null,
+  "parts": [
+   "GE-2140",
+   "GE-2210",
+   "VA-5015"
+  ],
+  "refs": [
+   "Ogni 6-12 mesi",
+   "replace the group gaskets",
+   "how often to change the gasket",
+   "steam valve seals",
+   "sostituire le guarnizioni sottocoppa",
+   "ogni quanto si cambia la guarnizione",
+   "- Sostituire le guarnizioni sottocoppa (GE-2140) o montare il kit gruppo (GE-2210).",
+   "Operazione da 10 minuti, vedere la scheda del ricambio.",
+   "- Sostituire il kit guarnizioni del rubinetto vapore (VA-5015) se gocciola."
+  ],
+  "n_topics": 5
+ },
+ {
+  "id": "manual/giglio-1#ogni-2-anni-a-cura-del-service",
+  "kind": "manual",
+  "page": "manuals/giglio-1.md",
+  "anchor": "ogni-2-anni-a-cura-del-service",
+  "title": "Ogni 2 anni, a cura del service",
+  "models": [
+   "giglio-1"
+  ],
+  "group": null,
+  "parts": [
+   "CA-1230",
+   "CA-1250",
+   "CA-1260"
+  ],
+  "refs": [
+   "Ogni 2 anni, a cura del service",
+   "two-year service",
+   "safety valve",
+   "anti-vacuum valve",
+   "level probe",
+   "boiler descaling",
+   "revisione biennale",
+   "valvola di sicurezza",
+   "decalcificazione caldaia",
+   "- Valvola di sicurezza (CA-1250), valvola antidepressione (CA-1260), sonda di livello (CA-1230), decalcificazione delle caldaie."
+  ],
+  "n_topics": 8
+ },
+ {
+  "id": "manual/giglio-1#spie-e-segnali",
+  "kind": "manual",
+  "page": "manuals/giglio-1.md",
+  "anchor": "spie-e-segnali",
+  "title": "Spie e segnali",
+  "models": [
+   "giglio-1"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Spie e segnali",
+   "warning lights",
+   "flashing LEDs",
+   "alarms",
+   "level alarm",
+   "error codes",
+   "what does the blinking mean",
+   "spie",
+   "led che lampeggiano",
+   "allarmi",
+   "allarme livello",
+   "errori sul pannello",
+   "Segnale Significato Cosa fare --- --- --- Led dei tasti lampeggiano insieme allarme livello:",
+   "la caldaia non si è riempita in 3 minuti verificare il rubinetto dell'acqua;",
+   "se persiste, chiamare il service Led del tasto lampeggia durante la dose allarme flussometro erogare in continuo;",
+   "se la dose non si ferma, service Sibilo breve all'accensione valvola antidepressione normale se smette entro 5 minuti Sfiato dalla valvola di sicurezza pressione oltre il limite spegnere, chiamare il service"
+  ],
+  "n_topics": 11
+ },
+ {
+  "id": "manual/giglio-1#cosa-non-fare",
+  "kind": "manual",
+  "page": "manuals/giglio-1.md",
+  "anchor": "cosa-non-fare",
+  "title": "Cosa non fare",
+  "models": [
+   "giglio-1"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6052"
+  ],
+  "refs": [
+   "Cosa non fare",
+   "what not to do",
+   "warnings",
+   "never adjust the safety valve",
+   "do not run without water",
+   "cosa non fare",
+   "avvertenze",
+   "- Non far funzionare la macchina con l'acqua chiusa.",
+   "- Non regolare la valvola di sicurezza.",
+   "- Non usare detergenti diversi dalle pastiglie CR-6052 nei gruppi.",
+   "- Non sostituire resistenze, pompa o centralina senza il service in linea.",
+   "- Non lasciare la lancia vapore immersa nel latte."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/giglio-1#ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
+  "kind": "manual",
+  "page": "manuals/giglio-1.md",
+  "anchor": "ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
+  "title": "Ricambi di consumo consigliati a magazzino del cliente",
+  "models": [
+   "giglio-1"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6052",
+   "EL-3060",
+   "GE-2140",
+   "GE-2150",
+   "GE-2193",
+   "ID-4061",
+   "VA-5015",
+   "VA-5025"
+  ],
+  "refs": [
+   "Ricambi di consumo consigliati a magazzino del cliente",
+   "spare parts to keep in stock",
+   "consumables",
+   "recommended spares",
+   "ricambi da tenere a magazzino",
+   "consumabili consigliati",
+   "GE-2140 guarnizione sottocoppa (1), GE-2150 doccetta (1), GE-2193 filtro cieco (1), CR-6052 pastiglie (1 barattolo), VA-5015 kit guarnizioni vapore (1), VA-5025 terminale vapore (1), ID-4061 cartuccia filtro (1), EL-3060 fusibili (1 kit)."
+  ],
+  "n_topics": 5
+ },
+ {
+  "id": "manual/giglio-1#assistenza",
+  "kind": "manual",
+  "page": "manuals/giglio-1.md",
+  "anchor": "assistenza",
+  "title": "Assistenza",
+  "models": [
+   "giglio-1"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Assistenza",
+   "how to contact support",
+   "opening hours",
+   "what to have ready when calling",
+   "come contattare l'assistenza",
+   "orari",
+   "cosa tenere pronto",
+   "lun-ven 8-18 CET, in italiano e inglese;",
+   "anche assistente vocale automatico.",
+   "modello, matricola, anno, tensione, e la fattura dell'ultimo ricambio se si cita un codice."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/marea-2-evo#descrizione",
+  "kind": "manual",
+  "page": "manuals/marea-2-evo.md",
+  "anchor": "descrizione",
+  "title": "Descrizione",
+  "models": [
+   "marea-2-evo"
+  ],
+  "group": null,
+  "parts": [
+   "EL-3101"
+  ],
+  "refs": [
+   "Descrizione",
+   "what machine is this",
+   "how it works",
+   "com'è fatta la macchina",
+   "come funziona",
+   "La Marea 2 Evo è una macchina professionale per bar fino a 450 caffè al giorno.",
+   "Una caldaia da 11 L, rame coibentato produce vapore e acqua calda;",
+   "l'acqua per il caffè passa in uno scambiatore per gruppo immerso nella caldaia e arriva al gruppo a 92-94 °C.",
+   "Dosatura volumetrica con quattro dosi programmabili per gruppo.",
+   "Rispetto alla Marea 2 Plus:",
+   "caldaia coibentata, controllo PID della caldaia senza pressostato, display, sensore di livello della vaschetta (EL-3101)."
+  ],
+  "n_topics": 4
+ },
+ {
+  "id": "manual/marea-2-evo#dati-tecnici",
+  "kind": "manual",
+  "page": "manuals/marea-2-evo.md",
+  "anchor": "dati-tecnici",
+  "title": "Dati tecnici",
+  "models": [
+   "marea-2-evo"
+  ],
+  "group": null,
+  "parts": [
+   "CA-1185",
+   "CA-1186",
+   "CA-1187",
+   "CA-1291",
+   "CA-1350",
+   "EL-3013",
+   "ID-4010",
+   "ID-4015",
+   "ID-4086",
+   "ID-4110"
+  ],
+  "refs": [
+   "Dati tecnici",
+   "technical data",
+   "voltage",
+   "power",
+   "boiler size",
+   "pump pressure",
+   "serial number plate",
+   "where is the serial number",
+   "dati tecnici",
+   "tensione",
+   "potenza",
+   "matricola",
+   "targhetta",
+   "--- --- Gruppi 2 Caldaia 11 L, rame coibentato (CA-1350) Resistenza 3500 W 230 V (CA-1185);",
+   "5000 W 400 V trifase (CA-1187) Pompa rotativa 100 L/h con motore 165 W (ID-4010, ID-4015) Pressione caldaia controllo PID con sonda PT100 (CA-1291), niente pressostato Elettronica Centralina v3 con uscita display (EL-3013).",
+   "Pulsantiera capacitiva con display oled (el-3032) e display tft da 2,8\" (el-3040).",
+   "Pressione pompa 9 bar (regolabile sul by-pass) Allacciamento idrico 3/8\", pressione di rete 2-4 bar;",
+   "sopra 4 bar usare il riduttore ID-4110 Scarico tubo 20 mm (ID-4086) Dimensioni 78 × 55 × 53 cm, 64 kg Matricola targhetta sotto la vaschetta di scarico, a destra"
+  ],
+  "n_topics": 12
+ },
+ {
+  "id": "manual/marea-2-evo#installazione",
+  "kind": "manual",
+  "page": "manuals/marea-2-evo.md",
+  "anchor": "installazione",
+  "title": "Installazione",
+  "models": [
+   "marea-2-evo"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Installazione",
+   "installation",
+   "water connection",
+   "water hardness",
+   "softener",
+   "first start-up",
+   "installazione",
+   "allacciamento acqua",
+   "durezza dell'acqua",
+   "addolcitore",
+   "prima accensione",
+   "Solo personale autorizzato.",
+   "Acqua di rete con durezza inferiore a 8 °f oppure con addolcitore:",
+   "la garanzia non copre i danni da calcare.",
+   "Verificare la tensione di targa prima del collegamento.",
+   "Alla prima accensione la caldaia si riempie automaticamente (circa 4 minuti);",
+   "attendere 1,1 bar sul manometro prima di erogare.",
+   "Il sibilo della valvola antidepressione nei primi minuti è normale."
+  ],
+  "n_topics": 10
+ },
+ {
+  "id": "manual/marea-2-evo#uso-quotidiano",
+  "kind": "manual",
+  "page": "manuals/marea-2-evo.md",
+  "anchor": "uso-quotidiano",
+  "title": "Uso quotidiano",
+  "models": [
+   "marea-2-evo"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Uso quotidiano",
+   "daily use",
+   "switching on",
+   "how to program the doses",
+   "buttons",
+   "steam",
+   "hot water",
+   "uso quotidiano",
+   "accensione",
+   "programmare le dosi",
+   "tasti",
+   "vapore",
+   "acqua calda",
+   "interruttore generale in posizione 1 (solo carico acqua), poi 2 (riscaldamento).",
+   "portafiltro agganciato al centro, tasto dose.",
+   "tenere premuto il tasto continuo 5 secondi finché lampeggia, avviare la dose, premere lo stesso tasto alla quantità voluta.",
+   "aprire il rubinetto, purgare 2 secondi, immergere la lancia.",
+   "Dopo l'uso purgare e pulire con panno umido."
+  ],
+  "n_topics": 12
+ },
+ {
+  "id": "manual/marea-2-evo#manutenzione-ordinaria",
+  "kind": "manual",
+  "page": "manuals/marea-2-evo.md",
+  "anchor": "manutenzione-ordinaria",
+  "title": "Manutenzione ordinaria",
+  "models": [
+   "marea-2-evo"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Manutenzione ordinaria",
+   "routine maintenance",
+   "what the user must do",
+   "cleaning schedule",
+   "manutenzione ordinaria",
+   "pulizia",
+   "cosa deve fare l'utente",
+   "Tutto ciò che segue è a carico dell'utente.",
+   "Nove chiamate di assistenza su dieci nascono da una di queste operazioni saltata."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/marea-2-evo#ogni-giorno-a-fine-servizio",
+  "kind": "manual",
+  "page": "manuals/marea-2-evo.md",
+  "anchor": "ogni-giorno-a-fine-servizio",
+  "title": "Ogni giorno, a fine servizio",
+  "models": [
+   "marea-2-evo"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6052",
+   "GE-2193",
+   "VA-5025"
+  ],
+  "refs": [
+   "Ogni giorno, a fine servizio",
+   "daily cleaning",
+   "backflush",
+   "clean the groups with the blind filter and a tablet",
+   "how often to clean",
+   "detergent",
+   "pulizia giornaliera",
+   "lavaggio dei gruppi con filtro cieco e pastiglia",
+   "ogni quanto si lava",
+   "Lavaggio dei gruppi con filtro cieco (GE-2193) e pastiglia (CR-6052) :",
+   "una pastiglia nel filtro cieco, 5 cicli da 10 secondi con il tasto continuo, poi 5 cicli senza pastiglia.",
+   "Portafiltri e filtri in acqua calda con pastiglia per 20 minuti, risciacquo.",
+   "svitare e sciacquare il terminale (VA-5025) una volta a settimana.",
+   "Svuotare e lavare vaschetta e griglia."
+  ],
+  "n_topics": 8
+ },
+ {
+  "id": "manual/marea-2-evo#ogni-settimana",
+  "kind": "manual",
+  "page": "manuals/marea-2-evo.md",
+  "anchor": "ogni-settimana",
+  "title": "Ogni settimana",
+  "models": [
+   "marea-2-evo"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6051",
+   "GE-2140"
+  ],
+  "refs": [
+   "Ogni settimana",
+   "weekly cleaning",
+   "brush the shower screen",
+   "check how the portafilter locks",
+   "pulizia settimanale",
+   "spazzolare la doccetta",
+   "aggancio del portafiltro",
+   "- Spazzolare la doccetta con la spazzola gruppo (CR-6051) senza smontarla.",
+   "- Controllare l'aggancio del portafiltro:",
+   "se arriva oltre il centro, la guarnizione (GE-2140) è da cambiare."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/marea-2-evo#ogni-mese",
+  "kind": "manual",
+  "page": "manuals/marea-2-evo.md",
+  "anchor": "ogni-mese",
+  "title": "Ogni mese",
+  "models": [
+   "marea-2-evo"
+  ],
+  "group": null,
+  "parts": [
+   "GE-2150",
+   "ID-4061"
+  ],
+  "refs": [
+   "Ogni mese",
+   "monthly maintenance",
+   "remove and descale the shower screens",
+   "water filter cartridge",
+   "manutenzione mensile",
+   "smontare e decalcificare le doccette",
+   "cartuccia del filtro",
+   "- Smontare le doccette (vite centrale) e lasciarle 20 minuti nel decalcificante;",
+   "sostituire se deformate (GE-2150).",
+   "- Controllare la cartuccia del filtro d'ingresso (ID-4061);",
+   "sostituirla ogni 3 mesi, ogni mese con acqua dura."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/marea-2-evo#ogni-6-12-mesi",
+  "kind": "manual",
+  "page": "manuals/marea-2-evo.md",
+  "anchor": "ogni-6-12-mesi",
+  "title": "Ogni 6-12 mesi",
+  "models": [
+   "marea-2-evo"
+  ],
+  "group": null,
+  "parts": [
+   "GE-2140",
+   "GE-2210",
+   "VA-5015"
+  ],
+  "refs": [
+   "Ogni 6-12 mesi",
+   "replace the group gaskets",
+   "how often to change the gasket",
+   "steam valve seals",
+   "sostituire le guarnizioni sottocoppa",
+   "ogni quanto si cambia la guarnizione",
+   "- Sostituire le guarnizioni sottocoppa (GE-2140) o montare il kit gruppo (GE-2210).",
+   "Operazione da 10 minuti, vedere la scheda del ricambio.",
+   "- Sostituire il kit guarnizioni del rubinetto vapore (VA-5015) se gocciola."
+  ],
+  "n_topics": 5
+ },
+ {
+  "id": "manual/marea-2-evo#ogni-2-anni-a-cura-del-service",
+  "kind": "manual",
+  "page": "manuals/marea-2-evo.md",
+  "anchor": "ogni-2-anni-a-cura-del-service",
+  "title": "Ogni 2 anni, a cura del service",
+  "models": [
+   "marea-2-evo"
+  ],
+  "group": null,
+  "parts": [
+   "CA-1230",
+   "CA-1250",
+   "CA-1260"
+  ],
+  "refs": [
+   "Ogni 2 anni, a cura del service",
+   "two-year service",
+   "safety valve",
+   "anti-vacuum valve",
+   "level probe",
+   "boiler descaling",
+   "revisione biennale",
+   "valvola di sicurezza",
+   "decalcificazione caldaia",
+   "- Valvola di sicurezza (CA-1250), valvola antidepressione (CA-1260), sonda di livello (CA-1230), decalcificazione delle caldaie."
+  ],
+  "n_topics": 8
+ },
+ {
+  "id": "manual/marea-2-evo#spie-e-segnali",
+  "kind": "manual",
+  "page": "manuals/marea-2-evo.md",
+  "anchor": "spie-e-segnali",
+  "title": "Spie e segnali",
+  "models": [
+   "marea-2-evo"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Spie e segnali",
+   "warning lights",
+   "flashing LEDs",
+   "alarms",
+   "level alarm",
+   "error codes",
+   "what does the blinking mean",
+   "spie",
+   "led che lampeggiano",
+   "allarmi",
+   "allarme livello",
+   "errori sul pannello",
+   "Segnale Significato Cosa fare --- --- --- Led dei tasti lampeggiano insieme allarme livello:",
+   "la caldaia non si è riempita in 3 minuti verificare il rubinetto dell'acqua;",
+   "se persiste, chiamare il service Led del tasto lampeggia durante la dose allarme flussometro erogare in continuo;",
+   "se la dose non si ferma, service Sibilo breve all'accensione valvola antidepressione normale se smette entro 5 minuti Sfiato dalla valvola di sicurezza pressione oltre il limite spegnere, chiamare il service"
+  ],
+  "n_topics": 11
+ },
+ {
+  "id": "manual/marea-2-evo#cosa-non-fare",
+  "kind": "manual",
+  "page": "manuals/marea-2-evo.md",
+  "anchor": "cosa-non-fare",
+  "title": "Cosa non fare",
+  "models": [
+   "marea-2-evo"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6052"
+  ],
+  "refs": [
+   "Cosa non fare",
+   "what not to do",
+   "warnings",
+   "never adjust the safety valve",
+   "do not run without water",
+   "cosa non fare",
+   "avvertenze",
+   "- Non far funzionare la macchina con l'acqua chiusa.",
+   "- Non regolare la valvola di sicurezza.",
+   "- Non usare detergenti diversi dalle pastiglie CR-6052 nei gruppi.",
+   "- Non sostituire resistenze, pompa o centralina senza il service in linea.",
+   "- Non lasciare la lancia vapore immersa nel latte."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/marea-2-evo#ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
+  "kind": "manual",
+  "page": "manuals/marea-2-evo.md",
+  "anchor": "ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
+  "title": "Ricambi di consumo consigliati a magazzino del cliente",
+  "models": [
+   "marea-2-evo"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6052",
+   "EL-3060",
+   "GE-2140",
+   "GE-2150",
+   "GE-2193",
+   "ID-4061",
+   "VA-5015",
+   "VA-5025"
+  ],
+  "refs": [
+   "Ricambi di consumo consigliati a magazzino del cliente",
+   "spare parts to keep in stock",
+   "consumables",
+   "recommended spares",
+   "ricambi da tenere a magazzino",
+   "consumabili consigliati",
+   "GE-2140 guarnizione sottocoppa (2), GE-2150 doccetta (2), GE-2193 filtro cieco (1), CR-6052 pastiglie (1 barattolo), VA-5015 kit guarnizioni vapore (1), VA-5025 terminale vapore (1), ID-4061 cartuccia filtro (1), EL-3060 fusibili (1 kit)."
+  ],
+  "n_topics": 5
+ },
+ {
+  "id": "manual/marea-2-evo#assistenza",
+  "kind": "manual",
+  "page": "manuals/marea-2-evo.md",
+  "anchor": "assistenza",
+  "title": "Assistenza",
+  "models": [
+   "marea-2-evo"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Assistenza",
+   "how to contact support",
+   "opening hours",
+   "what to have ready when calling",
+   "come contattare l'assistenza",
+   "orari",
+   "cosa tenere pronto",
+   "lun-ven 8-18 CET, in italiano e inglese;",
+   "anche assistente vocale automatico.",
+   "modello, matricola, anno, tensione, e la fattura dell'ultimo ricambio se si cita un codice."
+  ],
+  "n_topics": 6
+ },
+ {
   "id": "manual/marea-2-plus#descrizione",
   "kind": "manual",
   "page": "manuals/marea-2-plus.md",
@@ -420,6 +1693,2366 @@
    "orari",
    "cosa tenere pronto",
    "lun-ven 8-18 CET, in italiano e inglese.",
+   "modello, matricola, anno, tensione, e la fattura dell'ultimo ricambio se si cita un codice."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/marea-2#descrizione",
+  "kind": "manual",
+  "page": "manuals/marea-2.md",
+  "anchor": "descrizione",
+  "title": "Descrizione",
+  "models": [
+   "marea-2"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Descrizione",
+   "what machine is this",
+   "how it works",
+   "com'è fatta la macchina",
+   "come funziona",
+   "La Marea 2 è una macchina professionale per bar fino a 400 caffè al giorno.",
+   "Una caldaia da 11 L, rame produce vapore e acqua calda;",
+   "l'acqua per il caffè passa in uno scambiatore per gruppo immerso nella caldaia e arriva al gruppo a 92-94 °C.",
+   "Dosatura volumetrica con quattro dosi programmabili per gruppo.",
+   "È il modello base della gamma:",
+   "pulsantiera a membrana, centralina v1, senza PID.",
+   "La Marea 2 Plus (2025) aggiunge PID e pulsantiera capacitiva."
+  ],
+  "n_topics": 4
+ },
+ {
+  "id": "manual/marea-2#dati-tecnici",
+  "kind": "manual",
+  "page": "manuals/marea-2.md",
+  "anchor": "dati-tecnici",
+  "title": "Dati tecnici",
+  "models": [
+   "marea-2"
+  ],
+  "group": null,
+  "parts": [
+   "CA-1180",
+   "CA-1181",
+   "CA-1182",
+   "CA-1240",
+   "EL-3010",
+   "EL-3012",
+   "EL-3036",
+   "ID-4010",
+   "ID-4015",
+   "ID-4086",
+   "ID-4110"
+  ],
+  "refs": [
+   "Dati tecnici",
+   "technical data",
+   "voltage",
+   "power",
+   "boiler size",
+   "pump pressure",
+   "serial number plate",
+   "where is the serial number",
+   "dati tecnici",
+   "tensione",
+   "potenza",
+   "matricola",
+   "targhetta",
+   "--- --- Gruppi 2 Caldaia 11 L, rame Resistenza 3000 W 230 V (CA-1180);",
+   "4500 W 400 V trifase (CA-1182) Pompa rotativa 100 L/h con motore 165 W (ID-4010, ID-4015) Pressione caldaia pressostato (CA-1240), caldaia a 1,1-1,2 bar Elettronica Centralina v1 (EL-3010), sostituita dalla v2 rev.B (EL-3012) con il cablaggio adattatore EL-3036.",
+   "Pulsantiera a membrana a sei tasti (el-3030).",
+   "Pressione pompa 9 bar (regolabile sul by-pass) Allacciamento idrico 3/8\", pressione di rete 2-4 bar;",
+   "sopra 4 bar usare il riduttore ID-4110 Scarico tubo 20 mm (ID-4086) Dimensioni 78 × 55 × 53 cm, 60 kg Matricola targhetta sotto la vaschetta di scarico, a destra"
+  ],
+  "n_topics": 12
+ },
+ {
+  "id": "manual/marea-2#installazione",
+  "kind": "manual",
+  "page": "manuals/marea-2.md",
+  "anchor": "installazione",
+  "title": "Installazione",
+  "models": [
+   "marea-2"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Installazione",
+   "installation",
+   "water connection",
+   "water hardness",
+   "softener",
+   "first start-up",
+   "installazione",
+   "allacciamento acqua",
+   "durezza dell'acqua",
+   "addolcitore",
+   "prima accensione",
+   "Solo personale autorizzato.",
+   "Acqua di rete con durezza inferiore a 8 °f oppure con addolcitore:",
+   "la garanzia non copre i danni da calcare.",
+   "Verificare la tensione di targa prima del collegamento.",
+   "Alla prima accensione la caldaia si riempie automaticamente (circa 4 minuti);",
+   "attendere 1,1 bar sul manometro prima di erogare.",
+   "Il sibilo della valvola antidepressione nei primi minuti è normale."
+  ],
+  "n_topics": 10
+ },
+ {
+  "id": "manual/marea-2#uso-quotidiano",
+  "kind": "manual",
+  "page": "manuals/marea-2.md",
+  "anchor": "uso-quotidiano",
+  "title": "Uso quotidiano",
+  "models": [
+   "marea-2"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Uso quotidiano",
+   "daily use",
+   "switching on",
+   "how to program the doses",
+   "buttons",
+   "steam",
+   "hot water",
+   "uso quotidiano",
+   "accensione",
+   "programmare le dosi",
+   "tasti",
+   "vapore",
+   "acqua calda",
+   "interruttore generale in posizione 1 (solo carico acqua), poi 2 (riscaldamento).",
+   "portafiltro agganciato al centro, tasto dose.",
+   "tenere premuto il tasto continuo 5 secondi finché lampeggia, avviare la dose, premere lo stesso tasto alla quantità voluta.",
+   "aprire il rubinetto, purgare 2 secondi, immergere la lancia.",
+   "Dopo l'uso purgare e pulire con panno umido."
+  ],
+  "n_topics": 12
+ },
+ {
+  "id": "manual/marea-2#manutenzione-ordinaria",
+  "kind": "manual",
+  "page": "manuals/marea-2.md",
+  "anchor": "manutenzione-ordinaria",
+  "title": "Manutenzione ordinaria",
+  "models": [
+   "marea-2"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Manutenzione ordinaria",
+   "routine maintenance",
+   "what the user must do",
+   "cleaning schedule",
+   "manutenzione ordinaria",
+   "pulizia",
+   "cosa deve fare l'utente",
+   "Tutto ciò che segue è a carico dell'utente.",
+   "Nove chiamate di assistenza su dieci nascono da una di queste operazioni saltata."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/marea-2#ogni-giorno-a-fine-servizio",
+  "kind": "manual",
+  "page": "manuals/marea-2.md",
+  "anchor": "ogni-giorno-a-fine-servizio",
+  "title": "Ogni giorno, a fine servizio",
+  "models": [
+   "marea-2"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6052",
+   "GE-2193",
+   "VA-5025"
+  ],
+  "refs": [
+   "Ogni giorno, a fine servizio",
+   "daily cleaning",
+   "backflush",
+   "clean the groups with the blind filter and a tablet",
+   "how often to clean",
+   "detergent",
+   "pulizia giornaliera",
+   "lavaggio dei gruppi con filtro cieco e pastiglia",
+   "ogni quanto si lava",
+   "Lavaggio dei gruppi con filtro cieco (GE-2193) e pastiglia (CR-6052) :",
+   "una pastiglia nel filtro cieco, 5 cicli da 10 secondi con il tasto continuo, poi 5 cicli senza pastiglia.",
+   "Portafiltri e filtri in acqua calda con pastiglia per 20 minuti, risciacquo.",
+   "svitare e sciacquare il terminale (VA-5025) una volta a settimana.",
+   "Svuotare e lavare vaschetta e griglia."
+  ],
+  "n_topics": 8
+ },
+ {
+  "id": "manual/marea-2#ogni-settimana",
+  "kind": "manual",
+  "page": "manuals/marea-2.md",
+  "anchor": "ogni-settimana",
+  "title": "Ogni settimana",
+  "models": [
+   "marea-2"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6051",
+   "GE-2140"
+  ],
+  "refs": [
+   "Ogni settimana",
+   "weekly cleaning",
+   "brush the shower screen",
+   "check how the portafilter locks",
+   "pulizia settimanale",
+   "spazzolare la doccetta",
+   "aggancio del portafiltro",
+   "- Spazzolare la doccetta con la spazzola gruppo (CR-6051) senza smontarla.",
+   "- Controllare l'aggancio del portafiltro:",
+   "se arriva oltre il centro, la guarnizione (GE-2140) è da cambiare."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/marea-2#ogni-mese",
+  "kind": "manual",
+  "page": "manuals/marea-2.md",
+  "anchor": "ogni-mese",
+  "title": "Ogni mese",
+  "models": [
+   "marea-2"
+  ],
+  "group": null,
+  "parts": [
+   "GE-2150",
+   "ID-4061"
+  ],
+  "refs": [
+   "Ogni mese",
+   "monthly maintenance",
+   "remove and descale the shower screens",
+   "water filter cartridge",
+   "manutenzione mensile",
+   "smontare e decalcificare le doccette",
+   "cartuccia del filtro",
+   "- Smontare le doccette (vite centrale) e lasciarle 20 minuti nel decalcificante;",
+   "sostituire se deformate (GE-2150).",
+   "- Controllare la cartuccia del filtro d'ingresso (ID-4061);",
+   "sostituirla ogni 3 mesi, ogni mese con acqua dura."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/marea-2#ogni-6-12-mesi",
+  "kind": "manual",
+  "page": "manuals/marea-2.md",
+  "anchor": "ogni-6-12-mesi",
+  "title": "Ogni 6-12 mesi",
+  "models": [
+   "marea-2"
+  ],
+  "group": null,
+  "parts": [
+   "GE-2140",
+   "GE-2210",
+   "VA-5015"
+  ],
+  "refs": [
+   "Ogni 6-12 mesi",
+   "replace the group gaskets",
+   "how often to change the gasket",
+   "steam valve seals",
+   "sostituire le guarnizioni sottocoppa",
+   "ogni quanto si cambia la guarnizione",
+   "- Sostituire le guarnizioni sottocoppa (GE-2140) o montare il kit gruppo (GE-2210).",
+   "Operazione da 10 minuti, vedere la scheda del ricambio.",
+   "- Sostituire il kit guarnizioni del rubinetto vapore (VA-5015) se gocciola."
+  ],
+  "n_topics": 5
+ },
+ {
+  "id": "manual/marea-2#ogni-2-anni-a-cura-del-service",
+  "kind": "manual",
+  "page": "manuals/marea-2.md",
+  "anchor": "ogni-2-anni-a-cura-del-service",
+  "title": "Ogni 2 anni, a cura del service",
+  "models": [
+   "marea-2"
+  ],
+  "group": null,
+  "parts": [
+   "CA-1230",
+   "CA-1250",
+   "CA-1260"
+  ],
+  "refs": [
+   "Ogni 2 anni, a cura del service",
+   "two-year service",
+   "safety valve",
+   "anti-vacuum valve",
+   "level probe",
+   "boiler descaling",
+   "revisione biennale",
+   "valvola di sicurezza",
+   "decalcificazione caldaia",
+   "- Valvola di sicurezza (CA-1250), valvola antidepressione (CA-1260), sonda di livello (CA-1230), decalcificazione delle caldaie."
+  ],
+  "n_topics": 8
+ },
+ {
+  "id": "manual/marea-2#spie-e-segnali",
+  "kind": "manual",
+  "page": "manuals/marea-2.md",
+  "anchor": "spie-e-segnali",
+  "title": "Spie e segnali",
+  "models": [
+   "marea-2"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Spie e segnali",
+   "warning lights",
+   "flashing LEDs",
+   "alarms",
+   "level alarm",
+   "error codes",
+   "what does the blinking mean",
+   "spie",
+   "led che lampeggiano",
+   "allarmi",
+   "allarme livello",
+   "errori sul pannello",
+   "Segnale Significato Cosa fare --- --- --- Led dei tasti lampeggiano insieme allarme livello:",
+   "la caldaia non si è riempita in 3 minuti verificare il rubinetto dell'acqua;",
+   "se persiste, chiamare il service Led del tasto lampeggia durante la dose allarme flussometro erogare in continuo;",
+   "se la dose non si ferma, service Sibilo breve all'accensione valvola antidepressione normale se smette entro 5 minuti Sfiato dalla valvola di sicurezza pressione oltre il limite spegnere, chiamare il service"
+  ],
+  "n_topics": 11
+ },
+ {
+  "id": "manual/marea-2#cosa-non-fare",
+  "kind": "manual",
+  "page": "manuals/marea-2.md",
+  "anchor": "cosa-non-fare",
+  "title": "Cosa non fare",
+  "models": [
+   "marea-2"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6052"
+  ],
+  "refs": [
+   "Cosa non fare",
+   "what not to do",
+   "warnings",
+   "never adjust the safety valve",
+   "do not run without water",
+   "cosa non fare",
+   "avvertenze",
+   "- Non far funzionare la macchina con l'acqua chiusa.",
+   "- Non regolare la valvola di sicurezza.",
+   "- Non usare detergenti diversi dalle pastiglie CR-6052 nei gruppi.",
+   "- Non sostituire resistenze, pompa o centralina senza il service in linea.",
+   "- Non lasciare la lancia vapore immersa nel latte."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/marea-2#ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
+  "kind": "manual",
+  "page": "manuals/marea-2.md",
+  "anchor": "ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
+  "title": "Ricambi di consumo consigliati a magazzino del cliente",
+  "models": [
+   "marea-2"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6052",
+   "EL-3060",
+   "GE-2140",
+   "GE-2150",
+   "GE-2193",
+   "ID-4061",
+   "VA-5015",
+   "VA-5025"
+  ],
+  "refs": [
+   "Ricambi di consumo consigliati a magazzino del cliente",
+   "spare parts to keep in stock",
+   "consumables",
+   "recommended spares",
+   "ricambi da tenere a magazzino",
+   "consumabili consigliati",
+   "GE-2140 guarnizione sottocoppa (2), GE-2150 doccetta (2), GE-2193 filtro cieco (1), CR-6052 pastiglie (1 barattolo), VA-5015 kit guarnizioni vapore (1), VA-5025 terminale vapore (1), ID-4061 cartuccia filtro (1), EL-3060 fusibili (1 kit)."
+  ],
+  "n_topics": 5
+ },
+ {
+  "id": "manual/marea-2#assistenza",
+  "kind": "manual",
+  "page": "manuals/marea-2.md",
+  "anchor": "assistenza",
+  "title": "Assistenza",
+  "models": [
+   "marea-2"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Assistenza",
+   "how to contact support",
+   "opening hours",
+   "what to have ready when calling",
+   "come contattare l'assistenza",
+   "orari",
+   "cosa tenere pronto",
+   "lun-ven 8-18 CET, in italiano e inglese;",
+   "anche assistente vocale automatico.",
+   "modello, matricola, anno, tensione, e la fattura dell'ultimo ricambio se si cita un codice."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/monda-65-digit#descrizione",
+  "kind": "manual",
+  "page": "manuals/monda-65-digit.md",
+  "anchor": "descrizione",
+  "title": "Descrizione",
+  "models": [
+   "monda-65-digit"
+  ],
+  "group": null,
+  "parts": [
+   "MC-7010",
+   "MC-7040",
+   "MC-7060",
+   "MC-7061",
+   "MC-7062"
+  ],
+  "refs": [
+   "Descrizione",
+   "what grinder is this",
+   "how it works",
+   "com'è fatto il macinacaffè",
+   "come funziona",
+   "Macinacaffè per bar con macine piane in acciaio temprato da 65 mm (MC-7010), motore da 350 W, tramoggia da 1,2 kg (MC-7040).",
+   "dosaggio a tempo con display e tasti (MC-7060, MC-7061), avvio con la forcella (MC-7062).",
+   "niente dosatore, macina direttamente nel portafiltro per il tempo impostato."
+  ],
+  "n_topics": 4
+ },
+ {
+  "id": "manual/monda-65-digit#dati-tecnici",
+  "kind": "manual",
+  "page": "manuals/monda-65-digit.md",
+  "anchor": "dati-tecnici",
+  "title": "Dati tecnici",
+  "models": [
+   "monda-65-digit"
+  ],
+  "group": null,
+  "parts": [
+   "MC-7010",
+   "MC-7011",
+   "MC-7020",
+   "MC-7021",
+   "MC-7025",
+   "MC-7040",
+   "MC-7041",
+   "MC-7060",
+   "MC-7061",
+   "MC-7062"
+  ],
+  "refs": [
+   "Dati tecnici",
+   "technical data",
+   "voltage",
+   "power",
+   "serial number plate",
+   "where is the serial number",
+   "dati tecnici",
+   "tensione",
+   "potenza",
+   "matricola",
+   "targhetta",
+   "--- --- Macine piane 65 mm acciaio temprato (MC-7010), viti MC-7011 Motore 350 W, 230 V (MC-7020) o 110 V (MC-7021), condensatore MC-7025 Tramoggia 1,2 kg (MC-7040), saracinesca MC-7041 Dosatura dosaggio a tempo con display e tasti (MC-7060, MC-7061), avvio con la forcella (MC-7062) Dimensioni 21 × 38 × 62 cm, 14 kg Matricola targhetta sotto la base, formato G + anno + numero (es."
+  ],
+  "n_topics": 10
+ },
+ {
+  "id": "manual/monda-65-digit#installazione",
+  "kind": "manual",
+  "page": "manuals/monda-65-digit.md",
+  "anchor": "installazione",
+  "title": "Installazione",
+  "models": [
+   "monda-65-digit"
+  ],
+  "group": null,
+  "parts": [
+   "MC-7080"
+  ],
+  "refs": [
+   "Installazione",
+   "installation",
+   "connection",
+   "first start-up",
+   "installazione",
+   "collegamento",
+   "primo avvio",
+   "Appoggiare su un piano stabile con i piedini antivibranti (MC-7080).",
+   "Verificare la tensione di targa.",
+   "Al primo avvio macinare e buttare 200 g di caffè per assestare le macine."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/monda-65-digit#uso-quotidiano",
+  "kind": "manual",
+  "page": "manuals/monda-65-digit.md",
+  "anchor": "uso-quotidiano",
+  "title": "Uso quotidiano",
+  "models": [
+   "monda-65-digit"
+  ],
+  "group": null,
+  "parts": [
+   "MC-7075"
+  ],
+  "refs": [
+   "Uso quotidiano",
+   "daily use",
+   "how to adjust the grind",
+   "dosing",
+   "uso quotidiano",
+   "regolare la macinatura",
+   "dosare",
+   "- Regolazione della macinatura :",
+   "ghiera (MC-7075), in senso orario più fine.",
+   "Muovere di una tacca alla volta, a motore acceso.",
+   "tenere premuto il tasto della dose sul display per cambiare il tempo;",
+   "il portafiltro sulla forcella avvia la macinatura."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/monda-65-digit#manutenzione-ordinaria",
+  "kind": "manual",
+  "page": "manuals/monda-65-digit.md",
+  "anchor": "manutenzione-ordinaria",
+  "title": "Manutenzione ordinaria",
+  "models": [
+   "monda-65-digit"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Manutenzione ordinaria",
+   "routine maintenance",
+   "what the user must do",
+   "cleaning schedule",
+   "manutenzione ordinaria",
+   "pulizia",
+   "cosa deve fare l'utente"
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/monda-65-digit#ogni-giorno-a-fine-servizio",
+  "kind": "manual",
+  "page": "manuals/monda-65-digit.md",
+  "anchor": "ogni-giorno-a-fine-servizio",
+  "title": "Ogni giorno, a fine servizio",
+  "models": [
+   "monda-65-digit"
+  ],
+  "group": null,
+  "parts": [
+   "MC-7063"
+  ],
+  "refs": [
+   "Ogni giorno, a fine servizio",
+   "daily cleaning",
+   "pulizia giornaliera",
+   "- Svuotare lo scivolo (MC-7063) e la forcella e pulire con il pennello, senza acqua."
+  ],
+  "n_topics": 2
+ },
+ {
+  "id": "manual/monda-65-digit#ogni-settimana",
+  "kind": "manual",
+  "page": "manuals/monda-65-digit.md",
+  "anchor": "ogni-settimana",
+  "title": "Ogni settimana",
+  "models": [
+   "monda-65-digit"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Ogni settimana",
+   "weekly cleaning",
+   "hopper",
+   "pulizia settimanale",
+   "tramoggia",
+   "- Svuotare e lavare la tramoggia (acqua tiepida, asciugare bene)."
+  ],
+  "n_topics": 4
+ },
+ {
+  "id": "manual/monda-65-digit#ogni-mese",
+  "kind": "manual",
+  "page": "manuals/monda-65-digit.md",
+  "anchor": "ogni-mese",
+  "title": "Ogni mese",
+  "models": [
+   "monda-65-digit"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Ogni mese",
+   "clean the burrs",
+   "pulizia delle macine",
+   "- Chiudere la saracinesca, svitare la ghiera e pulire macine e camera con il pennello."
+  ],
+  "n_topics": 2
+ },
+ {
+  "id": "manual/monda-65-digit#ogni-12-mesi-o-800-kg",
+  "kind": "manual",
+  "page": "manuals/monda-65-digit.md",
+  "anchor": "ogni-12-mesi-o-800-kg",
+  "title": "Ogni 12 mesi o 800 kg",
+  "models": [
+   "monda-65-digit"
+  ],
+  "group": null,
+  "parts": [
+   "MC-7010",
+   "MC-7011"
+  ],
+  "refs": [
+   "Ogni 12 mesi o 800 kg",
+   "replace the burrs",
+   "how often to change the burrs",
+   "sostituire le macine",
+   "ogni quanto si cambiano le macine",
+   "- Sostituire le macine (MC-7010) e le viti (MC-7011).",
+   "Operazione da 20 minuti, vedere la scheda del ricambio."
+  ],
+  "n_topics": 4
+ },
+ {
+  "id": "manual/monda-65-digit#spie-e-segnali",
+  "kind": "manual",
+  "page": "manuals/monda-65-digit.md",
+  "anchor": "spie-e-segnali",
+  "title": "Spie e segnali",
+  "models": [
+   "monda-65-digit"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Spie e segnali",
+   "warning lights",
+   "noises",
+   "alarms",
+   "spie",
+   "rumori",
+   "allarmi",
+   "Segnale Significato Cosa fare --- --- --- Il motore ronza e non gira macine bloccate da un corpo estraneo spegnere e pulire la camera Odore di bruciato motore surriscaldato spegnere, chiamare il service Rumore metallico viti delle macine allentate o macine scheggiate fermarlo subito Display spento fusibile o scheda elettronica controllare il fusibile sotto la base"
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/monda-65-digit#cosa-non-fare",
+  "kind": "manual",
+  "page": "manuals/monda-65-digit.md",
+  "anchor": "cosa-non-fare",
+  "title": "Cosa non fare",
+  "models": [
+   "monda-65-digit"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Cosa non fare",
+   "what not to do",
+   "warnings",
+   "cosa non fare",
+   "avvertenze",
+   "- Non lavare le macine con acqua.",
+   "- Non regolare la ghiera a motore fermo con caffè nella camera.",
+   "- Non macinare chicchi caramellati o aromatizzati."
+  ],
+  "n_topics": 4
+ },
+ {
+  "id": "manual/monda-65-digit#ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
+  "kind": "manual",
+  "page": "manuals/monda-65-digit.md",
+  "anchor": "ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
+  "title": "Ricambi di consumo consigliati a magazzino del cliente",
+  "models": [
+   "monda-65-digit"
+  ],
+  "group": null,
+  "parts": [
+   "EL-3060",
+   "MC-7010",
+   "MC-7011",
+   "MC-7076"
+  ],
+  "refs": [
+   "Ricambi di consumo consigliati a magazzino del cliente",
+   "spare parts to keep in stock",
+   "ricambi da tenere a magazzino",
+   "MC-7010 coppia di macine (1), MC-7011 viti macine (1 kit), MC-7076 guarnizione ghiera (1), EL-3060 fusibili (1 kit)."
+  ],
+  "n_topics": 2
+ },
+ {
+  "id": "manual/monda-65-digit#assistenza",
+  "kind": "manual",
+  "page": "manuals/monda-65-digit.md",
+  "anchor": "assistenza",
+  "title": "Assistenza",
+  "models": [
+   "monda-65-digit"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Assistenza",
+   "how to contact support",
+   "come contattare l'assistenza",
+   "lun-ven 8-18 CET, in italiano e inglese;",
+   "anche assistente vocale automatico.",
+   "modello, matricola, anno, tensione, e la fattura dell'ultimo ricambio se si cita un codice."
+  ],
+  "n_topics": 2
+ },
+ {
+  "id": "manual/monda-65#descrizione",
+  "kind": "manual",
+  "page": "manuals/monda-65.md",
+  "anchor": "descrizione",
+  "title": "Descrizione",
+  "models": [
+   "monda-65"
+  ],
+  "group": null,
+  "parts": [
+   "MC-7010",
+   "MC-7030",
+   "MC-7040"
+  ],
+  "refs": [
+   "Descrizione",
+   "what grinder is this",
+   "how it works",
+   "com'è fatto il macinacaffè",
+   "come funziona",
+   "Macinacaffè per bar con macine piane in acciaio temprato da 65 mm (MC-7010), motore da 350 W, tramoggia da 1,2 kg (MC-7040).",
+   "dosatore a camera con stella a sei settori e leva (MC-7030).",
+   "Il macinacaffè con dosatore:",
+   "si macina nella camera e si dosa a leva, una tacca della stella per ogni dose."
+  ],
+  "n_topics": 4
+ },
+ {
+  "id": "manual/monda-65#dati-tecnici",
+  "kind": "manual",
+  "page": "manuals/monda-65.md",
+  "anchor": "dati-tecnici",
+  "title": "Dati tecnici",
+  "models": [
+   "monda-65"
+  ],
+  "group": null,
+  "parts": [
+   "MC-7010",
+   "MC-7011",
+   "MC-7020",
+   "MC-7021",
+   "MC-7025",
+   "MC-7030",
+   "MC-7040",
+   "MC-7041"
+  ],
+  "refs": [
+   "Dati tecnici",
+   "technical data",
+   "voltage",
+   "power",
+   "serial number plate",
+   "where is the serial number",
+   "dati tecnici",
+   "tensione",
+   "potenza",
+   "matricola",
+   "targhetta",
+   "--- --- Macine piane 65 mm acciaio temprato (MC-7010), viti MC-7011 Motore 350 W, 230 V (MC-7020) o 110 V (MC-7021), condensatore MC-7025 Tramoggia 1,2 kg (MC-7040), saracinesca MC-7041 Dosatura dosatore a camera con stella a sei settori e leva (MC-7030) Dimensioni 21 × 38 × 62 cm, 13 kg Matricola targhetta sotto la base, formato G + anno + numero (es."
+  ],
+  "n_topics": 10
+ },
+ {
+  "id": "manual/monda-65#installazione",
+  "kind": "manual",
+  "page": "manuals/monda-65.md",
+  "anchor": "installazione",
+  "title": "Installazione",
+  "models": [
+   "monda-65"
+  ],
+  "group": null,
+  "parts": [
+   "MC-7080"
+  ],
+  "refs": [
+   "Installazione",
+   "installation",
+   "connection",
+   "first start-up",
+   "installazione",
+   "collegamento",
+   "primo avvio",
+   "Appoggiare su un piano stabile con i piedini antivibranti (MC-7080).",
+   "Verificare la tensione di targa.",
+   "Al primo avvio macinare e buttare 200 g di caffè per assestare le macine."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/monda-65#uso-quotidiano",
+  "kind": "manual",
+  "page": "manuals/monda-65.md",
+  "anchor": "uso-quotidiano",
+  "title": "Uso quotidiano",
+  "models": [
+   "monda-65"
+  ],
+  "group": null,
+  "parts": [
+   "MC-7075"
+  ],
+  "refs": [
+   "Uso quotidiano",
+   "daily use",
+   "how to adjust the grind",
+   "dosing",
+   "uso quotidiano",
+   "regolare la macinatura",
+   "dosare",
+   "- Regolazione della macinatura :",
+   "ghiera (MC-7075), in senso orario più fine.",
+   "Muovere di una tacca alla volta, a motore acceso.",
+   "macinare nella camera, poi una tirata di leva per dose;",
+   "non lasciare più di dieci dosi nella camera."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/monda-65#manutenzione-ordinaria",
+  "kind": "manual",
+  "page": "manuals/monda-65.md",
+  "anchor": "manutenzione-ordinaria",
+  "title": "Manutenzione ordinaria",
+  "models": [
+   "monda-65"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Manutenzione ordinaria",
+   "routine maintenance",
+   "what the user must do",
+   "cleaning schedule",
+   "manutenzione ordinaria",
+   "pulizia",
+   "cosa deve fare l'utente"
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/monda-65#ogni-giorno-a-fine-servizio",
+  "kind": "manual",
+  "page": "manuals/monda-65.md",
+  "anchor": "ogni-giorno-a-fine-servizio",
+  "title": "Ogni giorno, a fine servizio",
+  "models": [
+   "monda-65"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Ogni giorno, a fine servizio",
+   "daily cleaning",
+   "pulizia giornaliera",
+   "- Svuotare il dosatore e pulire con il pennello, senza acqua."
+  ],
+  "n_topics": 2
+ },
+ {
+  "id": "manual/monda-65#ogni-settimana",
+  "kind": "manual",
+  "page": "manuals/monda-65.md",
+  "anchor": "ogni-settimana",
+  "title": "Ogni settimana",
+  "models": [
+   "monda-65"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Ogni settimana",
+   "weekly cleaning",
+   "hopper",
+   "pulizia settimanale",
+   "tramoggia",
+   "- Svuotare e lavare la tramoggia (acqua tiepida, asciugare bene)."
+  ],
+  "n_topics": 4
+ },
+ {
+  "id": "manual/monda-65#ogni-mese",
+  "kind": "manual",
+  "page": "manuals/monda-65.md",
+  "anchor": "ogni-mese",
+  "title": "Ogni mese",
+  "models": [
+   "monda-65"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Ogni mese",
+   "clean the burrs",
+   "pulizia delle macine",
+   "- Chiudere la saracinesca, svitare la ghiera e pulire macine e camera con il pennello."
+  ],
+  "n_topics": 2
+ },
+ {
+  "id": "manual/monda-65#ogni-12-mesi-o-800-kg",
+  "kind": "manual",
+  "page": "manuals/monda-65.md",
+  "anchor": "ogni-12-mesi-o-800-kg",
+  "title": "Ogni 12 mesi o 800 kg",
+  "models": [
+   "monda-65"
+  ],
+  "group": null,
+  "parts": [
+   "MC-7010",
+   "MC-7011"
+  ],
+  "refs": [
+   "Ogni 12 mesi o 800 kg",
+   "replace the burrs",
+   "how often to change the burrs",
+   "sostituire le macine",
+   "ogni quanto si cambiano le macine",
+   "- Sostituire le macine (MC-7010) e le viti (MC-7011).",
+   "Operazione da 20 minuti, vedere la scheda del ricambio."
+  ],
+  "n_topics": 4
+ },
+ {
+  "id": "manual/monda-65#spie-e-segnali",
+  "kind": "manual",
+  "page": "manuals/monda-65.md",
+  "anchor": "spie-e-segnali",
+  "title": "Spie e segnali",
+  "models": [
+   "monda-65"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Spie e segnali",
+   "warning lights",
+   "noises",
+   "alarms",
+   "spie",
+   "rumori",
+   "allarmi",
+   "Segnale Significato Cosa fare --- --- --- Il motore ronza e non gira macine bloccate da un corpo estraneo spegnere e pulire la camera Odore di bruciato motore surriscaldato spegnere, chiamare il service Rumore metallico viti delle macine allentate o macine scheggiate fermarlo subito"
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/monda-65#cosa-non-fare",
+  "kind": "manual",
+  "page": "manuals/monda-65.md",
+  "anchor": "cosa-non-fare",
+  "title": "Cosa non fare",
+  "models": [
+   "monda-65"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Cosa non fare",
+   "what not to do",
+   "warnings",
+   "cosa non fare",
+   "avvertenze",
+   "- Non lavare le macine con acqua.",
+   "- Non regolare la ghiera a motore fermo con caffè nella camera.",
+   "- Non macinare chicchi caramellati o aromatizzati."
+  ],
+  "n_topics": 4
+ },
+ {
+  "id": "manual/monda-65#ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
+  "kind": "manual",
+  "page": "manuals/monda-65.md",
+  "anchor": "ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
+  "title": "Ricambi di consumo consigliati a magazzino del cliente",
+  "models": [
+   "monda-65"
+  ],
+  "group": null,
+  "parts": [
+   "EL-3060",
+   "MC-7010",
+   "MC-7011",
+   "MC-7076"
+  ],
+  "refs": [
+   "Ricambi di consumo consigliati a magazzino del cliente",
+   "spare parts to keep in stock",
+   "ricambi da tenere a magazzino",
+   "MC-7010 coppia di macine (1), MC-7011 viti macine (1 kit), MC-7076 guarnizione ghiera (1), EL-3060 fusibili (1 kit)."
+  ],
+  "n_topics": 2
+ },
+ {
+  "id": "manual/monda-65#assistenza",
+  "kind": "manual",
+  "page": "manuals/monda-65.md",
+  "anchor": "assistenza",
+  "title": "Assistenza",
+  "models": [
+   "monda-65"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Assistenza",
+   "how to contact support",
+   "come contattare l'assistenza",
+   "lun-ven 8-18 CET, in italiano e inglese;",
+   "anche assistente vocale automatico.",
+   "modello, matricola, anno, tensione, e la fattura dell'ultimo ricambio se si cita un codice."
+  ],
+  "n_topics": 2
+ },
+ {
+  "id": "manual/onda-mb2-evo#descrizione",
+  "kind": "manual",
+  "page": "manuals/onda-mb2-evo.md",
+  "anchor": "descrizione",
+  "title": "Descrizione",
+  "models": [
+   "onda-mb2-evo"
+  ],
+  "group": null,
+  "parts": [
+   "CA-1325",
+   "EL-3095",
+   "EL-3096",
+   "EL-3101"
+  ],
+  "refs": [
+   "Descrizione",
+   "what machine is this",
+   "how it works",
+   "com'è fatta la macchina",
+   "come funziona",
+   "La Onda MB2 Evo è una macchina professionale per locali ad alto volume, fino a 500 caffè al giorno.",
+   "Una caldaia vapore da 7 L inox coibentata produce vapore e acqua calda;",
+   "ogni gruppo ha la sua caldaietta caffè da 0,8 L (CA-1325) con resistenza da 800 W e sonda PT100, e un mantello riscaldato sul gruppo.",
+   "La temperatura si imposta gruppo per gruppo dal pannello.",
+   "Pompa rotativa 100 L/h, elettrovalvole a 24 V.",
+   "bilance integrate sotto ogni gruppo (EL-3095, celle EL-3096), display touch, sensore di livello della vaschetta (EL-3101), caldaia vapore coibentata."
+  ],
+  "n_topics": 4
+ },
+ {
+  "id": "manual/onda-mb2-evo#dati-tecnici",
+  "kind": "manual",
+  "page": "manuals/onda-mb2-evo.md",
+  "anchor": "dati-tecnici",
+  "title": "Dati tecnici",
+  "models": [
+   "onda-mb2-evo"
+  ],
+  "group": null,
+  "parts": [
+   "CA-1200",
+   "CA-1201",
+   "CA-1210",
+   "CA-1211",
+   "CA-1245",
+   "CA-1291",
+   "CA-1323",
+   "CA-1325",
+   "CA-1350",
+   "EL-3021",
+   "EL-3034",
+   "EL-3041",
+   "EL-3057",
+   "GE-2220",
+   "ID-4010",
+   "ID-4015",
+   "ID-4086",
+   "ID-4110"
+  ],
+  "refs": [
+   "Dati tecnici",
+   "technical data",
+   "voltage",
+   "power",
+   "boiler size",
+   "pump pressure",
+   "serial number plate",
+   "where is the serial number",
+   "dati tecnici",
+   "tensione",
+   "potenza",
+   "matricola",
+   "targhetta",
+   "--- --- Gruppi 2 Caldaia vapore 7 L inox coibentata (CA-1323, CA-1350) Resistenza vapore 3200 W 230 V (CA-1200);",
+   "3200 W 110 V (CA-1201) Caldaiette caffè 0,8 L per gruppo (CA-1325), resistenza 800 W (CA-1210 a 230 V, CA-1211 a 110 V) Controllo PID con sonde PT100 (caldaia CA-1291, gruppo GE-2220), trasduttore di pressione vapore (CA-1245) Pompa rotativa 100 L/h (ID-4010), motore 165 W (ID-4015) Elettronica centralina EL-3021, alimentatore 24 V (EL-3057), pannello touch per gruppo (EL-3034) e display touch da 5\" (EL-3041) Pressione pompa 9 bar (regolabile sul by-pass) Allacciamento idrico 3/8\", pressione di rete 2-4 bar;",
+   "sopra 4 bar usare il riduttore ID-4110 Scarico tubo 20 mm (ID-4086) Dimensioni 82 × 58 × 55 cm, 81 kg Matricola targhetta sotto la vaschetta di scarico, a destra"
+  ],
+  "n_topics": 12
+ },
+ {
+  "id": "manual/onda-mb2-evo#installazione",
+  "kind": "manual",
+  "page": "manuals/onda-mb2-evo.md",
+  "anchor": "installazione",
+  "title": "Installazione",
+  "models": [
+   "onda-mb2-evo"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Installazione",
+   "installation",
+   "water connection",
+   "water hardness",
+   "softener",
+   "first start-up",
+   "installazione",
+   "allacciamento acqua",
+   "durezza dell'acqua",
+   "addolcitore",
+   "prima accensione",
+   "Solo personale autorizzato.",
+   "Acqua di rete con durezza inferiore a 8 °f oppure con addolcitore:",
+   "la garanzia non copre i danni da calcare.",
+   "Verificare la tensione di targa prima del collegamento.",
+   "Alla prima accensione si riempie prima la caldaia vapore, poi le caldaiette dei gruppi (circa 6 minuti);",
+   "ogni gruppo è pronto quando il suo pannello smette di lampeggiare."
+  ],
+  "n_topics": 10
+ },
+ {
+  "id": "manual/onda-mb2-evo#uso-quotidiano",
+  "kind": "manual",
+  "page": "manuals/onda-mb2-evo.md",
+  "anchor": "uso-quotidiano",
+  "title": "Uso quotidiano",
+  "models": [
+   "onda-mb2-evo"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Uso quotidiano",
+   "daily use",
+   "switching on",
+   "how to program the doses",
+   "buttons",
+   "steam",
+   "hot water",
+   "uso quotidiano",
+   "accensione",
+   "programmare le dosi",
+   "tasti",
+   "vapore",
+   "acqua calda",
+   "interruttore generale acceso;",
+   "portafiltro agganciato al centro, tasto dose.",
+   "tenere premuto il tasto continuo 5 secondi finché lampeggia, avviare la dose, premere lo stesso tasto alla quantità voluta.",
+   "dal pannello di ogni gruppo, tasti + e −;",
+   "leva joystick in alto per vapore pieno, in basso per vapore a impulsi;",
+   "purgare 2 secondi prima e dopo.",
+   "si può spegnere dal pannello (icona vapore) nelle ore di poco lavoro.",
+   "il peso della tazza compare sul pannello del gruppo;",
+   "la dose può fermarsi a peso.",
+   "Menu Bilancia, tasto Tara, a vaschetta vuota."
+  ],
+  "n_topics": 12
+ },
+ {
+  "id": "manual/onda-mb2-evo#manutenzione-ordinaria",
+  "kind": "manual",
+  "page": "manuals/onda-mb2-evo.md",
+  "anchor": "manutenzione-ordinaria",
+  "title": "Manutenzione ordinaria",
+  "models": [
+   "onda-mb2-evo"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Manutenzione ordinaria",
+   "routine maintenance",
+   "what the user must do",
+   "cleaning schedule",
+   "manutenzione ordinaria",
+   "pulizia",
+   "cosa deve fare l'utente",
+   "Tutto ciò che segue è a carico dell'utente.",
+   "Nove chiamate di assistenza su dieci nascono da una di queste operazioni saltata."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/onda-mb2-evo#ogni-giorno-a-fine-servizio",
+  "kind": "manual",
+  "page": "manuals/onda-mb2-evo.md",
+  "anchor": "ogni-giorno-a-fine-servizio",
+  "title": "Ogni giorno, a fine servizio",
+  "models": [
+   "onda-mb2-evo"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6033",
+   "CR-6052",
+   "GE-2193",
+   "VA-5025"
+  ],
+  "refs": [
+   "Ogni giorno, a fine servizio",
+   "daily cleaning",
+   "backflush",
+   "clean the groups with the blind filter and a tablet",
+   "how often to clean",
+   "detergent",
+   "pulizia giornaliera",
+   "lavaggio dei gruppi con filtro cieco e pastiglia",
+   "ogni quanto si lava",
+   "Lavaggio dei gruppi con filtro cieco (GE-2193) e pastiglia (CR-6052) :",
+   "una pastiglia nel filtro cieco, 5 cicli da 10 secondi con il tasto continuo, poi 5 cicli senza pastiglia.",
+   "Portafiltri e filtri in acqua calda con pastiglia per 20 minuti, risciacquo.",
+   "svitare e sciacquare il terminale (VA-5025) una volta a settimana.",
+   "Svuotare e lavare vaschetta e griglia (CR-6033)."
+  ],
+  "n_topics": 8
+ },
+ {
+  "id": "manual/onda-mb2-evo#ogni-settimana",
+  "kind": "manual",
+  "page": "manuals/onda-mb2-evo.md",
+  "anchor": "ogni-settimana",
+  "title": "Ogni settimana",
+  "models": [
+   "onda-mb2-evo"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6051",
+   "GE-2410"
+  ],
+  "refs": [
+   "Ogni settimana",
+   "weekly cleaning",
+   "brush the shower screen",
+   "check how the portafilter locks",
+   "pulizia settimanale",
+   "spazzolare la doccetta",
+   "aggancio del portafiltro",
+   "- Spazzolare la doccetta con la spazzola gruppo (CR-6051) senza smontarla.",
+   "- Controllare l'aggancio del portafiltro:",
+   "se arriva oltre il centro, la guarnizione (GE-2410) è da cambiare."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/onda-mb2-evo#ogni-mese",
+  "kind": "manual",
+  "page": "manuals/onda-mb2-evo.md",
+  "anchor": "ogni-mese",
+  "title": "Ogni mese",
+  "models": [
+   "onda-mb2-evo"
+  ],
+  "group": null,
+  "parts": [
+   "GE-2151",
+   "ID-4061"
+  ],
+  "refs": [
+   "Ogni mese",
+   "monthly maintenance",
+   "remove and descale the shower screens",
+   "water filter cartridge",
+   "manutenzione mensile",
+   "smontare e decalcificare le doccette",
+   "cartuccia del filtro",
+   "- Smontare le doccette (vite centrale) e lasciarle 20 minuti nel decalcificante;",
+   "sostituire se deformate (GE-2151).",
+   "- Controllare la cartuccia del filtro d'ingresso (ID-4061);",
+   "sostituirla ogni 3 mesi, ogni mese con acqua dura."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/onda-mb2-evo#ogni-6-12-mesi",
+  "kind": "manual",
+  "page": "manuals/onda-mb2-evo.md",
+  "anchor": "ogni-6-12-mesi",
+  "title": "Ogni 6-12 mesi",
+  "models": [
+   "onda-mb2-evo"
+  ],
+  "group": null,
+  "parts": [
+   "GE-2211",
+   "GE-2410",
+   "VA-5019"
+  ],
+  "refs": [
+   "Ogni 6-12 mesi",
+   "replace the group gaskets",
+   "how often to change the gasket",
+   "steam valve seals",
+   "sostituire le guarnizioni sottocoppa",
+   "ogni quanto si cambia la guarnizione",
+   "- Sostituire le guarnizioni sottocoppa (GE-2410) o montare il kit gruppo (GE-2211).",
+   "Operazione da 10 minuti, vedere la scheda del ricambio.",
+   "- Sostituire il kit guarnizioni del joystick vapore (VA-5019) se gocciola."
+  ],
+  "n_topics": 5
+ },
+ {
+  "id": "manual/onda-mb2-evo#ogni-2-anni-a-cura-del-service",
+  "kind": "manual",
+  "page": "manuals/onda-mb2-evo.md",
+  "anchor": "ogni-2-anni-a-cura-del-service",
+  "title": "Ogni 2 anni, a cura del service",
+  "models": [
+   "onda-mb2-evo"
+  ],
+  "group": null,
+  "parts": [
+   "CA-1231",
+   "CA-1251",
+   "CA-1260"
+  ],
+  "refs": [
+   "Ogni 2 anni, a cura del service",
+   "two-year service",
+   "safety valve",
+   "anti-vacuum valve",
+   "level probe",
+   "boiler descaling",
+   "revisione biennale",
+   "valvola di sicurezza",
+   "decalcificazione caldaia",
+   "- Valvola di sicurezza (CA-1251), valvola antidepressione (CA-1260), sonda di livello (CA-1231), decalcificazione delle caldaie."
+  ],
+  "n_topics": 8
+ },
+ {
+  "id": "manual/onda-mb2-evo#spie-e-segnali",
+  "kind": "manual",
+  "page": "manuals/onda-mb2-evo.md",
+  "anchor": "spie-e-segnali",
+  "title": "Spie e segnali",
+  "models": [
+   "onda-mb2-evo"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Spie e segnali",
+   "warning lights",
+   "flashing LEDs",
+   "alarms",
+   "level alarm",
+   "error codes",
+   "what does the blinking mean",
+   "spie",
+   "led che lampeggiano",
+   "allarmi",
+   "allarme livello",
+   "errori sul pannello",
+   "Segnale Significato Cosa fare --- --- --- Tutti i pannelli lampeggiano allarme livello caldaia vapore verificare il rubinetto dell'acqua;",
+   "se persiste, chiamare il service PRB sul pannello di un gruppo errore sonda di temperatura chiamare il service Temperatura del gruppo che non sale caldaietta non scalda o termostato di sicurezza scattato vedere il fascicolo o chiamare il service Pressione vapore 0,0 con icona accesa caldaia vapore non scalda chiamare il service Peso che oscilla a vaschetta vuota bilancia da tarare o cella di carico menu Bilancia, Tara Sfiato dalla valvola di sicurezza pressione oltre il limite spegnere, chiamare il service"
+  ],
+  "n_topics": 11
+ },
+ {
+  "id": "manual/onda-mb2-evo#cosa-non-fare",
+  "kind": "manual",
+  "page": "manuals/onda-mb2-evo.md",
+  "anchor": "cosa-non-fare",
+  "title": "Cosa non fare",
+  "models": [
+   "onda-mb2-evo"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6052"
+  ],
+  "refs": [
+   "Cosa non fare",
+   "what not to do",
+   "warnings",
+   "never adjust the safety valve",
+   "do not run without water",
+   "cosa non fare",
+   "avvertenze",
+   "- Non far funzionare la macchina con l'acqua chiusa.",
+   "- Non regolare la valvola di sicurezza.",
+   "- Non usare detergenti diversi dalle pastiglie CR-6052 nei gruppi.",
+   "- Non sostituire resistenze, pompa o centralina senza il service in linea.",
+   "- Non lasciare la lancia vapore immersa nel latte."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/onda-mb2-evo#ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
+  "kind": "manual",
+  "page": "manuals/onda-mb2-evo.md",
+  "anchor": "ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
+  "title": "Ricambi di consumo consigliati a magazzino del cliente",
+  "models": [
+   "onda-mb2-evo"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6052",
+   "EL-3060",
+   "GE-2151",
+   "GE-2193",
+   "GE-2410",
+   "ID-4061",
+   "VA-5019",
+   "VA-5025"
+  ],
+  "refs": [
+   "Ricambi di consumo consigliati a magazzino del cliente",
+   "spare parts to keep in stock",
+   "consumables",
+   "recommended spares",
+   "ricambi da tenere a magazzino",
+   "consumabili consigliati",
+   "GE-2410 guarnizione sottocoppa (2), GE-2151 doccetta (2), GE-2193 filtro cieco (1), CR-6052 pastiglie (1 barattolo), VA-5019 kit guarnizioni vapore (1), VA-5025 terminale vapore (1), ID-4061 cartuccia filtro (1), EL-3060 fusibili (1 kit)."
+  ],
+  "n_topics": 5
+ },
+ {
+  "id": "manual/onda-mb2-evo#assistenza",
+  "kind": "manual",
+  "page": "manuals/onda-mb2-evo.md",
+  "anchor": "assistenza",
+  "title": "Assistenza",
+  "models": [
+   "onda-mb2-evo"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Assistenza",
+   "how to contact support",
+   "opening hours",
+   "what to have ready when calling",
+   "come contattare l'assistenza",
+   "orari",
+   "cosa tenere pronto",
+   "lun-ven 8-18 CET, in italiano e inglese;",
+   "anche assistente vocale automatico.",
+   "modello, matricola, anno, tensione, e la fattura dell'ultimo ricambio se si cita un codice."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/onda-mb2#descrizione",
+  "kind": "manual",
+  "page": "manuals/onda-mb2.md",
+  "anchor": "descrizione",
+  "title": "Descrizione",
+  "models": [
+   "onda-mb2"
+  ],
+  "group": null,
+  "parts": [
+   "CA-1325"
+  ],
+  "refs": [
+   "Descrizione",
+   "what machine is this",
+   "how it works",
+   "com'è fatta la macchina",
+   "come funziona",
+   "La Onda MB2 è una macchina professionale per locali ad alto volume, fino a 500 caffè al giorno.",
+   "Una caldaia vapore da 7 L inox produce vapore e acqua calda;",
+   "ogni gruppo ha la sua caldaietta caffè da 0,8 L (CA-1325) con resistenza da 800 W e sonda PT100, e un mantello riscaldato sul gruppo.",
+   "La temperatura si imposta gruppo per gruppo dal pannello.",
+   "Pompa rotativa 100 L/h, elettrovalvole a 24 V.",
+   "Caldaia vapore e una caldaietta caffè per gruppo, ognuna con il suo PID:",
+   "temperatura del caffè indipendente per gruppo."
+  ],
+  "n_topics": 4
+ },
+ {
+  "id": "manual/onda-mb2#dati-tecnici",
+  "kind": "manual",
+  "page": "manuals/onda-mb2.md",
+  "anchor": "dati-tecnici",
+  "title": "Dati tecnici",
+  "models": [
+   "onda-mb2"
+  ],
+  "group": null,
+  "parts": [
+   "CA-1200",
+   "CA-1201",
+   "CA-1210",
+   "CA-1211",
+   "CA-1245",
+   "CA-1291",
+   "CA-1323",
+   "CA-1325",
+   "EL-3020",
+   "EL-3033",
+   "EL-3057",
+   "GE-2220",
+   "ID-4010",
+   "ID-4015",
+   "ID-4086",
+   "ID-4110"
+  ],
+  "refs": [
+   "Dati tecnici",
+   "technical data",
+   "voltage",
+   "power",
+   "boiler size",
+   "pump pressure",
+   "serial number plate",
+   "where is the serial number",
+   "dati tecnici",
+   "tensione",
+   "potenza",
+   "matricola",
+   "targhetta",
+   "--- --- Gruppi 2 Caldaia vapore 7 L inox (CA-1323) Resistenza vapore 3200 W 230 V (CA-1200);",
+   "3200 W 110 V (CA-1201) Caldaiette caffè 0,8 L per gruppo (CA-1325), resistenza 800 W (CA-1210 a 230 V, CA-1211 a 110 V) Controllo PID con sonde PT100 (caldaia CA-1291, gruppo GE-2220), trasduttore di pressione vapore (CA-1245) Pompa rotativa 100 L/h (ID-4010), motore 165 W (ID-4015) Elettronica centralina EL-3020, alimentatore 24 V (EL-3057), pulsantiera retroilluminata a cinque tasti per gruppo (EL-3033) Pressione pompa 9 bar (regolabile sul by-pass) Allacciamento idrico 3/8\", pressione di rete 2-4 bar;",
+   "sopra 4 bar usare il riduttore ID-4110 Scarico tubo 20 mm (ID-4086) Dimensioni 82 × 58 × 55 cm, 78 kg Matricola targhetta sotto la vaschetta di scarico, a destra"
+  ],
+  "n_topics": 12
+ },
+ {
+  "id": "manual/onda-mb2#installazione",
+  "kind": "manual",
+  "page": "manuals/onda-mb2.md",
+  "anchor": "installazione",
+  "title": "Installazione",
+  "models": [
+   "onda-mb2"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Installazione",
+   "installation",
+   "water connection",
+   "water hardness",
+   "softener",
+   "first start-up",
+   "installazione",
+   "allacciamento acqua",
+   "durezza dell'acqua",
+   "addolcitore",
+   "prima accensione",
+   "Solo personale autorizzato.",
+   "Acqua di rete con durezza inferiore a 8 °f oppure con addolcitore:",
+   "la garanzia non copre i danni da calcare.",
+   "Verificare la tensione di targa prima del collegamento.",
+   "Alla prima accensione si riempie prima la caldaia vapore, poi le caldaiette dei gruppi (circa 6 minuti);",
+   "ogni gruppo è pronto quando il suo pannello smette di lampeggiare."
+  ],
+  "n_topics": 10
+ },
+ {
+  "id": "manual/onda-mb2#uso-quotidiano",
+  "kind": "manual",
+  "page": "manuals/onda-mb2.md",
+  "anchor": "uso-quotidiano",
+  "title": "Uso quotidiano",
+  "models": [
+   "onda-mb2"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Uso quotidiano",
+   "daily use",
+   "switching on",
+   "how to program the doses",
+   "buttons",
+   "steam",
+   "hot water",
+   "uso quotidiano",
+   "accensione",
+   "programmare le dosi",
+   "tasti",
+   "vapore",
+   "acqua calda",
+   "interruttore generale acceso;",
+   "portafiltro agganciato al centro, tasto dose.",
+   "tenere premuto il tasto continuo 5 secondi finché lampeggia, avviare la dose, premere lo stesso tasto alla quantità voluta.",
+   "dal pannello di ogni gruppo, tasti + e −;",
+   "leva joystick in alto per vapore pieno, in basso per vapore a impulsi;",
+   "purgare 2 secondi prima e dopo.",
+   "si può spegnere dal pannello (icona vapore) nelle ore di poco lavoro."
+  ],
+  "n_topics": 12
+ },
+ {
+  "id": "manual/onda-mb2#manutenzione-ordinaria",
+  "kind": "manual",
+  "page": "manuals/onda-mb2.md",
+  "anchor": "manutenzione-ordinaria",
+  "title": "Manutenzione ordinaria",
+  "models": [
+   "onda-mb2"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Manutenzione ordinaria",
+   "routine maintenance",
+   "what the user must do",
+   "cleaning schedule",
+   "manutenzione ordinaria",
+   "pulizia",
+   "cosa deve fare l'utente",
+   "Tutto ciò che segue è a carico dell'utente.",
+   "Nove chiamate di assistenza su dieci nascono da una di queste operazioni saltata."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/onda-mb2#ogni-giorno-a-fine-servizio",
+  "kind": "manual",
+  "page": "manuals/onda-mb2.md",
+  "anchor": "ogni-giorno-a-fine-servizio",
+  "title": "Ogni giorno, a fine servizio",
+  "models": [
+   "onda-mb2"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6034",
+   "CR-6052",
+   "GE-2193",
+   "VA-5025"
+  ],
+  "refs": [
+   "Ogni giorno, a fine servizio",
+   "daily cleaning",
+   "backflush",
+   "clean the groups with the blind filter and a tablet",
+   "how often to clean",
+   "detergent",
+   "pulizia giornaliera",
+   "lavaggio dei gruppi con filtro cieco e pastiglia",
+   "ogni quanto si lava",
+   "Lavaggio dei gruppi con filtro cieco (GE-2193) e pastiglia (CR-6052) :",
+   "una pastiglia nel filtro cieco, 5 cicli da 10 secondi con il tasto continuo, poi 5 cicli senza pastiglia.",
+   "Portafiltri e filtri in acqua calda con pastiglia per 20 minuti, risciacquo.",
+   "svitare e sciacquare il terminale (VA-5025) una volta a settimana.",
+   "Svuotare e lavare vaschetta e griglia (CR-6034)."
+  ],
+  "n_topics": 8
+ },
+ {
+  "id": "manual/onda-mb2#ogni-settimana",
+  "kind": "manual",
+  "page": "manuals/onda-mb2.md",
+  "anchor": "ogni-settimana",
+  "title": "Ogni settimana",
+  "models": [
+   "onda-mb2"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6051",
+   "GE-2410"
+  ],
+  "refs": [
+   "Ogni settimana",
+   "weekly cleaning",
+   "brush the shower screen",
+   "check how the portafilter locks",
+   "pulizia settimanale",
+   "spazzolare la doccetta",
+   "aggancio del portafiltro",
+   "- Spazzolare la doccetta con la spazzola gruppo (CR-6051) senza smontarla.",
+   "- Controllare l'aggancio del portafiltro:",
+   "se arriva oltre il centro, la guarnizione (GE-2410) è da cambiare."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/onda-mb2#ogni-mese",
+  "kind": "manual",
+  "page": "manuals/onda-mb2.md",
+  "anchor": "ogni-mese",
+  "title": "Ogni mese",
+  "models": [
+   "onda-mb2"
+  ],
+  "group": null,
+  "parts": [
+   "GE-2151",
+   "ID-4061"
+  ],
+  "refs": [
+   "Ogni mese",
+   "monthly maintenance",
+   "remove and descale the shower screens",
+   "water filter cartridge",
+   "manutenzione mensile",
+   "smontare e decalcificare le doccette",
+   "cartuccia del filtro",
+   "- Smontare le doccette (vite centrale) e lasciarle 20 minuti nel decalcificante;",
+   "sostituire se deformate (GE-2151).",
+   "- Controllare la cartuccia del filtro d'ingresso (ID-4061);",
+   "sostituirla ogni 3 mesi, ogni mese con acqua dura."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/onda-mb2#ogni-6-12-mesi",
+  "kind": "manual",
+  "page": "manuals/onda-mb2.md",
+  "anchor": "ogni-6-12-mesi",
+  "title": "Ogni 6-12 mesi",
+  "models": [
+   "onda-mb2"
+  ],
+  "group": null,
+  "parts": [
+   "GE-2211",
+   "GE-2410",
+   "VA-5019"
+  ],
+  "refs": [
+   "Ogni 6-12 mesi",
+   "replace the group gaskets",
+   "how often to change the gasket",
+   "steam valve seals",
+   "sostituire le guarnizioni sottocoppa",
+   "ogni quanto si cambia la guarnizione",
+   "- Sostituire le guarnizioni sottocoppa (GE-2410) o montare il kit gruppo (GE-2211).",
+   "Operazione da 10 minuti, vedere la scheda del ricambio.",
+   "- Sostituire il kit guarnizioni del joystick vapore (VA-5019) se gocciola."
+  ],
+  "n_topics": 5
+ },
+ {
+  "id": "manual/onda-mb2#ogni-2-anni-a-cura-del-service",
+  "kind": "manual",
+  "page": "manuals/onda-mb2.md",
+  "anchor": "ogni-2-anni-a-cura-del-service",
+  "title": "Ogni 2 anni, a cura del service",
+  "models": [
+   "onda-mb2"
+  ],
+  "group": null,
+  "parts": [
+   "CA-1231",
+   "CA-1251",
+   "CA-1260"
+  ],
+  "refs": [
+   "Ogni 2 anni, a cura del service",
+   "two-year service",
+   "safety valve",
+   "anti-vacuum valve",
+   "level probe",
+   "boiler descaling",
+   "revisione biennale",
+   "valvola di sicurezza",
+   "decalcificazione caldaia",
+   "- Valvola di sicurezza (CA-1251), valvola antidepressione (CA-1260), sonda di livello (CA-1231), decalcificazione delle caldaie."
+  ],
+  "n_topics": 8
+ },
+ {
+  "id": "manual/onda-mb2#spie-e-segnali",
+  "kind": "manual",
+  "page": "manuals/onda-mb2.md",
+  "anchor": "spie-e-segnali",
+  "title": "Spie e segnali",
+  "models": [
+   "onda-mb2"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Spie e segnali",
+   "warning lights",
+   "flashing LEDs",
+   "alarms",
+   "level alarm",
+   "error codes",
+   "what does the blinking mean",
+   "spie",
+   "led che lampeggiano",
+   "allarmi",
+   "allarme livello",
+   "errori sul pannello",
+   "Segnale Significato Cosa fare --- --- --- Tutti i pannelli lampeggiano allarme livello caldaia vapore verificare il rubinetto dell'acqua;",
+   "se persiste, chiamare il service PRB sul pannello di un gruppo errore sonda di temperatura chiamare il service Temperatura del gruppo che non sale caldaietta non scalda o termostato di sicurezza scattato vedere il fascicolo o chiamare il service Pressione vapore 0,0 con icona accesa caldaia vapore non scalda chiamare il service Sfiato dalla valvola di sicurezza pressione oltre il limite spegnere, chiamare il service"
+  ],
+  "n_topics": 11
+ },
+ {
+  "id": "manual/onda-mb2#cosa-non-fare",
+  "kind": "manual",
+  "page": "manuals/onda-mb2.md",
+  "anchor": "cosa-non-fare",
+  "title": "Cosa non fare",
+  "models": [
+   "onda-mb2"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6052"
+  ],
+  "refs": [
+   "Cosa non fare",
+   "what not to do",
+   "warnings",
+   "never adjust the safety valve",
+   "do not run without water",
+   "cosa non fare",
+   "avvertenze",
+   "- Non far funzionare la macchina con l'acqua chiusa.",
+   "- Non regolare la valvola di sicurezza.",
+   "- Non usare detergenti diversi dalle pastiglie CR-6052 nei gruppi.",
+   "- Non sostituire resistenze, pompa o centralina senza il service in linea.",
+   "- Non lasciare la lancia vapore immersa nel latte."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/onda-mb2#ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
+  "kind": "manual",
+  "page": "manuals/onda-mb2.md",
+  "anchor": "ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
+  "title": "Ricambi di consumo consigliati a magazzino del cliente",
+  "models": [
+   "onda-mb2"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6052",
+   "EL-3060",
+   "GE-2151",
+   "GE-2193",
+   "GE-2410",
+   "ID-4061",
+   "VA-5019",
+   "VA-5025"
+  ],
+  "refs": [
+   "Ricambi di consumo consigliati a magazzino del cliente",
+   "spare parts to keep in stock",
+   "consumables",
+   "recommended spares",
+   "ricambi da tenere a magazzino",
+   "consumabili consigliati",
+   "GE-2410 guarnizione sottocoppa (2), GE-2151 doccetta (2), GE-2193 filtro cieco (1), CR-6052 pastiglie (1 barattolo), VA-5019 kit guarnizioni vapore (1), VA-5025 terminale vapore (1), ID-4061 cartuccia filtro (1), EL-3060 fusibili (1 kit)."
+  ],
+  "n_topics": 5
+ },
+ {
+  "id": "manual/onda-mb2#assistenza",
+  "kind": "manual",
+  "page": "manuals/onda-mb2.md",
+  "anchor": "assistenza",
+  "title": "Assistenza",
+  "models": [
+   "onda-mb2"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Assistenza",
+   "how to contact support",
+   "opening hours",
+   "what to have ready when calling",
+   "come contattare l'assistenza",
+   "orari",
+   "cosa tenere pronto",
+   "lun-ven 8-18 CET, in italiano e inglese;",
+   "anche assistente vocale automatico.",
+   "modello, matricola, anno, tensione, e la fattura dell'ultimo ricambio se si cita un codice."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/onda-mb3#descrizione",
+  "kind": "manual",
+  "page": "manuals/onda-mb3.md",
+  "anchor": "descrizione",
+  "title": "Descrizione",
+  "models": [
+   "onda-mb3"
+  ],
+  "group": null,
+  "parts": [
+   "CA-1325"
+  ],
+  "refs": [
+   "Descrizione",
+   "what machine is this",
+   "how it works",
+   "com'è fatta la macchina",
+   "come funziona",
+   "La Onda MB3 è una macchina professionale per locali ad alto volume, fino a 700 caffè al giorno.",
+   "Una caldaia vapore da 10 L inox produce vapore e acqua calda;",
+   "ogni gruppo ha la sua caldaietta caffè da 0,8 L (CA-1325) con resistenza da 800 W e sonda PT100, e un mantello riscaldato sul gruppo.",
+   "La temperatura si imposta gruppo per gruppo dal pannello.",
+   "Pompa rotativa 150 L/h, elettrovalvole a 24 V.",
+   "stessa elettronica della MB2, caldaia vapore da 10 litri e pompa più grande."
+  ],
+  "n_topics": 4
+ },
+ {
+  "id": "manual/onda-mb3#dati-tecnici",
+  "kind": "manual",
+  "page": "manuals/onda-mb3.md",
+  "anchor": "dati-tecnici",
+  "title": "Dati tecnici",
+  "models": [
+   "onda-mb3"
+  ],
+  "group": null,
+  "parts": [
+   "CA-1202",
+   "CA-1203",
+   "CA-1210",
+   "CA-1211",
+   "CA-1245",
+   "CA-1291",
+   "CA-1324",
+   "CA-1325",
+   "EL-3020",
+   "EL-3033",
+   "EL-3057",
+   "GE-2220",
+   "ID-4011",
+   "ID-4015",
+   "ID-4086",
+   "ID-4110"
+  ],
+  "refs": [
+   "Dati tecnici",
+   "technical data",
+   "voltage",
+   "power",
+   "boiler size",
+   "pump pressure",
+   "serial number plate",
+   "where is the serial number",
+   "dati tecnici",
+   "tensione",
+   "potenza",
+   "matricola",
+   "targhetta",
+   "--- --- Gruppi 3 Caldaia vapore 10 L inox (CA-1324) Resistenza vapore 4800 W 400 V trifase (CA-1202);",
+   "4800 W 230 V (CA-1203) Caldaiette caffè 0,8 L per gruppo (CA-1325), resistenza 800 W (CA-1210 a 230 V, CA-1211 a 110 V) Controllo PID con sonde PT100 (caldaia CA-1291, gruppo GE-2220), trasduttore di pressione vapore (CA-1245) Pompa rotativa 150 L/h (ID-4011), motore 165 W (ID-4015) Elettronica centralina EL-3020, alimentatore 24 V (EL-3057), pulsantiera retroilluminata a cinque tasti per gruppo (EL-3033) Pressione pompa 9 bar (regolabile sul by-pass) Allacciamento idrico 3/8\", pressione di rete 2-4 bar;",
+   "sopra 4 bar usare il riduttore ID-4110 Scarico tubo 20 mm (ID-4086) Dimensioni 106 × 58 × 55 cm, 96 kg Matricola targhetta sotto la vaschetta di scarico, a destra"
+  ],
+  "n_topics": 12
+ },
+ {
+  "id": "manual/onda-mb3#installazione",
+  "kind": "manual",
+  "page": "manuals/onda-mb3.md",
+  "anchor": "installazione",
+  "title": "Installazione",
+  "models": [
+   "onda-mb3"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Installazione",
+   "installation",
+   "water connection",
+   "water hardness",
+   "softener",
+   "first start-up",
+   "installazione",
+   "allacciamento acqua",
+   "durezza dell'acqua",
+   "addolcitore",
+   "prima accensione",
+   "Solo personale autorizzato.",
+   "Acqua di rete con durezza inferiore a 8 °f oppure con addolcitore:",
+   "la garanzia non copre i danni da calcare.",
+   "Verificare la tensione di targa prima del collegamento.",
+   "Alla prima accensione si riempie prima la caldaia vapore, poi le caldaiette dei gruppi (circa 6 minuti);",
+   "ogni gruppo è pronto quando il suo pannello smette di lampeggiare."
+  ],
+  "n_topics": 10
+ },
+ {
+  "id": "manual/onda-mb3#uso-quotidiano",
+  "kind": "manual",
+  "page": "manuals/onda-mb3.md",
+  "anchor": "uso-quotidiano",
+  "title": "Uso quotidiano",
+  "models": [
+   "onda-mb3"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Uso quotidiano",
+   "daily use",
+   "switching on",
+   "how to program the doses",
+   "buttons",
+   "steam",
+   "hot water",
+   "uso quotidiano",
+   "accensione",
+   "programmare le dosi",
+   "tasti",
+   "vapore",
+   "acqua calda",
+   "interruttore generale acceso;",
+   "portafiltro agganciato al centro, tasto dose.",
+   "tenere premuto il tasto continuo 5 secondi finché lampeggia, avviare la dose, premere lo stesso tasto alla quantità voluta.",
+   "dal pannello di ogni gruppo, tasti + e −;",
+   "leva joystick in alto per vapore pieno, in basso per vapore a impulsi;",
+   "purgare 2 secondi prima e dopo.",
+   "si può spegnere dal pannello (icona vapore) nelle ore di poco lavoro."
+  ],
+  "n_topics": 12
+ },
+ {
+  "id": "manual/onda-mb3#manutenzione-ordinaria",
+  "kind": "manual",
+  "page": "manuals/onda-mb3.md",
+  "anchor": "manutenzione-ordinaria",
+  "title": "Manutenzione ordinaria",
+  "models": [
+   "onda-mb3"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Manutenzione ordinaria",
+   "routine maintenance",
+   "what the user must do",
+   "cleaning schedule",
+   "manutenzione ordinaria",
+   "pulizia",
+   "cosa deve fare l'utente",
+   "Tutto ciò che segue è a carico dell'utente.",
+   "Nove chiamate di assistenza su dieci nascono da una di queste operazioni saltata."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/onda-mb3#ogni-giorno-a-fine-servizio",
+  "kind": "manual",
+  "page": "manuals/onda-mb3.md",
+  "anchor": "ogni-giorno-a-fine-servizio",
+  "title": "Ogni giorno, a fine servizio",
+  "models": [
+   "onda-mb3"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6034",
+   "CR-6052",
+   "GE-2193",
+   "VA-5025"
+  ],
+  "refs": [
+   "Ogni giorno, a fine servizio",
+   "daily cleaning",
+   "backflush",
+   "clean the groups with the blind filter and a tablet",
+   "how often to clean",
+   "detergent",
+   "pulizia giornaliera",
+   "lavaggio dei gruppi con filtro cieco e pastiglia",
+   "ogni quanto si lava",
+   "Lavaggio dei gruppi con filtro cieco (GE-2193) e pastiglia (CR-6052) :",
+   "una pastiglia nel filtro cieco, 5 cicli da 10 secondi con il tasto continuo, poi 5 cicli senza pastiglia.",
+   "Portafiltri e filtri in acqua calda con pastiglia per 20 minuti, risciacquo.",
+   "svitare e sciacquare il terminale (VA-5025) una volta a settimana.",
+   "Svuotare e lavare vaschetta e griglia (CR-6034)."
+  ],
+  "n_topics": 8
+ },
+ {
+  "id": "manual/onda-mb3#ogni-settimana",
+  "kind": "manual",
+  "page": "manuals/onda-mb3.md",
+  "anchor": "ogni-settimana",
+  "title": "Ogni settimana",
+  "models": [
+   "onda-mb3"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6051",
+   "GE-2410"
+  ],
+  "refs": [
+   "Ogni settimana",
+   "weekly cleaning",
+   "brush the shower screen",
+   "check how the portafilter locks",
+   "pulizia settimanale",
+   "spazzolare la doccetta",
+   "aggancio del portafiltro",
+   "- Spazzolare la doccetta con la spazzola gruppo (CR-6051) senza smontarla.",
+   "- Controllare l'aggancio del portafiltro:",
+   "se arriva oltre il centro, la guarnizione (GE-2410) è da cambiare."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/onda-mb3#ogni-mese",
+  "kind": "manual",
+  "page": "manuals/onda-mb3.md",
+  "anchor": "ogni-mese",
+  "title": "Ogni mese",
+  "models": [
+   "onda-mb3"
+  ],
+  "group": null,
+  "parts": [
+   "GE-2151",
+   "ID-4061"
+  ],
+  "refs": [
+   "Ogni mese",
+   "monthly maintenance",
+   "remove and descale the shower screens",
+   "water filter cartridge",
+   "manutenzione mensile",
+   "smontare e decalcificare le doccette",
+   "cartuccia del filtro",
+   "- Smontare le doccette (vite centrale) e lasciarle 20 minuti nel decalcificante;",
+   "sostituire se deformate (GE-2151).",
+   "- Controllare la cartuccia del filtro d'ingresso (ID-4061);",
+   "sostituirla ogni 3 mesi, ogni mese con acqua dura."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/onda-mb3#ogni-6-12-mesi",
+  "kind": "manual",
+  "page": "manuals/onda-mb3.md",
+  "anchor": "ogni-6-12-mesi",
+  "title": "Ogni 6-12 mesi",
+  "models": [
+   "onda-mb3"
+  ],
+  "group": null,
+  "parts": [
+   "GE-2211",
+   "GE-2410",
+   "VA-5019"
+  ],
+  "refs": [
+   "Ogni 6-12 mesi",
+   "replace the group gaskets",
+   "how often to change the gasket",
+   "steam valve seals",
+   "sostituire le guarnizioni sottocoppa",
+   "ogni quanto si cambia la guarnizione",
+   "- Sostituire le guarnizioni sottocoppa (GE-2410) o montare il kit gruppo (GE-2211).",
+   "Operazione da 10 minuti, vedere la scheda del ricambio.",
+   "- Sostituire il kit guarnizioni del joystick vapore (VA-5019) se gocciola."
+  ],
+  "n_topics": 5
+ },
+ {
+  "id": "manual/onda-mb3#ogni-2-anni-a-cura-del-service",
+  "kind": "manual",
+  "page": "manuals/onda-mb3.md",
+  "anchor": "ogni-2-anni-a-cura-del-service",
+  "title": "Ogni 2 anni, a cura del service",
+  "models": [
+   "onda-mb3"
+  ],
+  "group": null,
+  "parts": [
+   "CA-1231",
+   "CA-1251",
+   "CA-1260"
+  ],
+  "refs": [
+   "Ogni 2 anni, a cura del service",
+   "two-year service",
+   "safety valve",
+   "anti-vacuum valve",
+   "level probe",
+   "boiler descaling",
+   "revisione biennale",
+   "valvola di sicurezza",
+   "decalcificazione caldaia",
+   "- Valvola di sicurezza (CA-1251), valvola antidepressione (CA-1260), sonda di livello (CA-1231), decalcificazione delle caldaie."
+  ],
+  "n_topics": 8
+ },
+ {
+  "id": "manual/onda-mb3#spie-e-segnali",
+  "kind": "manual",
+  "page": "manuals/onda-mb3.md",
+  "anchor": "spie-e-segnali",
+  "title": "Spie e segnali",
+  "models": [
+   "onda-mb3"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Spie e segnali",
+   "warning lights",
+   "flashing LEDs",
+   "alarms",
+   "level alarm",
+   "error codes",
+   "what does the blinking mean",
+   "spie",
+   "led che lampeggiano",
+   "allarmi",
+   "allarme livello",
+   "errori sul pannello",
+   "Segnale Significato Cosa fare --- --- --- Tutti i pannelli lampeggiano allarme livello caldaia vapore verificare il rubinetto dell'acqua;",
+   "se persiste, chiamare il service PRB sul pannello di un gruppo errore sonda di temperatura chiamare il service Temperatura del gruppo che non sale caldaietta non scalda o termostato di sicurezza scattato vedere il fascicolo o chiamare il service Pressione vapore 0,0 con icona accesa caldaia vapore non scalda chiamare il service Sfiato dalla valvola di sicurezza pressione oltre il limite spegnere, chiamare il service"
+  ],
+  "n_topics": 11
+ },
+ {
+  "id": "manual/onda-mb3#cosa-non-fare",
+  "kind": "manual",
+  "page": "manuals/onda-mb3.md",
+  "anchor": "cosa-non-fare",
+  "title": "Cosa non fare",
+  "models": [
+   "onda-mb3"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6052"
+  ],
+  "refs": [
+   "Cosa non fare",
+   "what not to do",
+   "warnings",
+   "never adjust the safety valve",
+   "do not run without water",
+   "cosa non fare",
+   "avvertenze",
+   "- Non far funzionare la macchina con l'acqua chiusa.",
+   "- Non regolare la valvola di sicurezza.",
+   "- Non usare detergenti diversi dalle pastiglie CR-6052 nei gruppi.",
+   "- Non sostituire resistenze, pompa o centralina senza il service in linea.",
+   "- Non lasciare la lancia vapore immersa nel latte."
+  ],
+  "n_topics": 6
+ },
+ {
+  "id": "manual/onda-mb3#ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
+  "kind": "manual",
+  "page": "manuals/onda-mb3.md",
+  "anchor": "ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
+  "title": "Ricambi di consumo consigliati a magazzino del cliente",
+  "models": [
+   "onda-mb3"
+  ],
+  "group": null,
+  "parts": [
+   "CR-6052",
+   "EL-3060",
+   "GE-2151",
+   "GE-2193",
+   "GE-2410",
+   "ID-4061",
+   "VA-5019",
+   "VA-5025"
+  ],
+  "refs": [
+   "Ricambi di consumo consigliati a magazzino del cliente",
+   "spare parts to keep in stock",
+   "consumables",
+   "recommended spares",
+   "ricambi da tenere a magazzino",
+   "consumabili consigliati",
+   "GE-2410 guarnizione sottocoppa (3), GE-2151 doccetta (3), GE-2193 filtro cieco (1), CR-6052 pastiglie (1 barattolo), VA-5019 kit guarnizioni vapore (1), VA-5025 terminale vapore (1), ID-4061 cartuccia filtro (1), EL-3060 fusibili (1 kit)."
+  ],
+  "n_topics": 5
+ },
+ {
+  "id": "manual/onda-mb3#assistenza",
+  "kind": "manual",
+  "page": "manuals/onda-mb3.md",
+  "anchor": "assistenza",
+  "title": "Assistenza",
+  "models": [
+   "onda-mb3"
+  ],
+  "group": null,
+  "parts": [],
+  "refs": [
+   "Assistenza",
+   "how to contact support",
+   "opening hours",
+   "what to have ready when calling",
+   "come contattare l'assistenza",
+   "orari",
+   "cosa tenere pronto",
+   "lun-ven 8-18 CET, in italiano e inglese;",
+   "anche assistente vocale automatico.",
    "modello, matricola, anno, tensione, e la fattura dell'ultimo ricambio se si cita un codice."
   ],
   "n_topics": 6
@@ -1026,6 +4659,630 @@
   ]
  },
  {
+  "id": "symptom/monda-grind-inconsistent",
+  "kind": "symptom",
+  "page": "symptoms/monda-grind-inconsistent.md",
+  "anchor": "procedura",
+  "title": "La macinatura cambia da sola o non si riesce a regolare",
+  "title_en": "The grind drifts or cannot be adjusted",
+  "models": [
+   "monda-65",
+   "monda-65-digit"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7010",
+   "MC-7011",
+   "MC-7075",
+   "MC-7076"
+  ],
+  "refs": [
+   "The grind drifts or cannot be adjusted",
+   "La macinatura cambia da sola o non si riesce a regolare",
+   "macinatura irregolare",
+   "la macinatura cambia",
+   "non riesco a regolare",
+   "macina grosso",
+   "polvere irregolare",
+   "grind inconsistent",
+   "grind keeps changing",
+   "cannot adjust the grind",
+   "grinds too coarse",
+   "uneven grounds"
+  ]
+ },
+ {
+  "id": "symptom/monda-motor-hums",
+  "kind": "symptom",
+  "page": "symptoms/monda-motor-hums.md",
+  "anchor": "procedura",
+  "title": "Il motore ronza ma non macina, o scalda e puzza di bruciato",
+  "title_en": "The motor hums but does not grind, or gets hot and smells burnt",
+  "models": [
+   "monda-65",
+   "monda-65-digit"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7020",
+   "MC-7021",
+   "MC-7025"
+  ],
+  "refs": [
+   "The motor hums but does not grind, or gets hot and smells burnt",
+   "Il motore ronza ma non macina, o scalda e puzza di bruciato",
+   "il motore ronza",
+   "non macina",
+   "si blocca",
+   "puzza di bruciato",
+   "il macinino è bloccato",
+   "motor hums",
+   "does not grind",
+   "grinder jammed",
+   "smells burnt",
+   "motor gets hot"
+  ]
+ },
+ {
+  "id": "symptom/monda-wont-start",
+  "kind": "symptom",
+  "page": "symptoms/monda-wont-start.md",
+  "anchor": "procedura",
+  "title": "Il macinacaffè non si accende o non parte",
+  "title_en": "The grinder does not switch on or does not start",
+  "models": [
+   "monda-65",
+   "monda-65-digit"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7060",
+   "MC-7062",
+   "MC-7070"
+  ],
+  "refs": [
+   "The grinder does not switch on or does not start",
+   "Il macinacaffè non si accende o non parte",
+   "non si accende",
+   "non parte",
+   "macinino spento",
+   "display spento",
+   "non macina con la forcella",
+   "does not switch on",
+   "will not start",
+   "grinder dead",
+   "display off",
+   "does not grind with the portafilter"
+  ]
+ },
+ {
+  "id": "symptom/monda-doser",
+  "kind": "symptom",
+  "page": "symptoms/monda-doser.md",
+  "anchor": "procedura",
+  "title": "Il dosatore non scende, la leva non torna o la dose è irregolare",
+  "title_en": "The doser does not drop, the lever does not return or the dose is irregular",
+  "models": [
+   "monda-65"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7031",
+   "MC-7032",
+   "MC-7033"
+  ],
+  "refs": [
+   "The doser does not drop, the lever does not return or the dose is irregular",
+   "Il dosatore non scende, la leva non torna o la dose è irregolare",
+   "il dosatore non va",
+   "la leva non torna",
+   "la stella gira a vuoto",
+   "dose irregolare",
+   "leva rotta",
+   "doser not working",
+   "lever does not return",
+   "doser star slips",
+   "irregular dose",
+   "lever broken"
+  ]
+ },
+ {
+  "id": "symptom/monda-digit-dose",
+  "kind": "symptom",
+  "page": "symptoms/monda-digit-dose.md",
+  "anchor": "procedura",
+  "title": "Dose a tempo irregolare o tasti del display che non rispondono",
+  "title_en": "Timed dose inconsistent, or display buttons not responding",
+  "models": [
+   "monda-65-digit"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7061",
+   "MC-7063"
+  ],
+  "refs": [
+   "Timed dose inconsistent, or display buttons not responding",
+   "Dose a tempo irregolare o tasti del display che non rispondono",
+   "dose sbagliata",
+   "grammi diversi ogni volta",
+   "i tasti del display non vanno",
+   "non tiene la dose",
+   "esce a grumi",
+   "dose varies",
+   "different grams every time",
+   "display buttons not working",
+   "does not keep the dose",
+   "clumping"
+  ]
+ },
+ {
+  "id": "symptom/monda-noisy",
+  "kind": "symptom",
+  "page": "symptoms/monda-noisy.md",
+  "anchor": "procedura",
+  "title": "Il macinacaffè è rumoroso o vibra",
+  "title_en": "The grinder is noisy or vibrates",
+  "models": [
+   "monda-65",
+   "monda-65-digit"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7010",
+   "MC-7011",
+   "MC-7026",
+   "MC-7080"
+  ],
+  "refs": [
+   "The grinder is noisy or vibrates",
+   "Il macinacaffè è rumoroso o vibra",
+   "fa rumore",
+   "vibra",
+   "cammina sul banco",
+   "rumore metallico",
+   "fischia",
+   "noisy grinder",
+   "vibrates",
+   "walks on the counter",
+   "metallic noise",
+   "whistling noise"
+  ]
+ },
+ {
+  "id": "symptom/monda-beans-stuck",
+  "kind": "symptom",
+  "page": "symptoms/monda-beans-stuck.md",
+  "anchor": "procedura",
+  "title": "I chicchi non scendono dalla tramoggia",
+  "title_en": "The beans do not drop from the hopper",
+  "models": [
+   "monda-65",
+   "monda-65-digit"
+  ],
+  "group": "MC",
+  "parts": [
+   "MC-7040",
+   "MC-7041"
+  ],
+  "refs": [
+   "The beans do not drop from the hopper",
+   "I chicchi non scendono dalla tramoggia",
+   "i chicchi non scendono",
+   "gira a vuoto",
+   "la tramoggia non scarica",
+   "saracinesca bloccata",
+   "beans not dropping",
+   "grinds nothing",
+   "hopper not feeding",
+   "shutter stuck"
+  ]
+ },
+ {
+  "id": "symptom/onda-weak-coffee",
+  "kind": "symptom",
+  "page": "symptoms/onda-weak-coffee.md",
+  "anchor": "procedura",
+  "title": "Caffè slavato, acquoso, esce troppo veloce",
+  "title_en": "Weak, watery coffee, runs too fast",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2151",
+   "GE-2152"
+  ],
+  "refs": [
+   "Weak, watery coffee, runs too fast",
+   "Caffè slavato, acquoso, esce troppo veloce",
+   "caffè slavato",
+   "caffè acquoso",
+   "esce troppo veloce",
+   "caffè lungo e chiaro",
+   "senza crema",
+   "sa di acqua",
+   "weak coffee",
+   "watery coffee",
+   "runs too fast",
+   "no crema",
+   "thin coffee",
+   "comes out like water"
+  ]
+ },
+ {
+  "id": "symptom/onda-group-leak",
+  "kind": "symptom",
+  "page": "symptoms/onda-group-leak.md",
+  "anchor": "procedura",
+  "title": "Perde acqua dal gruppo con il portafiltro agganciato",
+  "title_en": "Leaks water at the group with the portafilter locked in",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2182",
+   "GE-2211",
+   "GE-2410"
+  ],
+  "refs": [
+   "Leaks water at the group with the portafilter locked in",
+   "Perde acqua dal gruppo con il portafiltro agganciato",
+   "perde dal gruppo",
+   "perde dal portafiltro",
+   "esce acqua dai bordi",
+   "gocciola dal gruppo",
+   "cola dal portafiltro",
+   "leaks at the group",
+   "leaking from the group",
+   "water around the portafilter",
+   "leaks from the portafilter",
+   "dripping around the handle"
+  ]
+ },
+ {
+  "id": "symptom/onda-spits-end-of-shot",
+  "kind": "symptom",
+  "page": "symptoms/onda-spits-end-of-shot.md",
+  "anchor": "procedura",
+  "title": "Il portafiltro sputa o spruzza quando si toglie a fine erogazione",
+  "title_en": "The portafilter spits or sprays when removed after the shot",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "GE",
+  "parts": [
+   "GE-2162",
+   "GE-2165",
+   "ID-4086"
+  ],
+  "refs": [
+   "The portafilter spits or sprays when removed after the shot",
+   "Il portafiltro sputa o spruzza quando si toglie a fine erogazione",
+   "sputa",
+   "spruzza",
+   "schizza quando lo tolgo",
+   "fondo liquido",
+   "il fondo esce bagnato",
+   "resta in pressione",
+   "spits",
+   "sprays",
+   "splashes when I remove it",
+   "wet puck",
+   "sloppy puck",
+   "still under pressure"
+  ]
+ },
+ {
+  "id": "symptom/onda-group-cold",
+  "kind": "symptom",
+  "page": "symptoms/onda-group-cold.md",
+  "anchor": "procedura",
+  "title": "Un gruppo resta freddo o segnala temperatura bassa",
+  "title_en": "One group stays cold or shows a low temperature",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1210",
+   "CA-1211",
+   "CA-1221",
+   "CA-1271",
+   "CA-1291"
+  ],
+  "refs": [
+   "One group stays cold or shows a low temperature",
+   "Un gruppo resta freddo o segnala temperatura bassa",
+   "un gruppo è freddo",
+   "il gruppo non scalda",
+   "caffè freddo da un gruppo",
+   "temperatura bassa sul gruppo",
+   "errore sonda",
+   "one group is cold",
+   "group not heating",
+   "cold coffee from one group",
+   "low temperature on the group",
+   "probe error"
+  ]
+ },
+ {
+  "id": "symptom/onda-no-steam",
+  "kind": "symptom",
+  "page": "symptoms/onda-no-steam.md",
+  "anchor": "procedura",
+  "title": "Niente vapore, o vapore debole",
+  "title_en": "No steam, or weak steam",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1200",
+   "CA-1201",
+   "CA-1202",
+   "CA-1203",
+   "CA-1221",
+   "CA-1245",
+   "VA-5025"
+  ],
+  "refs": [
+   "No steam, or weak steam",
+   "Niente vapore, o vapore debole",
+   "niente vapore",
+   "non fa vapore",
+   "vapore debole",
+   "poco vapore",
+   "non monta il latte",
+   "caldaia vapore fredda",
+   "no steam",
+   "weak steam",
+   "not enough steam",
+   "cannot steam milk",
+   "steam boiler cold"
+  ]
+ },
+ {
+  "id": "symptom/onda-steam-joystick",
+  "kind": "symptom",
+  "page": "symptoms/onda-steam-joystick.md",
+  "anchor": "procedura",
+  "title": "La lancia vapore gocciola o perde dal joystick",
+  "title_en": "The steam wand drips or the joystick leaks",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "VA",
+  "parts": [
+   "VA-5019",
+   "VA-5028",
+   "VA-5060"
+  ],
+  "refs": [
+   "The steam wand drips or the joystick leaks",
+   "La lancia vapore gocciola o perde dal joystick",
+   "la lancia gocciola",
+   "perde dalla lancia",
+   "il joystick perde",
+   "gocciola dal vapore",
+   "leva vapore rotta",
+   "wand drips",
+   "steam wand leaks",
+   "joystick leaks",
+   "steam lever broken",
+   "drips from the steam wand"
+  ]
+ },
+ {
+  "id": "symptom/onda-level-alarm",
+  "kind": "symptom",
+  "page": "symptoms/onda-level-alarm.md",
+  "anchor": "procedura",
+  "title": "Allarme livello, non carica acqua, oppure carica sempre",
+  "title_en": "Level alarm, does not fill, or fills all the time",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "CA",
+  "parts": [
+   "CA-1231",
+   "CA-1232",
+   "EL-3087",
+   "ID-4045",
+   "ID-4061"
+  ],
+  "refs": [
+   "Level alarm, does not fill, or fills all the time",
+   "Allarme livello, non carica acqua, oppure carica sempre",
+   "allarme livello",
+   "non carica acqua",
+   "carica sempre",
+   "la pompa va sempre",
+   "spia livello",
+   "level alarm",
+   "does not fill",
+   "keeps filling",
+   "pump runs all the time",
+   "water level error"
+  ]
+ },
+ {
+  "id": "symptom/onda-pump-pressure-low",
+  "kind": "symptom",
+  "page": "symptoms/onda-pump-pressure-low.md",
+  "anchor": "procedura",
+  "title": "Pressione della pompa bassa, o pompa rumorosa",
+  "title_en": "Low pump pressure, or noisy pump",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "ID-4010",
+   "ID-4011",
+   "ID-4019",
+   "ID-4061",
+   "ID-4120"
+  ],
+  "refs": [
+   "Low pump pressure, or noisy pump",
+   "Pressione della pompa bassa, o pompa rumorosa",
+   "pressione bassa",
+   "la pompa non va in pressione",
+   "pompa rumorosa",
+   "la pompa ronza",
+   "manometro basso",
+   "low pressure",
+   "pump pressure low",
+   "noisy pump",
+   "pump hums",
+   "gauge is low"
+  ]
+ },
+ {
+  "id": "symptom/onda-doses-and-buttons",
+  "kind": "symptom",
+  "page": "symptoms/onda-doses-and-buttons.md",
+  "anchor": "procedura",
+  "title": "Dosi sbagliate o irregolari, oppure un tasto non risponde",
+  "title_en": "Wrong or inconsistent doses, or a button not responding",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "ID",
+  "parts": [
+   "EL-3033",
+   "EL-3034",
+   "ID-4050",
+   "ID-4051",
+   "ID-4052"
+  ],
+  "refs": [
+   "Wrong or inconsistent doses, or a button not responding",
+   "Dosi sbagliate o irregolari, oppure un tasto non risponde",
+   "dosi sbagliate",
+   "le dosi cambiano",
+   "non si ferma",
+   "un tasto non funziona",
+   "il tasto non risponde",
+   "wrong doses",
+   "doses change",
+   "does not stop",
+   "button not working",
+   "button does not respond"
+  ]
+ },
+ {
+  "id": "symptom/onda-scales-wrong",
+  "kind": "symptom",
+  "page": "symptoms/onda-scales-wrong.md",
+  "anchor": "procedura",
+  "title": "Le bilance integrate pesano male o non pesano",
+  "title_en": "The built-in scales read wrong or do not read",
+  "models": [
+   "onda-mb2-evo"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3095",
+   "EL-3096"
+  ],
+  "refs": [
+   "The built-in scales read wrong or do not read",
+   "Le bilance integrate pesano male o non pesano",
+   "la bilancia pesa male",
+   "la bilancia non pesa",
+   "peso sbagliato",
+   "bilancia impazzita",
+   "tara",
+   "scales wrong",
+   "scale not working",
+   "wrong weight",
+   "scale reading jumps",
+   "tare"
+  ]
+ },
+ {
+  "id": "symptom/onda-display-dark",
+  "kind": "symptom",
+  "page": "symptoms/onda-display-dark.md",
+  "anchor": "procedura",
+  "title": "Il display touch è nero o non risponde",
+  "title_en": "The touch display is black or does not respond",
+  "models": [
+   "onda-mb2-evo"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3041",
+   "EL-3042"
+  ],
+  "refs": [
+   "The touch display is black or does not respond",
+   "Il display touch è nero o non risponde",
+   "display nero",
+   "schermo nero",
+   "il display non si accende",
+   "il touch non risponde",
+   "schermo bloccato",
+   "display black",
+   "screen is black",
+   "display not working",
+   "touch not responding",
+   "screen frozen"
+  ]
+ },
+ {
+  "id": "symptom/onda-machine-dead",
+  "kind": "symptom",
+  "page": "symptoms/onda-machine-dead.md",
+  "anchor": "procedura",
+  "title": "Macchina spenta, nessuna spia, non si accende",
+  "title_en": "Machine dead, no lights, does not switch on",
+  "models": [
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
+  ],
+  "group": "EL",
+  "parts": [
+   "EL-3057"
+  ],
+  "refs": [
+   "Machine dead, no lights, does not switch on",
+   "Macchina spenta, nessuna spia, non si accende",
+   "è morta",
+   "non si accende",
+   "tutto spento",
+   "nessuna spia",
+   "non dà segni di vita",
+   "machine dead",
+   "does not switch on",
+   "no lights",
+   "nothing happens",
+   "completely dead"
+  ]
+ },
+ {
   "id": "symptom/_generic",
   "kind": "symptom",
   "page": null,
@@ -1094,7 +5351,51 @@
    "marea-2-plus",
    "marea-2-evo",
    "giglio-1",
-   "giglio-1-plus"
+   "giglio-1-plus",
+   "monda-65",
+   "monda-65-digit",
+   "monda-65",
+   "monda-65-digit",
+   "monda-65",
+   "monda-65-digit",
+   "monda-65",
+   "monda-65-digit",
+   "monda-65",
+   "monda-65-digit",
+   "monda-65",
+   "monda-65-digit",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo",
+   "onda-mb2-evo",
+   "onda-mb2-evo",
+   "onda-mb2",
+   "onda-mb3",
+   "onda-mb2-evo"
   ],
   "group": null,
   "parts": [],

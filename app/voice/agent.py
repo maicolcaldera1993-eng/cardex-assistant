@@ -307,9 +307,9 @@ async def run_tool(s, name: str, args: dict) -> dict:
             return {"status": "unclear",
                     "hint": "the customer's words do not answer this step. Do not choose for them: ask exactly this question, "
                             "then call answer_step again with what they say.", **_step_view(s)}
-        if j is not None and j != i and conf >= 0.75:
-            s._log_decision("branch_corrected", step=d.current, text=words, agent_option=i, classifier=j, confidence=conf)
-            i = j                                           # the words clearly say otherwise
+        if j is not None and j != i:
+            # the agent read the words differently: its choice stands (it heard the whole conversation), noted for review
+            s._log_decision("branch_disagreement", step=d.current, text=words, agent_option=i, classifier=j, confidence=conf)
         s._log_decision("branch", step=d.current, text=words, chosen=i, by="voice-agent", classifier=j, confidence=conf, stale_id=stale)
         await s.control({"action": "answer_step", "branch": i})
         if d.outcome:

@@ -9,3 +9,5 @@ pytest>=8.2
 fastembed>=0.4
 numpy>=1.26
 markdown>=3.6
+edge-tts>=6.1
+miniaudio>=1.59

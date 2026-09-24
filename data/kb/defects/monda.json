@@ -1,0 +1,545 @@
+{
+  "family": "Monda",
+  "internal": true,
+  "revision": "2026-09-24 v1 (procedure a passi)",
+  "format": {
+    "step.kind": "ask = domanda da fare al cliente; do = azione da far eseguire al cliente",
+    "step.branches[].then": "id di un altro passo, oppure outcome:remote | outcome:part_diy:CODE[,CODE] | outcome:part_with_support:CODE[,CODE] | outcome:technician",
+    "step.maintenance": "true se il passo rivela manutenzione ordinaria saltata (consigliare il consumabile in parts)"
+  },
+  "symptoms": [
+    {
+      "id": "monda-grind-inconsistent",
+      "models": [
+        "monda-65",
+        "monda-65-digit"
+      ],
+      "group": "MC",
+      "symptom_it": "La macinatura cambia da sola o non si riesce a regolare",
+      "symptom_en": "The grind drifts or cannot be adjusted",
+      "spoken_forms": [
+        "macinatura irregolare",
+        "la macinatura cambia",
+        "non riesco a regolare",
+        "macina grosso",
+        "polvere irregolare",
+        "grind inconsistent",
+        "grind keeps changing",
+        "cannot adjust the grind",
+        "grinds too coarse",
+        "uneven grounds"
+      ],
+      "start": "collar",
+      "steps": [
+        {
+          "id": "collar",
+          "kind": "ask",
+          "text_it": "La ghiera di regolazione si muove da sola o gira senza fermo?",
+          "text_en": "Does the adjustment collar move by itself or turn without a stop?",
+          "branches": [
+            {
+              "label_it": "Sì, si muove o è lenta",
+              "label_en": "Yes, it moves or is loose",
+              "then": "outcome:part_diy:MC-7075,MC-7076"
+            },
+            {
+              "label_it": "No, è ferma",
+              "label_en": "No, it holds",
+              "then": "burrs-age"
+            }
+          ]
+        },
+        {
+          "id": "burrs-age",
+          "kind": "ask",
+          "text_it": "Da quanto tempo non si cambiano le macine? Più di un anno, o circa 800 kg di caffè?",
+          "text_en": "How long since the burrs were changed? More than a year, or about 800 kg of coffee?",
+          "branches": [
+            {
+              "label_it": "Più di un anno",
+              "label_en": "More than a year",
+              "then": "outcome:part_diy:MC-7010,MC-7011"
+            },
+            {
+              "label_it": "Cambiate di recente",
+              "label_en": "Changed recently",
+              "then": "clean"
+            }
+          ],
+          "maintenance": true,
+          "parts": [
+            "MC-7010"
+          ]
+        },
+        {
+          "id": "clean",
+          "kind": "do",
+          "text_it": "Chiudere la saracinesca, togliere la tramoggia, svitare la ghiera e pulire macine e camera con il pennello.",
+          "text_en": "Close the shutter, remove the hopper, unscrew the collar and brush the burrs and the chamber clean.",
+          "branches": [
+            {
+              "label_it": "Risolto",
+              "label_en": "Fixed",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Ancora irregolare",
+              "label_en": "Still inconsistent",
+              "then": "outcome:technician"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "monda-motor-hums",
+      "models": [
+        "monda-65",
+        "monda-65-digit"
+      ],
+      "group": "MC",
+      "symptom_it": "Il motore ronza ma non macina, o scalda e puzza di bruciato",
+      "symptom_en": "The motor hums but does not grind, or gets hot and smells burnt",
+      "spoken_forms": [
+        "il motore ronza",
+        "non macina",
+        "si blocca",
+        "puzza di bruciato",
+        "il macinino è bloccato",
+        "motor hums",
+        "does not grind",
+        "grinder jammed",
+        "smells burnt",
+        "motor gets hot"
+      ],
+      "start": "sound",
+      "steps": [
+        {
+          "id": "sound",
+          "kind": "ask",
+          "text_it": "Il motore ronza senza girare, oppure scalda e si sente odore di bruciato?",
+          "text_en": "Does the motor hum without turning, or does it get hot with a burning smell?",
+          "branches": [
+            {
+              "label_it": "Ronza senza girare",
+              "label_en": "Hums without turning",
+              "then": "jam"
+            },
+            {
+              "label_it": "Scalda e puzza di bruciato",
+              "label_en": "Gets hot, burning smell",
+              "then": "voltage"
+            }
+          ]
+        },
+        {
+          "id": "jam",
+          "kind": "do",
+          "text_it": "Spegnere, chiudere la saracinesca, togliere la tramoggia, svitare la ghiera e togliere chicchi, pietruzze o grumi dalle macine.",
+          "text_en": "Switch off, close the shutter, remove the hopper, unscrew the collar and clear beans, stones or clumps from the burrs.",
+          "branches": [
+            {
+              "label_it": "Ripulita: macina",
+              "label_en": "Cleared: it grinds",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Ronza ancora",
+              "label_en": "Still hums",
+              "then": "outcome:part_with_support:MC-7025"
+            }
+          ]
+        },
+        {
+          "id": "voltage",
+          "kind": "ask",
+          "text_it": "Che tensione ha il macinacaffè (targhetta sotto la base): 230 V o 110 V?",
+          "text_en": "What voltage is the grinder (plate under the base): 230 V or 110 V?",
+          "branches": [
+            {
+              "label_it": "230 V",
+              "label_en": "230 V",
+              "then": "outcome:part_with_support:MC-7020"
+            },
+            {
+              "label_it": "110 V",
+              "label_en": "110 V",
+              "then": "outcome:part_with_support:MC-7021"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "monda-wont-start",
+      "models": [
+        "monda-65",
+        "monda-65-digit"
+      ],
+      "group": "MC",
+      "symptom_it": "Il macinacaffè non si accende o non parte",
+      "symptom_en": "The grinder does not switch on or does not start",
+      "spoken_forms": [
+        "non si accende",
+        "non parte",
+        "macinino spento",
+        "display spento",
+        "non macina con la forcella",
+        "does not switch on",
+        "will not start",
+        "grinder dead",
+        "display off",
+        "does not grind with the portafilter"
+      ],
+      "start": "which",
+      "steps": [
+        {
+          "id": "which",
+          "kind": "ask",
+          "text_it": "Che modello è, e cosa si vede: spia o display accesi?",
+          "text_en": "Which model is it, and what do you see: lamp or display on?",
+          "branches": [
+            {
+              "label_it": "Monda 65, spia spenta",
+              "label_en": "Monda 65, lamp off",
+              "then": "fuse-65"
+            },
+            {
+              "label_it": "Monda 65, spia accesa ma il motore non parte",
+              "label_en": "Monda 65, lamp on but the motor does not start",
+              "then": "outcome:part_diy:MC-7070"
+            },
+            {
+              "label_it": "Monda 65 Digit, display spento",
+              "label_en": "Monda 65 Digit, display off",
+              "then": "fuse-digit"
+            },
+            {
+              "label_it": "Digit, display acceso ma non parte con la forcella",
+              "label_en": "Digit, display on but does not start with the portafilter",
+              "then": "outcome:part_diy:MC-7062"
+            }
+          ]
+        },
+        {
+          "id": "fuse-65",
+          "kind": "do",
+          "text_it": "Far controllare il fusibile sotto la base (portafusibile a vite) e sostituirlo se bruciato, 10 A ritardato.",
+          "text_en": "Have them check the fuse under the base (screw-in holder) and replace it if blown, 10 A slow-blow.",
+          "branches": [
+            {
+              "label_it": "Fusibile nuovo, parte",
+              "label_en": "New fuse, it starts",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Fusibile integro",
+              "label_en": "Fuse intact",
+              "then": "outcome:part_diy:MC-7070"
+            },
+            {
+              "label_it": "Salta di nuovo",
+              "label_en": "Blows again",
+              "then": "outcome:technician"
+            }
+          ]
+        },
+        {
+          "id": "fuse-digit",
+          "kind": "do",
+          "text_it": "Far controllare il fusibile sotto la base e sostituirlo se bruciato, 10 A ritardato.",
+          "text_en": "Have them check the fuse under the base and replace it if blown, 10 A slow-blow.",
+          "branches": [
+            {
+              "label_it": "Fusibile nuovo, parte",
+              "label_en": "New fuse, it starts",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Fusibile integro, display spento",
+              "label_en": "Fuse intact, display off",
+              "then": "outcome:part_with_support:MC-7060"
+            },
+            {
+              "label_it": "Salta di nuovo",
+              "label_en": "Blows again",
+              "then": "outcome:technician"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "monda-doser",
+      "models": [
+        "monda-65"
+      ],
+      "group": "MC",
+      "symptom_it": "Il dosatore non scende, la leva non torna o la dose è irregolare",
+      "symptom_en": "The doser does not drop, the lever does not return or the dose is irregular",
+      "spoken_forms": [
+        "il dosatore non va",
+        "la leva non torna",
+        "la stella gira a vuoto",
+        "dose irregolare",
+        "leva rotta",
+        "doser not working",
+        "lever does not return",
+        "doser star slips",
+        "irregular dose",
+        "lever broken"
+      ],
+      "start": "which",
+      "steps": [
+        {
+          "id": "which",
+          "kind": "ask",
+          "text_it": "La leva non torna indietro da sola, la stella gira a vuoto, o la leva è rotta?",
+          "text_en": "Does the lever not spring back, does the star slip, or is the lever broken?",
+          "branches": [
+            {
+              "label_it": "La leva non torna",
+              "label_en": "The lever does not return",
+              "then": "outcome:part_diy:MC-7033"
+            },
+            {
+              "label_it": "La stella gira a vuoto",
+              "label_en": "The star slips",
+              "then": "outcome:part_diy:MC-7031"
+            },
+            {
+              "label_it": "Leva rotta",
+              "label_en": "Lever broken",
+              "then": "outcome:part_diy:MC-7032"
+            },
+            {
+              "label_it": "Il caffè si impacca nella camera",
+              "label_en": "Coffee packs in the chamber",
+              "then": "clean"
+            }
+          ]
+        },
+        {
+          "id": "clean",
+          "kind": "do",
+          "text_it": "Svuotare il dosatore e pulire la camera e la stella con il pennello, senza acqua.",
+          "text_en": "Empty the doser and brush the chamber and the star clean, no water.",
+          "branches": [
+            {
+              "label_it": "Risolto",
+              "label_en": "Fixed",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Si impacca ancora",
+              "label_en": "Still packs",
+              "then": "outcome:technician"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "monda-digit-dose",
+      "models": [
+        "monda-65-digit"
+      ],
+      "group": "MC",
+      "symptom_it": "Dose a tempo irregolare o tasti del display che non rispondono",
+      "symptom_en": "Timed dose inconsistent, or display buttons not responding",
+      "spoken_forms": [
+        "dose sbagliata",
+        "grammi diversi ogni volta",
+        "i tasti del display non vanno",
+        "non tiene la dose",
+        "esce a grumi",
+        "dose varies",
+        "different grams every time",
+        "display buttons not working",
+        "does not keep the dose",
+        "clumping"
+      ],
+      "start": "recalibrate",
+      "steps": [
+        {
+          "id": "recalibrate",
+          "kind": "do",
+          "text_it": "Rifare la taratura: macinare una dose, pesarla, e regolare il tempo sul display finché pesa quanto serve.",
+          "text_en": "Recalibrate: grind one dose, weigh it, and adjust the time on the display until it weighs what you need.",
+          "branches": [
+            {
+              "label_it": "Risolto",
+              "label_en": "Fixed",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Varia ancora",
+              "label_en": "Still varies",
+              "then": "chute"
+            },
+            {
+              "label_it": "I tasti non rispondono",
+              "label_en": "The buttons do not respond",
+              "then": "outcome:part_diy:MC-7061"
+            }
+          ]
+        },
+        {
+          "id": "chute",
+          "kind": "ask",
+          "text_it": "Il caffè resta attaccato nello scivolo di uscita o esce a grumi?",
+          "text_en": "Does coffee stick in the outlet chute or come out in clumps?",
+          "branches": [
+            {
+              "label_it": "Sì, si attacca",
+              "label_en": "Yes, it sticks",
+              "then": "outcome:part_diy:MC-7063"
+            },
+            {
+              "label_it": "No, esce pulito",
+              "label_en": "No, it comes out clean",
+              "then": "outcome:technician"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "monda-noisy",
+      "models": [
+        "monda-65",
+        "monda-65-digit"
+      ],
+      "group": "MC",
+      "symptom_it": "Il macinacaffè è rumoroso o vibra",
+      "symptom_en": "The grinder is noisy or vibrates",
+      "spoken_forms": [
+        "fa rumore",
+        "vibra",
+        "cammina sul banco",
+        "rumore metallico",
+        "fischia",
+        "noisy grinder",
+        "vibrates",
+        "walks on the counter",
+        "metallic noise",
+        "whistling noise"
+      ],
+      "start": "which",
+      "steps": [
+        {
+          "id": "which",
+          "kind": "ask",
+          "text_it": "Vibra e si sposta sul banco, fischia dal motore, o fa un rumore metallico dalle macine?",
+          "text_en": "Does it vibrate and move on the counter, whistle from the motor, or make a metallic noise from the burrs?",
+          "branches": [
+            {
+              "label_it": "Vibra e si sposta",
+              "label_en": "Vibrates and moves",
+              "then": "outcome:part_diy:MC-7080"
+            },
+            {
+              "label_it": "Fischia dal motore",
+              "label_en": "Whistles from the motor",
+              "then": "outcome:part_with_support:MC-7026"
+            },
+            {
+              "label_it": "Rumore metallico",
+              "label_en": "Metallic noise",
+              "then": "burrs"
+            }
+          ]
+        },
+        {
+          "id": "burrs",
+          "kind": "do",
+          "text_it": "Fermarlo subito. Togliere tramoggia e ghiera e controllare che le viti delle macine siano strette e le macine intere.",
+          "text_en": "Stop it at once. Remove the hopper and collar and check that the burr screws are tight and the burrs intact.",
+          "branches": [
+            {
+              "label_it": "Viti allentate, strette: risolto",
+              "label_en": "Loose screws, tightened: fixed",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "Viti spanate o mancanti",
+              "label_en": "Screws stripped or missing",
+              "then": "outcome:part_diy:MC-7011"
+            },
+            {
+              "label_it": "Macine scheggiate",
+              "label_en": "Burrs chipped",
+              "then": "outcome:part_diy:MC-7010,MC-7011"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "monda-beans-stuck",
+      "models": [
+        "monda-65",
+        "monda-65-digit"
+      ],
+      "group": "MC",
+      "symptom_it": "I chicchi non scendono dalla tramoggia",
+      "symptom_en": "The beans do not drop from the hopper",
+      "spoken_forms": [
+        "i chicchi non scendono",
+        "gira a vuoto",
+        "la tramoggia non scarica",
+        "saracinesca bloccata",
+        "beans not dropping",
+        "grinds nothing",
+        "hopper not feeding",
+        "shutter stuck"
+      ],
+      "start": "shutter",
+      "steps": [
+        {
+          "id": "shutter",
+          "kind": "ask",
+          "text_it": "La saracinesca sotto la tramoggia è aperta del tutto e scorre bene?",
+          "text_en": "Is the shutter under the hopper fully open and sliding freely?",
+          "branches": [
+            {
+              "label_it": "Era chiusa: aperta, ora scende",
+              "label_en": "It was closed: opened, now feeds",
+              "then": "outcome:remote"
+            },
+            {
+              "label_it": "È rotta o non scorre",
+              "label_en": "Broken or does not slide",
+              "then": "outcome:part_diy:MC-7041"
+            },
+            {
+              "label_it": "Aperta, ma i chicchi non scendono",
+              "label_en": "Open, but the beans do not drop",
+              "then": "hopper"
+            }
+          ]
+        },
+        {
+          "id": "hopper",
+          "kind": "ask",
+          "text_it": "La tramoggia è crepata, o i chicchi sono oleosi e fanno ponte?",
+          "text_en": "Is the hopper cracked, or are the beans oily and bridging?",
+          "branches": [
+            {
+              "label_it": "Tramoggia crepata",
+              "label_en": "Hopper cracked",
+              "then": "outcome:part_diy:MC-7040"
+            },
+            {
+              "label_it": "Chicchi oleosi, fanno ponte",
+              "label_en": "Oily beans, bridging",
+              "then": "outcome:remote"
+            }
+          ],
+          "note_it": "Chicchi molto tostati e oleosi: scuotere la tramoggia e non riempirla oltre metà.",
+          "note_en": "Very dark, oily beans: shake the hopper and fill it only halfway."
+        }
+      ]
+    }
+  ]
+}

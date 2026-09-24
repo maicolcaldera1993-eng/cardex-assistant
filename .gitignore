@@ -22,3 +22,4 @@ Thumbs.db
 eval/spike_audio/
 samples/dev-*
 eval/logs/
+data/kb/*.vectors.npz

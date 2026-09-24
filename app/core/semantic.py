@@ -37,6 +37,7 @@ class Match:
 class SemanticIndex:
     def __init__(self, index_path: Path = INDEX, model_name: str = MODEL_NAME):
         self.nodes: dict[str, dict] = {n["id"]: n for n in json.loads(index_path.read_text(encoding="utf-8"))}
+        self._index_path = index_path
         self._model_name = model_name
         self._model = None
         self._vecs: np.ndarray | None = None
@@ -48,14 +49,30 @@ class SemanticIndex:
         return self._vecs is not None
 
     def load(self) -> None:
-        """Loads the model and embeds every reference text once (a few seconds at start-up)."""
+        """Loads the model and embeds every reference text. The vectors are cached next to the index, keyed by the
+        model and the exact reference texts: ~2000 sentences take two minutes on a CPU, the cache a second."""
+        import hashlib
         from fastembed import TextEmbedding
         self._model = TextEmbedding(self._model_name)
         for nid, n in self.nodes.items():
             for ref in n["refs"]:
                 self._owners.append(nid)
                 self._refs.append(ref)
-        self._vecs = self._embed(self._refs)
+        key = hashlib.sha1((self._model_name + "\n" + "\n".join(self._refs)).encode("utf-8")).hexdigest()
+        cache = self._index_path.with_suffix(".vectors.npz")
+        try:
+            data = np.load(cache)
+            if str(data["key"]) == key and data["vecs"].shape[0] == len(self._refs):
+                self._vecs = data["vecs"]
+                return
+        except (OSError, KeyError, ValueError):
+            pass
+        vecs = self._embed(self._refs)
+        try:
+            np.savez(cache, key=np.array(key), vecs=vecs)
+        except OSError:
+            pass                                          # read-only disk: fine, just slower next time
+        self._vecs = vecs
 
     def _embed(self, texts: list[str]) -> np.ndarray:
         v = np.array(list(self._model.embed(texts)), dtype=np.float32)

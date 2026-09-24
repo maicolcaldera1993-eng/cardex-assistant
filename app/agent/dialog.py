@@ -70,7 +70,9 @@ _UNITS = {"zero": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six"
 ORDINALS = {"first": 0, "second": 1, "third": 2, "fourth": 3, "fifth": 4}
 # a word on one side in the answer and the other side in the label: they disagree (on/off, open/closed...)
 ANTONYMS = [("on", "off"), ("open", "closed"), ("full", "empty"), ("hot", "cold"), ("weak", "strong"), ("yes", "no"),
-            ("clicks", "silent"), ("drains", "stays"), ("flat", "domed")]
+            ("clicks", "silent"), ("drains", "stays"), ("flat", "domed"),
+            ("acceso", "spento"), ("accesa", "spenta"), ("aperto", "chiuso"), ("pieno", "vuoto"), ("caldo", "freddo"),
+            ("sì", "no"), ("forte", "debole")]
 _SIDES = {w: i for pair in ANTONYMS for i, w in enumerate(pair)}
 _PAIR = {w: pair for pair in ANTONYMS for w in pair}
 
@@ -156,8 +158,9 @@ def classify_branch(text: str, branches: list[dict], similarities: Callable[[str
             s += 0.12 * len(lw & tw) / len(lw)
             s -= 0.15 * len((lw & negated) - l_neg)
             s += 0.15 * len(negated & l_neg)
-        if ln:
-            s += 0.5 if ln & tn else (-0.2 if tn else 0.0)
+        if ln and tn:
+            # share of the label's numbers the customer said ("MB2, 230 V" vs "MB2, 110 V": the 2 alone is not enough)
+            s += 0.5 * len(ln & tn) / len(ln) if ln & tn else -0.2
         for w in lwords & set(_SIDES):
             if w in words:
                 s += 0.1                                          # same side of an on/off pair

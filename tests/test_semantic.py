@@ -51,7 +51,9 @@ def test_small_talk_is_not_a_symptom(text):
 def test_graph_filter_keeps_other_machines_out():
     evo = sem.ids_for("symptom", "marea-2-evo")
     assert "symptom/marea-boiler-pressure" not in evo          # the Evo has no pressurestat procedure
-    assert sem.ids_for("manual", "marea-2-plus") and not sem.ids_for("manual", "onda-mb2")
+    marea, onda = sem.ids_for("manual", "marea-2-plus"), sem.ids_for("manual", "onda-mb2")
+    assert marea and onda and not (marea & onda)                  # each machine sees only its own manual
+    assert all(n.startswith("manual/onda-mb2#") for n in onda)
 
 
 def test_manual_section_and_sentence_to_highlight():
