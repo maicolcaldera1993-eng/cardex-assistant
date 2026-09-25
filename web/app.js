@@ -71,6 +71,10 @@ const T = {
     approve: "Approva e invia al magazzino", approved: "Approvato · ordine inviato al magazzino (simulazione)", print: "Stampa", again: "Nuova chiamata",
     showTranscript: "Trascritto completo", diarCheck: "Attribuzione delle voci", duration: "Durata",
     toastApproved: "Ordine approvato. In produzione partirebbe verso il magazzino.",
+    shipTo: "Spedizione a", payment: "Pagamento", orderConfirmed: "Ordine ricambi confermato", confirmOrder: "Conferma ordine ricambi",
+    fitsAlone: "Il cliente li monta da solo", fitsAloneBtn: "Il cliente li monta da solo", declinedAlone: "rifiutato: il cliente monta da solo",
+    approveQuote: "Approva e invia il preventivo", approvedQuote: "Approvato · preventivo e istruzioni di pagamento inviati (simulazione); i ricambi partono al pagamento",
+    toastQuote: "Preventivo inviato al cliente per email (simulazione). Alla conferma del pagamento il magazzino spedisce.",
     serverLost: "Connessione con il server persa: la chiamata è stata interrotta.", backHome: "Torna alla home",
   },
   en: {
@@ -137,6 +141,10 @@ const T = {
     approve: "Approve and send to the warehouse", approved: "Approved · order sent to the warehouse (simulation)", print: "Print", again: "New call",
     showTranscript: "Full transcript", diarCheck: "Voice attribution", duration: "Duration",
     toastApproved: "Order approved. In production it would go to the warehouse.",
+    shipTo: "Ship to", payment: "Payment", orderConfirmed: "Parts order confirmed", confirmOrder: "Confirm parts order",
+    fitsAlone: "Customer fits them alone", fitsAloneBtn: "Customer fits them alone", declinedAlone: "declined: customer fits the parts alone",
+    approveQuote: "Approve and send the quote", approvedQuote: "Approved · quote and payment instructions sent (simulation); parts ship on payment",
+    toastQuote: "Quote emailed to the customer (simulation). The warehouse ships once the payment is confirmed.",
     serverLost: "Connection to the server lost: the call was interrupted.", backHome: "Back to home",
   },
 };
@@ -402,7 +410,23 @@ function bookingHtml(b) {
   else body = `<div class="note">${L.pickSlot} · ${esc(b.slots[0].technician)}</div><div class="slots">${b.slots.map((s) => `<button class="btn small" data-slot="${esc(s.id)}" ${callMode === "voice" ? "disabled" : ""}>${esc(s.label)}</button>`).join("")}</div>`;
   return `<div class="booking"><div class="kind">${b.kind === "onsite" ? L.bookTech : L.bookCall}</div>${body}</div>`;
 }
+function followHtml(n) {
+  // after the call: payment, shipping, and what the operator can still record (order confirmed, customer fits alone)
+  const pay = n.payment ? `<div class="wline ${n.payment.status === "awaiting_payment" ? "bad" : n.payment.status === "free" ? "ok" : ""}">💳 ${esc(n.payment.text)}</div>` : "";
+  const ship = n.ship_to ? `<div class="wline">📦 ${L.shipTo}: ${esc(n.ship_to)}</div>` : "";
+  let acts = "";
+  if (callMode === "op" && (n.parts || []).length) {
+    acts = n.parts_confirmed ? `<span class="tag ok">✓ ${L.orderConfirmed}</span>` : `<button class="btn small ok" data-order>${L.confirmOrder}</button>`;
+    if (n.kind === "part_with_support")
+      acts += n.fits_alone ? ` <span class="tag warn">${L.fitsAlone}</span> <button class="btn small ghost" data-alone="0">${L.unbook}</button>`
+        : ` <button class="btn small ghost" data-alone="1">${L.fitsAloneBtn}</button>`;
+    acts = `<div class="follow-acts">${acts}</div>`;
+  } else if (n.fits_alone) acts = `<div class="follow-acts"><span class="tag warn">${L.fitsAlone}</span></div>`;
+  return pay + ship + acts;
+}
 function wireDiag(p) {
+  p.querySelectorAll("[data-order]").forEach((b) => (b.onclick = () => send({ type: "control", action: "confirm_outcome_parts" })));
+  p.querySelectorAll("[data-alone]").forEach((b) => (b.onclick = () => send({ type: "control", action: "fits_alone", on: b.dataset.alone === "1" })));
   p.querySelectorAll("[data-slot]").forEach((b) => (b.onclick = () => send({ type: "control", action: "book_slot", id: b.dataset.slot })));
   p.querySelectorAll("[data-unbook]").forEach((b) => (b.onclick = () => send({ type: "control", action: "cancel_booking" })));
   p.querySelectorAll("[data-close]").forEach((b) => (b.onclick = () => send({ type: "control", action: "close_symptom", kind: b.dataset.close })));
@@ -440,7 +464,7 @@ function renderDiagnosis(d) {
     p.innerHTML = `${head}${hist}${maint}<div class="outcome ${d.outcome}">${L.outcome[d.outcome]}</div>` +
       `<div class="next"><div class="kind">${L.nextTitle}</div><div>${esc(n.text || "")}</div>` +
       (n.warranty_text ? `<div class="wline ${n.warranty === true ? "ok" : n.warranty === false ? "bad" : ""}">${esc(n.warranty_text)}</div>` : "") +
-      partsTable(n.parts || []) + bookingHtml(n.booking) +
+      partsTable(n.parts || []) + followHtml(n) + bookingHtml(n.booking) +
       (n.say_en && callMode === "op" ? `<div class="say"><small>${L.say}</small>${esc(n.say_en)}</div>` : "") + `</div>${pend}`;
     wireDiag(p); currentBranches = 0;
     return;
@@ -582,7 +606,9 @@ function renderSummary(s) {
         <dt>${L.warrantyLbl}</dt><dd>${warranty}</dd></dl></section>
       <section class="report-sec"><h4>${L.secNext}</h4><dl class="kv">
         <dt>${L.nextStep}</dt><dd>${esc(s.next ? s.next.text : "—")}${s.next && s.next.warranty_text ? `<br><small>${esc(s.next.warranty_text)}</small>` : ""}</dd>
-        <dt>${L.appointment}</dt><dd>${s.booking ? `${esc(s.booking.label)} · ${esc(s.booking.technician)}` : (["part_with_support", "technician"].includes(kind) ? `<span class="tag bad">${L.notBooked}</span>` : "—")}</dd></dl></section>
+        <dt>${L.appointment}</dt><dd>${s.booking ? `${esc(s.booking.label)} · ${esc(s.booking.technician)}` : s.next && s.next.fits_alone ? `<span class="tag warn">${L.declinedAlone}</span>` : (["part_with_support", "technician"].includes(kind) ? `<span class="tag bad">${L.notBooked}</span>` : "—")}</dd>
+        ${s.next && s.next.payment ? `<dt>${L.payment}</dt><dd>${esc(s.next.payment.text)}</dd>` : ""}
+        ${s.next && s.next.ship_to ? `<dt>${L.shipTo}</dt><dd>${esc(s.next.ship_to)}</dd>` : ""}</dl></section>
       <section class="report-sec wide"><h4>${L.secDiag}</h4>${steps}</section>
       <section class="report-sec wide"><h4>${L.secParts}</h4>${partsTbl}</section>
       ${(s.notes || []).length ? `<section class="report-sec wide"><h4>${L.secNotes}</h4><ul>${s.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul></section>` : ""}
@@ -592,7 +618,9 @@ function renderSummary(s) {
       ${hasOrder ? `<button class="btn primary" id="btn-approve">${L.approve}</button>` : ""}
       <button class="btn" id="btn-print">${L.print}</button><button class="btn" id="btn-again">${L.again}</button></div>
   </article>`;
-  $("btn-approve")?.addEventListener("click", () => { $("approved").hidden = false; $("btn-approve").remove(); toast(L.toastApproved); });
+  const awaitingPay = s.next && s.next.payment && s.next.payment.status === "awaiting_payment";
+  if (awaitingPay && $("btn-approve")) { $("btn-approve").textContent = L.approveQuote; $("approved").textContent = "✓ " + L.approvedQuote; }
+  $("btn-approve")?.addEventListener("click", () => { $("approved").hidden = false; $("btn-approve").remove(); toast(awaitingPay ? L.toastQuote : L.toastApproved); });
   $("btn-print").onclick = () => window.print();
   $("btn-again").onclick = () => location.reload();
   window.scrollTo(0, 0);

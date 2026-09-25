@@ -409,3 +409,49 @@ def test_operator_read_back_finds_the_machine():
     s.clarify_on = False
     run(s.voice_transcript("operator", "Mi conferma che è 051040?"))
     assert s.machine and s.machine["serial"] == "051040"
+
+
+def _dave_at_outcome():
+    s, events = make_session()
+    run(run_tool(s, "identify_machine", {"model_text": "Marea 2", "serial": "041302"}))
+    run(run_tool(s, "find_procedure", {"description": "since this morning the machine stays cold, the pressure gauge is at zero"}))
+    run(run_tool(s, "answer_step", {"step_id": "lights", "option_number": 3, "customer_words": "everything is on but it is cold"}))
+    run(run_tool(s, "answer_step", {"step_id": "reset", "option_number": 2, "customer_words": "still cold"}))
+    run(run_tool(s, "answer_step", {"step_id": "contactor", "option_number": 1, "customer_words": "clicks, no heat"}))
+    o = run(run_tool(s, "answer_step", {"step_id": "element", "option_number": 2, "customer_words": "110 volts"}))
+    return s, events, o
+
+
+def test_payment_and_shipping_after_the_call():
+    """25/9 roleplay: Dave asked how to pay; nothing in the system said. Payment is never taken on the phone."""
+    s, events, o = _dave_at_outcome()
+    assert "email you the quote" in o["payment"] and "Espresso Corner" in o["ship_to"]
+    n = s._next_step()
+    assert n["payment"]["status"] == "awaiting_payment" and n["payment"]["amount_eur"] == 98.9 and n["payment"]["labour"]
+    assert "payment instructions" in n["say_en"] and not n["parts_confirmed"]
+
+
+def test_operator_records_customer_fits_alone():
+    s, events, o = _dave_at_outcome()
+    run(s.control({"action": "fits_alone", "on": True}))
+    n = s._next_step()
+    assert n["fits_alone"] and n["booking"] is None and n["parts_confirmed"]
+    assert not n["payment"]["labour"] and "da solo" in n["text"]
+    assert any("da solo" in x or "alone" in x for x in s.notes)
+    run(s.control({"action": "fits_alone", "on": False}))
+    assert s._next_step()["booking"] is not None
+
+
+def test_operator_confirms_the_order_or_books_and_parts_are_ordered():
+    s, events, o = _dave_at_outcome()
+    run(s.control({"action": "confirm_outcome_parts"}))
+    assert all(s.cards[c]["status"] == "confirmed" for c in ("CA-1181", "CA-1220"))
+    s2, _, o2 = _dave_at_outcome()
+    run(s2.control({"action": "book_slot", "id": o2["booking"]["free_slots"][0]["slot_id"]}))
+    assert s2.booking and s2._next_step()["parts_confirmed"]
+
+
+def test_agent_note_declining_service_means_fits_alone():
+    s, events, o = _dave_at_outcome()
+    run(run_tool(s, "note_for_operator", {"note": "customer declines service support, will fit the element himself"}))
+    assert s.fits_alone and s._next_step()["fits_alone"]

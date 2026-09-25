@@ -144,6 +144,7 @@ class CallSession:
         self.unclear_count: dict[str, int] = {}   # rejections per step: a long off-topic reply needs a third call
         self.end_refused: set[str] = set()        # end_call refused once per reason: open step, parts, no goodbye
         self.end_wanted = False                   # the agent asked to end at least once
+        self.fits_alone = False                   # the customer declined the service call: fits the parts alone
         self.last_agent_text = ""
         self.last_customer_text = ""
         self.serial_asked = 0                     # customer sentences still read as the answer to "which serial?"
@@ -797,10 +798,28 @@ class CallSession:
             slot = next((x for x in CATALOG.service_slots(zone, from_day=int(off), limit=8) if x["id"] == msg["id"]), None)
             if slot:
                 self.booking = slot
+                self.fits_alone = False
+                await self._confirm_outcome_parts()            # booking the fitting means the parts are ordered
                 v = self._slot_view(slot)
                 await self._agent(f"Prenotato: {v['label']} con {slot['technician']}." if self.lang == "it"
                                   else f"Booked: {v['label']} with {slot['technician']}.")
                 await self._emit_diagnosis()
+        elif a == "confirm_outcome_parts" and self.diagnosis and self.diagnosis.outcome:
+            done = await self._confirm_outcome_parts()
+            if done:
+                await self._agent(("Ordine ricambi confermato: " if self.lang == "it" else "Parts order confirmed: ") + ", ".join(done))
+            await self._emit_diagnosis()
+        elif a == "fits_alone" and self.diagnosis and self.diagnosis.outcome:
+            self.fits_alone = bool(msg.get("on", True))
+            if self.fits_alone:
+                self.booking = None
+                await self._confirm_outcome_parts()            # the customer still buys the parts
+                note = ("Il cliente monta i ricambi da solo: seconda chiamata con il service rifiutata." if self.lang == "it"
+                        else "The customer fits the parts alone: service call declined.")
+                if note not in self.notes:
+                    self.notes.append(note)
+                await self._agent(note)
+            await self._emit_diagnosis()
         elif a == "cancel_booking" and self.booking:
             self.booking = None
             await self._agent("Prenotazione annullata." if self.lang == "it" else "Booking cancelled.")
@@ -1047,16 +1066,65 @@ class CallSession:
                  "part_diy": "I'll ship the parts; you can fit them yourself with the sheet I'll send you.",
                  "part_with_support": "I'll ship the parts and we'll book a call with our service to fit them when they arrive.",
                  "technician": "We need to send a technician; we'll call you to book the visit."}[o.kind]
-        booking = self._booking_view(o.kind, parts) if o.kind in ("part_with_support", "technician") else None
+        fits_alone = self.fits_alone and o.kind == "part_with_support"
+        if fits_alone:
+            text = ("Spedire i ricambi qui sotto: il cliente li monta da solo (ha rifiutato la seconda chiamata; può "
+                    "richiamare il service se serve aiuto).",
+                    "Ship the parts below: the customer fits them alone (declined the service call; can call service back).")
+            say_k = "I'll ship the parts; if you need help fitting them, call our service and we'll book a call with you."
+        booking = self._booking_view(o.kind, parts) if o.kind in ("part_with_support", "technician") and not fits_alone else None
         if booking and booking["booked"]:
             b = booking["booked"]
             say_k = (f"Our technician can come on {b['label_en']}. Does that work for you?" if booking["kind"] == "onsite"
                      else f"We'll call you on {b['label_en']} to fit the parts together, once they have arrived. Does that work for you?")
+        pay = self._payment(o.kind, w, parts)
         return {"kind": o.kind, "text": text[0] if it else text[1], "warranty": w, "warranty_text": wt[0] if it else wt[1],
-                "say_en": (say_w + " " + say_k).strip(), "booking": booking,
+                "say_en": " ".join(x for x in (say_w, say_k, pay["say_en"] if pay else "") if x).strip(), "booking": booking,
+                "fits_alone": fits_alone, "payment": pay, "ship_to": self._ship_to() if parts else None,
+                "parts_confirmed": bool(parts) and all(c["status"] == "confirmed" for c in parts),
                 "parts": [{"code": c["code"], "description": c["description"], "description_en": c["description_en"],
                            "price_eur": c["price_eur"], "delivery": c["delivery"], "handling": c["handling"],
                            **self.charge_for(c["code"])} for c in parts]}
+
+    def _payment(self, kind: str, warranty, parts: list[dict]) -> dict | None:
+        """Who pays and how, after the call. Payment is never taken on the phone: a colleague reviews the work order
+        and emails the quote with the payment instructions; the parts leave the warehouse when the payment is
+        confirmed. Under warranty nothing is charged except consumables."""
+        it = self.lang == "it"
+        pays = round(sum(self.charge_for(c["code"])["customer_pays_eur"] or 0 for c in parts), 2)
+        labour = kind in ("part_with_support", "technician") and warranty is False and not self.fits_alone
+        if kind == "remote" or (not parts and kind != "technician"):
+            return None
+        if warranty is None:
+            return {"status": "unknown", "text": "Chi paga dipende dalla garanzia: serve la matricola." if it
+                    else "Who pays depends on the warranty: the serial number is needed.", "say_en": ""}
+        if pays == 0 and not labour:
+            return {"status": "free", "text": "Senza addebito: i ricambi partono appena la scheda è approvata." if it
+                    else "No charge: the parts ship as soon as the work order is approved.",
+                    "say_en": "There is nothing to pay: the parts ship as soon as the order is approved."}
+        return {"status": "awaiting_payment", "amount_eur": pays, "labour": labour,
+                "text": ("In attesa di pagamento: un collega revisiona la scheda e invia al cliente per email il preventivo "
+                         "e le istruzioni di pagamento; i ricambi partono alla conferma del pagamento.") if it else
+                        ("Awaiting payment: a colleague reviews the work order and emails the customer the quote and the "
+                         "payment instructions; the parts ship once the payment is confirmed."),
+                "say_en": "A colleague will review your case and email you the quote and the payment instructions shortly; "
+                          "we ship the parts as soon as the payment is confirmed."}
+
+    def _ship_to(self) -> str:
+        m = self.machine
+        if m:
+            return f"{m['customer']}, {m['city']} ({m['country']})" + (" · indirizzo in anagrafica" if self.lang == "it" else " · address on file")
+        return "indirizzo da chiedere al cliente" if self.lang == "it" else "address to ask the customer"
+
+    async def _confirm_outcome_parts(self) -> list[str]:
+        done = []
+        if self.diagnosis and self.diagnosis.outcome:
+            for code in self.diagnosis.outcome.parts:
+                if code in self.cards and self.cards[code]["status"] == "proposed":
+                    self.cards[code]["status"] = "confirmed"
+                    await self.emit({"type": "part_status", "code": code, "status": "confirmed"})
+                    done.append(code)
+        return done
 
     # ------------------------------------------------------------------ emitters
     async def _on_clear(self, turn_id: int, text: str) -> None:

@@ -41,7 +41,7 @@ HOW YOU WORK
 3. When a step asks the customer to do something (press, unscrew, clean, backflush), explain it simply, wait for them to do it and tell you the result, then call answer_step.
 4. Order of things: as soon as the fault is described, call find_procedure and ask its first question. Right after the customer answers that first question, ask for the serial number (it is on the plate at the back) and call identify_machine with the digits and the model words the customer used: it tells you the machine, whether it is under warranty and who pays. Then continue with the steps.
 5. Say prices, delivery times, part codes, warranty, totals and dates ONLY when they come from a tool result in this conversation. Never invent a number, never name a part the tools did not return, never explain what broke beyond what the step or the outcome says. Always use the "spoken" forms given in the results for codes and prices (for example "C A twelve seventy, twelve euros sixty"), every time you say a code.
-6. THE CUSTOMER MAY ASK ANYTHING AT ANY MOMENT, in any order (warranty before the serial, cost before the outcome, the appointment in the middle of a step). Never refuse, postpone or pass to the operator a question that get_call_status can answer: call it, answer in one or two sentences, then go back to the step where you were. If the answer depends on something missing (no serial yet, no outcome yet), say what is missing and ask for it. Customer questions: answer from tool results when you can. Money: always say what the CUSTOMER pays (customer_pays_spoken, customer_pays_total_spoken, labour), never the list price as if it were a cost. Under warranty the repair's parts and the service are free; consumables such as cleaning tablets are always charged, and if asked, say so plainly ("the tablets are consumables, they are not covered"). The outcome also gives delivery days and whether a service call or a technician is needed; use them. Call note_for_operator only for things no tool covers (discounts, invoices, complaints), say the operator will follow up, then return to the procedure. Warranty, prices, delivery and appointments are NEVER operator questions.
+6. THE CUSTOMER MAY ASK ANYTHING AT ANY MOMENT, in any order (warranty before the serial, cost before the outcome, the appointment in the middle of a step). Never refuse, postpone or pass to the operator a question that get_call_status can answer: call it, answer in one or two sentences, then go back to the step where you were. If the answer depends on something missing (no serial yet, no outcome yet), say what is missing and ask for it. Customer questions: answer from tool results when you can. Money: always say what the CUSTOMER pays (customer_pays_spoken, customer_pays_total_spoken, labour), never the list price as if it were a cost. Under warranty the repair's parts and the service are free; consumables such as cleaning tablets are always charged, and if asked, say so plainly ("the tablets are consumables, they are not covered"). The outcome also gives delivery days and whether a service call or a technician is needed; use them. How to pay: never take payment on the phone and never invent links, card payments or bank details; say what the outcome's payment field says (a colleague emails the quote and payment instructions, the parts ship when the payment is confirmed). Call note_for_operator only for things no tool covers (discounts, invoices, complaints), say the operator will follow up, then return to the procedure. Warranty, prices, delivery and appointments are NEVER operator questions.
 7. At the outcome, explain what happens next (parts shipped FROM our warehouse to the customer, second call with service, technician's visit), who pays, and propose the first free slot from the result. When the customer agrees, call book_slot with that slot id. If they prefer another, propose the next one. When the customer agrees to receive the parts, call confirm_parts with their codes: without it nothing is ordered. If the outcome needs a service call or a technician and the customer wants to fit the part alone, say once that this part must be fitted with our service (safety, and the repair's warranty); if they still decline, call note_for_operator ("customer declines service support").
 8. Say numbers as words, the natural way: "two hundred thirty volts", "one point two bar", never digit by digit (except serial numbers when you repeat them back). Keep every reply to one or two short sentences. Warm and professional, never chatty. Repeat numbers back to confirm them.
 10. If a tool result says "stale" or "error", call answer_step again right away with the step_id given in that result and the option matching the customer's words. Never guess the outcome yourself and never use find_part to work out which part is needed: only the procedure's outcome names the parts. find_part is for parts the customer asks about by code or by name.
@@ -294,6 +294,11 @@ def _outcome_view(s) -> dict:
                round(sum(p["customer_pays_eur"] or 0 for p in n["parts"]), 2)),
            "labour": ("free, covered by the warranty" if n["warranty"] is True else "charged, a quote follows" if n["warranty"] is False
                       else "depends on the warranty: ask the serial number")}
+    if n.get("payment"):
+        out["payment"] = n["payment"]["say_en"] or n["payment"]["text"]
+        out["ship_to"] = n["ship_to"]
+    if n.get("fits_alone"):
+        out["customer_fits_alone"] = "the customer declined the service call; they can call service back for help"
     b = n.get("booking")
     if b:
         out["booking"] = {"kind": "technician's visit" if b["kind"] == "onsite" else "second call with service (video call)",
@@ -452,15 +457,12 @@ async def _run_tool(s, name: str, args: dict) -> dict:
                                               "request and tell the customer the operator will follow up (or ask for the code on the invoice)."}
         return {"status": "found", "parts": [_card_view(c, s.charge_for(c["code"])) for c in cards]}
     if name == "book_slot":
-        await s.control({"action": "book_slot", "id": args.get("slot_id")})
+        proposed = [c for c in (s.diagnosis.outcome.parts if s.diagnosis and s.diagnosis.outcome else [])
+                    if c in s.cards and s.cards[c]["status"] == "proposed"]
+        await s.control({"action": "book_slot", "id": args.get("slot_id")})     # booking also orders the outcome's parts
         if s.booking:
             v = s._slot_view(s.booking)
-            ordered = []
-            if s.diagnosis and s.diagnosis.outcome:
-                for code in s.diagnosis.outcome.parts:
-                    if code in s.cards and s.cards[code]["status"] == "proposed":
-                        await s.control({"action": "confirm_part", "code": code})
-                        ordered.append(code)
+            ordered = [c for c in proposed if s.cards[c]["status"] == "confirmed"]
             return {"status": "booked", "when": v["label_en"], "with": s.booking["technician"],
                     "parts_ordered_with_it": ordered,
                     "next": "ask if there is anything else; if not, say goodbye, THEN call end_call"}
@@ -483,6 +485,8 @@ async def _run_tool(s, name: str, args: dict) -> dict:
         note = (args.get("note") or "").strip()
         if note:
             s.notes.append(note)
+            if re.search(r"declin|fit.{0,20}(alone|himself|herself|themsel|own)|monta.{0,20}da sol", note, re.I):
+                s.fits_alone = True
             await s._agent(("Nota per l'operatore: " if s.lang == "it" else "Note for the operator: ") + note)
         return {"status": "noted", "say": "the operator will follow up on this"}
     if name == "end_call":

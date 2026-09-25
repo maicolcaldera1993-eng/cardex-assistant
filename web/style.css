@@ -297,3 +297,5 @@ dialog { border: 1px solid var(--line); border-radius: 16px; max-width: 720px; w
   body { background: #fff; } .topbar, .report-actions, .toast { display: none !important; }
   .report { box-shadow: none; border: none; } .report-wrap { padding: 0; }
 }
+
+.follow-acts { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 8px 0 4px; }
