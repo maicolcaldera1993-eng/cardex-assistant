@@ -64,3 +64,10 @@ def test_digits_and_polarity_and_wording():
     assert polarity("Yes, that works, perfect.") > 0 and polarity("No, still the same.") < 0
     assert for_customer("Have them open the grind by two notches, dose 14 g, pull another shot.").startswith("Please open")
     assert "Can you open" in for_customer("Can the customer open the solenoid valve body?")
+
+
+
+def test_serial_digits_in_the_customer_language():
+    assert digits_in("zero cinque uno, zero quattro zero") == "051040"
+    assert digits_in("cero cinco dos, siete uno cero") == "052710"
+    assert digits_in("null vier vier, acht null eins") == "044801"

@@ -71,6 +71,7 @@ const T = {
     approve: "Approva e invia al magazzino", approved: "Approvato · ordine inviato al magazzino (simulazione)", print: "Stampa", again: "Nuova chiamata",
     showTranscript: "Trascritto completo", diarCheck: "Attribuzione delle voci", duration: "Durata",
     toastApproved: "Ordine approvato. In produzione partirebbe verso il magazzino.",
+    serverLost: "Connessione con il server persa: la chiamata è stata interrotta.", backHome: "Torna alla home",
   },
   en: {
     tagline: "Sereni espresso machines · service", demoBadge: "Demo · fictional data",
@@ -136,6 +137,7 @@ const T = {
     approve: "Approve and send to the warehouse", approved: "Approved · order sent to the warehouse (simulation)", print: "Print", again: "New call",
     showTranscript: "Full transcript", diarCheck: "Voice attribution", duration: "Duration",
     toastApproved: "Order approved. In production it would go to the warehouse.",
+    serverLost: "Connection to the server lost: the call was interrupted.", backHome: "Back to home",
   },
 };
 
@@ -260,7 +262,7 @@ function startCall(source) {
   $("st-session").textContent = L.connecting; $("live-dot").classList.remove("on");
   $("turns").innerHTML = `<div class="empty-hint" id="talk-empty">${esc(L.emptyTalk)}</div>`;
   $("parts").innerHTML = `<div class="empty-hint" id="parts-empty">${esc(L.emptyParts)}</div>`;
-  $("log").innerHTML = ""; $("machine-record").hidden = true; lastMachine = null;
+  $("log").innerHTML = ""; $("machine-record").hidden = true; lastMachine = null; $("st-warranty").hidden = true;
   symptomMenu = []; renderEmptyDiag(); cards.clear(); knownCodes.clear(); docs.length = 0; activeDoc = -1;
   $("doc-tabs").innerHTML = ""; $("doc-view").className = "doc-view empty"; $("doc-view").textContent = L.noDocs;
   $("presence").hidden = callMode !== "voice" && !roleplay; setPresence("connecting");
@@ -268,7 +270,14 @@ function startCall(source) {
   ws = new WebSocket(`${proto}://${location.host}/ws/call?source=${encodeURIComponent(source)}&lang=${lang}`);
   ws.binaryType = "arraybuffer";
   ws.onmessage = (ev) => handle(JSON.parse(ev.data));
-  ws.onclose = () => { stopMic(); clearInterval(timer); $("st-session").textContent = L.closed; $("live-dot").classList.remove("on"); };
+  ws.onclose = () => {
+    stopMic(); clearInterval(timer); $("st-session").textContent = L.closed; $("live-dot").classList.remove("on");
+    if (!$("call").hidden) {                                   // the server went away mid-call: say so, end the agents
+      toast(L.serverLost); logLine(L.serverLost, true);
+      if (duo) duoEnd(); else if (vws && vws.readyState === 1) { try { vws.send(JSON.stringify({ type: "session.end" })); vws.close(); } catch (e) { /* closing */ } }
+      $("lb-end").textContent = L.backHome; $("btn-end").onclick = () => location.reload();
+    }
+  };
   duetId = source.startsWith("duet:") ? source.slice(5) : null; $("duet-panel").hidden = !duetId; $("duet-lines").innerHTML = "";
   ws.onopen = () => { t0 = Date.now(); timer = setInterval(tick, 500); if (source === "mic" || source === "auto" || duetId) startMic(); };
 }
@@ -338,7 +347,14 @@ function handle(ev) {
     case "part_status": if (cards.has(ev.code)) { cards.get(ev.code).status = ev.status; renderParts(); } break;
     case "diagnosis": renderDiagnosis(ev); break;
     case "symptom_choice": renderChoice(ev.options); break;
-    case "machine_record": lastMachine = ev; renderMachine(ev); break;
+    case "machine_record": {
+      lastMachine = ev; renderMachine(ev);
+      const w = $("st-warranty"); w.hidden = false;
+      w.textContent = ev.in_warranty ? `✓ ${L.warranty} ${ev.warranty_until}` : `${L.noWarranty} ${ev.warranty_until}`;
+      w.className = `chip ${ev.in_warranty ? "on" : "bad"}`;
+      toast(`${ev.model} #${ev.serial} · ${w.textContent}`);
+      break;
+    }
     case "duet_script": renderDuet(ev.lines); break;
     case "speak": speak(ev); break;
     case "tool_result": voiceToolResult(ev); break;
