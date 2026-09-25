@@ -130,7 +130,7 @@ def test_agent_cannot_advance_on_words_that_do_not_answer_the_step():
     r = run(run_tool(s, "answer_step", {"step_id": "gasket-age", "option_number": 1, "customer_words": "Uh, yeah, I think it's dirty. Also some coffee grounds."}))
     assert r["status"] == "unclear" and s.diagnosis.current == "gasket-age" and not s.diagnosis.outcome
     ok = run(run_tool(s, "answer_step", {"step_id": "gasket-age", "option_number": 1, "customer_words": "The original gasket, and the handle goes past the centre, almost to the right."}))
-    assert ok["status"] == "outcome" and ok["outcome"] == "part_diy" and {x["code"] for x in ok["parts"]} == {"GE-2140", "GE-2210"}
+    assert ok["status"] == "outcome" and ok["outcome"] == "part_diy" and {x["code"] for x in ok["parts"]} == {"GE-2210"}   # the kit contains the gasket
 
 
 def test_confirm_parts_records_the_order_for_the_operator():
@@ -142,9 +142,9 @@ def test_confirm_parts_records_the_order_for_the_operator():
     assert o["status"] == "outcome"
     bad = run(run_tool(s, "confirm_parts", {"codes": ["XX-0000"]}))
     assert bad["status"] == "error"
-    ok = run(run_tool(s, "confirm_parts", {"codes": ["ge-2140", "GE-2210"]}))
-    assert ok["status"] == "confirmed" and ok["codes"] == ["GE-2140", "GE-2210"]
-    assert {c["code"] for c in s.cards.values() if c["status"] == "confirmed"} == {"GE-2140", "GE-2210"}
+    ok = run(run_tool(s, "confirm_parts", {"codes": ["ge-2210"]}))
+    assert ok["status"] == "confirmed" and ok["codes"] == ["GE-2210"]
+    assert {c["code"] for c in s.cards.values() if c["status"] == "confirmed"} == {"GE-2210"}
 
 
 def test_session_config_speaks_the_customer_language():
@@ -528,6 +528,7 @@ def test_confirm_parts_asks_for_the_email_when_the_customer_pays():
     s, events, o = _dave_at_outcome()
     r = run(run_tool(s, "confirm_parts", {"codes": ["CA-1181", "CA-1220"]}))
     assert r.get("email_missing")
+    run(s.voice_transcript("customer", "Sure, it is dave at espresso corner dot com."))
     r = run(run_tool(s, "confirm_parts", {"codes": ["CA-1181", "CA-1220"], "email": "dave@espressocorner.com"}))
     assert r["status"] == "confirmed" and r["email"] == "dave@espressocorner.com"
 
@@ -614,3 +615,25 @@ def test_end_call_after_the_customer_thanked():
     s.last_agent_text = "The call is booked."                 # the agent's goodbye has not arrived yet
     r = run(run_tool(s, "end_call", {}))
     assert r.get("end") is True
+
+
+def test_mehmet_mode1_call_of_25_9():
+    s, _ = make_session()
+    run(run_tool(s, "identify_machine", {"serial": "052710"}))
+    r = run(run_tool(s, "find_part", {"query": "G2410"}))                  # the E was lost in transcription
+    assert r["status"] == "found" and r["parts"][0]["code"] == "GE-2410" and r["parts"][0]["fits_this_machine"] is False
+    # an invented address is not recorded
+    run(run_tool(s, "find_procedure", {"description": "water comes out around the rim of the portafilter on the left group"}))
+    run(run_tool(s, "confirm_parts", {"codes": ["GE-2410"], "email": "mehmet@example.com"}))
+    assert s.email == ""
+
+
+def test_no_outcome_offers_a_part_and_the_kit_that_contains_it():
+    from app.core.symptoms import DefectsLibrary
+    lib = DefectsLibrary()
+    for sid, sym in lib.symptoms.items():
+        for st in sym["steps"]:
+            for b in st["branches"]:
+                if b["then"].startswith("outcome:") and b["then"].count(":") > 1:
+                    codes = b["then"].split(":")[2].split(",")
+                    assert not ({"GE-2140", "GE-2210"} <= set(codes) or {"GE-2410", "GE-2211"} <= set(codes)), (sid, codes)

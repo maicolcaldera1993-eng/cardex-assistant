@@ -21,7 +21,7 @@ Known-defects file, Marea family. Internal service document.
 
 *Quanto tempo ha la guarnizione? Il portafiltro si aggancia oltre il centro?*
 
-- Over a year, or past the centre → **part, fitted by the customer**: GE-2140 (Group head gasket 8.5 mm, Marea/Giglio group), GE-2210 (Group service kit Marea/Giglio (gasket, screen, screw))
+- Over a year, or past the centre → **part, fitted by the customer**: GE-2210 (Group service kit Marea/Giglio (gasket, screen, screw))
 - New gasket, still leaks → go to step 3
 
 ### 3. Ask: Does the portafilter rim show marks, nicks, or is it out of round? {#passo-3}

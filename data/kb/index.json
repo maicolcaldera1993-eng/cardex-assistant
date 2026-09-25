@@ -4211,7 +4211,6 @@
   ],
   "group": "GE",
   "parts": [
-   "GE-2140",
    "GE-2150",
    "GE-2193",
    "GE-2210",
@@ -4318,7 +4317,6 @@
   ],
   "group": "GE",
   "parts": [
-   "GE-2140",
    "GE-2150",
    "GE-2180",
    "GE-2210"
@@ -5069,8 +5067,7 @@
   "group": "GE",
   "parts": [
    "GE-2182",
-   "GE-2211",
-   "GE-2410"
+   "GE-2211"
   ],
   "refs": [
    "Leaks water at the group with the portafilter locked in",

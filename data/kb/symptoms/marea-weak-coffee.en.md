@@ -66,7 +66,7 @@ Known-defects file, Marea family. Internal service document.
 
 > Gasket older than a year: almost certain.
 
-- Yes, to either → **part, fitted by the customer**: GE-2140 (Group head gasket 8.5 mm, Marea/Giglio group), GE-2210 (Group service kit Marea/Giglio (gasket, screen, screw))
+- Yes, to either → **part, fitted by the customer**: GE-2210 (Group service kit Marea/Giglio (gasket, screen, screw))
 - No → go to step 8
 
 ### 8. Ask: With the blind filter fitted and a shot running, what does the pump needle on the gauge read? {#passo-8}

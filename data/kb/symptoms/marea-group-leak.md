@@ -21,7 +21,7 @@ Fascicolo difetti noti, famiglia Marea. Documento interno al service.
 
 *How old is the gasket? Does the portafilter lock past the centre?*
 
-- Più di un anno, o oltre il centro → **ricambio, lo monta il cliente**: GE-2140 (Guarnizione sottocoppa 8,5 mm, gruppo Marea/Giglio), GE-2210 (Kit revisione gruppo Marea/Giglio (guarnizione, doccetta, vite))
+- Più di un anno, o oltre il centro → **ricambio, lo monta il cliente**: GE-2210 (Kit revisione gruppo Marea/Giglio (guarnizione, doccetta, vite))
 - Guarnizione nuova, perde lo stesso → vai al passo 3
 
 ### 3. Chiedere: Il bordo del portafiltro ha segni, tacche o è ovalizzato? {#passo-3}

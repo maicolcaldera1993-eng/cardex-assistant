@@ -217,7 +217,7 @@
             {
               "label_it": "Più di un anno, o oltre il centro",
               "label_en": "Over a year, or past the centre",
-              "then": "outcome:part_diy:GE-2410,GE-2211"
+              "then": "outcome:part_diy:GE-2211"
             },
             {
               "label_it": "Guarnizione nuova, perde lo stesso",

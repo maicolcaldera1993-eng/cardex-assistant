@@ -66,7 +66,7 @@ Fascicolo difetti noti, famiglia Marea. Documento interno al service.
 
 > Guarnizione più vecchia di un anno: quasi certo.
 
-- Sì, a una delle due → **ricambio, lo monta il cliente**: GE-2140 (Guarnizione sottocoppa 8,5 mm, gruppo Marea/Giglio), GE-2210 (Kit revisione gruppo Marea/Giglio (guarnizione, doccetta, vite))
+- Sì, a una delle due → **ricambio, lo monta il cliente**: GE-2210 (Kit revisione gruppo Marea/Giglio (guarnizione, doccetta, vite))
 - No → vai al passo 8
 
 ### 8. Chiedere: Con il filtro cieco montato e l'erogazione avviata, a quanto arriva la lancetta della pompa sul manometro? {#passo-8}

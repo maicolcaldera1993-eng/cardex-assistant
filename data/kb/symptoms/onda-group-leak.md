@@ -23,7 +23,7 @@ Fascicolo difetti noti, famiglia Onda. Documento interno al service.
 
 > Il gruppo Onda usa la guarnizione da 9 mm GE-2410: quella della Marea (GE-2140) non va bene.
 
-- Più di un anno, o oltre il centro → **ricambio, lo monta il cliente**: GE-2410 (Guarnizione sottocoppa 9 mm, gruppo Onda), GE-2211 (Kit revisione gruppo Onda (guarnizione, doccetta, OR))
+- Più di un anno, o oltre il centro → **ricambio, lo monta il cliente**: GE-2211 (Kit revisione gruppo Onda (guarnizione, doccetta, OR))
 - Guarnizione nuova, perde lo stesso → vai al passo 3
 
 ### 3. Chiedere: Il bordo del portafiltro ha segni, tacche o è ovalizzato? {#passo-3}
