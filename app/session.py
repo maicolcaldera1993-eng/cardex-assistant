@@ -128,6 +128,9 @@ class CallSession:
         self.auto = AutoAgent(self, TTS, SEMANTIC.similarities) if source == "auto" else None
         # voice agent mode: AssemblyAI's hosted agent listens and talks; we are its memory and its tools
         self.voice = source == "voice"
+        # operator practice with a simulated customer: both sides come as transcripts relayed by the page
+        self.roleplay = source.startswith("roleplay")
+        self.relay = self.voice or self.roleplay
         self.voice_done = False
         self.voice_ended = asyncio.Event()
         self.voice_turn = 0
@@ -138,23 +141,28 @@ class CallSession:
         self.end_wanted = False                   # the agent asked to end at least once
         self.last_agent_text = ""
         self.last_customer_text = ""
+        self.serial_asked = False                 # the other side just asked for the serial number
 
     # ------------------------------------------------------------------ lifecycle
     async def run(self) -> None:
         vocab = VOCAB.build()
         self.vocab_phase, self.vocab_key = 1, (None, None, None, ())
-        if self.voice:
+        if self.relay:
             try:
                 await self.emit({"type": "session", "state": "open", "source": self.source, "lang": self.lang,
                                  "limits": {"max_seconds": MAX_SESSION_SECONDS}})
                 await self._emit_vocab(vocab)
                 await self._emit_context()
-                await asyncio.wait_for(self.voice_ended.wait(), timeout=MAX_SESSION_SECONDS)
+                if self.roleplay:
+                    self.clarifier.start()
+                await asyncio.wait_for(self.voice_ended.wait(), timeout=MAX_REHEARSAL_SECONDS if self.roleplay else MAX_SESSION_SECONDS)
             except asyncio.TimeoutError:
                 await self._agent("Tempo massimo raggiunto." if self.lang == "it" else "Time limit reached.")
             except Exception as e:  # noqa: BLE001
                 await self.emit({"type": "error", "text": f"{type(e).__name__}: {e}"})
             finally:
+                if self.roleplay:
+                    await self.clarifier.close()
                 await self._emit_summary()
             return
         try:
@@ -194,7 +202,7 @@ class CallSession:
         await self.end()
 
     async def end(self) -> None:
-        if self.voice:
+        if self.relay:
             self._closing = True
             self.voice_ended.set()
             return
@@ -793,14 +801,14 @@ class CallSession:
             await self._emit_diagnosis()
         elif a == "spoken" and self.auto:
             await self.auto.spoken()
-        elif a == "transcript" and self.voice and msg.get("text"):
+        elif a == "transcript" and self.relay and msg.get("text"):
             await self.voice_transcript(msg.get("role") or "customer", str(msg["text"]).strip(), bool(msg.get("interrupted")))
         elif a == "tool" and self.voice:
             result = await run_tool(self, msg.get("name") or "", msg.get("arguments") or {})
             self._log_decision("tool", name=msg.get("name"), arguments=msg.get("arguments"), result=result)
             await self.emit({"type": "tool_result", "call_id": msg.get("call_id"), "name": msg.get("name"),
                              "result": tool_result_text(result), "end": bool(result.get("end"))})
-        elif a == "voice_end" and self.voice:
+        elif a == "voice_end" and self.relay:
             await self.end()
         elif a in ("confirm_part", "dismiss_part") and msg.get("code") in self.cards:
             self.cards[msg["code"]]["status"] = "confirmed" if a == "confirm_part" else "dismissed"
@@ -832,9 +840,17 @@ class CallSession:
         sentence cut short by the customer is kept, marked as interrupted."""
         self.voice_turn += 1
         tid = self.voice_turn * 100
-        who = CUSTOMER if role == "customer" else "agent"
-        if who == CUSTOMER:
+        who = CUSTOMER if role == "customer" else OPERATOR if role == "operator" else "agent"
+        if who in (OPERATOR, "agent") and re.search(r"serial|matricola|numero di serie", text, re.I):
+            self.serial_asked = True
+        elif who == CUSTOMER:
             self.last_customer_text = text
+            if self.serial_asked and not self.machine:
+                from .agent.dialog import digits_in
+                digits = digits_in(text)                     # "zero four four, eight zero one" -> 044801
+                if digits:
+                    await self._set_serial(digits)
+            self.serial_asked = False
         if who == "agent":
             self.last_agent_text = text
             from .voice.agent import ready_to_hang_up
@@ -849,8 +865,11 @@ class CallSession:
         self.turns[tid] = utt
         await self.emit({"type": "turn", "id": tid, "final": True, "text": text, "role": who, "speaker": None, "min_conf": 1.0,
                          "merged": 1, "interrupted": bool(interrupted)})
-        if who == CUSTOMER and self.assistant_on:
-            await self._assist(tid, text, CUSTOMER, 1.0, [text], utt)
+        if who in (CUSTOMER, OPERATOR) and self.assistant_on:
+            if who == CUSTOMER and self.roleplay and self.clarify_on:
+                self.clarifier.submit(tid, text)                  # the clear Italian version, as on a real call
+                await self.emit({"type": "clear_pending", "turn_id": tid})
+            await self._assist(tid, text, who, 1.0, [text], utt)
 
     async def apply_model_words(self, text: str) -> None:
         """The agent passes the customer's words about the model: same detector as the live transcript."""

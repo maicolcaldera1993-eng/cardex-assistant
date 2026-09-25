@@ -327,3 +327,43 @@ def test_side_tools_say_where_to_resume():
     run(run_tool(s, "answer_step", {"step_id": "gauge", "option_number": 1, "customer_words": "At zero, the boiler is cold."}))
     r = run(run_tool(s, "identify_machine", {"serial": "044801"}))
     assert r["resume"]["step_id"] == "enabled" and any("zero" in a.lower() for a in r["resume"]["already_answered"])
+
+
+def test_roleplay_relays_both_sides_and_cardex_assists_the_operator():
+    """Operator practice: the user is the operator, a Voice Agent plays the customer."""
+    events = []
+
+    async def emit(ev):
+        events.append(ev)
+
+    s = CallSession("key", emit, source="roleplay:klaus", lang="it")
+    assert s.relay and s.roleplay and not s.voice
+    s.clarify_on = False
+    run(s.voice_transcript("operator", "Sereni service, good morning, how can I help?"))
+    run(s.voice_transcript("customer", "Good morning, this is Klaus from Kaffeehaus Nord in Berlin. We have the Onda MB2 and since this morning there is no steam, the steam boiler gauge is at zero."))
+    turns = [e for e in events if e["type"] == "turn"]
+    assert [t["role"] for t in turns] == ["operator", "customer"]
+    assert s.model_id == "onda-mb2" and s.diagnosis and s.diagnosis.symptom["id"] == "onda-no-steam"
+    run(s.voice_transcript("operator", "Can you read me the serial number? Serial number 044801."))
+    assert s.machine and s.machine["customer"] == "Kaffeehaus Nord"
+
+
+def test_customer_personas_have_what_the_procedures_ask():
+    from app.voice.customer import PERSONAS, customer_session
+    for pid, p in PERSONAS.items():
+        cfg = customer_session(pid, ["Onda"])
+        assert "CUSTOMER" in cfg["system_prompt"] and p["serial"] in cfg["system_prompt"]
+        assert "greeting" not in cfg and cfg["output"]["voice"]
+
+
+def test_serial_answered_in_words_after_the_operator_asks():
+    events = []
+
+    async def emit(ev):
+        events.append(ev)
+
+    s = CallSession("key", emit, source="roleplay:klaus", lang="it")
+    s.clarify_on = False
+    run(s.voice_transcript("operator", "Can you read me the serial number on the plate at the back?"))
+    run(s.voice_transcript("customer", "Yes, of course. It is zero four four, eight zero one."))
+    assert s.machine and s.machine["serial"] == "044801" and s.machine["customer"] == "Kaffeehaus Nord"

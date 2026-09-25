@@ -18,7 +18,10 @@ const T = {
     voiceHelp: "Serve il microfono. Parla con calma e aspetta che l'agente finisca: mentre parla il microfono è in pausa. Chiudi con «Fine chiamata».",
     opEyebrow: "Modalità 2", opTitle: "Assistenza all'operatore",
     opDesc: "Cardex affianca l'operatore del service durante la telefonata con un cliente straniero: trascrive chi dice cosa, mostra la versione chiara in italiano, apre la procedura al passo giusto con la frase da leggere, prepara ricambi, appuntamento e scheda d'intervento.",
-    opTry: "Provalo tu, nei panni dell'operatore al telefono: il cliente è registrato, tu rispondi al microfono e segui la procedura guidata.",
+    opTry: "Provalo tu, nei panni dell'operatore al telefono: il cliente è un'intelligenza artificiale che recita il suo ruolo; tu rispondi al microfono e segui la procedura guidata.",
+    rpTitle: "Fai tu l'operatore", rpDesc: "Scegli il cliente: ti chiama, descrive il guasto e risponde alle tue domande. Non conosci la soluzione: te la suggerisce Cardex.", rpBtn: "Rispondi alla chiamata",
+    customerTalking: "Il cliente sta parlando", customerSub: "Il microfono è in pausa: aspetta che finisca.", yourTurn: "Tocca a te", yourTurnSub: "Rispondi al cliente: segui la procedura a destra.", opFirst: "Il telefono squilla: rispondi tu per primo, per esempio «Servizio Sereni, buongiorno».",
+    modeRoleplay: "Assistenza all'operatore · cliente simulato",
     sampleTitle: "Ascolta una chiamata", sampleDesc: "Una telefonata registrata, senza microfono: guarda cosa riconosce Cardex.", sampleBtn: "Ascolta",
     duetTitle: "Fai tu l'operatore", duetHelp: "Parli al microfono come operatore e clicchi le battute del cliente registrato; Cardex ti suggerisce cosa chiedere.", duetBtn: "Inizia",
     micTitle: "Parlato libero", micDesc: "Parla tu, come cliente, e guarda cosa capisce Cardex.", micBtn: "Apri console",
@@ -79,7 +82,10 @@ const T = {
     voiceHelp: "Needs the microphone. Speak calmly and let the agent finish: while it talks your mic is paused. Close with “End call”.",
     opEyebrow: "Mode 2", opTitle: "Operator assist",
     opDesc: "Cardex sits next to the service operator during a call with a foreign customer: it transcribes who says what, shows a clear Italian version, opens the procedure at the right step with the sentence to read, and prepares parts, appointment and work order.",
-    opTry: "Try it as the operator on the phone: the customer is recorded, you answer on the microphone and follow the guided procedure.",
+    opTry: "Try it as the operator on the phone: the customer is an AI playing its part; you answer on the microphone and follow the guided procedure.",
+    rpTitle: "Be the operator", rpDesc: "Pick the customer: they call, describe the fault and answer your questions. You don't know the fix: Cardex suggests it.", rpBtn: "Answer the call",
+    customerTalking: "The customer is speaking", customerSub: "Your mic is paused: let them finish.", yourTurn: "Your turn", yourTurnSub: "Answer the customer: follow the procedure on the right.", opFirst: "The phone rings: you speak first, for example “Sereni service, good morning”.",
+    modeRoleplay: "Operator assist · simulated customer",
     sampleTitle: "Listen to a call", sampleDesc: "A recorded call, no microphone: see what Cardex picks up.", sampleBtn: "Listen",
     duetTitle: "Be the operator", duetHelp: "You speak on the mic as the operator and click the recorded customer's lines; Cardex suggests what to ask.", duetBtn: "Start",
     micTitle: "Free speech", micDesc: "You speak, as the customer, and see what Cardex understands.", micBtn: "Open console",
@@ -174,6 +180,7 @@ let persona = "luca";
 let counts = { models: 10, symptoms: 32 };
 let ws = null, audioCtx = null, micStream = null, timer = null, t0 = 0, micMuted = false, duetId = null, duetPlaying = false, micWatchdog = null;
 let callMode = "op";
+let roleplay = false, rpSpoke = false;
 const cards = new Map();
 const knownCodes = new Set();
 const docs = [];
@@ -190,6 +197,9 @@ function applyLanguage() {
   set("voice-eyebrow", L.voiceEyebrow); set("voice-title", L.voiceTitle); set("voice-desc", L.voiceDesc); set("lb-persona", L.lbPersona);
   set("lb-voice-lang", L.lbVoiceLang); set("btn-voice", L.voiceStart); set("voice-help", L.voiceHelp);
   set("op-eyebrow", L.opEyebrow); set("op-title", L.opTitle); set("op-desc", L.opDesc); set("op-try", L.opTry); set("voice-try", L.voiceTry);
+  set("rp-title", L.rpTitle); set("rp-desc", L.rpDesc); set("btn-roleplay", L.rpBtn);
+  $("rp-select").innerHTML = PERSONAS.filter((p) => p.id !== "free").concat([{ id: "carmen", name: "Carmen Ruiz", machine: "Marea 2" }])
+    .map((p) => `<option value="${p.id}">${esc(p.name)} · ${esc(p.machine)}</option>`).join("");
   set("sample-title", L.sampleTitle); set("sample-desc", L.sampleDesc); set("btn-sample", L.sampleBtn);
   set("duet-title", L.duetTitle); set("duet-help", L.duetHelp); set("btn-duet", L.duetBtn);
   set("mic-title", L.micTitle); set("mic-desc", L.micDesc); set("btn-mic", L.micBtn);
@@ -237,17 +247,18 @@ function send(obj) { if (ws && ws.readyState === 1) ws.send(JSON.stringify(obj))
 
 function startCall(source) {
   callMode = source === "voice" ? "voice" : "op";
+  roleplay = source.startsWith("roleplay");
   $("start").hidden = true; $("topbar").hidden = true; $("summary").hidden = true; $("call").hidden = false;
   $("call").classList.toggle("voice", callMode === "voice");
   $("call").classList.toggle("sample", source.startsWith("sample:"));
-  $("call-mode").textContent = callMode === "voice" ? L.modeVoice : L.modeOp;
+  $("call-mode").textContent = callMode === "voice" ? L.modeVoice : roleplay ? L.modeRoleplay : L.modeOp;
   $("st-session").textContent = L.connecting; $("live-dot").classList.remove("on");
   $("turns").innerHTML = `<div class="empty-hint" id="talk-empty">${esc(L.emptyTalk)}</div>`;
   $("parts").innerHTML = `<div class="empty-hint" id="parts-empty">${esc(L.emptyParts)}</div>`;
   $("log").innerHTML = ""; $("machine-record").hidden = true; lastMachine = null;
   symptomMenu = []; renderEmptyDiag(); cards.clear(); knownCodes.clear(); docs.length = 0; activeDoc = -1;
   $("doc-tabs").innerHTML = ""; $("doc-view").className = "doc-view empty"; $("doc-view").textContent = L.noDocs;
-  $("presence").hidden = callMode !== "voice"; setPresence("connecting");
+  $("presence").hidden = callMode !== "voice" && !roleplay; setPresence("connecting");
   const proto = location.protocol === "https:" ? "wss" : "ws";
   ws = new WebSocket(`${proto}://${location.host}/ws/call?source=${encodeURIComponent(source)}&lang=${lang}`);
   ws.binaryType = "arraybuffer";
@@ -269,8 +280,9 @@ function setPresence(state) {
   if (state === presenceState) return;
   presenceState = state;
   const p = $("presence"); p.classList.toggle("speaking", state === "speaking"); p.classList.toggle("listening", state === "listening"); p.classList.toggle("denied", state === "denied");
-  $("presence-title").textContent = { speaking: L.presenceSpeaking, listening: L.presenceListening, denied: L.presenceDenied }[state] || L.presenceConnecting;
-  $("presence-sub").textContent = { speaking: L.presenceSubSpeaking, listening: L.presenceSubListening, denied: L.presenceSubDenied }[state] || "";
+  const R = roleplay;
+  $("presence-title").textContent = { speaking: R ? L.customerTalking : L.presenceSpeaking, listening: R ? L.yourTurn : L.presenceListening, denied: L.presenceDenied }[state] || L.presenceConnecting;
+  $("presence-sub").textContent = { speaking: R ? L.customerSub : L.presenceSubSpeaking, listening: R ? (rpSpoke ? L.yourTurnSub : L.opFirst) : L.presenceSubListening, denied: L.presenceSubDenied }[state] || "";
 }
 
 async function startMic() {
@@ -573,12 +585,13 @@ function logLine(text, bad, at) {
 // The hosted agent listens and talks over its own socket; this page relays its transcripts and tool calls to our
 // server (memory, procedures, parts, calendar) and the results back.
 let vws = null, vCtx = null, vStream = null, vNext = 0, vSources = [], vEndPending = false;
-async function startVoice() {
-  startCall("voice");
-  vEndPending = false;
+async function startVoice(persona) {
+  const rp = !!persona;
+  startCall(rp ? `roleplay:${persona}` : "voice");
+  vEndPending = false; rpSpoke = false;
   let agent, tok;
   try {
-    agent = await fetch(`/api/voice/agent?lang=${encodeURIComponent($("voice-lang").value || "en")}`).then((r) => r.json());
+    agent = await fetch(rp ? `/api/voice/customer?persona=${encodeURIComponent(persona)}` : `/api/voice/agent?lang=${encodeURIComponent($("voice-lang").value || "en")}`).then((r) => r.json());
     tok = await fetch("/api/voice/token").then((r) => r.json());
   } catch (e) { logLine("voice agent: " + e.message, true); return; }
   if (!agent.session || !tok.token) { logLine("voice agent: " + JSON.stringify(agent.detail || tok.detail || agent), true); return; }
@@ -589,8 +602,8 @@ async function startVoice() {
     const m = JSON.parse(e.data);
     switch (m.type) {
       case "session.ready": $("st-session").textContent = L.open; $("live-dot").classList.add("on"); startVoiceMic(); break;
-      case "transcript.user": send({ type: "control", action: "transcript", role: "customer", text: m.text }); break;
-      case "transcript.agent": send({ type: "control", action: "transcript", role: "agent", text: m.text, interrupted: !!m.interrupted }); break;
+      case "transcript.user": if (rp) rpSpoke = true; send({ type: "control", action: "transcript", role: rp ? "operator" : "customer", text: m.text }); break;
+      case "transcript.agent": send({ type: "control", action: "transcript", role: rp ? "customer" : "agent", text: m.text, interrupted: !!m.interrupted }); break;
       case "reply.audio": voicePlay(m.data || m.audio); break;
       case "reply.done":
         if (m.status === "interrupted") voiceStop();
@@ -668,6 +681,7 @@ $("btn-sample").onclick = () => startCall(`sample:${$("sample-select").value}`);
 $("btn-mic").onclick = () => startCall("mic");
 $("btn-duet").onclick = () => startCall(`duet:${$("duet-select").value}`);
 $("btn-voice").onclick = () => startVoice();
+$("btn-roleplay").onclick = () => startVoice($("rp-select").value);
 $("btn-end").onclick = () => { voiceEnd(); send({ type: "control", action: "end_call" }); };
 $("btn-swap").onclick = () => send({ type: "control", action: "swap_roles" });
 $("tg-clarify").onchange = (e) => send({ type: "control", action: "toggle", what: "clarify", on: e.target.checked });

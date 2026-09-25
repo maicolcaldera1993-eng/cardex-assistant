@@ -81,6 +81,17 @@ async def voice_agent(lang: str = "en") -> dict:
             "languages": {k: v[0] for k, v in LANGUAGES.items()}}
 
 
+@app.get("/api/voice/customer")
+async def voice_customer(persona: str = "dave") -> dict:
+    """Session config for the simulated customer (operator practice): its prompt, voice and language."""
+    from .voice.customer import PERSONAS, customer_session
+    if persona not in PERSONAS:
+        raise HTTPException(404, "unknown persona")
+    p = PERSONAS[persona]
+    return {"session": customer_session(persona, VOCAB.build().keyterms),
+            "persona": {"id": persona, "name": p["name"], "business": p["business"], "city": p["city"], "lang": p["lang"]}}
+
+
 @app.get("/api/voice/token")
 async def voice_token() -> dict:
     """A single-use session token, so the browser never sees the API key."""
