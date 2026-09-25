@@ -71,3 +71,12 @@ def test_serial_digits_in_the_customer_language():
     assert digits_in("zero cinque uno, zero quattro zero") == "051040"
     assert digits_in("cero cinco dos, siete uno cero") == "052710"
     assert digits_in("null vier vier, acht null eins") == "044801"
+
+
+def test_serial_said_twice_or_next_to_other_numbers():
+    from app.agent.dialog import serials_in
+    assert digits_in("Il numero di serie è zero cinque uno, zero quattro zero. 051040.") == "051040"
+    assert digits_in("Sì, esatto. Zero cinque uno, zero quattro zero. 051040.") == "051040"
+    assert digits_in("051040051040") == "051040"
+    assert serials_in("bought in 2024, 230 volts") == []
+    assert digits_in("zero cinque due sette uno zero") == "052710"

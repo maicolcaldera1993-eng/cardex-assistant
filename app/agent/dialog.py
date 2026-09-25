@@ -49,13 +49,33 @@ def affirmative(text: str) -> bool:
     return not (w & NO) and bool(w & (YES | ACK))
 
 
-def digits_in(text: str) -> str:
-    """'zero four one, three zero two' or '041302' -> '041302' (only when it looks like a serial)."""
+def serials_in(text: str) -> list[str]:
+    """Every 5-8 digit number in a sentence, said as one block ('041302') or in short groups of digits
+    ('zero four one, three zero two'). A sentence ends a number, so a serial said twice ('zero cinque uno, zero
+    quattro zero. 051040.') gives the same number twice instead of twelve digits; a year next to a voltage
+    ('2024, 230 volts') is not glued into a serial because only groups of up to three digits are joined."""
     t = text.lower()
     for w, d in DIGIT_WORDS.items():
         t = re.sub(rf"\b{w}\b", d, t)
-    digits = re.sub(r"\D", "", t)
-    return digits if 5 <= len(digits) <= 8 else ""
+    out: list[str] = []
+    for run in re.findall(r"\d+(?:[\s,\-]+\d+)*", t):
+        chunks = re.findall(r"\d+", run)
+        if len(chunks) > 1 and any(len(c) > 3 for c in chunks):
+            chunks = [c for c in chunks if len(c) > 3]         # long blocks stand alone
+            out += [c for c in chunks if 5 <= len(c) <= 8]
+            continue
+        n = "".join(chunks)
+        if 5 <= len(n) <= 8:
+            out.append(n)
+        elif len(n) > 8 and len(n) % 2 == 0 and n[:len(n) // 2] == n[len(n) // 2:]:
+            out.append(n[:len(n) // 2])                        # said twice without a pause
+    return out
+
+
+def digits_in(text: str) -> str:
+    """'zero four one, three zero two' or '041302' -> '041302' (only when it looks like a serial)."""
+    found = serials_in(text)
+    return found[0] if found else ""
 
 
 def for_customer(text: str) -> str:

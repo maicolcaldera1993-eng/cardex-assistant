@@ -69,7 +69,8 @@ def _manifest_single(source: str) -> str | None:
         pass
     return None
 
-_SERIAL = re.compile(r"(?:serial(?: number)?|matricola)\D{0,15}((?:\d[\s\-]?){5,8})", re.I)
+_SERIAL = re.compile(r"(?:serial(?: number)?|matricola|numero di serie|n[úu]mero de serie|seriennummer)\D{0,15}((?:\d[\s\-]?){5,8})", re.I)
+_SERIAL_ASKED = re.compile(r"serial|matricola|numero di serie|n[úu]mero de serie|seriennummer|typenschild|targhetta", re.I)
 _SENTENCE_END = re.compile(r"[.!?…]\s*$")
 
 
@@ -130,6 +131,10 @@ class CallSession:
         self.voice = source == "voice"
         # operator practice with a simulated customer: both sides come as transcripts relayed by the page
         self.roleplay = source.startswith("roleplay")
+        self.customer_lang = ""                   # roleplay: the language the simulated customer speaks
+        if self.roleplay:
+            from .voice.customer import PERSONAS
+            self.customer_lang = PERSONAS.get(source.split(":", 1)[-1], {}).get("lang", "")
         self.relay = self.voice or self.roleplay
         self.voice_done = False
         self.voice_ended = asyncio.Event()
@@ -141,7 +146,7 @@ class CallSession:
         self.end_wanted = False                   # the agent asked to end at least once
         self.last_agent_text = ""
         self.last_customer_text = ""
-        self.serial_asked = False                 # the other side just asked for the serial number
+        self.serial_asked = 0                     # customer sentences still read as the answer to "which serial?"
         self.pending_description = ""             # the fault as described before the machine was known
 
     # ------------------------------------------------------------------ lifecycle
@@ -842,16 +847,21 @@ class CallSession:
         self.voice_turn += 1
         tid = self.voice_turn * 100
         who = CUSTOMER if role == "customer" else OPERATOR if role == "operator" else "agent"
-        if who in (OPERATOR, "agent") and re.search(r"serial|matricola|numero di serie", text, re.I):
-            self.serial_asked = True
-        elif who == CUSTOMER:
+        from .agent.dialog import serials_in
+        if who == CUSTOMER:
             self.last_customer_text = text
-            if self.serial_asked and not self.machine:
-                from .agent.dialog import digits_in
-                digits = digits_in(text)                     # "zero four four, eight zero one" -> 044801
-                if digits:
+        if not self.machine:
+            # a number said after the serial was asked, or any number that IS a machine in the installed base
+            # (the operator reading it back: "mi conferma che è 051040?")
+            for digits in serials_in(text):                 # "zero four four, eight zero one" -> 044801
+                if (who == CUSTOMER and self.serial_asked) or (CATALOG.machine(digits) or {}).get("matched_exactly"):
                     await self._set_serial(digits)
-            self.serial_asked = False
+                    if self.machine:
+                        break
+        if who in (OPERATOR, "agent") and _SERIAL_ASKED.search(text):
+            self.serial_asked = 2                            # the answer may come one sentence later
+        elif who == CUSTOMER and self.serial_asked:
+            self.serial_asked -= 1
         if who == "agent":
             self.last_agent_text = text
             from .voice.agent import ready_to_hang_up
@@ -867,7 +877,7 @@ class CallSession:
         await self.emit({"type": "turn", "id": tid, "final": True, "text": text, "role": who, "speaker": None, "min_conf": 1.0,
                          "merged": 1, "interrupted": bool(interrupted)})
         if who in (CUSTOMER, OPERATOR) and self.assistant_on:
-            if who == CUSTOMER and self.roleplay and self.clarify_on:
+            if who == CUSTOMER and self.roleplay and self.clarify_on and self.customer_lang != "it":
                 self.clarifier.submit(tid, text)                  # the clear Italian version, as on a real call
                 await self.emit({"type": "clear_pending", "turn_id": tid})
             await self._assist(tid, text, who, 1.0, [text], utt)
@@ -1050,6 +1060,9 @@ class CallSession:
 
     # ------------------------------------------------------------------ emitters
     async def _on_clear(self, turn_id: int, text: str) -> None:
+        said = self.turns.get(turn_id, {}).get("raw", "")
+        if said and {c.code for c in extract_codes(text)} - {c.code for c in extract_codes(said)}:
+            text = ""                                   # the small model invented a code: better no clear version
         if turn_id in self.turns:
             self.turns[turn_id]["clear"] = text
         await self.emit({"type": "clear", "turn_id": turn_id, "text": text})

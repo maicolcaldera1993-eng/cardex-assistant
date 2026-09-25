@@ -381,3 +381,31 @@ def test_no_procedure_before_the_machine_is_known():
         assert s.diagnosis.symptom["id"].startswith("onda-")
     else:
         assert all(c["symptom_id"].startswith("onda-") for c in r["candidates"])
+
+
+def test_roleplay_serial_from_luca_call():
+    """25/9 roleplay: the serial said twice in Italian, then read back by the operator, never reached the warranty."""
+    events = []
+
+    async def emit(ev):
+        events.append(ev)
+
+    s = CallSession("key", emit, source="roleplay:luca", lang="it")
+    assert s.customer_lang == "it"
+    s.clarify_on = False
+    run(s.voice_transcript("operator", "E se mi dice anche il numero di serie della sua macchina, non lo trova scritto?"))
+    run(s.voice_transcript("customer", "Il numero di serie è zero cinque uno, zero quattro zero. 051040."))
+    assert s.machine and s.machine["serial"] == "051040" and "in_warranty" in s.machine
+    assert any(e.get("type") == "machine_record" for e in events)
+
+
+def test_operator_read_back_finds_the_machine():
+    events = []
+
+    async def emit(ev):
+        events.append(ev)
+
+    s = CallSession("key", emit, source="roleplay:luca", lang="it")
+    s.clarify_on = False
+    run(s.voice_transcript("operator", "Mi conferma che è 051040?"))
+    assert s.machine and s.machine["serial"] == "051040"

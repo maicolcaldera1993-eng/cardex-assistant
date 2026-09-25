@@ -334,7 +334,7 @@ function handle(ev) {
   switch (ev.type) {
     case "session": $("st-session").textContent = L.open; $("live-dot").classList.add("on"); break;
     case "turn": renderTurn(ev); break;
-    case "clear": { const el = document.querySelector(`#turn-${ev.turn_id} .clear`); if (el) { el.textContent = ev.text; el.classList.remove("wait"); } break; }
+    case "clear": { const el = document.querySelector(`#turn-${ev.turn_id} .clear`); if (el) { el.textContent = ev.text; el.classList.remove("wait"); el.hidden = !ev.text; } break; }
     case "clear_pending": { const el = document.querySelector(`#turn-${ev.turn_id} .clear`); if (el && !el.textContent) { el.textContent = L.clearWait; el.classList.add("wait"); } break; }
     case "context":
       $("st-machine").textContent = [ev.model || ev.family || "—", ev.edition ? "Vaniglia" : "", ev.serial ? `#${ev.serial}` : ""].filter(Boolean).join(" · ");
