@@ -52,6 +52,14 @@ MACHINES = [
     ("048530", "marea-2-plus", None, "2025-06", "230V", "Kaffeehaus Nord", "Berlin", "DE", "2025-07-01", "2027-07-01", None),
     ("050904", "marea-2", None, "2025-11", "230V", "Pastelería Sol", "Valencia", "ES", "2025-12-09", "2027-12-09", "Hard water area: no softener fitted."),
 ]
+# the address quotes and payment instructions go to, one per customer (fictional)
+CONTACT_EMAILS = {
+    "Café Berlin": "service@cafe-berlin-hamburg.de", "Bar Centrale": "info@barcentrale-lucca.it",
+    "Espresso Corner": "dave@espresso-corner-chicago.com", "Hotel Excelsior": "fb.manager@excelsior-vienna.at",
+    "Galata Kahve": "info@galatakahve-istanbul.com", "Pastelería Sol": "luca@pasteleriasol-valencia.es",
+    "Kaffeehaus Nord": "klaus@kaffeehausnord-berlin.de", "Roastery 21": "hello@roastery21-rotterdam.nl",
+    "Bar Sol": "info@barsol-valencia.es",
+}
 MACHINE_ORDERS = [
     ("047219", "2025-09-18", "GE-2140", 2), ("047219", "2025-09-18", "CR-6052", 1), ("047219", "2026-03-02", "VA-5015", 1),
     ("041188", "2025-02-11", "GE-2210", 2), ("041188", "2025-11-20", "CA-1230", 1),
@@ -182,7 +190,7 @@ def build_db() -> None:
     CREATE TABLE order_stats (code TEXT PRIMARY KEY, orders_last_12m INTEGER);
     CREATE TABLE documents (id TEXT PRIMARY KEY, kind TEXT, model_id TEXT, family TEXT, code TEXT, path TEXT, title TEXT, internal INTEGER);
     CREATE TABLE machines (serial TEXT PRIMARY KEY, model_id TEXT, edition TEXT, built TEXT, voltage TEXT, customer TEXT,
-                           city TEXT, country TEXT, installed TEXT, warranty_until TEXT, notes TEXT);
+                           city TEXT, country TEXT, installed TEXT, warranty_until TEXT, notes TEXT, contact_email TEXT);
     CREATE TABLE machine_orders (serial TEXT, ordered_on TEXT, code TEXT, qty INTEGER);
     CREATE TABLE service_zones (zone TEXT PRIMARY KEY, name TEXT, kind TEXT, technician TEXT, slot_times TEXT);
     CREATE TABLE service_busy (zone TEXT, day_offset INTEGER, slot INTEGER);
@@ -196,7 +204,7 @@ def build_db() -> None:
         for m in e["models"]:
             c.execute("INSERT INTO edition_models VALUES (?,?)", (eid, m))
     c.executemany("INSERT INTO suppliers VALUES (?,?,?,?,?)", SUPPLIERS)
-    c.executemany("INSERT INTO machines VALUES (?,?,?,?,?,?,?,?,?,?,?)", MACHINES)
+    c.executemany("INSERT INTO machines VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", [m + (CONTACT_EMAILS.get(m[5]),) for m in MACHINES])
     c.executemany("INSERT INTO machine_orders VALUES (?,?,?,?)", MACHINE_ORDERS)
     c.executemany("INSERT INTO service_zones VALUES (?,?,?,?,?)", SERVICE_ZONES)
     c.executemany("INSERT INTO service_busy VALUES (?,?,?)", service_busy_rows())

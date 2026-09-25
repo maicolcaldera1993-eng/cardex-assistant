@@ -166,6 +166,7 @@ def said_email(email: str, texts: list[str]) -> bool:
         t = t.lower()
         for w, d in DIGIT_WORDS.items():
             t = re.sub(rf"\b{w}\b", d, t)
+        t = re.sub(r"\b(dot|punto|point|punkt|at|chiocciola|arroba|underscore|dash|hyphen|trattino)\b", " ", t)
         joined += re.sub(r"[^a-z0-9]", "", t)
     local, domain = email.lower().split("@", 1)
     local = re.sub(r"[^a-z0-9]", "", local)

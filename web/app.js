@@ -750,14 +750,28 @@ async function startVoiceMic() {
   await vCtx.audioWorklet.addModule("/static/worklet.js");
   const node = new AudioWorkletNode(vCtx, "pcm16-downsampler", { processorOptions: { rate: 24000 } });
   const silence = btoa(String.fromCharCode.apply(null, new Uint8Array(2400)));
+  const b64 = (buf) => { const bytes = new Uint8Array(buf); let bin = ""; for (let i = 0; i < bytes.length; i += 0x2000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x2000)); return btoa(bin); };
+  let loud = 0; const held = [];
   node.port.onmessage = (e) => {
-    // half duplex: while the agent's voice is still playing (plus a short tail) the customer is not heard
-    const agentTalking = vCtx && vCtx.currentTime < vNext + 0.35;
-    const bytes = new Uint8Array(e.data); let bin = "";
-    for (let i = 0; i < bytes.length; i += 0x2000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x2000));
-    if (vws && vws.readyState === 1) vws.send(JSON.stringify({ type: "input.audio", audio: agentTalking ? silence : btoa(bin) }));
     const pcm = new Int16Array(e.data); let peak = 0;
     for (let i = 0; i < pcm.length; i += 8) { const v = Math.abs(pcm[i]); if (v > peak) peak = v; }
+    // While the agent's voice plays, the mic is held back (so the agent does not hear itself through the speakers).
+    // A clear, sustained voice over it (150 ms above the echo level) is the customer interrupting: the agent's audio
+    // stops and the held frames go out first, so no word of the customer is lost (25/9: spelling an email was
+    // impossible because every word said over the agent was thrown away).
+    let agentTalking = vCtx && vCtx.currentTime < vNext + 0.35;
+    if (agentTalking) {
+      held.push(e.data); if (held.length > 6) held.shift();
+      loud = peak > 5000 ? loud + 1 : 0;
+      if (loud >= 3) { voiceStop(); agentTalking = false; loud = 0; }
+    }
+    if (vws && vws.readyState === 1) {
+      if (agentTalking) vws.send(JSON.stringify({ type: "input.audio", audio: silence }));
+      else {
+        while (held.length) vws.send(JSON.stringify({ type: "input.audio", audio: b64(held.shift()) }));
+        vws.send(JSON.stringify({ type: "input.audio", audio: b64(e.data) }));
+      }
+    }
     const pill = $("st-mic");
     pill.textContent = agentTalking ? L.agentTalking : "mic";
     pill.classList.toggle("on", !agentTalking && peak > 1500); pill.classList.toggle("hold", agentTalking);

@@ -29,7 +29,7 @@ def run(coro):
 def test_tools_are_declared_for_the_session():
     names = {t["name"] for t in TOOLS}
     assert {"identify_machine", "find_procedure", "answer_step", "find_part", "book_slot", "note_for_operator", "end_call"} <= names
-    assert len(TOOLS) <= 10
+    assert len(TOOLS) <= 11
     for t in TOOLS:
         assert t["parameters"]["type"] == "object" and "description" in t
 
@@ -515,6 +515,8 @@ def test_email_for_the_quote_from_the_call():
     assert email_in("d a v e dot miller at gmail dot com") == "dave.miller@gmail.com"
     assert email_in("I am at the shop, the dot on the display is on.") == ""
     s, events, o = _dave_at_outcome()
+    assert s.email == "dave@espresso-corner-chicago.com" and s.email_on_file      # on file: confirmed, not dictated
+    s.email, s.email_on_file = "", False
     assert "What email address" in s._next_step()["say_en"]
     run(s.voice_transcript("agent", "What email should we send the quote to?"))
     run(s.voice_transcript("customer", "Sure, it is dave at espresso corner dot com."))
@@ -526,6 +528,7 @@ def test_email_for_the_quote_from_the_call():
 
 def test_confirm_parts_asks_for_the_email_when_the_customer_pays():
     s, events, o = _dave_at_outcome()
+    s.email = ""                                            # no address on file
     r = run(run_tool(s, "confirm_parts", {"codes": ["CA-1181", "CA-1220"]}))
     assert r.get("email_missing")
     run(s.voice_transcript("customer", "Sure, it is dave at espresso corner dot com."))
@@ -625,7 +628,7 @@ def test_mehmet_mode1_call_of_25_9():
     # an invented address is not recorded
     run(run_tool(s, "find_procedure", {"description": "water comes out around the rim of the portafilter on the left group"}))
     run(run_tool(s, "confirm_parts", {"codes": ["GE-2410"], "email": "mehmet@example.com"}))
-    assert s.email == ""
+    assert s.email == "fb.manager@excelsior-vienna.at"       # the address on file, not the invented one
 
 
 def test_no_outcome_offers_a_part_and_the_kit_that_contains_it():
@@ -652,3 +655,23 @@ def test_spelled_email_is_accepted_invented_one_is_not():
 def test_dollars_are_answered_with_euros_for_a_us_customer():
     s, events, o = _dave_at_outcome()
     assert "We invoice in euros" in s._next_step()["say_en"]
+
+
+def test_email_on_file_and_set_email():
+    """Klaus 25/9: dictating an email letter by letter over the phone was impossible. The address is on file with the
+    customer; a new one goes through set_email, which only accepts what the customer actually said."""
+    s, _ = make_session()
+    m = run(run_tool(s, "identify_machine", {"serial": "044801"}))
+    assert m["machine"]["email_on_file"] == "klaus@kaffeehausnord-berlin.de" and s.email == m["machine"]["email_on_file"]
+    r = run(run_tool(s, "set_email", {"email": "klaus.becker@gmail.com"}))
+    assert r["status"] == "not_heard" and s.email == "klaus@kaffeehausnord-berlin.de"
+    run(s.voice_transcript("customer", "It is K L A U S dot B E C K E R at gmail dot com."))
+    r = run(run_tool(s, "set_email", {"email": "klaus.becker@gmail.com"}))
+    assert r["status"] == "recorded" and s.email == "klaus.becker@gmail.com" and "at gmail dot com" in r["read_back"]
+    assert run(run_tool(s, "set_email", {"email": "K L A"}))["status"] == "incomplete"
+
+
+def test_slots_span_several_days():
+    s, events, o = _dave_at_outcome()
+    days = {x["when"].split(",")[0][:10] for x in o["booking"]["free_slots"]}
+    assert len(o["booking"]["free_slots"]) >= 6 and len(days) >= 3

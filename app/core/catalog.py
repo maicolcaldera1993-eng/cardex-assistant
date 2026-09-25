@@ -142,8 +142,10 @@ class Catalog:
         row = self.con.execute("SELECT zone FROM service_zones WHERE zone=?", (machine.get("country"),)).fetchone()
         return row["zone"] if row else None
 
-    def service_slots(self, zone: str, from_day: int = 1, limit: int = 4, today: date | None = None) -> list[dict]:
-        """Free slots of a zone's calendar, working days only, starting `from_day` days from today."""
+    def service_slots(self, zone: str, from_day: int = 1, limit: int = 4, today: date | None = None,
+                      per_day: int | None = None) -> list[dict]:
+        """Free slots of a zone's calendar, working days only, starting `from_day` days from today; at most `per_day`
+        a day, so a customer who wants to choose hears several days."""
         z = self.con.execute("SELECT * FROM service_zones WHERE zone=?", (zone,)).fetchone()
         if not z:
             return []
@@ -155,9 +157,11 @@ class Catalog:
             d = today + timedelta(days=off)
             if d.weekday() >= 5:
                 continue
+            taken = 0
             for i, (a, b) in enumerate(times):
-                if (off, i) in busy:
+                if (off, i) in busy or (per_day and taken >= per_day):
                     continue
+                taken += 1
                 out.append({"id": f"{zone}:{off}:{i}", "zone": zone, "zone_name": z["name"], "kind": z["kind"],
                             "technician": z["technician"], "date": d.isoformat(), "day_offset": off, "start": a, "end": b})
                 if len(out) >= limit:

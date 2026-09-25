@@ -147,6 +147,7 @@ class CallSession:
         self.end_wanted = False                   # the agent asked to end at least once
         self.fits_alone = False                   # the customer declined the service call: fits the parts alone
         self.email = ""                           # where the quote and the payment instructions go
+        self.email_on_file = False                # ... taken from the customer record, to confirm with the customer
         self.agent_lang = "en"                    # the language the automatic assistant is speaking
         self.last_agent_text = ""
         self.last_customer_text = ""
@@ -451,7 +452,7 @@ class CallSession:
         recent = recent or [text]
         from .agent.dialog import email_in
         em = email_in(text)                                    # said by the customer or read back by the operator
-        if em and em != self.email:
+        if em and em != self.email and len(em.split("@")[0]) >= 3:
             await self._set_email(em)
         hit = CONTEXT.detect(text)
         changed = False
@@ -656,6 +657,8 @@ class CallSession:
             await self._agent(f"Matricola sentita «{serial}», in archivio c'è {rec['serial']}: confermare." if self.lang == "it"
                               else f"Heard serial “{serial}”, the records have {rec['serial']}: confirm.")
         in_warranty = rec["warranty_until"] >= time.strftime("%Y-%m-%d")
+        if rec.get("contact_email") and not self.email:
+            self.email, self.email_on_file = rec["contact_email"], True       # confirmed on the call, not dictated
         rec["in_warranty"] = in_warranty                  # the outcome view needs it to say who pays
         name = VOCAB.model_names.get(rec["model_id"], rec["model_id"])
         if rec["model_id"] != self.model_id:
@@ -811,7 +814,7 @@ class CallSession:
             await self._emit_diagnosis()
         elif a == "book_slot" and msg.get("id") and self.diagnosis and self.diagnosis.outcome:
             zone, off, _ = str(msg["id"]).split(":")
-            slot = next((x for x in CATALOG.service_slots(zone, from_day=int(off), limit=8) if x["id"] == msg["id"]), None)
+            slot = next((x for x in CATALOG.service_slots(zone, from_day=int(off), limit=40) if x["id"] == msg["id"]), None)
             if slot:
                 self.booking = slot
                 if self.fits_alone:
@@ -1071,12 +1074,12 @@ class CallSession:
         """Which calendar to open for this outcome and its first free slots."""
         if kind == "technician":
             zone = CATALOG.service_zone(self.machine)
-            slots = CATALOG.service_slots(zone, from_day=1) if zone else []
+            slots = CATALOG.service_slots(zone, from_day=1, limit=8, per_day=2) if zone else []
             return {"kind": "onsite", "zone": zone, "need_serial": not self.machine, "no_partner": bool(self.machine) and not zone,
                     "slots": [self._slot_view(x) for x in slots],
                     "booked": self._slot_view(self.booking) if self.booking and self.booking["kind"] == "onsite" else None}
         lead = max([self._max_days(c["delivery"]) for c in parts] + [0])
-        slots = CATALOG.service_slots("REMOTE", from_day=lead + 1)
+        slots = CATALOG.service_slots("REMOTE", from_day=lead + 1, limit=8, per_day=2)
         return {"kind": "remote", "zone": "REMOTE", "need_serial": False, "no_partner": False,
                 "slots": [self._slot_view(x) for x in slots],
                 "booked": self._slot_view(self.booking) if self.booking and self.booking["kind"] == "remote" else None}
@@ -1201,7 +1204,7 @@ class CallSession:
         return "indirizzo da chiedere al cliente" if self.lang == "it" else "address to ask the customer"
 
     async def _set_email(self, email: str) -> None:
-        self.email = email.strip().lower()
+        self.email, self.email_on_file = email.strip().lower(), False
         await self._agent((f"Email per il preventivo: {self.email}" if self.lang == "it" else f"Email for the quote: {self.email}"))
         await self.emit({"type": "contact", "email": self.email})
         if self.diagnosis and self.diagnosis.outcome:
