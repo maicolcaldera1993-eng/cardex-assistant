@@ -76,7 +76,8 @@ _LANG_WORDS = {
     "en": set("the and is it i you we my this that with have what for are yes please can there not was it's i'm don't "
               "machine coffee does".split()),
     "it": set("il lo gli che non è sono ho una per con della del mi ci ma anche perché questo quando sì grazie "
-              "buongiorno allora macchina caffè esce fa si perfetto va bene".split()),
+              "buongiorno allora macchina caffè esce fa si perfetto va bene possiamo parlare avete abbiamo qualcuno "
+              "piacere qui lì cosa come sempre ancora niente".split()),
     "es": set("el los las que es y una por con mi pero muy sí gracias buenos está tengo hola máquina café sale hace "
               "cuando también".split()),
     "de": set("der die das und ist nicht ich ein eine mit es sie wir haben auch aber ja danke guten bitte maschine "
@@ -88,9 +89,31 @@ _LANG_WORDS = {
 }
 
 
+# "can we speak Italian?", "possiamo parlare in italiano?": a request wins over the words around it
+_LANG_REQUEST = [
+    ("it", r"\b(in italiano|parl\w* (l')?italiano|speak italian|in italian|italian please)\b"),
+    ("es", r"\b(en espa[nñ]ol|habl\w* espa[nñ]ol|speak spanish|in spanish)\b"),
+    ("de", r"\b(auf deutsch|deutsch sprechen|sprechen sie deutsch|speak german|in german)\b"),
+    ("fr", r"\b(en fran[cç]ais|parl\w* fran[cç]ais|speak french|in french)\b"),
+    ("pt", r"\b(em portugu[eê]s|fal\w* portugu[eê]s|speak portuguese|in portuguese)\b"),
+    ("en", r"\b(in english|speak english|in inglese|en ingl[eé]s|auf englisch|en anglais|em ingl[eê]s)\b"),
+]
+_GREETING = {"buongiorno": "it", "buonasera": "it", "salve": "it", "pronto": "it", "hola": "es", "buenos": "es",
+             "buenas": "es", "bonjour": "fr", "bonsoir": "fr", "allô": "fr", "olá": "pt", "bom": "pt",
+             "guten": "de", "grüß": "de", "servus": "de"}
+
+
 def language_of(text: str) -> str | None:
-    """The language a sentence is in, from its commonest words (en/it/es/de/fr/pt), or None when too short or unclear."""
-    words = re.findall(r"[a-zà-ÿ']+", (text or "").lower())
+    """The language a sentence is in, from its commonest words (en/it/es/de/fr/pt), or None when too short or unclear.
+    An explicit request ("possiamo parlare in italiano?") decides by itself, even inside an English sentence; a lone
+    greeting ("Buongiorno.") is enough."""
+    t = (text or "").lower()
+    for lg, pat in _LANG_REQUEST:
+        if re.search(pat, t):
+            return lg
+    words = re.findall(r"[a-zà-ÿ']+", t)
+    if 0 < len(words) <= 2 and words[0] in _GREETING:
+        return _GREETING[words[0]]
     if len(words) < 3:
         return None
     scores = {lg: sum(w in ws for w in words) for lg, ws in _LANG_WORDS.items()}
@@ -217,6 +240,16 @@ def numbers_in(text: str) -> set[str]:
     return out
 
 
+_NOT_FIXED = re.compile(r"\b(doesn'?t|does not|didn'?t|did not|won'?t|not|nothing|no)\s+(work\w*|help\w*|chang\w*|fix\w*|better)\b|"
+                        r"\bno (change|difference|luck)\b|\bsame (problem|thing|as before)\b|\bstill\b|"
+                        r"\bnon (funziona|è cambiato|cambia|va)\b|\bancora\b|\bniente\b|\bsigue\b|\btodav[ií]a\b|"
+                        r"\bno funciona\b|\bimmer noch\b|\bfunktioniert nicht\b|\btoujours\b|\bne marche pas\b|\bainda\b")
+_FIXED = re.compile(r"\b(it )?works\b|\bworking (again|now)\b|\bfixed\b|\bsolved\b|\bresolved\b|\bgone\b|"
+                    r"\bnow it'?s (fine|ok|okay|good)\b|\bfunziona\b|\brisolto\b|\bfunciona\b|\bfunktioniert\b|\bmarche\b")
+_FIXED_LABEL = re.compile(r"\b(fixed|works|solved|resolved)\b")
+_STILL_LABEL = re.compile(r"^(still|no change|same)\b|\bstill\b")
+
+
 def classify_branch(text: str, branches: list[dict], similarities: Callable[[str, list[str]], list[float]] | None = None,
                     question: str = "") -> tuple[int | None, float]:
     """Which branch did the customer's answer pick? Meaning (embedding similarity with the branch labels) plus cheap
@@ -249,6 +282,11 @@ def classify_branch(text: str, branches: list[dict], similarities: Callable[[str
         return 1 if p == 0 and polarity(lab) > 0 else p
 
     pols = [label_polarity(lab) for lab in labels]
+    # the result of something the customer tried: "I've tried it, but it doesn't work" is "Still spits", "now it works"
+    # is "Fixed"; the negative forms are read first, "doesn't work" contains "work"
+    low = text.lower()
+    tried_bad = bool(_NOT_FIXED.search(low))
+    tried_good = not tried_bad and bool(_FIXED.search(low))
     scores = []
     for k, (lab, sim) in enumerate(zip(labels, sims)):
         lw, ln, lwords = content_words(lab), numbers_in(lab), set(re.findall(r"[a-z']+", lab.lower()))
@@ -273,6 +311,11 @@ def classify_branch(text: str, branches: list[dict], similarities: Callable[[str
             s += 0.2          # "Yes, I hear the click": the other option is the explicit "No click", so this one is the yes
         if pol_l > 0 and len(lwords) <= 2 and q_numbers & tn:
             s += 0.5                                              # "Is it at 1.2 bar?" - "it is at 1.2": yes
+        lab_fixed, lab_still = bool(_FIXED_LABEL.search(lab.lower())), bool(_STILL_LABEL.search(lab.lower()))
+        if tried_bad and (lab_still or lab_fixed):
+            s += 0.4 if lab_still else -0.4
+        elif tried_good and (lab_still or lab_fixed):
+            s += 0.4 if lab_fixed else -0.4
         scores.append(s)
     order = sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)
     best = order[0]

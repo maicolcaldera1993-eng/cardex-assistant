@@ -122,16 +122,19 @@ TRANSCRIPTION_PROMPT = ("A phone call to the service desk of Sereni, an Italian 
 def agent_config(keyterms: list[str], lang: str = "en") -> dict:
     lang = lang if lang in LANGUAGES else "en"
     name, voice = LANGUAGES[lang]
-    prompt = SYSTEM_PROMPT + (f"\n\nLANGUAGE: speak {name} with the customer, always. The tools answer in English: translate "
-                              f"what they say into natural {name}; keep part codes as they are and say prices in words.")
+    prompt = SYSTEM_PROMPT + (f"\n\nLANGUAGE: speak {name} with the customer. The tools answer in English: translate "
+                              f"what they say into natural {name}; keep part codes as they are and say prices in words. "
+                              "If the customer speaks or asks for Italian, Spanish, German, French or Portuguese, answer in "
+                              "that language: never say you only speak one language.")
     return {"name": AGENT_NAME, "system_prompt": prompt, "greeting": GREETINGS[lang],
             "voice": {"voice_id": voice},
             "input": {"format": {"encoding": "audio/pcm", "sample_rate": 24000}, "keyterms": keyterms[:100],
                       "language_codes": list(LANGUAGES), "transcription_prompt": TRANSCRIPTION_PROMPT,
-                      # The browser keeps the mic closed while the agent's voice PLAYS (half duplex), so the customer
-                      # cannot talk over it. interrupt_response stays on for the gap before playback: if the turn was
-                      # closed too early ("Buongiorno." | "sono Mario...") the reply is dropped instead of the words.
-                      "turn_detection": {"vad_threshold": 0.5, "min_silence": 1000, "max_silence": 2500, "interrupt_response": True}},
+                      # No turn_detection: a fixed one-second silence cut the customer's sentences ("spray all over"
+                      # arrived as "Rice all over." | "pray, man."). The default reads the meaning of what was said
+                      # and adapts to the speaker's pace (AssemblyAI docs: leave it on default). The browser still
+                      # keeps the mic closed while the agent's voice plays (half duplex).
+                      },
             "output": {"voice": voice, "format": {"encoding": "audio/pcm", "sample_rate": 24000}, "volume": 100},
             "tools": [], "llm": []}                        # managed model; tools are declared per session by the browser
 
@@ -549,7 +552,11 @@ async def _run_tool(s, name: str, args: dict) -> dict:
                             "our service on the line (electrical/safety work, and it keeps the warranty on the repair), and propose a "
                             "slot. If the customer still declines, call note_for_operator with 'customer declines service support', "
                             "then say goodbye and call end_call again."}
-        if not _GOODBYE.search(s.last_agent_text or "") and "bye" not in s.end_refused:
+        # the agent's goodbye transcript can arrive after its end_call: a customer who already said goodbye or thanks
+        # is leaving, so no second goodbye is asked for
+        customer_leaving = re.search(r"\b(thank|thanks|grazie|gracias|danke|merci|obrigad)", s.last_customer_text or "", re.I) \
+            or _GOODBYE.search(s.last_customer_text or "")
+        if not _GOODBYE.search(s.last_agent_text or "") and not customer_leaving and "bye" not in s.end_refused:
             s.end_refused.add("bye")
             return {"status": "no_goodbye", "end": False,
                     "hint": "ask the customer if there is anything else; if not, thank them and say goodbye, then call end_call again."}

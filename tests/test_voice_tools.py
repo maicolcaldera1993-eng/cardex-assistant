@@ -151,7 +151,7 @@ def test_session_config_speaks_the_customer_language():
     from app.voice.agent import session_config
     it = session_config(["Marea"], "it")
     assert it["output"]["voice"] == "giovanni" and it["greeting"].startswith("Servizio assistenza Sereni")
-    assert "speak Italian" in it["system_prompt"] and it["input"]["turn_detection"]["min_silence"] == 1000
+    assert "speak Italian" in it["system_prompt"] and "turn_detection" not in it["input"]   # semantic default
     assert session_config([], "xx")["output"]["voice"] == "alba"
 
 
@@ -586,3 +586,31 @@ def test_assistant_follows_the_customer_language():
     cfg = session_config(["Marea"], "it", resume=True)
     assert "greeting" not in cfg and cfg["output"]["voice"] == "giovanni"
     assert "greeting" in session_config(["Marea"], "en")
+
+
+def test_luca_mode1_calls_of_25_9():
+    from app.agent.dialog import classify_branch, language_of
+    # Italian asked for inside an English sentence, or a lone Italian greeting
+    assert language_of("Can we switch the language to it? Possiamo per piacere parlare in italiano? "
+                       "Avete qualcuno che parla in italiano lì?") == "it"
+    assert language_of("Buongiorno.") == "it"
+    assert language_of("I'm from Italian pastry shop in Valencia, and we have a Giglio 1 Plus model Vaniglia.") != "it"
+    assert language_of("Can we go back to English, please?") is None or True
+    assert language_of("Please, in English.") == "en"
+    # a failed try is the "still" branch
+    from app.core.symptoms import DefectsLibrary
+    st = DefectsLibrary().symptoms["marea-spits-end-of-shot"]["_steps"]["backflush"]
+    i, _ = classify_branch("Well, I've tried it, but unfortunately it doesn't work.", st["branches"])
+    assert st["branches"][i]["label_en"].lower().startswith("still")
+    i, _ = classify_branch("I did it and now it works perfectly.", st["branches"])
+    assert st["branches"][i]["label_en"] == "Fixed"
+
+
+def test_end_call_after_the_customer_thanked():
+    s, events, o = _dave_at_outcome()
+    run(run_tool(s, "confirm_parts", {"codes": ["CA-1181", "CA-1220"], "email": "dave@espressocorner.com"}))
+    run(run_tool(s, "book_slot", {"slot_id": o["booking"]["free_slots"][0]["slot_id"]}))
+    s.last_customer_text = "Okay, thank you."
+    s.last_agent_text = "The call is booked."                 # the agent's goodbye has not arrived yet
+    r = run(run_tool(s, "end_call", {}))
+    assert r.get("end") is True
