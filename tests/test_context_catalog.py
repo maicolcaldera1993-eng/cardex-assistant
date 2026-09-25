@@ -1,3 +1,6 @@
+"""Machine recognition from what is said (models, editions, mis-heard names), part search by exact code, near code
+and description, compatibility and supersessions, the installed base (serial numbers with one wrong digit) and the
+fictional service calendar."""
 import pytest
 
 from app.core.catalog import Catalog

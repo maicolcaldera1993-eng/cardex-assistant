@@ -21,7 +21,7 @@ Built solo for the [AssemblyAI Voice Agent Hackathon](https://lablab.ai/ai-hacka
 Day 10 of 15. Both modes work end to end in local tests with live voices. Knowledge base complete for the ten models:
 fictional ERP (SQLite: 237 parts, compatibility, supersessions, stock per warehouse, prices, suppliers, installed base
 with serial numbers and warranty, a two-week service calendar), step-by-step procedures for every family
-(Marea and Giglio 13 faults, Onda 12, Monda 7), a manual per model in Italian and English, a sheet per part. 198 tests.
+(Marea and Giglio 13 faults, Onda 12, Monda 7), a manual per model in Italian and English, a sheet per part. 210 automated tests.
 
 ## How AssemblyAI is used
 
@@ -78,6 +78,33 @@ python data/build_wiki.py      # symptom pages and the section index
 
 Headless checks against the real APIs: `eval/ws_duet.py` (operator assist with recorded customer lines),
 `eval/ws_voice.py 8000 dave|lena|mario` (synthetic customer talking to the voice agent).
+
+## Tests
+
+`python -m pytest -q` runs 210 tests in about 20 seconds, on a laptop, with no microphone, no network and no
+AssemblyAI credits. They check Cardex's own side of the call: rules, data and decisions. What the voice agent actually
+says is produced by AssemblyAI's model and is not deterministic; that is checked with live calls and with a synthetic
+customer talking to the real agent (`eval/ws_voice.py`, `eval/ws_duet.py`).
+
+| File | Tests | What it guarantees |
+|---|---|---|
+| `test_normalizer.py` | 39 | Spoken part codes come back in canonical form ("e L3010" → EL-3010, "G E twenty-one forty" → GE-2140) |
+| `test_defects_files.py` | 34 | Every troubleshooting procedure is a closed graph over the ERP: each answer leads to a step or an outcome, each part exists and fits the machine, no step is unreachable, every model is covered |
+| `test_semantic.py` | 31 | A fault described in seven languages reaches the right procedure; small talk and half sentences open nothing; a stray exact phrase does not beat the meaning of the whole sentence |
+| `test_context_catalog.py` | 25 | Machine recognition, part search, serial numbers with one wrong digit, the service calendar |
+| `test_symptoms_vocab_roles.py` | 22 | Procedures and outcomes, answers not mistaken for new faults, keyterm phases, operator/customer roles |
+| `test_voice_tools.py` | 22 | The voice agent's tools and guard rails, including replays of live test calls |
+| `test_manuals.py` | 20 | A manual per model in both languages, with shared anchors and only compatible parts |
+| `test_dialog.py` | 17 | Reading a customer's answer: numbers said in words, yes/no, on/off, negations ("not from the group") |
+
+Every defect found in a live call becomes a test that replays that moment. A few examples, each named after the call
+in its docstring:
+
+- the warranty covers the repair's parts but never consumables (a valve at 0 €, cleaning tablets at 19 €);
+- "I think it's dirty" cannot answer "how old is the gasket?", so the agent must ask again;
+- "lights and buttons are on, no alarms" said at the reset-button step cannot be taken as an answer to it;
+- a garbled serial number ("Bir, bir", "Beer") is recovered from the city and the model on the call;
+- the agent cannot hang up while a step is open, while the outcome's parts are undecided, or before saying goodbye.
 
 ## Results
 

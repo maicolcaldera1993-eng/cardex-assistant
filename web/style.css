@@ -75,6 +75,8 @@ mark { background: #fde6c3; padding: 0 3px; border-radius: 4px; }
 .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; color: var(--mute); }
 .mode h2 { margin: 2px 0 0; font: 600 22px var(--display); letter-spacing: -.2px; }
 .mode-desc { margin: 0; color: var(--ink-2); }
+.try { margin: 0; padding: 10px 14px; border-radius: 12px; background: var(--brand-soft); color: var(--brand-2); font-weight: 600; font-size: 13px; }
+.mode-voice .try { background: var(--agent-soft); color: var(--agent); } .mode-op .try { background: var(--op-soft); color: var(--op); }
 .field-label { font-size: 12px; font-weight: 600; color: var(--ink-2); margin-bottom: -6px; }
 .personas { display: flex; flex-wrap: wrap; gap: 8px; }
 .persona { border: 1px solid var(--line-2); background: var(--surface-2); border-radius: 12px; padding: 7px 12px; cursor: pointer; text-align: left; font: 13px var(--font); color: var(--ink); }

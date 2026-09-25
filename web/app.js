@@ -11,15 +11,17 @@ const T = {
     startTitle: "Il primo livello di assistenza che conosce ogni macchina Sereni.",
     startSub: "Cardex riconosce la macchina e il guasto, guida il cliente nella procedura del costruttore passo per passo, trova il ricambio giusto, dice chi paga e fissa l'intervento. Una persona approva prima che parta qualsiasi ordine.",
     stats: (m, s) => [`<b>${m}</b> modelli`, `<b>${s}</b> procedure guidate`, `<b>237</b> ricambi a catalogo`, `<b>6</b> lingue parlate`],
-    voiceEyebrow: "Per il cliente", voiceTitle: "Chiama l'assistenza",
-    voiceDesc: "Tu sei il barista, l'agente vocale di AssemblyAI risponde. Conversa liberamente, ma ogni domanda viene dalla procedura e ogni numero dal gestionale.",
-    lbPersona: "Chi interpreti", lbVoiceLang: "Lingua della chiamata", voiceStart: "Avvia la chiamata",
+    voiceEyebrow: "Modalità 1", voiceTitle: "Assistente automatico",
+    voiceDesc: "Un assistente vocale che risponde da solo alle chiamate dei clienti. Riconosce macchina e guasto, guida il cliente nella procedura del costruttore, dice chi paga, ordina i ricambi e fissa l'intervento. Conversa liberamente, ma ogni domanda viene dalla procedura e ogni cifra dal gestionale.",
+    voiceTry: "Provalo tu, nei panni del cliente: scegli una delle chiamate d'esempio, con la scheda di cosa dire, oppure il parlato libero.",
+    lbPersona: "Chiamate d'esempio", lbVoiceLang: "Lingua della chiamata", voiceStart: "Chiama l'assistenza",
     voiceHelp: "Serve il microfono. Parla con calma e aspetta che l'agente finisca: mentre parla il microfono è in pausa. Chiudi con «Fine chiamata».",
-    opEyebrow: "Per l'operatore", opTitle: "Console operatore",
-    opDesc: "Un operatore italiano al telefono con un cliente straniero: Cardex trascrive chi dice cosa, mostra la versione chiara, apre la procedura al passo giusto e prepara i ricambi.",
-    sampleTitle: "Chiamata registrata", sampleDesc: "Ascolta una chiamata vera, senza microfono.", sampleBtn: "Ascolta",
-    duetTitle: "Prova con cliente registrato", duetHelp: "Tu fai l'operatore al microfono, clicchi le battute del cliente.", duetBtn: "Apri",
-    micTitle: "Microfono dal vivo", micDesc: "Parla tu come cliente, in inglese.", micBtn: "Apri console",
+    opEyebrow: "Modalità 2", opTitle: "Assistenza all'operatore",
+    opDesc: "Cardex affianca l'operatore del service durante la telefonata con un cliente straniero: trascrive chi dice cosa, mostra la versione chiara in italiano, apre la procedura al passo giusto con la frase da leggere, prepara ricambi, appuntamento e scheda d'intervento.",
+    opTry: "Provalo tu, nei panni dell'operatore al telefono: il cliente è registrato, tu rispondi al microfono e segui la procedura guidata.",
+    sampleTitle: "Ascolta una chiamata", sampleDesc: "Una telefonata registrata, senza microfono: guarda cosa riconosce Cardex.", sampleBtn: "Ascolta",
+    duetTitle: "Fai tu l'operatore", duetHelp: "Parli al microfono come operatore e clicchi le battute del cliente registrato; Cardex ti suggerisce cosa chiedere.", duetBtn: "Inizia",
+    micTitle: "Parlato libero", micDesc: "Parla tu, come cliente, e guarda cosa capisce Cardex.", micBtn: "Apri console",
     howTitle: "Come funziona",
     how: [["Ascolta", "AssemblyAI Universal-3.5 Pro trascrive in tempo reale, distingue le voci e ricarica il vocabolario (modelli, codici) man mano che capisce di quale macchina si parla."],
           ["Capisce", "Il guasto descritto in qualunque lingua viene collegato alla procedura del costruttore, ma solo tra quelle della macchina in linea: niente risposte inventate."],
@@ -70,15 +72,17 @@ const T = {
     startTitle: "First-line support that knows every Sereni machine.",
     startSub: "Cardex recognises the machine and the fault, walks the customer through the maker's procedure step by step, finds the right spare part, says who pays and books the visit. A person approves before any order goes out.",
     stats: (m, s) => [`<b>${m}</b> models`, `<b>${s}</b> guided procedures`, `<b>237</b> parts in the catalogue`, `<b>6</b> spoken languages`],
-    voiceEyebrow: "For the customer", voiceTitle: "Call the service desk",
-    voiceDesc: "You are the barista; AssemblyAI's voice agent answers. It talks freely, but every question comes from the procedure and every number from the ERP.",
-    lbPersona: "Who you play", lbVoiceLang: "Call language", voiceStart: "Start the call",
+    voiceEyebrow: "Mode 1", voiceTitle: "Automatic assistant",
+    voiceDesc: "A voice assistant that answers customers' calls on its own. It recognises the machine and the fault, walks the customer through the maker's procedure, says who pays, orders the parts and books the visit. It talks freely, but every question comes from the procedure and every figure from the ERP.",
+    voiceTry: "Try it as the customer: pick one of the sample calls, each with a sheet of what to say, or free speech.",
+    lbPersona: "Sample calls", lbVoiceLang: "Call language", voiceStart: "Call the service desk",
     voiceHelp: "Needs the microphone. Speak calmly and let the agent finish: while it talks your mic is paused. Close with “End call”.",
-    opEyebrow: "For the operator", opTitle: "Operator console",
-    opDesc: "An Italian operator on the phone with a foreign customer: Cardex transcribes who says what, shows the clear version, opens the procedure at the right step and lines up the parts.",
-    sampleTitle: "Recorded call", sampleDesc: "Listen to a real call, no microphone needed.", sampleBtn: "Listen",
-    duetTitle: "Rehearsal with a recorded customer", duetHelp: "You are the operator on the mic, you click the customer's lines.", duetBtn: "Open",
-    micTitle: "Live microphone", micDesc: "You speak as the customer, in English.", micBtn: "Open console",
+    opEyebrow: "Mode 2", opTitle: "Operator assist",
+    opDesc: "Cardex sits next to the service operator during a call with a foreign customer: it transcribes who says what, shows a clear Italian version, opens the procedure at the right step with the sentence to read, and prepares parts, appointment and work order.",
+    opTry: "Try it as the operator on the phone: the customer is recorded, you answer on the microphone and follow the guided procedure.",
+    sampleTitle: "Listen to a call", sampleDesc: "A recorded call, no microphone: see what Cardex picks up.", sampleBtn: "Listen",
+    duetTitle: "Be the operator", duetHelp: "You speak on the mic as the operator and click the recorded customer's lines; Cardex suggests what to ask.", duetBtn: "Start",
+    micTitle: "Free speech", micDesc: "You speak, as the customer, and see what Cardex understands.", micBtn: "Open console",
     howTitle: "How it works",
     how: [["Listens", "AssemblyAI Universal-3.5 Pro transcribes in real time, tells the voices apart and reloads the vocabulary (models, codes) as it learns which machine the call is about."],
           ["Understands", "A fault described in any language is linked to the maker's procedure, but only among those of the machine on the call: no made-up answers."],
@@ -158,7 +162,7 @@ const PERSONAS = [
   { id: "free", name: "", lang: null, machine: "", serial: "",
     it: { where: "", problem: "", facts: [], ask: "" }, en: { where: "", problem: "", facts: [], ask: "" } },
 ];
-const PERSONA_LABEL = { it: "Chiamata libera", en: "Free call" };
+const PERSONA_LABEL = { it: "Parlato libero", en: "Free speech" };
 const FREE_BRIEF = {
   it: "Inventa tu cliente e guasto. Matricole in archivio: 047219 Marea 2 Plus · 041188 Marea 2 · 043377 Giglio 1 · 049155 Onda MB3 · 053002 Onda MB2 Evo · G24-0177 Monda 65 · G25-0412 Monda 65 Digit.",
   en: "Make up your own customer and fault. Serials on file: 047219 Marea 2 Plus · 041188 Marea 2 · 043377 Giglio 1 · 049155 Onda MB3 · 053002 Onda MB2 Evo · G24-0177 Monda 65 · G25-0412 Monda 65 Digit.",
@@ -185,7 +189,7 @@ function applyLanguage() {
   $("stats").innerHTML = L.stats(counts.models, counts.symptoms).map((s) => `<li>${s}</li>`).join("");
   set("voice-eyebrow", L.voiceEyebrow); set("voice-title", L.voiceTitle); set("voice-desc", L.voiceDesc); set("lb-persona", L.lbPersona);
   set("lb-voice-lang", L.lbVoiceLang); set("btn-voice", L.voiceStart); set("voice-help", L.voiceHelp);
-  set("op-eyebrow", L.opEyebrow); set("op-title", L.opTitle); set("op-desc", L.opDesc);
+  set("op-eyebrow", L.opEyebrow); set("op-title", L.opTitle); set("op-desc", L.opDesc); set("op-try", L.opTry); set("voice-try", L.voiceTry);
   set("sample-title", L.sampleTitle); set("sample-desc", L.sampleDesc); set("btn-sample", L.sampleBtn);
   set("duet-title", L.duetTitle); set("duet-help", L.duetHelp); set("btn-duet", L.duetBtn);
   set("mic-title", L.micTitle); set("mic-desc", L.micDesc); set("btn-mic", L.micBtn);

@@ -1,3 +1,5 @@
+"""Spoken part codes brought back to their canonical form: letters and numbers as the ASR writes them ("e L3010",
+"G E twenty-one forty", "zero four seven") become EL-3010, GE-2140, 047; sentence boundaries do not glue codes together."""
 import pytest
 
 from app.core.normalizer import canonicalize_codes, extract_codes, words_to_digits

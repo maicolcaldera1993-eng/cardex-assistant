@@ -1,3 +1,6 @@
+"""Operator-assist core: symptoms matched from the customer's words, step-by-step procedures and their outcomes,
+answers to an open step not taken for new faults, keyterm vocabulary reloaded in phases, operator/customer roles from
+AssemblyAI speaker labels."""
 import pytest
 
 from app.core.catalog import Catalog
