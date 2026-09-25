@@ -23,7 +23,7 @@ from .core.context import ContextDetector
 from .core.normalizer import canonicalize_codes, extract_codes
 from .core.roles import CUSTOMER, OPERATOR, RoleTracker
 from .core.semantic import AMBIGUITY_GAP, DECOY_MARGIN, SECTION_THRESHOLD, SYMPTOM_THRESHOLD, SemanticIndex
-from .core.symptoms import DefectsLibrary, Diagnosis, parse_then, Outcome
+from .core.symptoms import DefectsLibrary, Diagnosis, parse_then, Outcome, content_words
 from .core import terms
 from .core.vocabulary import VocabularyManager
 from .llm.clarify import Clarifier
@@ -543,7 +543,8 @@ class CallSession:
                         self._log_decision("exact_overruled", text=texts[-1], exact=chosen, by=top_id,
                                            scores=[round(top, 3), round(sims.get(chosen, 0.0), 3)])
                         chosen, heard = top_id, f"≈ {SEMANTIC.nodes['symptom/' + top_id]['title_en']}, {top:.2f}"
-        elif SEMANTIC.ready and semantic:
+        elif SEMANTIC.ready and semantic and len(content_words(texts[0])) >= 2:
+            # one word ("Goodbye.", "Perfect.") says nothing about a fault: meaning is read on real sentences only
             best: dict[str, object] = {}
             decoy = 0.0
             for q in texts:                                          # the last fragment alone, then with context
@@ -590,7 +591,10 @@ class CallSession:
                 await self._agent("Due guasti possibili: scegli quello giusto nel pannello." if self.lang == "it"
                                   else "Two possible faults: pick the right one in the panel.")
             return True
-        if open_step:
+        finished = bool(self.diagnosis and self.diagnosis.outcome)
+        if open_step or finished:
+            # a procedure in progress or already concluded is never replaced by itself: the new fault waits for the
+            # operator ("Goodbye." once read as "the machine is off" and wiped a finished procedure from the report)
             if chosen not in self.pending_symptoms:
                 self.pending_symptoms.append(chosen)
                 await self._agent(f"Secondo problema in attesa: {DEFECTS.symptoms[chosen]['symptom_it']}. Lo avvii dal pannello quando hai chiuso questo." if self.lang == "it"

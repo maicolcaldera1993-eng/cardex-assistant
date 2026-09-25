@@ -140,7 +140,9 @@ def main() -> None:
                       "c'è qualcosa che non va con la macchina", "hello good morning this is the bar calling", "we have an issue since two weeks",
                       "the coffee is not good anymore", "il caffè non è più buono", "the coffee is bad",
                       "what is your problem", "what is the problem", "which is the problem", "tell me the problem",
-                      "we have a problem with the machine since two weeks", "qual è il problema", "mi dica il problema"]})
+                      "we have a problem with the machine since two weeks", "qual è il problema", "mi dica il problema",
+                      "goodbye", "thank you, goodbye", "thanks for your help, bye", "have a nice day", "perfect, thank you",
+                      "I'll keep an eye out for the email", "grazie, arrivederci", "perfetto, grazie mille", "buona giornata"]})
     for f in sorted((KB / "parts").glob("*.md")):
         if f.name.endswith(".en.md"):
             continue

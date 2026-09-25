@@ -640,7 +640,7 @@ function renderSummary(s) {
         ${s.next && s.next.payment ? `<dt>${L.payment}</dt><dd>${esc(s.next.payment.text)}</dd>` : ""}
         ${s.next && s.next.ship_to ? `<dt>${L.shipTo}</dt><dd>${esc(s.next.ship_to)}${s.next.costs && s.next.costs.shipping_eur != null ? ` · ${s.next.costs.shipping_eur ? eur(s.next.costs.shipping_eur) : L.free}` : ""}</dd>` : ""}
         ${s.next && s.next.costs && s.next.costs.labour && !s.next.fits_alone ? `<dt>${L.service}</dt><dd>${esc(lang === "it" ? s.next.costs.labour.what_it : s.next.costs.labour.what_en)} · ${s.next.costs.labour.customer_pays_eur == null ? "—" : s.next.costs.labour.customer_pays_eur ? eur(s.next.costs.labour.customer_pays_eur) : L.free}</dd>` : ""}
-        ${s.next && s.next.payment && s.next.payment.status === "awaiting_payment" ? `<dt>${L.quoteTo}</dt><dd>${s.email ? esc(s.email) : `<span class="tag bad">${L.askEmail}</span>`}</dd>` : ""}</dl></section>
+        ${s.email || (s.next && s.next.payment && s.next.payment.status === "awaiting_payment") ? `<dt>${L.quoteTo}</dt><dd>${s.email ? esc(s.email) : `<span class="tag bad">${L.askEmail}</span>`}</dd>` : ""}</dl></section>
       <section class="report-sec wide"><h4>${L.secDiag}</h4>${steps}</section>
       <section class="report-sec wide"><h4>${L.secParts}</h4>${partsTbl}</section>
       ${(s.notes || []).length ? `<section class="report-sec wide"><h4>${L.secNotes}</h4><ul>${s.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul></section>` : ""}

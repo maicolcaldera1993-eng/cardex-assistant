@@ -538,3 +538,30 @@ def test_booking_after_fits_alone_drops_the_stale_note():
     assert s.notes
     run(s.control({"action": "book_slot", "id": s._next_step()["booking"]["slots"][0]["id"]}))
     assert not any("alone" in n or "da solo" in n for n in s.notes)
+
+
+def test_goodbye_never_replaces_a_finished_procedure():
+    """Dave 25/9 15:57: 'Goodbye.' opened 'Machine dead' over the finished no-heat procedure."""
+    from app.session import SEMANTIC
+    if not SEMANTIC.ready:
+        SEMANTIC.load()
+    events = []
+
+    async def emit(ev):
+        events.append(ev)
+
+    s = CallSession("key", emit, source="roleplay:dave", lang="en")
+    s.clarify_on = False
+    run(s.voice_transcript("customer", "Hi, this is Dave from Espresso Corner in Chicago. My Marea 2 is not heating up "
+                                       "at all this morning."))
+    assert s.diagnosis.symptom["id"] == "marea-no-heat"
+    for b in (2, 1, 0, 1):
+        run(s.control({"action": "answer_step", "branch": b}))
+    assert s.diagnosis.outcome
+    run(s.voice_transcript("customer", "Thanks. I'll keep an eye out for that email. Goodbye."))
+    run(s.voice_transcript("customer", "Goodbye."))
+    assert s.diagnosis.symptom["id"] == "marea-no-heat" and s.diagnosis.outcome
+    # a real second fault after the outcome waits for the operator instead of replacing the first
+    run(s.voice_transcript("customer", "Oh, and one more thing: the steam wand drips all the time even when the tap "
+                                       "is closed, there is water coming out of the wand."))
+    assert s.diagnosis.symptom["id"] == "marea-no-heat" and s.pending_symptoms
