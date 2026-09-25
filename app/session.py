@@ -147,6 +147,7 @@ class CallSession:
         self.end_wanted = False                   # the agent asked to end at least once
         self.fits_alone = False                   # the customer declined the service call: fits the parts alone
         self.email = ""                           # where the quote and the payment instructions go
+        self.agent_lang = "en"                    # the language the automatic assistant is speaking
         self.last_agent_text = ""
         self.last_customer_text = ""
         self.serial_asked = 0                     # customer sentences still read as the answer to "which serial?"
@@ -162,15 +163,15 @@ class CallSession:
                                  "limits": {"max_seconds": MAX_SESSION_SECONDS}})
                 await self._emit_vocab(vocab)
                 await self._emit_context()
-                if self.roleplay:
-                    self.clarifier.start()
+                if self.roleplay or self.voice:
+                    self.clarifier.start()              # English subtitles for lines in another language
                 await asyncio.wait_for(self.voice_ended.wait(), timeout=MAX_REHEARSAL_SECONDS if self.roleplay else MAX_SESSION_SECONDS)
             except asyncio.TimeoutError:
                 await self._agent("Tempo massimo raggiunto." if self.lang == "it" else "Time limit reached.")
             except Exception as e:  # noqa: BLE001
                 await self.emit({"type": "error", "text": f"{type(e).__name__}: {e}"})
             finally:
-                if self.roleplay:
+                if self.roleplay or self.voice:
                     await self.clarifier.close()
                 await self._emit_summary()
             return
@@ -922,11 +923,43 @@ class CallSession:
         self.turns[tid] = utt
         await self.emit({"type": "turn", "id": tid, "final": True, "text": text, "role": who, "speaker": None, "min_conf": 1.0,
                          "merged": 1, "interrupted": bool(interrupted)})
+        if self.voice:
+            from .agent.dialog import language_of
+            said_in = language_of(text) or (self.agent_lang if who == "agent" else None)
+            if said_in and said_in != self.lang and self.clarify_on:
+                self.clarifier.submit(tid, text)                  # English subtitles, they may arrive later
+                await self.emit({"type": "clear_pending", "turn_id": tid})
+            if who == CUSTOMER and said_in and said_in != self.agent_lang:
+                await self._switch_language(said_in, text)
         if who in (CUSTOMER, OPERATOR) and self.assistant_on:
             if who == CUSTOMER and self.roleplay and self.clarify_on and self.customer_lang != self.lang:
                 self.clarifier.submit(tid, text)                  # the clear Italian version, as on a real call
                 await self.emit({"type": "clear_pending", "turn_id": tid})
             await self._assist(tid, text, who, 1.0, [text], utt)
+
+    async def _switch_language(self, lang: str, last_text: str) -> None:
+        """The customer speaks another language: the page hands the call to a Voice Agent session with that language's
+        voice. It gets the call so far and the call state, and answers the customer's last words."""
+        from .voice.agent import LANGUAGES, call_status
+        if lang not in LANGUAGES:
+            return
+        self.agent_lang = lang
+        name = LANGUAGES[lang][0]
+        lines = []
+        for u in self.utterances[-16:]:
+            if u["role"] in (CUSTOMER, "agent"):
+                lines.append(("Customer: " if u["role"] == CUSTOMER else "You: ") + u["text"])
+        context = ("THE CALL SO FAR (you handled it; the customer has now switched language, so a voice for that language "
+                   "took over: it is still you, do not mention it and do not greet again):\n" + "\n".join(lines) +
+                   "\n\nCALL STATE (from the tools): " + json.dumps(call_status(self), ensure_ascii=False, default=str)[:3500])
+        instructions = (f"The customer now speaks {name}. From now on speak only {name}. Answer their last words now: "
+                        f"{last_text!r}. Continue from where the call is: the machine, serial, answers and outcome in CALL STATE are "
+                        "already known, never ask them again; for the current step call answer_step with its step_id.")
+        self._log_decision("language_switch", to=lang, text=last_text)
+        await self._agent(f"Il cliente parla {name}: passo alla voce {name}." if self.lang == "it"
+                          else f"The customer speaks {name}: switching to the {name} voice.")
+        await self.emit({"type": "switch_language", "lang": lang, "name": name, "context": context,
+                         "instructions": instructions})
 
     async def apply_model_words(self, text: str) -> None:
         """The agent passes the customer's words about the model: same detector as the live transcript."""

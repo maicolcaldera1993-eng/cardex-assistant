@@ -392,7 +392,7 @@ def test_roleplay_serial_from_luca_call():
         events.append(ev)
 
     s = CallSession("key", emit, source="roleplay:luca", lang="it")
-    assert s.customer_lang == "it"
+    assert s.customer_lang == "en"            # every AI-played customer speaks English for the jury
     s.clarify_on = False
     run(s.voice_transcript("operator", "E se mi dice anche il numero di serie della sua macchina, non lo trova scritto?"))
     run(s.voice_transcript("customer", "Il numero di serie è zero cinque uno, zero quattro zero. 051040."))
@@ -565,3 +565,24 @@ def test_goodbye_never_replaces_a_finished_procedure():
     run(s.voice_transcript("customer", "Oh, and one more thing: the steam wand drips all the time even when the tap "
                                        "is closed, there is water coming out of the wand."))
     assert s.diagnosis.symptom["id"] == "marea-no-heat" and s.pending_symptoms
+
+
+def test_assistant_follows_the_customer_language():
+    """The automatic assistant starts in English; Italian from the customer hands the call to the Italian voice with
+    the call so far, and the Italian lines get English subtitles."""
+    from app.voice.agent import session_config
+    s, events = make_session()
+    s.lang = "en"
+    run(s.voice_transcript("agent", "Sereni service, good morning. Which machine are you calling about?"))
+    run(s.voice_transcript("customer", "Hi, this is Dave, my Marea 2 is not heating up."))
+    assert not [e for e in events if e.get("type") == "switch_language"]
+    run(s.voice_transcript("customer", "Scusi, posso parlare in italiano? La macchina non scalda e il manometro è a zero."))
+    sw = [e for e in events if e.get("type") == "switch_language"]
+    assert sw and sw[0]["lang"] == "it" and "Dave" in sw[0]["context"] and "italiano" in sw[0]["instructions"]
+    assert s.agent_lang == "it"
+    assert any(e.get("type") == "clear_pending" for e in events)
+    run(s.voice_transcript("customer", "Sì, la macchina è una Marea due, non scalda."))
+    assert len([e for e in events if e.get("type") == "switch_language"]) == 1       # already in Italian
+    cfg = session_config(["Marea"], "it", resume=True)
+    assert "greeting" not in cfg and cfg["output"]["voice"] == "giovanni"
+    assert "greeting" in session_config(["Marea"], "en")

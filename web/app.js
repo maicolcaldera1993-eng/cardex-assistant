@@ -15,7 +15,7 @@ const T = {
     voiceDesc: "Un assistente vocale che risponde da solo alle chiamate dei clienti. Riconosce macchina e guasto, guida il cliente nella procedura del costruttore, dice chi paga, ordina i ricambi e fissa l'intervento. Conversa liberamente, ma ogni domanda viene dalla procedura e ogni cifra dal gestionale.",
     voiceTry: "Provalo tu, nei panni del cliente: scegli una delle chiamate d'esempio, con la scheda di cosa dire, oppure il parlato libero.",
     lbPersona: "Chiamate d'esempio", lbVoiceLang: "Lingua della chiamata", voiceStart: "Chiama l'assistenza",
-    voiceHelp: "Serve il microfono. Parla con calma e aspetta che l'agente finisca: mentre parla il microfono è in pausa. Chiudi con «Fine chiamata».",
+    voiceHelp: "Serve il microfono. L'assistente parte in inglese e segue la tua lingua (italiano, spagnolo, tedesco, francese, portoghese), con sottotitoli in inglese. Aspetta che finisca di parlare; chiudi con «Fine chiamata».",
     opEyebrow: "Modalità 2", opTitle: "Assistenza all'operatore",
     opDesc: "Cardex affianca l'operatore del service durante la telefonata con un cliente straniero: trascrive chi dice cosa, mostra la versione chiara in italiano, apre la procedura al passo giusto con la frase da leggere, prepara ricambi, appuntamento e scheda d'intervento.",
     opTry: "Provalo tu, nei panni dell'operatore al telefono: il cliente è un'intelligenza artificiale che recita il suo ruolo; tu rispondi al microfono e segui la procedura guidata.",
@@ -89,7 +89,7 @@ const T = {
     voiceDesc: "A voice assistant that answers customers' calls on its own. It recognises the machine and the fault, walks the customer through the maker's procedure, says who pays, orders the parts and books the visit. It talks freely, but every question comes from the procedure and every figure from the ERP.",
     voiceTry: "Try it as the customer: pick one of the sample calls, each with a sheet of what to say, or free speech.",
     lbPersona: "Sample calls", lbVoiceLang: "Call language", voiceStart: "Call the service desk",
-    voiceHelp: "Needs the microphone. Speak calmly and let the agent finish: while it talks your mic is paused. Close with “End call”.",
+    voiceHelp: "Needs the microphone. The assistant starts in English and follows your language (Italian, Spanish, German, French, Portuguese), with English subtitles. Let it finish talking; close with “End call”.",
     opEyebrow: "Mode 2", opTitle: "Operator assist",
     opDesc: "Cardex sits next to the service operator during a call with a foreign customer: it transcribes who says what, shows a clear Italian version, opens the procedure at the right step with the sentence to read, and prepares parts, appointment and work order.",
     opTry: "Try it as the operator on the phone: the customer is an AI playing its part; you answer on the microphone and follow the guided procedure.",
@@ -157,7 +157,7 @@ const T = {
 
 // customers to play in the voice-agent mode: facts only, the conversation is up to the caller
 const PERSONAS = [
-  { id: "luca", name: "Luca Ferraro", lang: "it", machine: "Giglio 1 Plus Vaniglia", serial: "051040",
+  { id: "luca", name: "Luca Ferraro", lang: "en", machine: "Giglio 1 Plus Vaniglia", serial: "051040",
     it: { where: "Pasticceria italiana a Valencia", problem: "Quando togli il portafiltro a fine caffè, il fondo è liquido e schizza. Una ragazza al banco si è scottata.",
           facts: ["Non senti più lo sfiato «pssh» verso la vaschetta a fine erogazione.", "I lavaggi con la pastiglia li faceva lui; da tre settimane forse nessuno.", "Se ti fanno aprire l'elettrovalvola: pistoncino rigato, gommina spaccata."],
           ask: "Chiedi se è in garanzia e se la colpa dei ragazzi la fa perdere." },
@@ -241,7 +241,7 @@ function renderPersonas() {
   $("personas").querySelectorAll("[data-p]").forEach((b) => (b.onclick = () => {
     persona = b.dataset.p;
     const p = PERSONAS.find((x) => x.id === persona);
-    if (p.lang) $("voice-lang").value = p.lang;
+
     renderPersonas();
   }));
   const p = PERSONAS.find((x) => x.id === persona);
@@ -375,6 +375,7 @@ function handle(ev) {
     case "duet_script": renderDuet(ev.lines); break;
     case "speak": speak(ev); break;
     case "tool_result": voiceToolResult(ev); break;
+    case "switch_language": switchVoice(ev); break;
     case "hangup": if (vws) { vEndPending = true; setTimeout(voiceEnd, 15000); } break;
     case "duet": { const b = document.querySelector(`.duet-line[data-n="${ev.n}"]`); if (b) { b.classList.toggle("playing", ev.state === "playing"); if (ev.state === "done") b.classList.add("said"); } if (ev.state === "done" || ev.state === "busy") { clearTimeout(micWatchdog); setTimeout(() => { micMuted = false; duetPlaying = false; }, 300); } break; }
     case "open_doc": openDoc(ev); break;
@@ -673,19 +674,32 @@ async function startVoice(persona) {
   const rp = !!persona;
   startCall(rp ? `roleplay:${persona}` : "voice");
   vEndPending = false; rpSpoke = false;
-  let agent, tok;
+  let agent;
   try {
-    agent = await fetch(rp ? `/api/voice/customer?persona=${encodeURIComponent(persona)}` : `/api/voice/agent?lang=${encodeURIComponent($("voice-lang").value || "en")}`).then((r) => r.json());
-    tok = await fetch("/api/voice/token").then((r) => r.json());
+    // the automatic assistant always starts in English and follows the customer's language (switchVoice)
+    agent = await fetch(rp ? `/api/voice/customer?persona=${encodeURIComponent(persona)}` : `/api/voice/agent?lang=en`).then((r) => r.json());
   } catch (e) { logLine("voice agent: " + e.message, true); return; }
-  if (!agent.session || !tok.token) { logLine("voice agent: " + JSON.stringify(agent.detail || tok.detail || agent), true); return; }
+  if (!agent.session) { logLine("voice agent: " + JSON.stringify(agent.detail || agent), true); return; }
+  await openVoiceSocket(agent.session, rp, null);
+}
+async function openVoiceSocket(session, rp, onReady) {
+  let tok;
+  try { tok = await fetch("/api/voice/token").then((r) => r.json()); } catch (e) { logLine("voice agent: " + e.message, true); return; }
+  if (!tok.token) { logLine("voice agent: " + JSON.stringify(tok.detail || tok), true); return; }
   const url = new URL("wss://agents.assemblyai.com/v1/ws"); url.searchParams.set("token", tok.token);
-  vws = new WebSocket(url.toString());
-  vws.onopen = () => { vws.send(JSON.stringify({ type: "session.update", session: agent.session })); };
-  vws.onmessage = (e) => {
+  const ws = new WebSocket(url.toString());
+  ws.calls = new Set();                                     // tool calls asked by THIS session
+  vws = ws;
+  ws.onopen = () => { ws.send(JSON.stringify({ type: "session.update", session })); };
+  ws.onmessage = (e) => {
+    if (ws !== vws) return;                                 // a session that was handed over: ignore what it still sends
     const m = JSON.parse(e.data);
     switch (m.type) {
-      case "session.ready": $("st-session").textContent = L.open; $("live-dot").classList.add("on"); startVoiceMic(); break;
+      case "session.ready":
+        $("st-session").textContent = L.open; $("live-dot").classList.add("on");
+        if (!vStream) startVoiceMic();
+        if (onReady) onReady(ws);
+        break;
       case "transcript.user": if (rp) rpSpoke = true; send({ type: "control", action: "transcript", role: rp ? "operator" : "customer", text: m.text }); break;
       case "transcript.agent": send({ type: "control", action: "transcript", role: rp ? "customer" : "agent", text: m.text, interrupted: !!m.interrupted }); break;
       case "reply.audio": voicePlay(m.data || m.audio); break;
@@ -693,15 +707,31 @@ async function startVoice(persona) {
         if (m.status === "interrupted") voiceStop();
         if (vEndPending) { const left = vCtx ? Math.max(0, vNext - vCtx.currentTime) : 0; setTimeout(voiceEnd, left * 1000 + 800); }
         break;
-      case "tool.call": send({ type: "control", action: "tool", call_id: m.call_id, name: m.name, arguments: m.arguments }); logLine("⚙ " + m.name + " " + JSON.stringify(m.arguments || {})); break;
+      case "tool.call": ws.calls.add(m.call_id); send({ type: "control", action: "tool", call_id: m.call_id, name: m.name, arguments: m.arguments }); logLine("⚙ " + m.name + " " + JSON.stringify(m.arguments || {})); break;
       case "session.error": case "error": logLine("voice agent: " + (m.message || m.code || e.data), true); break;
-      case "session.ended": logLine(`voice agent: ${Math.round(m.audio_duration_seconds || 0)} s`); vws.close(); break;
+      case "session.ended": logLine(`voice agent: ${Math.round(m.audio_duration_seconds || 0)} s`); ws.close(); break;
     }
   };
-  vws.onclose = () => { stopVoiceMic(); vws = null; send({ type: "control", action: "voice_end" }); };
+  ws.onclose = () => { if (ws !== vws) return; stopVoiceMic(); vws = null; send({ type: "control", action: "voice_end" }); };
+}
+async function switchVoice(ev) {
+  // the customer speaks another language: hand the call to a session with that language's voice
+  if (duo || !vws || callMode !== "voice" || roleplay) return;
+  const old = vws;
+  voiceStop();
+  let agent;
+  try { agent = await fetch(`/api/voice/agent?lang=${encodeURIComponent(ev.lang)}&resume=1`).then((r) => r.json()); }
+  catch (e) { logLine("voice agent: " + e.message, true); return; }
+  if (!agent.session) return;
+  toast(`🌐 ${ev.name}`);
+  await openVoiceSocket(agent.session, false, (ws) => {
+    ws.send(JSON.stringify({ type: "conversation.message", role: "system", content: ev.context }));
+    ws.send(JSON.stringify({ type: "reply.create", instructions: ev.instructions }));
+  });
+  try { old.send(JSON.stringify({ type: "session.end" })); old.close(); } catch (e) { /* already closing */ }
 }
 function voiceToolResult(ev) {
-  if (!vws || vws.readyState !== 1) return;
+  if (!vws || vws.readyState !== 1 || (vws.calls && !vws.calls.has(ev.call_id))) return;   // asked by a handed-over session
   vws.send(JSON.stringify({ type: "tool.result", call_id: ev.call_id, result: ev.result, is_error: false }));
   if (ev.end) { vEndPending = true; setTimeout(voiceEnd, 15000); }
 }

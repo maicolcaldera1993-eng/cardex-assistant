@@ -97,12 +97,15 @@ TOOLS: list[dict] = [
      "parameters": {"type": "object", "properties": {}, "required": []}, "execution_mode": "interactive"},
 ]
 
-def session_config(keyterms: list[str], lang: str = "en") -> dict:
+def session_config(keyterms: list[str], lang: str = "en", resume: bool = False) -> dict:
     """What the browser sends in session.update: the whole agent inline (a stored agent_id cannot be combined
     with per-session tools, and our tools are client-side functions executed by this server)."""
     cfg = agent_config(keyterms, lang)
-    return {"system_prompt": cfg["system_prompt"], "greeting": cfg["greeting"], "input": cfg["input"],
-            "output": cfg["output"], "tools": [{"type": "function", **t} for t in TOOLS]}   # "function" = executed by the client
+    out = {"system_prompt": cfg["system_prompt"], "greeting": cfg["greeting"], "input": cfg["input"],
+           "output": cfg["output"], "tools": [{"type": "function", **t} for t in TOOLS]}   # "function" = executed by the client
+    if resume:
+        del out["greeting"]                     # a language handover continues the call: no second greeting
+    return out
 
 
 _agent_id: str | None = None
@@ -124,7 +127,7 @@ def agent_config(keyterms: list[str], lang: str = "en") -> dict:
     return {"name": AGENT_NAME, "system_prompt": prompt, "greeting": GREETINGS[lang],
             "voice": {"voice_id": voice},
             "input": {"format": {"encoding": "audio/pcm", "sample_rate": 24000}, "keyterms": keyterms[:100],
-                      "language_codes": [lang], "transcription_prompt": TRANSCRIPTION_PROMPT,
+                      "language_codes": list(LANGUAGES), "transcription_prompt": TRANSCRIPTION_PROMPT,
                       # The browser keeps the mic closed while the agent's voice PLAYS (half duplex), so the customer
                       # cannot talk over it. interrupt_response stays on for the gap before playback: if the turn was
                       # closed too early ("Buongiorno." | "sono Mario...") the reply is dropped instead of the words.

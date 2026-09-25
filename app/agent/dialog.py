@@ -72,6 +72,33 @@ def serials_in(text: str) -> list[str]:
     return out
 
 
+_LANG_WORDS = {
+    "en": set("the and is it i you we my this that with have what for are yes please can there not was it's i'm don't "
+              "machine coffee does".split()),
+    "it": set("il lo gli che non è sono ho una per con della del mi ci ma anche perché questo quando sì grazie "
+              "buongiorno allora macchina caffè esce fa si perfetto va bene".split()),
+    "es": set("el los las que es y una por con mi pero muy sí gracias buenos está tengo hola máquina café sale hace "
+              "cuando también".split()),
+    "de": set("der die das und ist nicht ich ein eine mit es sie wir haben auch aber ja danke guten bitte maschine "
+              "kaffee kommt".split()),
+    "fr": set("le les et est je pas une avec pour nous oui merci bonjour c'est il vous machine café fait quand "
+              "aussi".split()),
+    "pt": set("o os as é não um uma com para eu sim obrigado bom está tenho máquina café faz quando também "
+              "ela".split()),
+}
+
+
+def language_of(text: str) -> str | None:
+    """The language a sentence is in, from its commonest words (en/it/es/de/fr/pt), or None when too short or unclear."""
+    words = re.findall(r"[a-zà-ÿ']+", (text or "").lower())
+    if len(words) < 3:
+        return None
+    scores = {lg: sum(w in ws for w in words) for lg, ws in _LANG_WORDS.items()}
+    ranked = sorted(scores.items(), key=lambda kv: kv[1], reverse=True)
+    (best, a), (_, b) = ranked[0], ranked[1]
+    return best if a >= 2 and a >= b + 2 else None
+
+
 _EMAIL = re.compile(r"[a-z0-9][a-z0-9._%+-]*@[a-z0-9-]+(?:\.[a-z0-9-]+)+", re.I)
 _TLD = r"(?:com|it|de|es|us|net|org|at|nl|fr|eu|pt|be|ch|tr|co\.uk|uk)"
 

@@ -8,7 +8,7 @@ PERSONAS: dict[str, dict] = {
     "luca": dict(
         name="Luca Ferraro", role="owner", business="Pastelería Sol, an Italian pastry shop", city="Valencia",
         machine="Sereni Giglio 1 Plus, Vaniglia edition (cream colour), one group, installed last January",
-        serial="051040", serial_spoken="zero five one, zero four zero", lang="it", voice="giovanni", accent="Italian from Turin, living in Spain",
+        serial="051040", serial_spoken="zero five one, zero four zero", lang="en", voice="giovanni", accent="Italian from Turin, living in Spain",
         problem="when you take the portafilter out after the shot, the coffee puck is wet and muddy and it sprays; a young barista burnt her hand",
         facts=[
             "The coffee in the cup looks normal.",
