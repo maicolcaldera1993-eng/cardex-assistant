@@ -455,3 +455,20 @@ def test_agent_note_declining_service_means_fits_alone():
     s, events, o = _dave_at_outcome()
     run(run_tool(s, "note_for_operator", {"note": "customer declines service support, will fit the element himself"}))
     assert s.fits_alone and s._next_step()["fits_alone"]
+
+
+def test_no_steam_on_a_marea_is_no_heat():
+    """On a Marea the steam comes from the one boiler: 'no steam, no hot water, gauge at zero' is a cold boiler,
+    not the weak-steam procedure (English operator console, 25/9)."""
+    events = []
+
+    async def emit(ev):
+        events.append(ev)
+
+    s = CallSession("key", emit, source="roleplay:dave", lang="en")
+    s.clarify_on = False
+    run(s.voice_transcript("customer", "Hi, this is Dave from Espresso Corner in Chicago. My Marea 2 won't get hot this "
+                                       "morning. No steam, no hot water, and the boiler gauge is at zero."))
+    assert s.diagnosis and s.diagnosis.symptom["id"] == "marea-no-heat"
+    opened = [e for e in events if e.get("type") == "open_doc"]
+    assert opened and all("è" not in e["title"] for e in opened)

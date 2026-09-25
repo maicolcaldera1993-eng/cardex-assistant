@@ -188,7 +188,9 @@ const FREE_BRIEF = {
   en: "Make up your own customer and fault. Serials on file: 047219 Marea 2 Plus · 041188 Marea 2 · 043377 Giglio 1 · 049155 Onda MB3 · 053002 Onda MB2 Evo · G24-0177 Monda 65 · G25-0412 Monda 65 Digit.",
 };
 
-let lang = new URLSearchParams(location.search).get("lang") === "en" ? "en" : "it";
+// English by default (international jury); Italian one click away, remembered in this browser
+function savedLang() { try { return localStorage.getItem("cardex-lang"); } catch (e) { return null; } }
+let lang = (() => { const q = new URLSearchParams(location.search).get("lang"); const v = q || savedLang(); return v === "it" ? "it" : "en"; })();
 let L = T[lang];
 let persona = "luca";
 let counts = { models: 10, symptoms: 32 };
@@ -836,6 +838,10 @@ $("btn-end").onclick = () => { voiceEnd(); send({ type: "control", action: "end_
 $("btn-swap").onclick = () => send({ type: "control", action: "swap_roles" });
 $("tg-clarify").onchange = (e) => send({ type: "control", action: "toggle", what: "clarify", on: e.target.checked });
 $("tg-assistant").onchange = (e) => send({ type: "control", action: "toggle", what: "assistant", on: e.target.checked });
-$("btn-lang").onclick = () => { lang = lang === "it" ? "en" : "it"; applyLanguage(); loadHomeData(); };
+$("btn-lang").onclick = () => {
+  lang = lang === "it" ? "en" : "it";
+  try { localStorage.setItem("cardex-lang", lang); } catch (e) { /* private window: not remembered */ }
+  applyLanguage(); loadHomeData();
+};
 $("sheet-close").onclick = () => $("sheet").close();
 applyLanguage(); loadHomeData();

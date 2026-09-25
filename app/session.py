@@ -530,7 +530,10 @@ class CallSession:
                 sims = {m.node_id.split("/", 1)[1]: m.score for m in SEMANTIC.search(texts[-1], allowed=allowed - decoys, k=5)}
                 if sims:
                     top_id, top = max(sims.items(), key=lambda kv: kv[1])
-                    if top_id != chosen and top >= SYMPTOM_THRESHOLD and top - sims.get(chosen, 0.0) >= 0.10:
+                    # a contiguous phrase needs a clear margin to be overruled; scattered words ("water" ... "boiler"
+                    # inside "no hot water, the boiler gauge is at zero") or a fuzzy match are weaker than the meaning
+                    margin = 0.10 if exact.score >= 0.90 else 0.0
+                    if top_id != chosen and top >= SYMPTOM_THRESHOLD and top - sims.get(chosen, 0.0) > margin:
                         self._log_decision("exact_overruled", text=texts[-1], exact=chosen, by=top_id,
                                            scores=[round(top, 3), round(sims.get(chosen, 0.0), 3)])
                         chosen, heard = top_id, f"≈ {SEMANTIC.nodes['symptom/' + top_id]['title_en']}, {top:.2f}"
@@ -617,7 +620,8 @@ class CallSession:
             if best and best[1] >= 0.55:
                 highlight = best[0]
         await self.emit({"type": "open_doc", "node_id": node_id, "kind": node["kind"], "page": node["page"],
-                         "anchor": node["anchor"], "title": node["title"], "reason": reason,
+                         "anchor": node["anchor"], "reason": reason,
+                         "title": node["title"] if self.lang == "it" else node.get("title_en") or node["title"],
                          "highlight": highlight, "score": score})
         label = {"machine": "libretto della macchina", "topic": "sezione del libretto", "symptom": "fascicolo difetti",
                  "code": "scheda del ricambio", "description": "scheda del ricambio", "procedure": "scheda del ricambio"}
@@ -704,7 +708,7 @@ class CallSession:
                 continue
             d = asdict(c)
             d.update(status="proposed", source=source, turn_id=tid,
-                     description=d[f"description_{self.lang}"])
+                     description=d[f"description_{self.lang}"], note=(d["note_en"] or d["note"]) if self.lang == "en" else d["note"])
             d["handling"] = DEFECTS.handling.get(c.code) or ("support" if c.group in ("CA", "ID", "EL") else "diy")
             d["say_en"] = self._say_for_part(c, d["handling"])
             self.cards[c.code] = d
@@ -896,7 +900,7 @@ class CallSession:
         await self.emit({"type": "turn", "id": tid, "final": True, "text": text, "role": who, "speaker": None, "min_conf": 1.0,
                          "merged": 1, "interrupted": bool(interrupted)})
         if who in (CUSTOMER, OPERATOR) and self.assistant_on:
-            if who == CUSTOMER and self.roleplay and self.clarify_on and self.customer_lang != "it":
+            if who == CUSTOMER and self.roleplay and self.clarify_on and self.customer_lang != self.lang:
                 self.clarifier.submit(tid, text)                  # the clear Italian version, as on a real call
                 await self.emit({"type": "clear_pending", "turn_id": tid})
             await self._assist(tid, text, who, 1.0, [text], utt)

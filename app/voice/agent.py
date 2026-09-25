@@ -318,7 +318,7 @@ def _card_view(c: dict, charge: dict | None = None) -> dict:
             "delivery": (d["from"].replace("FI-01 ", "").replace("NL-01 ", "") + ", " + d["days"] + " working days") if d else "unknown",
             "fits_this_machine": c["compatible"], "superseded_by": c.get("superseded_by"), "requires": c.get("requires"),
             "fitting": {"diy": "the customer fits it", "support": "fitted on a service call"}.get(c.get("handling"), c.get("handling")),
-            "note": c.get("note")}
+            "note": c.get("note_en") or c.get("note")}
 
 
 async def run_tool(s, name: str, args: dict) -> dict:

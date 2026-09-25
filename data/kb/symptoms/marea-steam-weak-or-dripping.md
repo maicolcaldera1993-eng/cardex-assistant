@@ -6,7 +6,7 @@ Fascicolo difetti noti, famiglia Marea. Documento interno al service.
 
 ## Come lo descrivono i clienti {#descrizioni}
 
-«vapore debole», «poco vapore», «non monta il latte», «la lancia gocciola», «perde dalla lancia», «esce acqua dalla lancia», «weak steam», «not enough steam», «cannot steam milk», «wand drips», «steam wand leaks», «water from the wand», «steam tap leaks», «non esce vapore»
+«vapore debole», «poco vapore», «non monta il latte», «la lancia gocciola», «perde dalla lancia», «esce acqua dalla lancia», «weak steam», «not enough steam», «cannot steam milk», «wand drips», «steam wand leaks», «water from the wand», «steam tap leaks», «vapore scarso»
 
 ## Procedura {#procedura}
 

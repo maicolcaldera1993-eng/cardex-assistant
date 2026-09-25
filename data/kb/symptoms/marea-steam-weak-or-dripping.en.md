@@ -6,7 +6,7 @@ Known-defects file, Marea family. Internal service document.
 
 ## How customers describe it {#descrizioni}
 
-«vapore debole», «poco vapore», «non monta il latte», «la lancia gocciola», «perde dalla lancia», «esce acqua dalla lancia», «weak steam», «not enough steam», «cannot steam milk», «wand drips», «steam wand leaks», «water from the wand», «steam tap leaks», «non esce vapore»
+«vapore debole», «poco vapore», «non monta il latte», «la lancia gocciola», «perde dalla lancia», «esce acqua dalla lancia», «weak steam», «not enough steam», «cannot steam milk», «wand drips», «steam wand leaks», «water from the wand», «steam tap leaks», «vapore scarso»
 
 ## Procedure {#procedura}
 

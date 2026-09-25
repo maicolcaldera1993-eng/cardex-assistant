@@ -16,7 +16,7 @@ from pathlib import Path
 HERE = Path(__file__).parent
 sys.path.insert(0, str(HERE))
 import build_catalog as bc  # noqa: E402
-from part_notes import NOTES  # noqa: E402
+from part_notes import NOTES, NOTES_EN  # noqa: E402
 
 DB = HERE / "sereni.db"
 KB = HERE / "kb"
@@ -173,10 +173,10 @@ def build_db() -> None:
     CREATE TABLE edition_models (edition_id TEXT, model_id TEXT);
     CREATE TABLE suppliers (id TEXT PRIMARY KEY, name TEXT, city TEXT, country TEXT, lead_time_days INTEGER);
     CREATE TABLE parts (code TEXT PRIMARY KEY, group_code TEXT, description_it TEXT, description_en TEXT,
-                        unit TEXT, weight_g INTEGER, supplier_id TEXT, mounting_notes TEXT, notes TEXT);
+                        unit TEXT, weight_g INTEGER, supplier_id TEXT, mounting_notes TEXT, notes TEXT, notes_en TEXT);
     CREATE TABLE part_specs (code TEXT, key TEXT, value TEXT);
     CREATE TABLE compatibility (code TEXT, model_id TEXT, quantity_per_machine INTEGER);
-    CREATE TABLE supersessions (old_code TEXT, new_code TEXT, since TEXT, requires_code TEXT, note TEXT);
+    CREATE TABLE supersessions (old_code TEXT, new_code TEXT, since TEXT, requires_code TEXT, note TEXT, note_en TEXT);
     CREATE TABLE stock (code TEXT, warehouse TEXT, quantity INTEGER, updated_at TEXT);
     CREATE TABLE prices (code TEXT, list_price_eur REAL, valid_from TEXT, valid_to TEXT);
     CREATE TABLE order_stats (code TEXT PRIMARY KEY, orders_last_12m INTEGER);
@@ -204,9 +204,10 @@ def build_db() -> None:
     for p in bc.PARTS:
         notes = NOTES.get(p["code"], {})
         weight = {1: 30, 2: 120, 3: 250, 4: 600, 5: 4000}[p["order_rank"]] + h(p["code"] + "w", 40)
-        c.execute("INSERT INTO parts VALUES (?,?,?,?,?,?,?,?,?)", (
+        c.execute("INSERT INTO parts VALUES (?,?,?,?,?,?,?,?,?,?)", (
             p["code"], p["group"], p["description_it"], p["description_en"], "pz", weight,
-            supplier_for(p), notes.get("mounting"), notes.get("notes") or p["note"]))
+            supplier_for(p), notes.get("mounting"), notes.get("notes") or p["note"],
+            NOTES_EN.get(p["code"], {}).get("notes") or p["note"]))
         for k, v in specs_for(p):
             c.execute("INSERT INTO part_specs VALUES (?,?,?)", (p["code"], k, v))
         for m in p["models"]:
@@ -221,12 +222,14 @@ def build_db() -> None:
             f"sheet-{p['code']}", "part_sheet", None, None, p["code"], f"kb/parts/{p['code']}.md",
             f"Scheda prodotto {p['code']}", 0))
 
-    c.execute("INSERT INTO supersessions VALUES (?,?,?,?,?)",
-              ("EL-3010", "EL-3012", "2025-03-01", "EL-3036", "Centralina v1 fuori produzione. Sulle macchine 2024 serve il cablaggio adattatore EL-3036."))
-    c.execute("INSERT INTO supersessions VALUES (?,?,?,?,?)",
-              ("EL-3011", "EL-3012", "2025-04-15", None, "Primo lotto v2 con bug del conteggio flussometro. Sostituzione diretta."))
-    c.execute("INSERT INTO supersessions VALUES (?,?,?,?,?)",
-              ("CA-1300", "CA-1300", None, None, None))  # placeholder removed below
+    c.execute("INSERT INTO supersessions VALUES (?,?,?,?,?,?)",
+              ("EL-3010", "EL-3012", "2025-03-01", "EL-3036", "Centralina v1 fuori produzione. Sulle macchine 2024 serve il cablaggio adattatore EL-3036.",
+               "Control board v1 discontinued. 2024 machines also need the adapter harness EL-3036."))
+    c.execute("INSERT INTO supersessions VALUES (?,?,?,?,?,?)",
+              ("EL-3011", "EL-3012", "2025-04-15", None, "Primo lotto v2 con bug del conteggio flussometro. Sostituzione diretta.",
+               "First v2 batch with a flowmeter counting bug. Direct replacement."))
+    c.execute("INSERT INTO supersessions VALUES (?,?,?,?,?,?)",
+              ("CA-1300", "CA-1300", None, None, None, None))  # placeholder removed below
     c.execute("DELETE FROM supersessions WHERE old_code = new_code")
 
     for (i, n, f, *_rest) in bc.MODELS:

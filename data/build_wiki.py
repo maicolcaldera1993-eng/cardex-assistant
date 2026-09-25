@@ -37,6 +37,13 @@ def sentences(text: str) -> list[str]:
 def manual_sections(path: Path, model_id: str) -> list[dict]:
     out, title, buf, level = [], None, [], 0
     lines = path.read_text(encoding="utf-8").splitlines()
+    twin = path.with_name(f"{model_id}.en.md")        # English headings carry the Italian anchors: {#slug}
+    title_en = {}
+    if twin.exists():
+        for ln in twin.read_text(encoding="utf-8").splitlines():
+            m = re.match(r"^#{2,3}\s+(.*?)\s*\{#([^}]+)\}\s*$", ln)
+            if m:
+                title_en[m.group(2)] = re.sub(r"^\d+\.\s*", "", m.group(1)).strip()
 
     def flush():
         if title and "".join(buf).strip():
@@ -44,7 +51,8 @@ def manual_sections(path: Path, model_id: str) -> list[dict]:
             topics = [t.strip() for m in re.finditer(r"<!--\s*topics:(.*?)-->", body, re.S) for t in re.split(r"[;,]", m.group(1)) if t.strip()]
             body = re.sub(r"<!--.*?-->", "", body, flags=re.S)
             out.append({"id": f"manual/{model_id}#{slug(title)}", "kind": "manual", "page": f"manuals/{model_id}.md",
-                        "anchor": slug(title), "title": title, "models": [model_id], "group": None, "parts":
+                        "anchor": slug(title), "title": title, "title_en": title_en.get(slug(title), title),
+                        "models": [model_id], "group": None, "parts":
                         sorted(set(re.findall(r"\b[A-Z]{2}-\d{4}\b", body))),
                         "refs": [title] + topics + sentences(body)[:12], "n_topics": len(topics)})
 
@@ -138,7 +146,8 @@ def main() -> None:
             continue
         code = f.stem
         index.append({"id": f"part/{code}", "kind": "part", "page": f"parts/{code}.md", "anchor": "montaggio",
-                      "title": f"{code} — {part_desc.get(code, '')}", "models": compat.get(code, []),
+                      "title": f"{code} — {part_desc.get(code, '')}", "title_en": f"{code} — {part_desc_en.get(code, '')}",
+                      "models": compat.get(code, []),
                       "group": code[:2], "parts": [code], "refs": []})
 
     (KB / "index.json").write_text(json.dumps(index, ensure_ascii=False, indent=1), encoding="utf-8")

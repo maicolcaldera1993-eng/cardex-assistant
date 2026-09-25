@@ -5,6 +5,7 @@
   "page": "manuals/giglio-1-plus.md",
   "anchor": "descrizione",
   "title": "Descrizione",
+  "title_en": "Description",
   "models": [
    "giglio-1-plus"
   ],
@@ -33,6 +34,7 @@
   "page": "manuals/giglio-1-plus.md",
   "anchor": "dati-tecnici",
   "title": "Dati tecnici",
+  "title_en": "Technical data",
   "models": [
    "giglio-1-plus"
   ],
@@ -77,6 +79,7 @@
   "page": "manuals/giglio-1-plus.md",
   "anchor": "installazione",
   "title": "Installazione",
+  "title_en": "Installation",
   "models": [
    "giglio-1-plus"
   ],
@@ -110,6 +113,7 @@
   "page": "manuals/giglio-1-plus.md",
   "anchor": "uso-quotidiano",
   "title": "Uso quotidiano",
+  "title_en": "Daily use",
   "models": [
    "giglio-1-plus"
   ],
@@ -143,6 +147,7 @@
   "page": "manuals/giglio-1-plus.md",
   "anchor": "manutenzione-ordinaria",
   "title": "Manutenzione ordinaria",
+  "title_en": "Routine maintenance",
   "models": [
    "giglio-1-plus"
   ],
@@ -167,6 +172,7 @@
   "page": "manuals/giglio-1-plus.md",
   "anchor": "ogni-giorno-a-fine-servizio",
   "title": "Ogni giorno, a fine servizio",
+  "title_en": "Every day, at closing time",
   "models": [
    "giglio-1-plus"
   ],
@@ -200,6 +206,7 @@
   "page": "manuals/giglio-1-plus.md",
   "anchor": "ogni-settimana",
   "title": "Ogni settimana",
+  "title_en": "Every week",
   "models": [
    "giglio-1-plus"
   ],
@@ -228,6 +235,7 @@
   "page": "manuals/giglio-1-plus.md",
   "anchor": "ogni-mese",
   "title": "Ogni mese",
+  "title_en": "Every month",
   "models": [
    "giglio-1-plus"
   ],
@@ -257,6 +265,7 @@
   "page": "manuals/giglio-1-plus.md",
   "anchor": "ogni-6-12-mesi",
   "title": "Ogni 6-12 mesi",
+  "title_en": "Every 6-12 months",
   "models": [
    "giglio-1-plus"
   ],
@@ -285,6 +294,7 @@
   "page": "manuals/giglio-1-plus.md",
   "anchor": "ogni-2-anni-a-cura-del-service",
   "title": "Ogni 2 anni, a cura del service",
+  "title_en": "Every 2 years, by the service network",
   "models": [
    "giglio-1-plus"
   ],
@@ -314,6 +324,7 @@
   "page": "manuals/giglio-1-plus.md",
   "anchor": "spie-e-segnali",
   "title": "Spie e segnali",
+  "title_en": "Lights and signals",
   "models": [
    "giglio-1-plus"
   ],
@@ -345,6 +356,7 @@
   "page": "manuals/giglio-1-plus.md",
   "anchor": "cosa-non-fare",
   "title": "Cosa non fare",
+  "title_en": "What not to do",
   "models": [
    "giglio-1-plus"
   ],
@@ -374,6 +386,7 @@
   "page": "manuals/giglio-1-plus.md",
   "anchor": "ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
   "title": "Ricambi di consumo consigliati a magazzino del cliente",
+  "title_en": "Consumables to keep in stock",
   "models": [
    "giglio-1-plus"
   ],
@@ -405,6 +418,7 @@
   "page": "manuals/giglio-1-plus.md",
   "anchor": "assistenza",
   "title": "Assistenza",
+  "title_en": "Support",
   "models": [
    "giglio-1-plus"
   ],
@@ -430,6 +444,7 @@
   "page": "manuals/giglio-1.md",
   "anchor": "descrizione",
   "title": "Descrizione",
+  "title_en": "Description",
   "models": [
    "giglio-1"
   ],
@@ -456,6 +471,7 @@
   "page": "manuals/giglio-1.md",
   "anchor": "dati-tecnici",
   "title": "Dati tecnici",
+  "title_en": "Technical data",
   "models": [
    "giglio-1"
   ],
@@ -500,6 +516,7 @@
   "page": "manuals/giglio-1.md",
   "anchor": "installazione",
   "title": "Installazione",
+  "title_en": "Installation",
   "models": [
    "giglio-1"
   ],
@@ -533,6 +550,7 @@
   "page": "manuals/giglio-1.md",
   "anchor": "uso-quotidiano",
   "title": "Uso quotidiano",
+  "title_en": "Daily use",
   "models": [
    "giglio-1"
   ],
@@ -566,6 +584,7 @@
   "page": "manuals/giglio-1.md",
   "anchor": "manutenzione-ordinaria",
   "title": "Manutenzione ordinaria",
+  "title_en": "Routine maintenance",
   "models": [
    "giglio-1"
   ],
@@ -590,6 +609,7 @@
   "page": "manuals/giglio-1.md",
   "anchor": "ogni-giorno-a-fine-servizio",
   "title": "Ogni giorno, a fine servizio",
+  "title_en": "Every day, at closing time",
   "models": [
    "giglio-1"
   ],
@@ -623,6 +643,7 @@
   "page": "manuals/giglio-1.md",
   "anchor": "ogni-settimana",
   "title": "Ogni settimana",
+  "title_en": "Every week",
   "models": [
    "giglio-1"
   ],
@@ -651,6 +672,7 @@
   "page": "manuals/giglio-1.md",
   "anchor": "ogni-mese",
   "title": "Ogni mese",
+  "title_en": "Every month",
   "models": [
    "giglio-1"
   ],
@@ -680,6 +702,7 @@
   "page": "manuals/giglio-1.md",
   "anchor": "ogni-6-12-mesi",
   "title": "Ogni 6-12 mesi",
+  "title_en": "Every 6-12 months",
   "models": [
    "giglio-1"
   ],
@@ -708,6 +731,7 @@
   "page": "manuals/giglio-1.md",
   "anchor": "ogni-2-anni-a-cura-del-service",
   "title": "Ogni 2 anni, a cura del service",
+  "title_en": "Every 2 years, by the service network",
   "models": [
    "giglio-1"
   ],
@@ -737,6 +761,7 @@
   "page": "manuals/giglio-1.md",
   "anchor": "spie-e-segnali",
   "title": "Spie e segnali",
+  "title_en": "Lights and signals",
   "models": [
    "giglio-1"
   ],
@@ -768,6 +793,7 @@
   "page": "manuals/giglio-1.md",
   "anchor": "cosa-non-fare",
   "title": "Cosa non fare",
+  "title_en": "What not to do",
   "models": [
    "giglio-1"
   ],
@@ -797,6 +823,7 @@
   "page": "manuals/giglio-1.md",
   "anchor": "ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
   "title": "Ricambi di consumo consigliati a magazzino del cliente",
+  "title_en": "Consumables to keep in stock",
   "models": [
    "giglio-1"
   ],
@@ -828,6 +855,7 @@
   "page": "manuals/giglio-1.md",
   "anchor": "assistenza",
   "title": "Assistenza",
+  "title_en": "Support",
   "models": [
    "giglio-1"
   ],
@@ -853,6 +881,7 @@
   "page": "manuals/marea-2-evo.md",
   "anchor": "descrizione",
   "title": "Descrizione",
+  "title_en": "Description",
   "models": [
    "marea-2-evo"
   ],
@@ -881,6 +910,7 @@
   "page": "manuals/marea-2-evo.md",
   "anchor": "dati-tecnici",
   "title": "Dati tecnici",
+  "title_en": "Technical data",
   "models": [
    "marea-2-evo"
   ],
@@ -925,6 +955,7 @@
   "page": "manuals/marea-2-evo.md",
   "anchor": "installazione",
   "title": "Installazione",
+  "title_en": "Installation",
   "models": [
    "marea-2-evo"
   ],
@@ -958,6 +989,7 @@
   "page": "manuals/marea-2-evo.md",
   "anchor": "uso-quotidiano",
   "title": "Uso quotidiano",
+  "title_en": "Daily use",
   "models": [
    "marea-2-evo"
   ],
@@ -991,6 +1023,7 @@
   "page": "manuals/marea-2-evo.md",
   "anchor": "manutenzione-ordinaria",
   "title": "Manutenzione ordinaria",
+  "title_en": "Routine maintenance",
   "models": [
    "marea-2-evo"
   ],
@@ -1015,6 +1048,7 @@
   "page": "manuals/marea-2-evo.md",
   "anchor": "ogni-giorno-a-fine-servizio",
   "title": "Ogni giorno, a fine servizio",
+  "title_en": "Every day, at closing time",
   "models": [
    "marea-2-evo"
   ],
@@ -1048,6 +1082,7 @@
   "page": "manuals/marea-2-evo.md",
   "anchor": "ogni-settimana",
   "title": "Ogni settimana",
+  "title_en": "Every week",
   "models": [
    "marea-2-evo"
   ],
@@ -1076,6 +1111,7 @@
   "page": "manuals/marea-2-evo.md",
   "anchor": "ogni-mese",
   "title": "Ogni mese",
+  "title_en": "Every month",
   "models": [
    "marea-2-evo"
   ],
@@ -1105,6 +1141,7 @@
   "page": "manuals/marea-2-evo.md",
   "anchor": "ogni-6-12-mesi",
   "title": "Ogni 6-12 mesi",
+  "title_en": "Every 6-12 months",
   "models": [
    "marea-2-evo"
   ],
@@ -1133,6 +1170,7 @@
   "page": "manuals/marea-2-evo.md",
   "anchor": "ogni-2-anni-a-cura-del-service",
   "title": "Ogni 2 anni, a cura del service",
+  "title_en": "Every 2 years, by the service network",
   "models": [
    "marea-2-evo"
   ],
@@ -1162,6 +1200,7 @@
   "page": "manuals/marea-2-evo.md",
   "anchor": "spie-e-segnali",
   "title": "Spie e segnali",
+  "title_en": "Lights and signals",
   "models": [
    "marea-2-evo"
   ],
@@ -1193,6 +1232,7 @@
   "page": "manuals/marea-2-evo.md",
   "anchor": "cosa-non-fare",
   "title": "Cosa non fare",
+  "title_en": "What not to do",
   "models": [
    "marea-2-evo"
   ],
@@ -1222,6 +1262,7 @@
   "page": "manuals/marea-2-evo.md",
   "anchor": "ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
   "title": "Ricambi di consumo consigliati a magazzino del cliente",
+  "title_en": "Consumables to keep in stock",
   "models": [
    "marea-2-evo"
   ],
@@ -1253,6 +1294,7 @@
   "page": "manuals/marea-2-evo.md",
   "anchor": "assistenza",
   "title": "Assistenza",
+  "title_en": "Support",
   "models": [
    "marea-2-evo"
   ],
@@ -1278,6 +1320,7 @@
   "page": "manuals/marea-2-plus.md",
   "anchor": "descrizione",
   "title": "Descrizione",
+  "title_en": "Description",
   "models": [
    "marea-2-plus"
   ],
@@ -1310,6 +1353,7 @@
   "page": "manuals/marea-2-plus.md",
   "anchor": "dati-tecnici",
   "title": "Dati tecnici",
+  "title_en": "Technical data",
   "models": [
    "marea-2-plus"
   ],
@@ -1349,6 +1393,7 @@
   "page": "manuals/marea-2-plus.md",
   "anchor": "installazione",
   "title": "Installazione",
+  "title_en": "Installation",
   "models": [
    "marea-2-plus"
   ],
@@ -1382,6 +1427,7 @@
   "page": "manuals/marea-2-plus.md",
   "anchor": "uso-quotidiano",
   "title": "Uso quotidiano",
+  "title_en": "Daily use",
   "models": [
    "marea-2-plus"
   ],
@@ -1416,6 +1462,7 @@
   "page": "manuals/marea-2-plus.md",
   "anchor": "manutenzione-ordinaria",
   "title": "Manutenzione ordinaria",
+  "title_en": "Routine maintenance",
   "models": [
    "marea-2-plus"
   ],
@@ -1440,6 +1487,7 @@
   "page": "manuals/marea-2-plus.md",
   "anchor": "ogni-giorno-a-fine-servizio",
   "title": "Ogni giorno, a fine servizio",
+  "title_en": "Every day, at closing time",
   "models": [
    "marea-2-plus"
   ],
@@ -1473,6 +1521,7 @@
   "page": "manuals/marea-2-plus.md",
   "anchor": "ogni-settimana",
   "title": "Ogni settimana",
+  "title_en": "Every week",
   "models": [
    "marea-2-plus"
   ],
@@ -1500,6 +1549,7 @@
   "page": "manuals/marea-2-plus.md",
   "anchor": "ogni-mese",
   "title": "Ogni mese",
+  "title_en": "Every month",
   "models": [
    "marea-2-plus"
   ],
@@ -1529,6 +1579,7 @@
   "page": "manuals/marea-2-plus.md",
   "anchor": "ogni-6-12-mesi",
   "title": "Ogni 6-12 mesi",
+  "title_en": "Every 6-12 months",
   "models": [
    "marea-2-plus"
   ],
@@ -1557,6 +1608,7 @@
   "page": "manuals/marea-2-plus.md",
   "anchor": "ogni-2-anni-a-cura-del-service",
   "title": "Ogni 2 anni, a cura del service",
+  "title_en": "Every 2 years, by the service network",
   "models": [
    "marea-2-plus"
   ],
@@ -1587,6 +1639,7 @@
   "page": "manuals/marea-2-plus.md",
   "anchor": "spie-e-segnali",
   "title": "Spie e segnali",
+  "title_en": "Lights and signals",
   "models": [
    "marea-2-plus"
   ],
@@ -1619,6 +1672,7 @@
   "page": "manuals/marea-2-plus.md",
   "anchor": "cosa-non-fare",
   "title": "Cosa non fare",
+  "title_en": "What not to do",
   "models": [
    "marea-2-plus"
   ],
@@ -1648,6 +1702,7 @@
   "page": "manuals/marea-2-plus.md",
   "anchor": "ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
   "title": "Ricambi di consumo consigliati a magazzino del cliente",
+  "title_en": "Consumables to keep in stock",
   "models": [
    "marea-2-plus"
   ],
@@ -1679,6 +1734,7 @@
   "page": "manuals/marea-2-plus.md",
   "anchor": "assistenza",
   "title": "Assistenza",
+  "title_en": "Support",
   "models": [
    "marea-2-plus"
   ],
@@ -1703,6 +1759,7 @@
   "page": "manuals/marea-2.md",
   "anchor": "descrizione",
   "title": "Descrizione",
+  "title_en": "Description",
   "models": [
    "marea-2"
   ],
@@ -1730,6 +1787,7 @@
   "page": "manuals/marea-2.md",
   "anchor": "dati-tecnici",
   "title": "Dati tecnici",
+  "title_en": "Technical data",
   "models": [
    "marea-2"
   ],
@@ -1775,6 +1833,7 @@
   "page": "manuals/marea-2.md",
   "anchor": "installazione",
   "title": "Installazione",
+  "title_en": "Installation",
   "models": [
    "marea-2"
   ],
@@ -1808,6 +1867,7 @@
   "page": "manuals/marea-2.md",
   "anchor": "uso-quotidiano",
   "title": "Uso quotidiano",
+  "title_en": "Daily use",
   "models": [
    "marea-2"
   ],
@@ -1841,6 +1901,7 @@
   "page": "manuals/marea-2.md",
   "anchor": "manutenzione-ordinaria",
   "title": "Manutenzione ordinaria",
+  "title_en": "Routine maintenance",
   "models": [
    "marea-2"
   ],
@@ -1865,6 +1926,7 @@
   "page": "manuals/marea-2.md",
   "anchor": "ogni-giorno-a-fine-servizio",
   "title": "Ogni giorno, a fine servizio",
+  "title_en": "Every day, at closing time",
   "models": [
    "marea-2"
   ],
@@ -1898,6 +1960,7 @@
   "page": "manuals/marea-2.md",
   "anchor": "ogni-settimana",
   "title": "Ogni settimana",
+  "title_en": "Every week",
   "models": [
    "marea-2"
   ],
@@ -1926,6 +1989,7 @@
   "page": "manuals/marea-2.md",
   "anchor": "ogni-mese",
   "title": "Ogni mese",
+  "title_en": "Every month",
   "models": [
    "marea-2"
   ],
@@ -1955,6 +2019,7 @@
   "page": "manuals/marea-2.md",
   "anchor": "ogni-6-12-mesi",
   "title": "Ogni 6-12 mesi",
+  "title_en": "Every 6-12 months",
   "models": [
    "marea-2"
   ],
@@ -1983,6 +2048,7 @@
   "page": "manuals/marea-2.md",
   "anchor": "ogni-2-anni-a-cura-del-service",
   "title": "Ogni 2 anni, a cura del service",
+  "title_en": "Every 2 years, by the service network",
   "models": [
    "marea-2"
   ],
@@ -2012,6 +2078,7 @@
   "page": "manuals/marea-2.md",
   "anchor": "spie-e-segnali",
   "title": "Spie e segnali",
+  "title_en": "Lights and signals",
   "models": [
    "marea-2"
   ],
@@ -2043,6 +2110,7 @@
   "page": "manuals/marea-2.md",
   "anchor": "cosa-non-fare",
   "title": "Cosa non fare",
+  "title_en": "What not to do",
   "models": [
    "marea-2"
   ],
@@ -2072,6 +2140,7 @@
   "page": "manuals/marea-2.md",
   "anchor": "ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
   "title": "Ricambi di consumo consigliati a magazzino del cliente",
+  "title_en": "Consumables to keep in stock",
   "models": [
    "marea-2"
   ],
@@ -2103,6 +2172,7 @@
   "page": "manuals/marea-2.md",
   "anchor": "assistenza",
   "title": "Assistenza",
+  "title_en": "Support",
   "models": [
    "marea-2"
   ],
@@ -2128,6 +2198,7 @@
   "page": "manuals/monda-65-digit.md",
   "anchor": "descrizione",
   "title": "Descrizione",
+  "title_en": "Description",
   "models": [
    "monda-65-digit"
   ],
@@ -2157,6 +2228,7 @@
   "page": "manuals/monda-65-digit.md",
   "anchor": "dati-tecnici",
   "title": "Dati tecnici",
+  "title_en": "Technical data",
   "models": [
    "monda-65-digit"
   ],
@@ -2195,6 +2267,7 @@
   "page": "manuals/monda-65-digit.md",
   "anchor": "installazione",
   "title": "Installazione",
+  "title_en": "Installation",
   "models": [
    "monda-65-digit"
   ],
@@ -2222,6 +2295,7 @@
   "page": "manuals/monda-65-digit.md",
   "anchor": "uso-quotidiano",
   "title": "Uso quotidiano",
+  "title_en": "Daily use",
   "models": [
    "monda-65-digit"
   ],
@@ -2251,6 +2325,7 @@
   "page": "manuals/monda-65-digit.md",
   "anchor": "manutenzione-ordinaria",
   "title": "Manutenzione ordinaria",
+  "title_en": "Routine maintenance",
   "models": [
    "monda-65-digit"
   ],
@@ -2273,6 +2348,7 @@
   "page": "manuals/monda-65-digit.md",
   "anchor": "ogni-giorno-a-fine-servizio",
   "title": "Ogni giorno, a fine servizio",
+  "title_en": "Every day, at closing time",
   "models": [
    "monda-65-digit"
   ],
@@ -2294,6 +2370,7 @@
   "page": "manuals/monda-65-digit.md",
   "anchor": "ogni-settimana",
   "title": "Ogni settimana",
+  "title_en": "Every week",
   "models": [
    "monda-65-digit"
   ],
@@ -2315,6 +2392,7 @@
   "page": "manuals/monda-65-digit.md",
   "anchor": "ogni-mese",
   "title": "Ogni mese",
+  "title_en": "Every month",
   "models": [
    "monda-65-digit"
   ],
@@ -2334,6 +2412,7 @@
   "page": "manuals/monda-65-digit.md",
   "anchor": "ogni-12-mesi-o-800-kg",
   "title": "Ogni 12 mesi o 800 kg",
+  "title_en": "Every 12 months or 800 kg",
   "models": [
    "monda-65-digit"
   ],
@@ -2359,6 +2438,7 @@
   "page": "manuals/monda-65-digit.md",
   "anchor": "spie-e-segnali",
   "title": "Spie e segnali",
+  "title_en": "Lights and signals",
   "models": [
    "monda-65-digit"
   ],
@@ -2382,6 +2462,7 @@
   "page": "manuals/monda-65-digit.md",
   "anchor": "cosa-non-fare",
   "title": "Cosa non fare",
+  "title_en": "What not to do",
   "models": [
    "monda-65-digit"
   ],
@@ -2405,6 +2486,7 @@
   "page": "manuals/monda-65-digit.md",
   "anchor": "ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
   "title": "Ricambi di consumo consigliati a magazzino del cliente",
+  "title_en": "Consumables to keep in stock",
   "models": [
    "monda-65-digit"
   ],
@@ -2429,6 +2511,7 @@
   "page": "manuals/monda-65-digit.md",
   "anchor": "assistenza",
   "title": "Assistenza",
+  "title_en": "Support",
   "models": [
    "monda-65-digit"
   ],
@@ -2450,6 +2533,7 @@
   "page": "manuals/monda-65.md",
   "anchor": "descrizione",
   "title": "Descrizione",
+  "title_en": "Description",
   "models": [
    "monda-65"
   ],
@@ -2478,6 +2562,7 @@
   "page": "manuals/monda-65.md",
   "anchor": "dati-tecnici",
   "title": "Dati tecnici",
+  "title_en": "Technical data",
   "models": [
    "monda-65"
   ],
@@ -2514,6 +2599,7 @@
   "page": "manuals/monda-65.md",
   "anchor": "installazione",
   "title": "Installazione",
+  "title_en": "Installation",
   "models": [
    "monda-65"
   ],
@@ -2541,6 +2627,7 @@
   "page": "manuals/monda-65.md",
   "anchor": "uso-quotidiano",
   "title": "Uso quotidiano",
+  "title_en": "Daily use",
   "models": [
    "monda-65"
   ],
@@ -2570,6 +2657,7 @@
   "page": "manuals/monda-65.md",
   "anchor": "manutenzione-ordinaria",
   "title": "Manutenzione ordinaria",
+  "title_en": "Routine maintenance",
   "models": [
    "monda-65"
   ],
@@ -2592,6 +2680,7 @@
   "page": "manuals/monda-65.md",
   "anchor": "ogni-giorno-a-fine-servizio",
   "title": "Ogni giorno, a fine servizio",
+  "title_en": "Every day, at closing time",
   "models": [
    "monda-65"
   ],
@@ -2611,6 +2700,7 @@
   "page": "manuals/monda-65.md",
   "anchor": "ogni-settimana",
   "title": "Ogni settimana",
+  "title_en": "Every week",
   "models": [
    "monda-65"
   ],
@@ -2632,6 +2722,7 @@
   "page": "manuals/monda-65.md",
   "anchor": "ogni-mese",
   "title": "Ogni mese",
+  "title_en": "Every month",
   "models": [
    "monda-65"
   ],
@@ -2651,6 +2742,7 @@
   "page": "manuals/monda-65.md",
   "anchor": "ogni-12-mesi-o-800-kg",
   "title": "Ogni 12 mesi o 800 kg",
+  "title_en": "Every 12 months or 800 kg",
   "models": [
    "monda-65"
   ],
@@ -2676,6 +2768,7 @@
   "page": "manuals/monda-65.md",
   "anchor": "spie-e-segnali",
   "title": "Spie e segnali",
+  "title_en": "Lights and signals",
   "models": [
    "monda-65"
   ],
@@ -2699,6 +2792,7 @@
   "page": "manuals/monda-65.md",
   "anchor": "cosa-non-fare",
   "title": "Cosa non fare",
+  "title_en": "What not to do",
   "models": [
    "monda-65"
   ],
@@ -2722,6 +2816,7 @@
   "page": "manuals/monda-65.md",
   "anchor": "ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
   "title": "Ricambi di consumo consigliati a magazzino del cliente",
+  "title_en": "Consumables to keep in stock",
   "models": [
    "monda-65"
   ],
@@ -2746,6 +2841,7 @@
   "page": "manuals/monda-65.md",
   "anchor": "assistenza",
   "title": "Assistenza",
+  "title_en": "Support",
   "models": [
    "monda-65"
   ],
@@ -2767,6 +2863,7 @@
   "page": "manuals/onda-mb2-evo.md",
   "anchor": "descrizione",
   "title": "Descrizione",
+  "title_en": "Description",
   "models": [
    "onda-mb2-evo"
   ],
@@ -2798,6 +2895,7 @@
   "page": "manuals/onda-mb2-evo.md",
   "anchor": "dati-tecnici",
   "title": "Dati tecnici",
+  "title_en": "Technical data",
   "models": [
    "onda-mb2-evo"
   ],
@@ -2848,6 +2946,7 @@
   "page": "manuals/onda-mb2-evo.md",
   "anchor": "installazione",
   "title": "Installazione",
+  "title_en": "Installation",
   "models": [
    "onda-mb2-evo"
   ],
@@ -2880,6 +2979,7 @@
   "page": "manuals/onda-mb2-evo.md",
   "anchor": "uso-quotidiano",
   "title": "Uso quotidiano",
+  "title_en": "Daily use",
   "models": [
    "onda-mb2-evo"
   ],
@@ -2918,6 +3018,7 @@
   "page": "manuals/onda-mb2-evo.md",
   "anchor": "manutenzione-ordinaria",
   "title": "Manutenzione ordinaria",
+  "title_en": "Routine maintenance",
   "models": [
    "onda-mb2-evo"
   ],
@@ -2942,6 +3043,7 @@
   "page": "manuals/onda-mb2-evo.md",
   "anchor": "ogni-giorno-a-fine-servizio",
   "title": "Ogni giorno, a fine servizio",
+  "title_en": "Every day, at closing time",
   "models": [
    "onda-mb2-evo"
   ],
@@ -2976,6 +3078,7 @@
   "page": "manuals/onda-mb2-evo.md",
   "anchor": "ogni-settimana",
   "title": "Ogni settimana",
+  "title_en": "Every week",
   "models": [
    "onda-mb2-evo"
   ],
@@ -3004,6 +3107,7 @@
   "page": "manuals/onda-mb2-evo.md",
   "anchor": "ogni-mese",
   "title": "Ogni mese",
+  "title_en": "Every month",
   "models": [
    "onda-mb2-evo"
   ],
@@ -3033,6 +3137,7 @@
   "page": "manuals/onda-mb2-evo.md",
   "anchor": "ogni-6-12-mesi",
   "title": "Ogni 6-12 mesi",
+  "title_en": "Every 6-12 months",
   "models": [
    "onda-mb2-evo"
   ],
@@ -3061,6 +3166,7 @@
   "page": "manuals/onda-mb2-evo.md",
   "anchor": "ogni-2-anni-a-cura-del-service",
   "title": "Ogni 2 anni, a cura del service",
+  "title_en": "Every 2 years, by the service network",
   "models": [
    "onda-mb2-evo"
   ],
@@ -3090,6 +3196,7 @@
   "page": "manuals/onda-mb2-evo.md",
   "anchor": "spie-e-segnali",
   "title": "Spie e segnali",
+  "title_en": "Lights and signals",
   "models": [
    "onda-mb2-evo"
   ],
@@ -3119,6 +3226,7 @@
   "page": "manuals/onda-mb2-evo.md",
   "anchor": "cosa-non-fare",
   "title": "Cosa non fare",
+  "title_en": "What not to do",
   "models": [
    "onda-mb2-evo"
   ],
@@ -3148,6 +3256,7 @@
   "page": "manuals/onda-mb2-evo.md",
   "anchor": "ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
   "title": "Ricambi di consumo consigliati a magazzino del cliente",
+  "title_en": "Consumables to keep in stock",
   "models": [
    "onda-mb2-evo"
   ],
@@ -3179,6 +3288,7 @@
   "page": "manuals/onda-mb2-evo.md",
   "anchor": "assistenza",
   "title": "Assistenza",
+  "title_en": "Support",
   "models": [
    "onda-mb2-evo"
   ],
@@ -3204,6 +3314,7 @@
   "page": "manuals/onda-mb2.md",
   "anchor": "descrizione",
   "title": "Descrizione",
+  "title_en": "Description",
   "models": [
    "onda-mb2"
   ],
@@ -3233,6 +3344,7 @@
   "page": "manuals/onda-mb2.md",
   "anchor": "dati-tecnici",
   "title": "Dati tecnici",
+  "title_en": "Technical data",
   "models": [
    "onda-mb2"
   ],
@@ -3281,6 +3393,7 @@
   "page": "manuals/onda-mb2.md",
   "anchor": "installazione",
   "title": "Installazione",
+  "title_en": "Installation",
   "models": [
    "onda-mb2"
   ],
@@ -3313,6 +3426,7 @@
   "page": "manuals/onda-mb2.md",
   "anchor": "uso-quotidiano",
   "title": "Uso quotidiano",
+  "title_en": "Daily use",
   "models": [
    "onda-mb2"
   ],
@@ -3348,6 +3462,7 @@
   "page": "manuals/onda-mb2.md",
   "anchor": "manutenzione-ordinaria",
   "title": "Manutenzione ordinaria",
+  "title_en": "Routine maintenance",
   "models": [
    "onda-mb2"
   ],
@@ -3372,6 +3487,7 @@
   "page": "manuals/onda-mb2.md",
   "anchor": "ogni-giorno-a-fine-servizio",
   "title": "Ogni giorno, a fine servizio",
+  "title_en": "Every day, at closing time",
   "models": [
    "onda-mb2"
   ],
@@ -3406,6 +3522,7 @@
   "page": "manuals/onda-mb2.md",
   "anchor": "ogni-settimana",
   "title": "Ogni settimana",
+  "title_en": "Every week",
   "models": [
    "onda-mb2"
   ],
@@ -3434,6 +3551,7 @@
   "page": "manuals/onda-mb2.md",
   "anchor": "ogni-mese",
   "title": "Ogni mese",
+  "title_en": "Every month",
   "models": [
    "onda-mb2"
   ],
@@ -3463,6 +3581,7 @@
   "page": "manuals/onda-mb2.md",
   "anchor": "ogni-6-12-mesi",
   "title": "Ogni 6-12 mesi",
+  "title_en": "Every 6-12 months",
   "models": [
    "onda-mb2"
   ],
@@ -3491,6 +3610,7 @@
   "page": "manuals/onda-mb2.md",
   "anchor": "ogni-2-anni-a-cura-del-service",
   "title": "Ogni 2 anni, a cura del service",
+  "title_en": "Every 2 years, by the service network",
   "models": [
    "onda-mb2"
   ],
@@ -3520,6 +3640,7 @@
   "page": "manuals/onda-mb2.md",
   "anchor": "spie-e-segnali",
   "title": "Spie e segnali",
+  "title_en": "Lights and signals",
   "models": [
    "onda-mb2"
   ],
@@ -3549,6 +3670,7 @@
   "page": "manuals/onda-mb2.md",
   "anchor": "cosa-non-fare",
   "title": "Cosa non fare",
+  "title_en": "What not to do",
   "models": [
    "onda-mb2"
   ],
@@ -3578,6 +3700,7 @@
   "page": "manuals/onda-mb2.md",
   "anchor": "ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
   "title": "Ricambi di consumo consigliati a magazzino del cliente",
+  "title_en": "Consumables to keep in stock",
   "models": [
    "onda-mb2"
   ],
@@ -3609,6 +3732,7 @@
   "page": "manuals/onda-mb2.md",
   "anchor": "assistenza",
   "title": "Assistenza",
+  "title_en": "Support",
   "models": [
    "onda-mb2"
   ],
@@ -3634,6 +3758,7 @@
   "page": "manuals/onda-mb3.md",
   "anchor": "descrizione",
   "title": "Descrizione",
+  "title_en": "Description",
   "models": [
    "onda-mb3"
   ],
@@ -3662,6 +3787,7 @@
   "page": "manuals/onda-mb3.md",
   "anchor": "dati-tecnici",
   "title": "Dati tecnici",
+  "title_en": "Technical data",
   "models": [
    "onda-mb3"
   ],
@@ -3710,6 +3836,7 @@
   "page": "manuals/onda-mb3.md",
   "anchor": "installazione",
   "title": "Installazione",
+  "title_en": "Installation",
   "models": [
    "onda-mb3"
   ],
@@ -3742,6 +3869,7 @@
   "page": "manuals/onda-mb3.md",
   "anchor": "uso-quotidiano",
   "title": "Uso quotidiano",
+  "title_en": "Daily use",
   "models": [
    "onda-mb3"
   ],
@@ -3777,6 +3905,7 @@
   "page": "manuals/onda-mb3.md",
   "anchor": "manutenzione-ordinaria",
   "title": "Manutenzione ordinaria",
+  "title_en": "Routine maintenance",
   "models": [
    "onda-mb3"
   ],
@@ -3801,6 +3930,7 @@
   "page": "manuals/onda-mb3.md",
   "anchor": "ogni-giorno-a-fine-servizio",
   "title": "Ogni giorno, a fine servizio",
+  "title_en": "Every day, at closing time",
   "models": [
    "onda-mb3"
   ],
@@ -3835,6 +3965,7 @@
   "page": "manuals/onda-mb3.md",
   "anchor": "ogni-settimana",
   "title": "Ogni settimana",
+  "title_en": "Every week",
   "models": [
    "onda-mb3"
   ],
@@ -3863,6 +3994,7 @@
   "page": "manuals/onda-mb3.md",
   "anchor": "ogni-mese",
   "title": "Ogni mese",
+  "title_en": "Every month",
   "models": [
    "onda-mb3"
   ],
@@ -3892,6 +4024,7 @@
   "page": "manuals/onda-mb3.md",
   "anchor": "ogni-6-12-mesi",
   "title": "Ogni 6-12 mesi",
+  "title_en": "Every 6-12 months",
   "models": [
    "onda-mb3"
   ],
@@ -3920,6 +4053,7 @@
   "page": "manuals/onda-mb3.md",
   "anchor": "ogni-2-anni-a-cura-del-service",
   "title": "Ogni 2 anni, a cura del service",
+  "title_en": "Every 2 years, by the service network",
   "models": [
    "onda-mb3"
   ],
@@ -3949,6 +4083,7 @@
   "page": "manuals/onda-mb3.md",
   "anchor": "spie-e-segnali",
   "title": "Spie e segnali",
+  "title_en": "Lights and signals",
   "models": [
    "onda-mb3"
   ],
@@ -3978,6 +4113,7 @@
   "page": "manuals/onda-mb3.md",
   "anchor": "cosa-non-fare",
   "title": "Cosa non fare",
+  "title_en": "What not to do",
   "models": [
    "onda-mb3"
   ],
@@ -4007,6 +4143,7 @@
   "page": "manuals/onda-mb3.md",
   "anchor": "ricambi-di-consumo-consigliati-a-magazzino-del-cliente",
   "title": "Ricambi di consumo consigliati a magazzino del cliente",
+  "title_en": "Consumables to keep in stock",
   "models": [
    "onda-mb3"
   ],
@@ -4038,6 +4175,7 @@
   "page": "manuals/onda-mb3.md",
   "anchor": "assistenza",
   "title": "Assistenza",
+  "title_en": "Support",
   "models": [
    "onda-mb3"
   ],
@@ -4558,11 +4696,9 @@
    "steam wand leaks",
    "water from the wand",
    "steam tap leaks",
-   "non esce vapore",
    "vapore scarso",
    "la lancia perde",
    "poco vapore dalla lancia",
-   "no steam",
    "steam is weak",
    "steam wand is weak"
   ]
@@ -5443,6 +5579,7 @@
   "page": "parts/CA-1180.md",
   "anchor": "montaggio",
   "title": "CA-1180 — Resistenza caldaia 3000 W 230 V, Marea 2 / 2 Plus",
+  "title_en": "CA-1180 — Boiler heating element 3000 W 230 V, Marea 2 / 2 Plus",
   "models": [
    "marea-2",
    "marea-2-plus"
@@ -5459,6 +5596,7 @@
   "page": "parts/CA-1181.md",
   "anchor": "montaggio",
   "title": "CA-1181 — Resistenza caldaia 3000 W 110 V, Marea 2 / 2 Plus",
+  "title_en": "CA-1181 — Boiler heating element 3000 W 110 V, Marea 2 / 2 Plus",
   "models": [
    "marea-2",
    "marea-2-plus"
@@ -5475,6 +5613,7 @@
   "page": "parts/CA-1182.md",
   "anchor": "montaggio",
   "title": "CA-1182 — Resistenza caldaia 4500 W 400 V trifase, Marea 2 / 2 Plus",
+  "title_en": "CA-1182 — Boiler heating element 4500 W 400 V three-phase, Marea 2 / 2 Plus",
   "models": [
    "marea-2",
    "marea-2-plus"
@@ -5491,6 +5630,7 @@
   "page": "parts/CA-1185.md",
   "anchor": "montaggio",
   "title": "CA-1185 — Resistenza caldaia 3500 W 230 V, Marea 2 Evo",
+  "title_en": "CA-1185 — Boiler heating element 3500 W 230 V, Marea 2 Evo",
   "models": [
    "marea-2-evo"
   ],
@@ -5506,6 +5646,7 @@
   "page": "parts/CA-1186.md",
   "anchor": "montaggio",
   "title": "CA-1186 — Resistenza caldaia 3500 W 110 V, Marea 2 Evo",
+  "title_en": "CA-1186 — Boiler heating element 3500 W 110 V, Marea 2 Evo",
   "models": [
    "marea-2-evo"
   ],
@@ -5521,6 +5662,7 @@
   "page": "parts/CA-1187.md",
   "anchor": "montaggio",
   "title": "CA-1187 — Resistenza caldaia 5000 W 400 V trifase, Marea 2 Evo",
+  "title_en": "CA-1187 — Boiler heating element 5000 W 400 V three-phase, Marea 2 Evo",
   "models": [
    "marea-2-evo"
   ],
@@ -5536,6 +5678,7 @@
   "page": "parts/CA-1190.md",
   "anchor": "montaggio",
   "title": "CA-1190 — Resistenza caldaia 1800 W 230 V, Giglio",
+  "title_en": "CA-1190 — Boiler heating element 1800 W 230 V, Giglio",
   "models": [
    "giglio-1",
    "giglio-1-plus"
@@ -5552,6 +5695,7 @@
   "page": "parts/CA-1191.md",
   "anchor": "montaggio",
   "title": "CA-1191 — Resistenza caldaia 1500 W 110 V, Giglio",
+  "title_en": "CA-1191 — Boiler heating element 1500 W 110 V, Giglio",
   "models": [
    "giglio-1",
    "giglio-1-plus"
@@ -5568,6 +5712,7 @@
   "page": "parts/CA-1200.md",
   "anchor": "montaggio",
   "title": "CA-1200 — Resistenza caldaia vapore 3200 W 230 V, Onda MB2 / MB2 Evo",
+  "title_en": "CA-1200 — Steam boiler heating element 3200 W 230 V, Onda MB2 / MB2 Evo",
   "models": [
    "onda-mb2",
    "onda-mb2-evo"
@@ -5584,6 +5729,7 @@
   "page": "parts/CA-1201.md",
   "anchor": "montaggio",
   "title": "CA-1201 — Resistenza caldaia vapore 3200 W 110 V, Onda MB2 / MB2 Evo",
+  "title_en": "CA-1201 — Steam boiler heating element 3200 W 110 V, Onda MB2 / MB2 Evo",
   "models": [
    "onda-mb2",
    "onda-mb2-evo"
@@ -5600,6 +5746,7 @@
   "page": "parts/CA-1202.md",
   "anchor": "montaggio",
   "title": "CA-1202 — Resistenza caldaia vapore 4800 W 400 V trifase, Onda MB3",
+  "title_en": "CA-1202 — Steam boiler heating element 4800 W 400 V three-phase, Onda MB3",
   "models": [
    "onda-mb3"
   ],
@@ -5615,6 +5762,7 @@
   "page": "parts/CA-1203.md",
   "anchor": "montaggio",
   "title": "CA-1203 — Resistenza caldaia vapore 4800 W 230 V, Onda MB3",
+  "title_en": "CA-1203 — Steam boiler heating element 4800 W 230 V, Onda MB3",
   "models": [
    "onda-mb3"
   ],
@@ -5630,6 +5778,7 @@
   "page": "parts/CA-1210.md",
   "anchor": "montaggio",
   "title": "CA-1210 — Resistenza caldaia caffè 800 W 230 V (per gruppo), Onda",
+  "title_en": "CA-1210 — Coffee boiler heating element 800 W 230 V (per group), Onda",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -5647,6 +5796,7 @@
   "page": "parts/CA-1211.md",
   "anchor": "montaggio",
   "title": "CA-1211 — Resistenza caldaia caffè 800 W 110 V (per gruppo), Onda",
+  "title_en": "CA-1211 — Coffee boiler heating element 800 W 110 V (per group), Onda",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -5664,6 +5814,7 @@
   "page": "parts/CA-1220.md",
   "anchor": "montaggio",
   "title": "CA-1220 — Guarnizione flangia resistenza, Marea/Giglio",
+  "title_en": "CA-1220 — Heating element flange gasket, Marea/Giglio",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -5683,6 +5834,7 @@
   "page": "parts/CA-1221.md",
   "anchor": "montaggio",
   "title": "CA-1221 — Guarnizione flangia resistenza, Onda",
+  "title_en": "CA-1221 — Heating element flange gasket, Onda",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -5700,6 +5852,7 @@
   "page": "parts/CA-1230.md",
   "anchor": "montaggio",
   "title": "CA-1230 — Sonda di livello caldaia 100 mm con isolante, Marea/Giglio",
+  "title_en": "CA-1230 — Boiler level probe 100 mm with insulator, Marea/Giglio",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -5719,6 +5872,7 @@
   "page": "parts/CA-1231.md",
   "anchor": "montaggio",
   "title": "CA-1231 — Sonda di livello caldaia vapore 130 mm, Onda",
+  "title_en": "CA-1231 — Steam boiler level probe 130 mm, Onda",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -5736,6 +5890,7 @@
   "page": "parts/CA-1232.md",
   "anchor": "montaggio",
   "title": "CA-1232 — Isolante teflon sonda di livello (kit 5)",
+  "title_en": "CA-1232 — Level probe PTFE insulator (kit of 5)",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -5758,6 +5913,7 @@
   "page": "parts/CA-1240.md",
   "anchor": "montaggio",
   "title": "CA-1240 — Pressostato 0,5–1,4 bar",
+  "title_en": "CA-1240 — Pressurestat 0.5–1.4 bar",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -5776,6 +5932,7 @@
   "page": "parts/CA-1241.md",
   "anchor": "montaggio",
   "title": "CA-1241 — Membrana pressostato",
+  "title_en": "CA-1241 — Pressurestat diaphragm",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -5794,6 +5951,7 @@
   "page": "parts/CA-1245.md",
   "anchor": "montaggio",
   "title": "CA-1245 — Trasduttore di pressione caldaia 0–3 bar",
+  "title_en": "CA-1245 — Boiler pressure transducer 0–3 bar",
   "models": [
    "marea-2-evo",
    "onda-mb2",
@@ -5812,6 +5970,7 @@
   "page": "parts/CA-1250.md",
   "anchor": "montaggio",
   "title": "CA-1250 — Valvola di sicurezza 1,8 bar certificata",
+  "title_en": "CA-1250 — Safety valve 1.8 bar certified",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -5834,6 +5993,7 @@
   "page": "parts/CA-1251.md",
   "anchor": "montaggio",
   "title": "CA-1251 — Valvola di sicurezza 2,2 bar caldaia vapore, Onda",
+  "title_en": "CA-1251 — Safety valve 2.2 bar steam boiler, Onda",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -5851,6 +6011,7 @@
   "page": "parts/CA-1260.md",
   "anchor": "montaggio",
   "title": "CA-1260 — Valvola antidepressione 1/4\"",
+  "title_en": "CA-1260 — Anti-vacuum valve 1/4\"",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -5873,6 +6034,7 @@
   "page": "parts/CA-1261.md",
   "anchor": "montaggio",
   "title": "CA-1261 — OR valvola antidepressione (kit 10)",
+  "title_en": "CA-1261 — Anti-vacuum valve O-ring (kit of 10)",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -5895,6 +6057,7 @@
   "page": "parts/CA-1270.md",
   "anchor": "montaggio",
   "title": "CA-1270 — Termostato di sicurezza 165 °C a riarmo, Marea/Giglio",
+  "title_en": "CA-1270 — Safety thermostat 165 °C manual reset, Marea/Giglio",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -5914,6 +6077,7 @@
   "page": "parts/CA-1271.md",
   "anchor": "montaggio",
   "title": "CA-1271 — Termostato di sicurezza 140 °C caldaia caffè, Onda",
+  "title_en": "CA-1271 — Safety thermostat 140 °C coffee boiler, Onda",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -5931,6 +6095,7 @@
   "page": "parts/CA-1280.md",
   "anchor": "montaggio",
   "title": "CA-1280 — Manometro doppio pompa/caldaia 0–16 / 0–3 bar",
+  "title_en": "CA-1280 — Dual gauge pump/boiler 0–16 / 0–3 bar",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -5949,6 +6114,7 @@
   "page": "parts/CA-1281.md",
   "anchor": "montaggio",
   "title": "CA-1281 — Manometro singolo pompa 0–16 bar",
+  "title_en": "CA-1281 — Single pump gauge 0–16 bar",
   "models": [
    "marea-2-evo",
    "onda-mb2",
@@ -5967,6 +6133,7 @@
   "page": "parts/CA-1290.md",
   "anchor": "montaggio",
   "title": "CA-1290 — Sonda temperatura caldaia NTC, Marea 2 Plus",
+  "title_en": "CA-1290 — Boiler temperature probe NTC, Marea 2 Plus",
   "models": [
    "marea-2-plus"
   ],
@@ -5982,6 +6149,7 @@
   "page": "parts/CA-1291.md",
   "anchor": "montaggio",
   "title": "CA-1291 — Sonda temperatura caldaia PT100, Marea 2 Evo / Onda",
+  "title_en": "CA-1291 — Boiler temperature probe PT100, Marea 2 Evo / Onda",
   "models": [
    "marea-2-evo",
    "onda-mb2",
@@ -6000,6 +6168,7 @@
   "page": "parts/CA-1300.md",
   "anchor": "montaggio",
   "title": "CA-1300 — Scambiatore di calore rame, Marea 2 / 2 Plus",
+  "title_en": "CA-1300 — Heat exchanger copper, Marea 2 / 2 Plus",
   "models": [
    "marea-2",
    "marea-2-plus"
@@ -6016,6 +6185,7 @@
   "page": "parts/CA-1301.md",
   "anchor": "montaggio",
   "title": "CA-1301 — Scambiatore di calore rame, Marea 2 Evo",
+  "title_en": "CA-1301 — Heat exchanger copper, Marea 2 Evo",
   "models": [
    "marea-2-evo"
   ],
@@ -6031,6 +6201,7 @@
   "page": "parts/CA-1302.md",
   "anchor": "montaggio",
   "title": "CA-1302 — Scambiatore di calore rame, Giglio",
+  "title_en": "CA-1302 — Heat exchanger copper, Giglio",
   "models": [
    "giglio-1",
    "giglio-1-plus"
@@ -6047,6 +6218,7 @@
   "page": "parts/CA-1310.md",
   "anchor": "montaggio",
   "title": "CA-1310 — Rubinetto scarico caldaia 3/8\"",
+  "title_en": "CA-1310 — Boiler drain tap 3/8\"",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -6069,6 +6241,7 @@
   "page": "parts/CA-1311.md",
   "anchor": "montaggio",
   "title": "CA-1311 — Guarnizione rubinetto scarico caldaia",
+  "title_en": "CA-1311 — Boiler drain tap gasket",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -6091,6 +6264,7 @@
   "page": "parts/CA-1320.md",
   "anchor": "montaggio",
   "title": "CA-1320 — Caldaia completa 11 L rame, Marea 2 / 2 Plus",
+  "title_en": "CA-1320 — Boiler complete 11 L copper, Marea 2 / 2 Plus",
   "models": [
    "marea-2",
    "marea-2-plus"
@@ -6107,6 +6281,7 @@
   "page": "parts/CA-1321.md",
   "anchor": "montaggio",
   "title": "CA-1321 — Caldaia completa 12 L rame coibentata, Marea 2 Evo",
+  "title_en": "CA-1321 — Boiler complete 12 L copper insulated, Marea 2 Evo",
   "models": [
    "marea-2-evo"
   ],
@@ -6122,6 +6297,7 @@
   "page": "parts/CA-1322.md",
   "anchor": "montaggio",
   "title": "CA-1322 — Caldaia completa 4,5 L rame, Giglio",
+  "title_en": "CA-1322 — Boiler complete 4.5 L copper, Giglio",
   "models": [
    "giglio-1",
    "giglio-1-plus"
@@ -6138,6 +6314,7 @@
   "page": "parts/CA-1323.md",
   "anchor": "montaggio",
   "title": "CA-1323 — Caldaia vapore 7 L inox, Onda MB2 / MB2 Evo",
+  "title_en": "CA-1323 — Steam boiler 7 L stainless, Onda MB2 / MB2 Evo",
   "models": [
    "onda-mb2",
    "onda-mb2-evo"
@@ -6154,6 +6331,7 @@
   "page": "parts/CA-1324.md",
   "anchor": "montaggio",
   "title": "CA-1324 — Caldaia vapore 10 L inox, Onda MB3",
+  "title_en": "CA-1324 — Steam boiler 10 L stainless, Onda MB3",
   "models": [
    "onda-mb3"
   ],
@@ -6169,6 +6347,7 @@
   "page": "parts/CA-1325.md",
   "anchor": "montaggio",
   "title": "CA-1325 — Caldaia caffè 0,8 L inox (per gruppo), Onda",
+  "title_en": "CA-1325 — Coffee boiler 0.8 L stainless (per group), Onda",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -6186,6 +6365,7 @@
   "page": "parts/CA-1330.md",
   "anchor": "montaggio",
   "title": "CA-1330 — Guarnizione flangia caldaia in fibra, Marea/Giglio",
+  "title_en": "CA-1330 — Boiler flange gasket fibre, Marea/Giglio",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -6205,6 +6385,7 @@
   "page": "parts/CA-1331.md",
   "anchor": "montaggio",
   "title": "CA-1331 — Guarnizione flangia caldaia, Onda",
+  "title_en": "CA-1331 — Boiler flange gasket, Onda",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -6222,6 +6403,7 @@
   "page": "parts/CA-1340.md",
   "anchor": "montaggio",
   "title": "CA-1340 — Tappo caldaia 3/8\" con OR",
+  "title_en": "CA-1340 — Boiler plug 3/8\" with O-ring",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -6244,6 +6426,7 @@
   "page": "parts/CA-1350.md",
   "anchor": "montaggio",
   "title": "CA-1350 — Coibentazione caldaia (kit), Marea 2 Evo / Onda MB2 Evo",
+  "title_en": "CA-1350 — Boiler insulation jacket (kit), Marea 2 Evo / Onda MB2 Evo",
   "models": [
    "marea-2-evo",
    "onda-mb2-evo"
@@ -6260,6 +6443,7 @@
   "page": "parts/CR-6010.md",
   "anchor": "montaggio",
   "title": "CR-6010 — Pannello laterale sinistro nero, Marea",
+  "title_en": "CR-6010 — Side panel left black, Marea",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -6277,6 +6461,7 @@
   "page": "parts/CR-6011.md",
   "anchor": "montaggio",
   "title": "CR-6011 — Pannello laterale destro nero, Marea",
+  "title_en": "CR-6011 — Side panel right black, Marea",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -6294,6 +6479,7 @@
   "page": "parts/CR-6012.md",
   "anchor": "montaggio",
   "title": "CR-6012 — Pannello laterale sinistro crema, Marea 2 Plus Vaniglia",
+  "title_en": "CR-6012 — Side panel left cream, Marea 2 Plus Vaniglia",
   "models": [
    "marea-2-plus"
   ],
@@ -6309,6 +6495,7 @@
   "page": "parts/CR-6013.md",
   "anchor": "montaggio",
   "title": "CR-6013 — Pannello laterale destro crema, Marea 2 Plus Vaniglia",
+  "title_en": "CR-6013 — Side panel right cream, Marea 2 Plus Vaniglia",
   "models": [
    "marea-2-plus"
   ],
@@ -6324,6 +6511,7 @@
   "page": "parts/CR-6014.md",
   "anchor": "montaggio",
   "title": "CR-6014 — Pannello laterale nero (dx/sx), Giglio",
+  "title_en": "CR-6014 — Side panel black (left/right), Giglio",
   "models": [
    "giglio-1",
    "giglio-1-plus"
@@ -6340,6 +6528,7 @@
   "page": "parts/CR-6015.md",
   "anchor": "montaggio",
   "title": "CR-6015 — Pannello laterale crema (dx/sx), Giglio 1 Plus Vaniglia",
+  "title_en": "CR-6015 — Side panel cream (left/right), Giglio 1 Plus Vaniglia",
   "models": [
    "giglio-1-plus"
   ],
@@ -6355,6 +6544,7 @@
   "page": "parts/CR-6016.md",
   "anchor": "montaggio",
   "title": "CR-6016 — Pannello laterale alluminio spazzolato, Onda",
+  "title_en": "CR-6016 — Side panel brushed aluminium, Onda",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -6372,6 +6562,7 @@
   "page": "parts/CR-6020.md",
   "anchor": "montaggio",
   "title": "CR-6020 — Pannello posteriore inox, Marea",
+  "title_en": "CR-6020 — Rear panel stainless, Marea",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -6389,6 +6580,7 @@
   "page": "parts/CR-6021.md",
   "anchor": "montaggio",
   "title": "CR-6021 — Pannello frontale inox con logo, Marea",
+  "title_en": "CR-6021 — Front panel stainless with logo, Marea",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -6406,6 +6598,7 @@
   "page": "parts/CR-6025.md",
   "anchor": "montaggio",
   "title": "CR-6025 — Griglia scaldatazze inox, Marea 2",
+  "title_en": "CR-6025 — Cup warmer grid stainless, Marea 2",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -6423,6 +6616,7 @@
   "page": "parts/CR-6026.md",
   "anchor": "montaggio",
   "title": "CR-6026 — Griglia scaldatazze inox, Giglio",
+  "title_en": "CR-6026 — Cup warmer grid stainless, Giglio",
   "models": [
    "giglio-1",
    "giglio-1-plus"
@@ -6439,6 +6633,7 @@
   "page": "parts/CR-6030.md",
   "anchor": "montaggio",
   "title": "CR-6030 — Vaschetta raccogligocce inox, Marea",
+  "title_en": "CR-6030 — Drip tray stainless, Marea",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -6456,6 +6651,7 @@
   "page": "parts/CR-6031.md",
   "anchor": "montaggio",
   "title": "CR-6031 — Griglia vaschetta inox, Marea",
+  "title_en": "CR-6031 — Drip tray grid stainless, Marea",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -6473,6 +6669,7 @@
   "page": "parts/CR-6032.md",
   "anchor": "montaggio",
   "title": "CR-6032 — Vaschetta raccogligocce con griglia, Giglio",
+  "title_en": "CR-6032 — Drip tray with grid, Giglio",
   "models": [
    "giglio-1",
    "giglio-1-plus"
@@ -6489,6 +6686,7 @@
   "page": "parts/CR-6033.md",
   "anchor": "montaggio",
   "title": "CR-6033 — Griglia vaschetta con sede bilance, Onda MB2 Evo",
+  "title_en": "CR-6033 — Drip tray grid with scale seat, Onda MB2 Evo",
   "models": [
    "onda-mb2-evo"
   ],
@@ -6504,6 +6702,7 @@
   "page": "parts/CR-6034.md",
   "anchor": "montaggio",
   "title": "CR-6034 — Griglia vaschetta inox, Onda MB2 / MB3",
+  "title_en": "CR-6034 — Drip tray grid stainless, Onda MB2 / MB3",
   "models": [
    "onda-mb2",
    "onda-mb3"
@@ -6520,6 +6719,7 @@
   "page": "parts/CR-6040.md",
   "anchor": "montaggio",
   "title": "CR-6040 — Piedino regolabile M10 (kit 4)",
+  "title_en": "CR-6040 — Adjustable foot M10 (kit of 4)",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -6544,6 +6744,7 @@
   "page": "parts/CR-6045.md",
   "anchor": "montaggio",
   "title": "CR-6045 — Logo frontale Sereni cromato",
+  "title_en": "CR-6045 — Front badge Sereni chrome",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -6566,6 +6767,7 @@
   "page": "parts/CR-6050.md",
   "anchor": "montaggio",
   "title": "CR-6050 — Tamper 58 mm alluminio",
+  "title_en": "CR-6050 — Tamper 58 mm aluminium",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -6588,6 +6790,7 @@
   "page": "parts/CR-6051.md",
   "anchor": "montaggio",
   "title": "CR-6051 — Spazzola pulizia gruppo",
+  "title_en": "CR-6051 — Group cleaning brush",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -6610,6 +6813,7 @@
   "page": "parts/CR-6052.md",
   "anchor": "montaggio",
   "title": "CR-6052 — Pastiglie detergente gruppo (barattolo 100)",
+  "title_en": "CR-6052 — Group cleaning tablets (jar of 100)",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -6632,6 +6836,7 @@
   "page": "parts/EL-3010.md",
   "anchor": "montaggio",
   "title": "EL-3010 — Centralina elettronica v1, Marea 2 / Giglio 1",
+  "title_en": "EL-3010 — Control board v1, Marea 2 / Giglio 1",
   "models": [
    "marea-2",
    "giglio-1"
@@ -6648,6 +6853,7 @@
   "page": "parts/EL-3011.md",
   "anchor": "montaggio",
   "title": "EL-3011 — Centralina elettronica v2, Marea 2 Plus / Giglio 1 Plus (primo lotto 2025)",
+  "title_en": "EL-3011 — Control board v2, Marea 2 Plus / Giglio 1 Plus (first 2025 batch)",
   "models": [
    "marea-2-plus",
    "giglio-1-plus"
@@ -6664,6 +6870,7 @@
   "page": "parts/EL-3012.md",
   "anchor": "montaggio",
   "title": "EL-3012 — Centralina elettronica v2 rev.B, Marea 2 / 2 Plus / Giglio 1 / 1 Plus",
+  "title_en": "EL-3012 — Control board v2 rev.B, Marea 2 / 2 Plus / Giglio 1 / 1 Plus",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -6682,6 +6889,7 @@
   "page": "parts/EL-3013.md",
   "anchor": "montaggio",
   "title": "EL-3013 — Centralina elettronica v3 con uscita display, Marea 2 Evo",
+  "title_en": "EL-3013 — Control board v3 with display output, Marea 2 Evo",
   "models": [
    "marea-2-evo"
   ],
@@ -6697,6 +6905,7 @@
   "page": "parts/EL-3020.md",
   "anchor": "montaggio",
   "title": "EL-3020 — Centralina multi-caldaia PID, Onda MB2 / MB3",
+  "title_en": "EL-3020 — Multi-boiler PID control board, Onda MB2 / MB3",
   "models": [
    "onda-mb2",
    "onda-mb3"
@@ -6713,6 +6922,7 @@
   "page": "parts/EL-3021.md",
   "anchor": "montaggio",
   "title": "EL-3021 — Centralina multi-caldaia con bilance e touch, Onda MB2 Evo",
+  "title_en": "EL-3021 — Multi-boiler control board with scales and touch, Onda MB2 Evo",
   "models": [
    "onda-mb2-evo"
   ],
@@ -6728,6 +6938,7 @@
   "page": "parts/EL-3030.md",
   "anchor": "montaggio",
   "title": "EL-3030 — Pulsantiera 6 tasti a membrana con led, Marea 2 / Giglio 1",
+  "title_en": "EL-3030 — Membrane touchpad 6 buttons with LEDs, Marea 2 / Giglio 1",
   "models": [
    "marea-2",
    "giglio-1"
@@ -6744,6 +6955,7 @@
   "page": "parts/EL-3031.md",
   "anchor": "montaggio",
   "title": "EL-3031 — Pulsantiera capacitiva 6 tasti, Marea 2 Plus / Giglio 1 Plus",
+  "title_en": "EL-3031 — Capacitive touchpad 6 buttons, Marea 2 Plus / Giglio 1 Plus",
   "models": [
    "marea-2-plus",
    "giglio-1-plus"
@@ -6760,6 +6972,7 @@
   "page": "parts/EL-3032.md",
   "anchor": "montaggio",
   "title": "EL-3032 — Pulsantiera capacitiva 6 tasti con display OLED, Marea 2 Evo",
+  "title_en": "EL-3032 — Capacitive touchpad 6 buttons with OLED display, Marea 2 Evo",
   "models": [
    "marea-2-evo"
   ],
@@ -6775,6 +6988,7 @@
   "page": "parts/EL-3033.md",
   "anchor": "montaggio",
   "title": "EL-3033 — Pulsantiera 5 tasti retroilluminata, Onda MB2 / MB3",
+  "title_en": "EL-3033 — Backlit touchpad 5 buttons, Onda MB2 / MB3",
   "models": [
    "onda-mb2",
    "onda-mb3"
@@ -6791,6 +7005,7 @@
   "page": "parts/EL-3034.md",
   "anchor": "montaggio",
   "title": "EL-3034 — Pannello touch per gruppo, Onda MB2 Evo",
+  "title_en": "EL-3034 — Per-group touch panel, Onda MB2 Evo",
   "models": [
    "onda-mb2-evo"
   ],
@@ -6806,6 +7021,7 @@
   "page": "parts/EL-3035.md",
   "anchor": "montaggio",
   "title": "EL-3035 — Cavo piatto pulsantiera-centralina 10 poli 60 cm",
+  "title_en": "EL-3035 — Flat cable touchpad-to-board 10-pin 60 cm",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -6825,6 +7041,7 @@
   "page": "parts/EL-3036.md",
   "anchor": "montaggio",
   "title": "EL-3036 — Cablaggio adattatore centralina rev.B su Marea 2 / Giglio 1 (2024)",
+  "title_en": "EL-3036 — Adapter harness for rev.B board on Marea 2 / Giglio 1 (2024)",
   "models": [
    "marea-2",
    "giglio-1"
@@ -6841,6 +7058,7 @@
   "page": "parts/EL-3040.md",
   "anchor": "montaggio",
   "title": "EL-3040 — Display TFT 2,8\" con scheda, Marea 2 Evo",
+  "title_en": "EL-3040 — TFT display 2.8\" with board, Marea 2 Evo",
   "models": [
    "marea-2-evo"
   ],
@@ -6856,6 +7074,7 @@
   "page": "parts/EL-3041.md",
   "anchor": "montaggio",
   "title": "EL-3041 — Display touch 5\" con scheda, Onda MB2 Evo",
+  "title_en": "EL-3041 — Touch display 5\" with board, Onda MB2 Evo",
   "models": [
    "onda-mb2-evo"
   ],
@@ -6871,6 +7090,7 @@
   "page": "parts/EL-3042.md",
   "anchor": "montaggio",
   "title": "EL-3042 — Cavo display-centralina",
+  "title_en": "EL-3042 — Display-to-board cable",
   "models": [
    "marea-2-evo",
    "onda-mb2-evo"
@@ -6887,6 +7107,7 @@
   "page": "parts/EL-3050.md",
   "anchor": "montaggio",
   "title": "EL-3050 — Teleruttore resistenza 25 A bobina 230 V",
+  "title_en": "EL-3050 — Heating element contactor 25 A 230 V coil",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -6906,6 +7127,7 @@
   "page": "parts/EL-3051.md",
   "anchor": "montaggio",
   "title": "EL-3051 — Relè statico resistenza 25 A, Onda",
+  "title_en": "EL-3051 — Solid-state relay heater 25 A, Onda",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -6923,6 +7145,7 @@
   "page": "parts/EL-3052.md",
   "anchor": "montaggio",
   "title": "EL-3052 — Relè carico caldaia 10 A",
+  "title_en": "EL-3052 — Boiler fill relay 10 A",
   "models": [
    "marea-2",
    "giglio-1"
@@ -6939,6 +7162,7 @@
   "page": "parts/EL-3055.md",
   "anchor": "montaggio",
   "title": "EL-3055 — Trasformatore 230/12 V 20 VA",
+  "title_en": "EL-3055 — Transformer 230/12 V 20 VA",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -6958,6 +7182,7 @@
   "page": "parts/EL-3056.md",
   "anchor": "montaggio",
   "title": "EL-3056 — Trasformatore 110/12 V 20 VA",
+  "title_en": "EL-3056 — Transformer 110/12 V 20 VA",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -6977,6 +7202,7 @@
   "page": "parts/EL-3057.md",
   "anchor": "montaggio",
   "title": "EL-3057 — Alimentatore switching 24 V 60 W, Onda",
+  "title_en": "EL-3057 — Switching power supply 24 V 60 W, Onda",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -6994,6 +7220,7 @@
   "page": "parts/EL-3060.md",
   "anchor": "montaggio",
   "title": "EL-3060 — Fusibile 10 A 5x20 ritardato (kit 5)",
+  "title_en": "EL-3060 — Fuse 10 A 5x20 slow-blow (kit of 5)",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7018,6 +7245,7 @@
   "page": "parts/EL-3061.md",
   "anchor": "montaggio",
   "title": "EL-3061 — Fusibile 2 A 5x20 (kit 5)",
+  "title_en": "EL-3061 — Fuse 2 A 5x20 (kit of 5)",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7042,6 +7270,7 @@
   "page": "parts/EL-3062.md",
   "anchor": "montaggio",
   "title": "EL-3062 — Portafusibile da pannello",
+  "title_en": "EL-3062 — Panel fuse holder",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7066,6 +7295,7 @@
   "page": "parts/EL-3070.md",
   "anchor": "montaggio",
   "title": "EL-3070 — Interruttore generale 3 posizioni 20 A",
+  "title_en": "EL-3070 — Main switch 3-position 20 A",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7085,6 +7315,7 @@
   "page": "parts/EL-3071.md",
   "anchor": "montaggio",
   "title": "EL-3071 — Interruttore generale con led, Onda",
+  "title_en": "EL-3071 — Main switch with LED, Onda",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -7102,6 +7333,7 @@
   "page": "parts/EL-3075.md",
   "anchor": "montaggio",
   "title": "EL-3075 — Cavo alimentazione 3x2,5 mm² spina Schuko 2 m",
+  "title_en": "EL-3075 — Power cord 3x2.5 mm² Schuko plug 2 m",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7124,6 +7356,7 @@
   "page": "parts/EL-3076.md",
   "anchor": "montaggio",
   "title": "EL-3076 — Cavo alimentazione spina NEMA 5-20 2 m",
+  "title_en": "EL-3076 — Power cord NEMA 5-20 plug 2 m",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7146,6 +7379,7 @@
   "page": "parts/EL-3077.md",
   "anchor": "montaggio",
   "title": "EL-3077 — Cavo alimentazione 5x2,5 mm² trifase 2 m senza spina",
+  "title_en": "EL-3077 — Power cord 5x2.5 mm² three-phase 2 m no plug",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7164,6 +7398,7 @@
   "page": "parts/EL-3080.md",
   "anchor": "montaggio",
   "title": "EL-3080 — Morsettiera alimentazione 5 poli",
+  "title_en": "EL-3080 — Power terminal block 5-pole",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7186,6 +7421,7 @@
   "page": "parts/EL-3085.md",
   "anchor": "montaggio",
   "title": "EL-3085 — Bobina elettrovalvola 230 V 9 W",
+  "title_en": "EL-3085 — Solenoid coil 230 V 9 W",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7205,6 +7441,7 @@
   "page": "parts/EL-3086.md",
   "anchor": "montaggio",
   "title": "EL-3086 — Bobina elettrovalvola 110 V 9 W",
+  "title_en": "EL-3086 — Solenoid coil 110 V 9 W",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7224,6 +7461,7 @@
   "page": "parts/EL-3087.md",
   "anchor": "montaggio",
   "title": "EL-3087 — Bobina elettrovalvola 24 V 9 W, Onda",
+  "title_en": "EL-3087 — Solenoid coil 24 V 9 W, Onda",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -7241,6 +7479,7 @@
   "page": "parts/EL-3090.md",
   "anchor": "montaggio",
   "title": "EL-3090 — Modulo PID scambiatore con sonda, Marea 2 Plus",
+  "title_en": "EL-3090 — Heat-exchanger PID module with probe, Marea 2 Plus",
   "models": [
    "marea-2-plus"
   ],
@@ -7256,6 +7495,7 @@
   "page": "parts/EL-3095.md",
   "anchor": "montaggio",
   "title": "EL-3095 — Scheda bilance integrate, Onda MB2 Evo",
+  "title_en": "EL-3095 — Built-in scales board, Onda MB2 Evo",
   "models": [
    "onda-mb2-evo"
   ],
@@ -7271,6 +7511,7 @@
   "page": "parts/EL-3096.md",
   "anchor": "montaggio",
   "title": "EL-3096 — Cella di carico 2 kg griglia, Onda MB2 Evo",
+  "title_en": "EL-3096 — Load cell 2 kg drip tray, Onda MB2 Evo",
   "models": [
    "onda-mb2-evo"
   ],
@@ -7286,6 +7527,7 @@
   "page": "parts/EL-3100.md",
   "anchor": "montaggio",
   "title": "EL-3100 — Striscia led illuminazione piano lavoro 12 V",
+  "title_en": "EL-3100 — LED strip work-surface lighting 12 V",
   "models": [
    "marea-2-plus",
    "marea-2-evo",
@@ -7305,6 +7547,7 @@
   "page": "parts/EL-3101.md",
   "anchor": "montaggio",
   "title": "EL-3101 — Sensore livello vaschetta scarico, Marea 2 Evo / Onda MB2 Evo",
+  "title_en": "EL-3101 — Drip tray level sensor, Marea 2 Evo / Onda MB2 Evo",
   "models": [
    "marea-2-evo",
    "onda-mb2-evo"
@@ -7321,6 +7564,7 @@
   "page": "parts/GE-2140.md",
   "anchor": "montaggio",
   "title": "GE-2140 — Guarnizione sottocoppa 8,5 mm, gruppo Marea/Giglio",
+  "title_en": "GE-2140 — Group head gasket 8.5 mm, Marea/Giglio group",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7340,6 +7584,7 @@
   "page": "parts/GE-2141.md",
   "anchor": "montaggio",
   "title": "GE-2141 — Guarnizione sottocoppa 8 mm sottile, gruppo Marea/Giglio",
+  "title_en": "GE-2141 — Group head gasket 8 mm thin, Marea/Giglio group",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7359,6 +7604,7 @@
   "page": "parts/GE-2150.md",
   "anchor": "montaggio",
   "title": "GE-2150 — Doccetta inox 57 mm, gruppo Marea/Giglio",
+  "title_en": "GE-2150 — Shower screen stainless 57 mm, Marea/Giglio group",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7378,6 +7624,7 @@
   "page": "parts/GE-2151.md",
   "anchor": "montaggio",
   "title": "GE-2151 — Doccetta inox 58,5 mm, gruppo Onda",
+  "title_en": "GE-2151 — Shower screen stainless 58.5 mm, Onda group",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -7395,6 +7642,7 @@
   "page": "parts/GE-2152.md",
   "anchor": "montaggio",
   "title": "GE-2152 — Vite doccetta M6 inox",
+  "title_en": "GE-2152 — Shower screen screw M6 stainless",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7417,6 +7665,7 @@
   "page": "parts/GE-2155.md",
   "anchor": "montaggio",
   "title": "GE-2155 — Portadoccia (diffusore) ottone, gruppo Marea/Giglio",
+  "title_en": "GE-2155 — Shower holder (diffuser) brass, Marea/Giglio group",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7436,6 +7685,7 @@
   "page": "parts/GE-2156.md",
   "anchor": "montaggio",
   "title": "GE-2156 — Portadoccia (diffusore) ottone, gruppo Onda",
+  "title_en": "GE-2156 — Shower holder (diffuser) brass, Onda group",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -7453,6 +7703,7 @@
   "page": "parts/GE-2160.md",
   "anchor": "montaggio",
   "title": "GE-2160 — Elettrovalvola gruppo 3 vie completa 230 V",
+  "title_en": "GE-2160 — Group solenoid valve 3-way complete 230 V",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7472,6 +7723,7 @@
   "page": "parts/GE-2161.md",
   "anchor": "montaggio",
   "title": "GE-2161 — Elettrovalvola gruppo 3 vie completa 110 V",
+  "title_en": "GE-2161 — Group solenoid valve 3-way complete 110 V",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7491,6 +7743,7 @@
   "page": "parts/GE-2162.md",
   "anchor": "montaggio",
   "title": "GE-2162 — Elettrovalvola gruppo 3 vie completa 24 V, Onda",
+  "title_en": "GE-2162 — Group solenoid valve 3-way complete 24 V, Onda",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -7508,6 +7761,7 @@
   "page": "parts/GE-2165.md",
   "anchor": "montaggio",
   "title": "GE-2165 — Corpo elettrovalvola 3 vie senza bobina",
+  "title_en": "GE-2165 — 3-way solenoid valve body without coil",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7530,6 +7784,7 @@
   "page": "parts/GE-2170.md",
   "anchor": "montaggio",
   "title": "GE-2170 — Gigleur 0,6 mm ingresso gruppo",
+  "title_en": "GE-2170 — Group inlet jet (gicleur) 0.6 mm",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7549,6 +7804,7 @@
   "page": "parts/GE-2171.md",
   "anchor": "montaggio",
   "title": "GE-2171 — Gigleur 0,8 mm ingresso gruppo",
+  "title_en": "GE-2171 — Group inlet jet (gicleur) 0.8 mm",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7568,6 +7824,7 @@
   "page": "parts/GE-2175.md",
   "anchor": "montaggio",
   "title": "GE-2175 — Camera di preinfusione, gruppo Onda",
+  "title_en": "GE-2175 — Pre-infusion chamber, Onda group",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -7585,6 +7842,7 @@
   "page": "parts/GE-2176.md",
   "anchor": "montaggio",
   "title": "GE-2176 — OR camera di preinfusione Onda (kit 5)",
+  "title_en": "GE-2176 — Pre-infusion chamber O-ring, Onda (kit of 5)",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -7602,6 +7860,7 @@
   "page": "parts/GE-2180.md",
   "anchor": "montaggio",
   "title": "GE-2180 — Portafiltro completo 2 vie, manico nero, Marea/Giglio",
+  "title_en": "GE-2180 — Portafilter complete 2-spout, black handle, Marea/Giglio",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7621,6 +7880,7 @@
   "page": "parts/GE-2181.md",
   "anchor": "montaggio",
   "title": "GE-2181 — Portafiltro completo 1 via, manico nero, Marea/Giglio",
+  "title_en": "GE-2181 — Portafilter complete 1-spout, black handle, Marea/Giglio",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7640,6 +7900,7 @@
   "page": "parts/GE-2182.md",
   "anchor": "montaggio",
   "title": "GE-2182 — Portafiltro completo 2 vie, manico nero, Onda",
+  "title_en": "GE-2182 — Portafilter complete 2-spout, black handle, Onda",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -7657,6 +7918,7 @@
   "page": "parts/GE-2183.md",
   "anchor": "montaggio",
   "title": "GE-2183 — Portafiltro senza fondo (naked), Onda",
+  "title_en": "GE-2183 — Bottomless (naked) portafilter, Onda",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -7674,6 +7936,7 @@
   "page": "parts/GE-2185.md",
   "anchor": "montaggio",
   "title": "GE-2185 — Manico portafiltro nero con vite",
+  "title_en": "GE-2185 — Portafilter handle black with screw",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7696,6 +7959,7 @@
   "page": "parts/GE-2186.md",
   "anchor": "montaggio",
   "title": "GE-2186 — Manico portafiltro crema, edizione Vaniglia",
+  "title_en": "GE-2186 — Portafilter handle cream, Vaniglia edition",
   "models": [
    "marea-2-plus",
    "giglio-1-plus"
@@ -7712,6 +7976,7 @@
   "page": "parts/GE-2190.md",
   "anchor": "montaggio",
   "title": "GE-2190 — Filtro 2 tazze 14 g",
+  "title_en": "GE-2190 — Filter basket 2 cups 14 g",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7734,6 +7999,7 @@
   "page": "parts/GE-2191.md",
   "anchor": "montaggio",
   "title": "GE-2191 — Filtro 2 tazze 18 g",
+  "title_en": "GE-2191 — Filter basket 2 cups 18 g",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7756,6 +8022,7 @@
   "page": "parts/GE-2192.md",
   "anchor": "montaggio",
   "title": "GE-2192 — Filtro 1 tazza 7 g",
+  "title_en": "GE-2192 — Filter basket 1 cup 7 g",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7778,6 +8045,7 @@
   "page": "parts/GE-2193.md",
   "anchor": "montaggio",
   "title": "GE-2193 — Filtro cieco per pulizia",
+  "title_en": "GE-2193 — Blind filter (backflush disc)",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7800,6 +8068,7 @@
   "page": "parts/GE-2195.md",
   "anchor": "montaggio",
   "title": "GE-2195 — Molla fermafiltro",
+  "title_en": "GE-2195 — Filter basket retaining spring",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7822,6 +8091,7 @@
   "page": "parts/GE-2196.md",
   "anchor": "montaggio",
   "title": "GE-2196 — Beccuccio 2 vie cromato",
+  "title_en": "GE-2196 — Spout 2-way chrome",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7844,6 +8114,7 @@
   "page": "parts/GE-2197.md",
   "anchor": "montaggio",
   "title": "GE-2197 — Beccuccio 1 via cromato",
+  "title_en": "GE-2197 — Spout 1-way chrome",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7866,6 +8137,7 @@
   "page": "parts/GE-2200.md",
   "anchor": "montaggio",
   "title": "GE-2200 — Corpo gruppo completo ottone cromato, Marea/Giglio",
+  "title_en": "GE-2200 — Group head body complete chrome brass, Marea/Giglio",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7885,6 +8157,7 @@
   "page": "parts/GE-2201.md",
   "anchor": "montaggio",
   "title": "GE-2201 — Corpo gruppo completo con camicia riscaldata, Onda",
+  "title_en": "GE-2201 — Group head body complete with heating jacket, Onda",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -7902,6 +8175,7 @@
   "page": "parts/GE-2205.md",
   "anchor": "montaggio",
   "title": "GE-2205 — Guarnizione flangia gruppo-scambiatore",
+  "title_en": "GE-2205 — Group-to-heat-exchanger flange gasket",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7921,6 +8195,7 @@
   "page": "parts/GE-2210.md",
   "anchor": "montaggio",
   "title": "GE-2210 — Kit revisione gruppo Marea/Giglio (guarnizione, doccetta, vite)",
+  "title_en": "GE-2210 — Group service kit Marea/Giglio (gasket, screen, screw)",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -7940,6 +8215,7 @@
   "page": "parts/GE-2211.md",
   "anchor": "montaggio",
   "title": "GE-2211 — Kit revisione gruppo Onda (guarnizione, doccetta, OR)",
+  "title_en": "GE-2211 — Group service kit Onda (gasket, screen, o-rings)",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -7957,6 +8233,7 @@
   "page": "parts/GE-2220.md",
   "anchor": "montaggio",
   "title": "GE-2220 — Sonda temperatura gruppo PT100, Onda",
+  "title_en": "GE-2220 — Group temperature probe PT100, Onda",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -7974,6 +8251,7 @@
   "page": "parts/GE-2221.md",
   "anchor": "montaggio",
   "title": "GE-2221 — Resistenza camicia gruppo 150 W 230 V, Onda",
+  "title_en": "GE-2221 — Group jacket heating element 150 W 230 V, Onda",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -7991,6 +8269,7 @@
   "page": "parts/GE-2222.md",
   "anchor": "montaggio",
   "title": "GE-2222 — Resistenza camicia gruppo 150 W 110 V, Onda",
+  "title_en": "GE-2222 — Group jacket heating element 150 W 110 V, Onda",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -8008,6 +8287,7 @@
   "page": "parts/GE-2230.md",
   "anchor": "montaggio",
   "title": "GE-2230 — Tubo rame scambiatore-gruppo, Marea 2 / 2 Plus",
+  "title_en": "GE-2230 — Copper pipe heat-exchanger to group, Marea 2 / 2 Plus",
   "models": [
    "marea-2",
    "marea-2-plus"
@@ -8024,6 +8304,7 @@
   "page": "parts/GE-2231.md",
   "anchor": "montaggio",
   "title": "GE-2231 — Tubo rame scambiatore-gruppo, Marea 2 Evo",
+  "title_en": "GE-2231 — Copper pipe heat-exchanger to group, Marea 2 Evo",
   "models": [
    "marea-2-evo"
   ],
@@ -8039,6 +8320,7 @@
   "page": "parts/GE-2232.md",
   "anchor": "montaggio",
   "title": "GE-2232 — Tubo rame scambiatore-gruppo, Giglio",
+  "title_en": "GE-2232 — Copper pipe heat-exchanger to group, Giglio",
   "models": [
    "giglio-1",
    "giglio-1-plus"
@@ -8055,6 +8337,7 @@
   "page": "parts/GE-2240.md",
   "anchor": "montaggio",
   "title": "GE-2240 — Raccordo ingresso gruppo 1/4\" ottone",
+  "title_en": "GE-2240 — Group inlet fitting 1/4\" brass",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8077,6 +8360,7 @@
   "page": "parts/GE-2245.md",
   "anchor": "montaggio",
   "title": "GE-2245 — OR raccordo gruppo (kit 10)",
+  "title_en": "GE-2245 — Group fitting O-ring (kit of 10)",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8099,6 +8383,7 @@
   "page": "parts/GE-2250.md",
   "anchor": "montaggio",
   "title": "GE-2250 — Guarnizione portafiltro cieco silicone (per lavaggio)",
+  "title_en": "GE-2250 — Blind portafilter silicone gasket (for backflush)",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8121,6 +8406,7 @@
   "page": "parts/GE-2260.md",
   "anchor": "montaggio",
   "title": "GE-2260 — Leva erogazione manuale con micro, Marea 2",
+  "title_en": "GE-2260 — Manual brew lever with microswitch, Marea 2",
   "models": [
    "marea-2"
   ],
@@ -8136,6 +8422,7 @@
   "page": "parts/GE-2410.md",
   "anchor": "montaggio",
   "title": "GE-2410 — Guarnizione sottocoppa 9 mm, gruppo Onda",
+  "title_en": "GE-2410 — Group head gasket 9 mm, Onda group",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -8153,6 +8440,7 @@
   "page": "parts/ID-4010.md",
   "anchor": "montaggio",
   "title": "ID-4010 — Pompa rotativa 100 L/h attacco 3/8\"",
+  "title_en": "ID-4010 — Rotary pump 100 L/h 3/8\" ports",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8173,6 +8461,7 @@
   "page": "parts/ID-4011.md",
   "anchor": "montaggio",
   "title": "ID-4011 — Pompa rotativa 150 L/h attacco 3/8\", Onda MB3",
+  "title_en": "ID-4011 — Rotary pump 150 L/h 3/8\" ports, Onda MB3",
   "models": [
    "onda-mb3"
   ],
@@ -8188,6 +8477,7 @@
   "page": "parts/ID-4015.md",
   "anchor": "montaggio",
   "title": "ID-4015 — Motore pompa 165 W 230 V con condensatore",
+  "title_en": "ID-4015 — Pump motor 165 W 230 V with capacitor",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8209,6 +8499,7 @@
   "page": "parts/ID-4016.md",
   "anchor": "montaggio",
   "title": "ID-4016 — Motore pompa 165 W 110 V con condensatore",
+  "title_en": "ID-4016 — Pump motor 165 W 110 V with capacitor",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8230,6 +8521,7 @@
   "page": "parts/ID-4017.md",
   "anchor": "montaggio",
   "title": "ID-4017 — Giunto motore-pompa",
+  "title_en": "ID-4017 — Motor-to-pump coupling",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8251,6 +8543,7 @@
   "page": "parts/ID-4018.md",
   "anchor": "montaggio",
   "title": "ID-4018 — Fascetta motore pompa con silent block",
+  "title_en": "ID-4018 — Pump motor clamp with rubber mount",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8272,6 +8565,7 @@
   "page": "parts/ID-4019.md",
   "anchor": "montaggio",
   "title": "ID-4019 — Condensatore motore pompa 8 µF",
+  "title_en": "ID-4019 — Pump motor capacitor 8 µF",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8293,6 +8587,7 @@
   "page": "parts/ID-4020.md",
   "anchor": "montaggio",
   "title": "ID-4020 — Pompa a vibrazione 230 V 48 W, Giglio 1",
+  "title_en": "ID-4020 — Vibration pump 230 V 48 W, Giglio 1",
   "models": [
    "giglio-1"
   ],
@@ -8308,6 +8603,7 @@
   "page": "parts/ID-4021.md",
   "anchor": "montaggio",
   "title": "ID-4021 — Pompa a vibrazione 110 V 48 W, Giglio 1",
+  "title_en": "ID-4021 — Vibration pump 110 V 48 W, Giglio 1",
   "models": [
    "giglio-1"
   ],
@@ -8323,6 +8619,7 @@
   "page": "parts/ID-4025.md",
   "anchor": "montaggio",
   "title": "ID-4025 — Valvola di espansione 12 bar regolabile",
+  "title_en": "ID-4025 — Expansion valve 12 bar adjustable",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8342,6 +8639,7 @@
   "page": "parts/ID-4026.md",
   "anchor": "montaggio",
   "title": "ID-4026 — Valvola di espansione 12 bar, Onda",
+  "title_en": "ID-4026 — Expansion valve 12 bar, Onda",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -8359,6 +8657,7 @@
   "page": "parts/ID-4027.md",
   "anchor": "montaggio",
   "title": "ID-4027 — Kit guarnizioni valvola di espansione",
+  "title_en": "ID-4027 — Expansion valve seal kit",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8381,6 +8680,7 @@
   "page": "parts/ID-4030.md",
   "anchor": "montaggio",
   "title": "ID-4030 — Valvola di ritegno 3/8\"",
+  "title_en": "ID-4030 — Check valve 3/8\"",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8400,6 +8700,7 @@
   "page": "parts/ID-4031.md",
   "anchor": "montaggio",
   "title": "ID-4031 — Valvola di ritegno 1/4\", Onda",
+  "title_en": "ID-4031 — Check valve 1/4\", Onda",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -8417,6 +8718,7 @@
   "page": "parts/ID-4040.md",
   "anchor": "montaggio",
   "title": "ID-4040 — Elettrovalvola carico caldaia 2 vie 230 V",
+  "title_en": "ID-4040 — Boiler fill solenoid valve 2-way 230 V",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8436,6 +8738,7 @@
   "page": "parts/ID-4041.md",
   "anchor": "montaggio",
   "title": "ID-4041 — Elettrovalvola carico caldaia 2 vie 110 V",
+  "title_en": "ID-4041 — Boiler fill solenoid valve 2-way 110 V",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8455,6 +8758,7 @@
   "page": "parts/ID-4042.md",
   "anchor": "montaggio",
   "title": "ID-4042 — Elettrovalvola carico caldaia 2 vie 24 V, Onda",
+  "title_en": "ID-4042 — Boiler fill solenoid valve 2-way 24 V, Onda",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -8472,6 +8776,7 @@
   "page": "parts/ID-4045.md",
   "anchor": "montaggio",
   "title": "ID-4045 — Corpo elettrovalvola carico senza bobina",
+  "title_en": "ID-4045 — Fill solenoid valve body without coil",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8494,6 +8799,7 @@
   "page": "parts/ID-4050.md",
   "anchor": "montaggio",
   "title": "ID-4050 — Flussometro completo con sensore",
+  "title_en": "ID-4050 — Flowmeter complete with sensor",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8515,6 +8821,7 @@
   "page": "parts/ID-4051.md",
   "anchor": "montaggio",
   "title": "ID-4051 — Turbina flussometro",
+  "title_en": "ID-4051 — Flowmeter turbine",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8536,6 +8843,7 @@
   "page": "parts/ID-4052.md",
   "anchor": "montaggio",
   "title": "ID-4052 — Sensore Hall flussometro con cavo",
+  "title_en": "ID-4052 — Flowmeter Hall sensor with cable",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8557,6 +8865,7 @@
   "page": "parts/ID-4053.md",
   "anchor": "montaggio",
   "title": "ID-4053 — OR flussometro (kit 10)",
+  "title_en": "ID-4053 — Flowmeter O-ring (kit of 10)",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8578,6 +8887,7 @@
   "page": "parts/ID-4060.md",
   "anchor": "montaggio",
   "title": "ID-4060 — Filtro ingresso acqua 3/8\" con cartuccia",
+  "title_en": "ID-4060 — Water inlet filter 3/8\" with cartridge",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8600,6 +8910,7 @@
   "page": "parts/ID-4061.md",
   "anchor": "montaggio",
   "title": "ID-4061 — Cartuccia filtro ingresso (kit 3)",
+  "title_en": "ID-4061 — Inlet filter cartridge (kit of 3)",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8622,6 +8933,7 @@
   "page": "parts/ID-4070.md",
   "anchor": "montaggio",
   "title": "ID-4070 — Raccordo diritto 1/4\" ottone",
+  "title_en": "ID-4070 — Straight fitting 1/4\" brass",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8646,6 +8958,7 @@
   "page": "parts/ID-4071.md",
   "anchor": "montaggio",
   "title": "ID-4071 — Raccordo diritto 3/8\" ottone",
+  "title_en": "ID-4071 — Straight fitting 3/8\" brass",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8668,6 +8981,7 @@
   "page": "parts/ID-4072.md",
   "anchor": "montaggio",
   "title": "ID-4072 — Raccordo a gomito 1/4\" ottone",
+  "title_en": "ID-4072 — Elbow fitting 1/4\" brass",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8690,6 +9004,7 @@
   "page": "parts/ID-4073.md",
   "anchor": "montaggio",
   "title": "ID-4073 — Raccordo a T 1/4\" ottone",
+  "title_en": "ID-4073 — Tee fitting 1/4\" brass",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8712,6 +9027,7 @@
   "page": "parts/ID-4080.md",
   "anchor": "montaggio",
   "title": "ID-4080 — Tubo teflon 1/4\" (al metro)",
+  "title_en": "ID-4080 — PTFE tube 1/4\" (per metre)",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8734,6 +9050,7 @@
   "page": "parts/ID-4081.md",
   "anchor": "montaggio",
   "title": "ID-4081 — Tubo rame 6 mm (al metro)",
+  "title_en": "ID-4081 — Copper tube 6 mm (per metre)",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8756,6 +9073,7 @@
   "page": "parts/ID-4082.md",
   "anchor": "montaggio",
   "title": "ID-4082 — Tubo rame 8 mm (al metro)",
+  "title_en": "ID-4082 — Copper tube 8 mm (per metre)",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8778,6 +9096,7 @@
   "page": "parts/ID-4085.md",
   "anchor": "montaggio",
   "title": "ID-4085 — Tubo carico rete 3/8\" 1,5 m inox con guarnizioni",
+  "title_en": "ID-4085 — Mains inlet hose 3/8\" 1.5 m stainless with gaskets",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8800,6 +9119,7 @@
   "page": "parts/ID-4086.md",
   "anchor": "montaggio",
   "title": "ID-4086 — Tubo scarico 20 mm 1 m con fascetta",
+  "title_en": "ID-4086 — Drain hose 20 mm 1 m with clamp",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8822,6 +9142,7 @@
   "page": "parts/ID-4090.md",
   "anchor": "montaggio",
   "title": "ID-4090 — OR 2043 EPDM (kit 10)",
+  "title_en": "ID-4090 — O-ring 2043 EPDM (kit of 10)",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8846,6 +9167,7 @@
   "page": "parts/ID-4091.md",
   "anchor": "montaggio",
   "title": "ID-4091 — OR 2062 EPDM (kit 10)",
+  "title_en": "ID-4091 — O-ring 2062 EPDM (kit of 10)",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8870,6 +9192,7 @@
   "page": "parts/ID-4092.md",
   "anchor": "montaggio",
   "title": "ID-4092 — OR 3050 EPDM (kit 10)",
+  "title_en": "ID-4092 — O-ring 3050 EPDM (kit of 10)",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8894,6 +9217,7 @@
   "page": "parts/ID-4100.md",
   "anchor": "montaggio",
   "title": "ID-4100 — Kit OR revisione idraulica completa, Marea/Giglio",
+  "title_en": "ID-4100 — Complete hydraulic O-ring service kit, Marea/Giglio",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8913,6 +9237,7 @@
   "page": "parts/ID-4101.md",
   "anchor": "montaggio",
   "title": "ID-4101 — Kit OR revisione idraulica completa, Onda",
+  "title_en": "ID-4101 — Complete hydraulic O-ring service kit, Onda",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -8930,6 +9255,7 @@
   "page": "parts/ID-4110.md",
   "anchor": "montaggio",
   "title": "ID-4110 — Riduttore di pressione ingresso 3/8\" 3 bar",
+  "title_en": "ID-4110 — Inlet pressure reducer 3/8\" 3 bar",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8952,6 +9278,7 @@
   "page": "parts/ID-4120.md",
   "anchor": "montaggio",
   "title": "ID-4120 — Valvola by-pass pompa rotativa (regolazione 9 bar)",
+  "title_en": "ID-4120 — Rotary pump bypass valve (9 bar adjustment)",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -8973,6 +9300,7 @@
   "page": "parts/MC-7010.md",
   "anchor": "montaggio",
   "title": "MC-7010 — Coppia macine piane 65 mm acciaio temprato",
+  "title_en": "MC-7010 — Pair of flat burrs 65 mm hardened steel",
   "models": [
    "monda-65",
    "monda-65-digit"
@@ -8989,6 +9317,7 @@
   "page": "parts/MC-7011.md",
   "anchor": "montaggio",
   "title": "MC-7011 — Viti fissaggio macine M4 (kit 6)",
+  "title_en": "MC-7011 — Burr fixing screws M4 (kit of 6)",
   "models": [
    "monda-65",
    "monda-65-digit"
@@ -9005,6 +9334,7 @@
   "page": "parts/MC-7015.md",
   "anchor": "montaggio",
   "title": "MC-7015 — Portamacina superiore con ghiera",
+  "title_en": "MC-7015 — Upper burr carrier with adjustment ring",
   "models": [
    "monda-65",
    "monda-65-digit"
@@ -9021,6 +9351,7 @@
   "page": "parts/MC-7016.md",
   "anchor": "montaggio",
   "title": "MC-7016 — Portamacina inferiore",
+  "title_en": "MC-7016 — Lower burr carrier",
   "models": [
    "monda-65",
    "monda-65-digit"
@@ -9037,6 +9368,7 @@
   "page": "parts/MC-7020.md",
   "anchor": "montaggio",
   "title": "MC-7020 — Motore 350 W 230 V con condensatore",
+  "title_en": "MC-7020 — Motor 350 W 230 V with capacitor",
   "models": [
    "monda-65",
    "monda-65-digit"
@@ -9053,6 +9385,7 @@
   "page": "parts/MC-7021.md",
   "anchor": "montaggio",
   "title": "MC-7021 — Motore 350 W 110 V con condensatore",
+  "title_en": "MC-7021 — Motor 350 W 110 V with capacitor",
   "models": [
    "monda-65",
    "monda-65-digit"
@@ -9069,6 +9402,7 @@
   "page": "parts/MC-7025.md",
   "anchor": "montaggio",
   "title": "MC-7025 — Condensatore motore 12 µF",
+  "title_en": "MC-7025 — Motor capacitor 12 µF",
   "models": [
    "monda-65",
    "monda-65-digit"
@@ -9085,6 +9419,7 @@
   "page": "parts/MC-7026.md",
   "anchor": "montaggio",
   "title": "MC-7026 — Ventola raffreddamento motore",
+  "title_en": "MC-7026 — Motor cooling fan",
   "models": [
    "monda-65",
    "monda-65-digit"
@@ -9101,6 +9436,7 @@
   "page": "parts/MC-7030.md",
   "anchor": "montaggio",
   "title": "MC-7030 — Dosatore completo con stella e leva, Monda 65",
+  "title_en": "MC-7030 — Doser complete with star and lever, Monda 65",
   "models": [
    "monda-65"
   ],
@@ -9116,6 +9452,7 @@
   "page": "parts/MC-7031.md",
   "anchor": "montaggio",
   "title": "MC-7031 — Stella dosatore 6 settori, Monda 65",
+  "title_en": "MC-7031 — Doser star 6-sector, Monda 65",
   "models": [
    "monda-65"
   ],
@@ -9131,6 +9468,7 @@
   "page": "parts/MC-7032.md",
   "anchor": "montaggio",
   "title": "MC-7032 — Leva dosatore con pomello, Monda 65",
+  "title_en": "MC-7032 — Doser lever with knob, Monda 65",
   "models": [
    "monda-65"
   ],
@@ -9146,6 +9484,7 @@
   "page": "parts/MC-7033.md",
   "anchor": "montaggio",
   "title": "MC-7033 — Molla di richiamo leva dosatore, Monda 65",
+  "title_en": "MC-7033 — Doser lever return spring, Monda 65",
   "models": [
    "monda-65"
   ],
@@ -9161,6 +9500,7 @@
   "page": "parts/MC-7040.md",
   "anchor": "montaggio",
   "title": "MC-7040 — Campana 1,2 kg policarbonato",
+  "title_en": "MC-7040 — Hopper 1.2 kg polycarbonate",
   "models": [
    "monda-65",
    "monda-65-digit"
@@ -9177,6 +9517,7 @@
   "page": "parts/MC-7041.md",
   "anchor": "montaggio",
   "title": "MC-7041 — Saracinesca campana",
+  "title_en": "MC-7041 — Hopper shutter slide",
   "models": [
    "monda-65",
    "monda-65-digit"
@@ -9193,6 +9534,7 @@
   "page": "parts/MC-7042.md",
   "anchor": "montaggio",
   "title": "MC-7042 — Coperchio campana",
+  "title_en": "MC-7042 — Hopper lid",
   "models": [
    "monda-65",
    "monda-65-digit"
@@ -9209,6 +9551,7 @@
   "page": "parts/MC-7050.md",
   "anchor": "montaggio",
   "title": "MC-7050 — Forcella portafiltro regolabile",
+  "title_en": "MC-7050 — Portafilter fork adjustable",
   "models": [
    "monda-65",
    "monda-65-digit"
@@ -9225,6 +9568,7 @@
   "page": "parts/MC-7060.md",
   "anchor": "montaggio",
   "title": "MC-7060 — Scheda elettronica dosaggio a tempo, Monda 65 Digit",
+  "title_en": "MC-7060 — Timed dosing electronic board, Monda 65 Digit",
   "models": [
    "monda-65-digit"
   ],
@@ -9240,6 +9584,7 @@
   "page": "parts/MC-7061.md",
   "anchor": "montaggio",
   "title": "MC-7061 — Display con pulsanti, Monda 65 Digit",
+  "title_en": "MC-7061 — Display with buttons, Monda 65 Digit",
   "models": [
    "monda-65-digit"
   ],
@@ -9255,6 +9600,7 @@
   "page": "parts/MC-7062.md",
   "anchor": "montaggio",
   "title": "MC-7062 — Microinterruttore forcella, Monda 65 Digit",
+  "title_en": "MC-7062 — Fork microswitch, Monda 65 Digit",
   "models": [
    "monda-65-digit"
   ],
@@ -9270,6 +9616,7 @@
   "page": "parts/MC-7063.md",
   "anchor": "montaggio",
   "title": "MC-7063 — Beccuccio uscita caffè antistatico, Monda 65 Digit",
+  "title_en": "MC-7063 — Anti-static coffee chute, Monda 65 Digit",
   "models": [
    "monda-65-digit"
   ],
@@ -9285,6 +9632,7 @@
   "page": "parts/MC-7070.md",
   "anchor": "montaggio",
   "title": "MC-7070 — Interruttore bipolare con spia, Monda 65",
+  "title_en": "MC-7070 — Double-pole switch with lamp, Monda 65",
   "models": [
    "monda-65"
   ],
@@ -9300,6 +9648,7 @@
   "page": "parts/MC-7075.md",
   "anchor": "montaggio",
   "title": "MC-7075 — Ghiera regolazione macinatura con fermo",
+  "title_en": "MC-7075 — Grind adjustment collar with stop",
   "models": [
    "monda-65",
    "monda-65-digit"
@@ -9316,6 +9665,7 @@
   "page": "parts/MC-7076.md",
   "anchor": "montaggio",
   "title": "MC-7076 — Guarnizione ghiera regolazione",
+  "title_en": "MC-7076 — Adjustment collar gasket",
   "models": [
    "monda-65",
    "monda-65-digit"
@@ -9332,6 +9682,7 @@
   "page": "parts/MC-7080.md",
   "anchor": "montaggio",
   "title": "MC-7080 — Piedino gomma antivibrazione (kit 4)",
+  "title_en": "MC-7080 — Anti-vibration rubber foot (kit of 4)",
   "models": [
    "monda-65",
    "monda-65-digit"
@@ -9348,6 +9699,7 @@
   "page": "parts/VA-5010.md",
   "anchor": "montaggio",
   "title": "VA-5010 — Rubinetto vapore completo a volantino, Marea/Giglio",
+  "title_en": "VA-5010 — Steam valve complete with knob, Marea/Giglio",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -9367,6 +9719,7 @@
   "page": "parts/VA-5011.md",
   "anchor": "montaggio",
   "title": "VA-5011 — Valvola vapore joystick completa, Onda",
+  "title_en": "VA-5011 — Steam joystick valve complete, Onda",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -9384,6 +9737,7 @@
   "page": "parts/VA-5015.md",
   "anchor": "montaggio",
   "title": "VA-5015 — Kit guarnizioni rubinetto vapore (tenute + OR)",
+  "title_en": "VA-5015 — Steam valve seal kit (seals + o-rings)",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -9403,6 +9757,7 @@
   "page": "parts/VA-5016.md",
   "anchor": "montaggio",
   "title": "VA-5016 — Alberino rubinetto vapore con premistoppa",
+  "title_en": "VA-5016 — Steam valve stem with gland",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -9422,6 +9777,7 @@
   "page": "parts/VA-5017.md",
   "anchor": "montaggio",
   "title": "VA-5017 — Manopola rubinetto vapore nera",
+  "title_en": "VA-5017 — Steam valve knob black",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -9441,6 +9797,7 @@
   "page": "parts/VA-5018.md",
   "anchor": "montaggio",
   "title": "VA-5018 — Manopola rubinetto vapore crema, edizione Vaniglia",
+  "title_en": "VA-5018 — Steam valve knob cream, Vaniglia edition",
   "models": [
    "marea-2-plus",
    "giglio-1-plus"
@@ -9457,6 +9814,7 @@
   "page": "parts/VA-5019.md",
   "anchor": "montaggio",
   "title": "VA-5019 — Kit guarnizioni valvola joystick, Onda",
+  "title_en": "VA-5019 — Joystick valve seal kit, Onda",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -9474,6 +9832,7 @@
   "page": "parts/VA-5020.md",
   "anchor": "montaggio",
   "title": "VA-5020 — Lancia vapore inox 2 curve, Marea/Giglio",
+  "title_en": "VA-5020 — Steam wand stainless 2-bend, Marea/Giglio",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -9493,6 +9852,7 @@
   "page": "parts/VA-5021.md",
   "anchor": "montaggio",
   "title": "VA-5021 — Lancia vapore cool-touch, Onda",
+  "title_en": "VA-5021 — Steam wand cool-touch, Onda",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -9510,6 +9870,7 @@
   "page": "parts/VA-5025.md",
   "anchor": "montaggio",
   "title": "VA-5025 — Terminale vapore 2 fori",
+  "title_en": "VA-5025 — Steam tip 2-hole",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -9532,6 +9893,7 @@
   "page": "parts/VA-5026.md",
   "anchor": "montaggio",
   "title": "VA-5026 — Terminale vapore 4 fori",
+  "title_en": "VA-5026 — Steam tip 4-hole",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -9554,6 +9916,7 @@
   "page": "parts/VA-5027.md",
   "anchor": "montaggio",
   "title": "VA-5027 — Snodo lancia vapore con OR",
+  "title_en": "VA-5027 — Steam wand ball joint with o-rings",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -9573,6 +9936,7 @@
   "page": "parts/VA-5028.md",
   "anchor": "montaggio",
   "title": "VA-5028 — OR snodo lancia (kit 10)",
+  "title_en": "VA-5028 — Wand joint O-ring (kit of 10)",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -9595,6 +9959,7 @@
   "page": "parts/VA-5030.md",
   "anchor": "montaggio",
   "title": "VA-5030 — Gommino antiscottatura lancia",
+  "title_en": "VA-5030 — Steam wand anti-burn grip",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -9614,6 +9979,7 @@
   "page": "parts/VA-5040.md",
   "anchor": "montaggio",
   "title": "VA-5040 — Lancia acqua calda inox",
+  "title_en": "VA-5040 — Hot water wand stainless",
   "models": [
    "marea-2",
    "marea-2-plus",
@@ -9636,6 +10002,7 @@
   "page": "parts/VA-5041.md",
   "anchor": "montaggio",
   "title": "VA-5041 — Rubinetto acqua calda completo a volantino, Marea 2 / Giglio 1",
+  "title_en": "VA-5041 — Hot water valve complete with knob, Marea 2 / Giglio 1",
   "models": [
    "marea-2",
    "giglio-1"
@@ -9652,6 +10019,7 @@
   "page": "parts/VA-5042.md",
   "anchor": "montaggio",
   "title": "VA-5042 — Elettrovalvola acqua calda 230 V, Marea 2 Plus / Evo / Giglio 1 Plus",
+  "title_en": "VA-5042 — Hot water solenoid valve 230 V, Marea 2 Plus / Evo / Giglio 1 Plus",
   "models": [
    "marea-2-plus",
    "marea-2-evo",
@@ -9669,6 +10037,7 @@
   "page": "parts/VA-5043.md",
   "anchor": "montaggio",
   "title": "VA-5043 — Elettrovalvola acqua calda 24 V, Onda",
+  "title_en": "VA-5043 — Hot water solenoid valve 24 V, Onda",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -9686,6 +10055,7 @@
   "page": "parts/VA-5045.md",
   "anchor": "montaggio",
   "title": "VA-5045 — Miscelatore acqua calda regolabile",
+  "title_en": "VA-5045 — Hot water mixing valve adjustable",
   "models": [
    "marea-2-plus",
    "marea-2-evo",
@@ -9705,6 +10075,7 @@
   "page": "parts/VA-5046.md",
   "anchor": "montaggio",
   "title": "VA-5046 — Kit guarnizioni miscelatore",
+  "title_en": "VA-5046 — Mixing valve seal kit",
   "models": [
    "marea-2-plus",
    "marea-2-evo",
@@ -9724,6 +10095,7 @@
   "page": "parts/VA-5060.md",
   "anchor": "montaggio",
   "title": "VA-5060 — Leva joystick vapore con pomello, Onda",
+  "title_en": "VA-5060 — Steam joystick lever with knob, Onda",
   "models": [
    "onda-mb2",
    "onda-mb3",
@@ -9741,6 +10113,7 @@
   "page": "parts/VA-5070.md",
   "anchor": "montaggio",
   "title": "VA-5070 — Kit revisione vapore completo (tenute, alberino, OR snodo), Marea/Giglio",
+  "title_en": "VA-5070 — Complete steam service kit (seals, stem, joint o-rings), Marea/Giglio",
   "models": [
    "marea-2",
    "marea-2-plus",
