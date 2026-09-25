@@ -212,3 +212,83 @@ def test_rim_description_opens_the_leak_and_is_already_the_answer():
     r = run(run_tool(s, "find_procedure", {"description": "water comes from the portafilter rim. Not from the group."}))
     assert r["status"] == "opened" and r["step_id"] == "where"
     assert r["already_answered"]["option_number"] == 1 and "do not ask it again" in r["hint"]
+
+
+def test_any_question_at_any_moment_gets_an_answer():
+    """Dave (25 Sept): 'are the parts under warranty?' after the outcome was deferred to the operator twice."""
+    s, _ = make_session()
+    run(s.voice_transcript("customer", "It's a Marea 2. Serial number 041302."))       # serial only in the transcript
+    st = run(run_tool(s, "get_call_status", {"question": "Are the parts under warranty?"}))
+    assert st["who_pays"]["known"] and st["who_pays"]["status"].startswith("out of warranty")
+    assert st["who_pays"]["repair_parts"].startswith("charged") and st["procedure"]["state"] == "not_started"
+    run(s.voice_transcript("customer", "Since this morning the machine stays cold, the gauge at zero, no steam."))
+    run(run_tool(s, "find_procedure", {"description": "the machine stays cold, the gauge at zero, no steam"}))
+    # a short answer that only makes sense with the start of the call
+    r = run(run_tool(s, "answer_step", {"step_id": "lights", "option_number": 3, "customer_words": "Lights and buttons are on, but there are no alarms."}))
+    assert r["status"] == "next_step" and r["step_id"] == "reset"
+    mid = run(run_tool(s, "get_call_status", {"question": "how much will it cost?"}))
+    assert mid["procedure"]["state"] == "in_progress" and mid["procedure"]["step_id"] == "reset"
+
+
+def test_status_under_warranty_says_parts_free_and_tablets_charged():
+    s, _ = make_session()
+    run(run_tool(s, "identify_machine", {"serial": "052710"}))
+    st = run(run_tool(s, "get_call_status", {"question": "is it under warranty?"}))
+    assert st["who_pays"]["repair_parts"].startswith("free") and st["who_pays"]["consumables"].startswith("always charged")
+
+
+def test_goodbye_after_a_refused_end_hangs_up():
+    s, events = make_session()
+    assert run(run_tool(s, "end_call", {}))["status"] == "no_goodbye"
+    run(s.voice_transcript("agent", "Thank you, Dave. Goodbye."))
+    assert s.voice_done and any(e["type"] == "hangup" for e in events)
+    s2, ev2 = make_session()
+    run(s2.voice_transcript("agent", "Goodbye for now, the parts will ship."))   # no end requested: nothing happens
+    assert not s2.voice_done and not any(e["type"] == "hangup" for e in ev2)
+
+
+def test_context_cannot_approve_a_different_option():
+    """Dave replay (25 Sept): 'lights and buttons are on, no alarms' said at the red-button step was accepted as
+    'cannot find the button' because the call's earlier words matched something."""
+    s, _ = make_session()
+    run(run_tool(s, "identify_machine", {"serial": "041302"}))
+    run(s.voice_transcript("customer", "Since this morning the machine stays cold. The gauge is at zero, no steam."))
+    run(run_tool(s, "find_procedure", {"description": "the machine stays cold, the gauge is at zero, no steam"}))
+    run(run_tool(s, "answer_step", {"step_id": "lights", "option_number": 3, "customer_words": "Everything is on, no alarm, but it is cold."}))
+    assert s.diagnosis.current == "reset"
+    r = run(run_tool(s, "answer_step", {"step_id": "reset", "option_number": 3, "customer_words": "Lights and buttons are on, but there are no alarms."}))
+    assert r["status"] in ("unclear", "confirm") and s.diagnosis.current == "reset" and not s.diagnosis.outcome
+    ok = run(run_tool(s, "answer_step", {"step_id": "reset", "option_number": 2, "customer_words": "I pressed it, ten minutes later it is still cold."}))
+    assert ok["status"] == "next_step" and ok["step_id"] == "contactor"
+
+
+def test_mismatch_asks_to_confirm_once():
+    s, _ = make_session()
+    run(run_tool(s, "identify_machine", {"model_text": "Marea 2 Evo"}))
+    run(run_tool(s, "find_procedure", {"description": "water leaks around the portafilter when I lock it in"}))
+    r = run(run_tool(s, "answer_step", {"step_id": "where", "option_number": 2, "customer_words": "From the rim of the portafilter."}))
+    assert r["status"] == "confirm" and s.diagnosis.current == "where"
+    again = run(run_tool(s, "answer_step", {"step_id": "where", "option_number": 1, "customer_words": "Yes, from the rim."}))
+    assert again["status"] == "next_step" and again["step_id"] == "gasket-age"
+
+
+def test_yes_to_a_click_question_and_no_blind_second_acceptance():
+    s, _ = make_session()
+    run(run_tool(s, "identify_machine", {"serial": "041302"}))
+    run(run_tool(s, "find_procedure", {"description": "the machine stays cold, the gauge is at zero, no steam"}))
+    run(run_tool(s, "answer_step", {"step_id": "lights", "option_number": 3, "customer_words": "Everything is on, no alarm, but it is cold."}))
+    run(run_tool(s, "answer_step", {"step_id": "reset", "option_number": 2, "customer_words": "I pressed it, ten minutes later it is still cold."}))
+    r = run(run_tool(s, "answer_step", {"step_id": "contactor", "option_number": 1, "customer_words": "Yes, I hear the contactor click when I switch it on."}))
+    assert r["status"] == "next_step" and r["step_id"] == "element"
+    # an off-topic long reply is refused twice
+    for _ in range(2):
+        x = run(run_tool(s, "answer_step", {"step_id": "element", "option_number": 1, "customer_words": "OK, yes, book the first slot and order the parts."}))
+        assert x["status"] in ("unclear", "confirm") and s.diagnosis.current == "element"
+
+
+def test_both_goodbyes_hang_up_even_with_a_step_open():
+    s, events = make_session()
+    run(run_tool(s, "find_procedure", {"description": "the steam is very weak"}))
+    run(s.voice_transcript("customer", "No, that's all. Thank you, goodbye."))
+    run(s.voice_transcript("agent", "Thank you for calling Sereni. Goodbye."))
+    assert s.voice_done and any(e["type"] == "hangup" for e in events)

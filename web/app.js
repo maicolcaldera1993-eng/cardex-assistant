@@ -318,6 +318,7 @@ function handle(ev) {
     case "duet_script": renderDuet(ev.lines); break;
     case "speak": speak(ev); break;
     case "tool_result": voiceToolResult(ev); break;
+    case "hangup": if (vws) { vEndPending = true; setTimeout(voiceEnd, 15000); } break;
     case "duet": { const b = document.querySelector(`.duet-line[data-n="${ev.n}"]`); if (b) { b.classList.toggle("playing", ev.state === "playing"); if (ev.state === "done") b.classList.add("said"); } if (ev.state === "done" || ev.state === "busy") { clearTimeout(micWatchdog); setTimeout(() => { micMuted = false; duetPlaying = false; }, 300); } break; }
     case "open_doc": openDoc(ev); break;
     case "agent": logLine(ev.text, false, ev.at); break;

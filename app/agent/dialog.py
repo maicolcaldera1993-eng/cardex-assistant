@@ -139,18 +139,33 @@ def classify_branch(text: str, branches: list[dict], similarities: Callable[[str
     and 'the first one' after the options were read out. Returns (index, confidence) or (None, best score)."""
     labels = [b["label_en"] for b in branches]
     words = re.findall(r"[a-zàèéìòùí']+", text.lower())
-    for w in words:
-        if w in ORDINALS and ORDINALS[w] < len(labels):
-            return ORDINALS[w], 1.0
+    # "the first one", "the second", "la prima": an ordinal is a choice only as a short reply, not inside a sentence
+    # ("book the first slot" is not option 1)
+    if len(words) <= 4 or re.search(r"\b(first|second|third|fourth|fifth)\s+(one|option)\b", text.lower()):
+        for w in words:
+            if w in ORDINALS and ORDINALS[w] < len(labels):
+                return ORDINALS[w], 1.0
     sims = similarities(text, labels) if similarities else [0.0] * len(labels)
-    tw, tn, pol_t = content_words(text), numbers_in(text), polarity(text)
+    # yes/no counts only as an answer at the start ("No, still cold", "Yes, I hear it"), not inside a description
+    # ("lights and buttons are on, but there are no alarms" is not a "no")
+    # ... a "yes" also at the end ("... the boiler is full. It works."), where a "no" is usually a description ("no steam")
+    tw, tn, pol_t = content_words(text), numbers_in(text), polarity(" ".join(words[:3]))
+    if pol_t == 0 and polarity(" ".join(words[-3:])) > 0 and polarity(text) >= 0:
+        pol_t = 1
     # "not from the group above": the words right after a negation count against a label that affirms them,
     # and for a label that negates them too ("Clicks, but no heat")
     negated = _negated(words)
     tw = tw - negated
     q_numbers = numbers_in(question) if question else set()
+    def label_polarity(lab: str) -> int:
+        # the label's yes/no is its first word ("No click"), or a "yes" anywhere ("Cleaned: fixed"); a "no" inside a
+        # label describes ("Clicks, but no heat")
+        p = polarity(lab.split()[0] if lab.split() else "")
+        return 1 if p == 0 and polarity(lab) > 0 else p
+
+    pols = [label_polarity(lab) for lab in labels]
     scores = []
-    for lab, sim in zip(labels, sims):
+    for k, (lab, sim) in enumerate(zip(labels, sims)):
         lw, ln, lwords = content_words(lab), numbers_in(lab), set(re.findall(r"[a-z']+", lab.lower()))
         l_neg = _negated(re.findall(r"[a-z']+", lab.lower()))
         s = sim
@@ -166,9 +181,11 @@ def classify_branch(text: str, branches: list[dict], similarities: Callable[[str
                 s += 0.1                                          # same side of an on/off pair
             elif any(o in words for o in _PAIR[w] if o != w):
                 s -= 0.3                                          # the opposite side
-        pol_l = polarity(lab)
+        pol_l = pols[k]
         if pol_t and pol_l:
             s += 0.2 if pol_t == pol_l else -0.2
+        elif pol_t and -pol_t in pols and pol_t not in pols:
+            s += 0.2          # "Yes, I hear the click": the other option is the explicit "No click", so this one is the yes
         if pol_l > 0 and len(lwords) <= 2 and q_numbers & tn:
             s += 0.5                                              # "Is it at 1.2 bar?" - "it is at 1.2": yes
         scores.append(s)

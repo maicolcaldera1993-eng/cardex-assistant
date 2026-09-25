@@ -133,8 +133,11 @@ class CallSession:
         self.voice_turn = 0
         self.notes: list[str] = []                # things the agent could not answer, for the operator
         self.unclear_steps: set[str] = set()      # steps where the agent's reported answer was rejected once
+        self.unclear_count: dict[str, int] = {}   # rejections per step: a long off-topic reply needs a third call
         self.end_refused: set[str] = set()        # end_call refused once per reason: open step, parts, no goodbye
+        self.end_wanted = False                   # the agent asked to end at least once
         self.last_agent_text = ""
+        self.last_customer_text = ""
 
     # ------------------------------------------------------------------ lifecycle
     async def run(self) -> None:
@@ -830,8 +833,14 @@ class CallSession:
         self.voice_turn += 1
         tid = self.voice_turn * 100
         who = CUSTOMER if role == "customer" else "agent"
+        if who == CUSTOMER:
+            self.last_customer_text = text
         if who == "agent":
             self.last_agent_text = text
+            from .voice.agent import ready_to_hang_up
+            if ready_to_hang_up(self, text):
+                self.voice_done = True
+                await self.emit({"type": "hangup"})            # the page ends the agent session after this sentence
         text, codes = canonicalize_codes(text)
         utt = {"id": tid, "raw": text, "text": text, "codes": codes, "fragments": [text], "confs": [1.0], "role": who,
                "speaker": None, "turn_ids": [tid], "min_conf": 1.0, "at": round(time.monotonic() - self.started, 1),

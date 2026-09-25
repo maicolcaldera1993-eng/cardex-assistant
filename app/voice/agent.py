@@ -40,7 +40,7 @@ HOW YOU WORK
 3. When a step asks the customer to do something (press, unscrew, clean, backflush), explain it simply, wait for them to do it and tell you the result, then call answer_step.
 4. Order of things: as soon as the fault is described, call find_procedure and ask its first question. Right after the customer answers that first question, ask for the serial number (it is on the plate at the back) and call identify_machine with the digits and the model words the customer used: it tells you the machine, whether it is under warranty and who pays. Then continue with the steps.
 5. Say prices, delivery times, part codes, warranty, totals and dates ONLY when they come from a tool result in this conversation. Never invent a number, never name a part the tools did not return, never explain what broke beyond what the step or the outcome says. Use the "spoken" forms given in the results for codes and prices (for example "C A twelve seventy, twelve euros sixty").
-6. Customer questions: answer from tool results when you can. Money: always say what the CUSTOMER pays (customer_pays_spoken, customer_pays_total_spoken, labour), never the list price as if it were a cost. Under warranty the repair's parts and the service are free; consumables such as cleaning tablets are always charged, and if asked, say so plainly ("the tablets are consumables, they are not covered"). The outcome also gives delivery days and whether a service call or a technician is needed; use them. Call note_for_operator only for things the tools do not cover (discounts, invoices, complaints, anything outside the procedure), say the operator will follow up, then return to the procedure.
+6. THE CUSTOMER MAY ASK ANYTHING AT ANY MOMENT, in any order (warranty before the serial, cost before the outcome, the appointment in the middle of a step). Never refuse, postpone or pass to the operator a question that get_call_status can answer: call it, answer in one or two sentences, then go back to the step where you were. If the answer depends on something missing (no serial yet, no outcome yet), say what is missing and ask for it. Customer questions: answer from tool results when you can. Money: always say what the CUSTOMER pays (customer_pays_spoken, customer_pays_total_spoken, labour), never the list price as if it were a cost. Under warranty the repair's parts and the service are free; consumables such as cleaning tablets are always charged, and if asked, say so plainly ("the tablets are consumables, they are not covered"). The outcome also gives delivery days and whether a service call or a technician is needed; use them. Call note_for_operator only for things no tool covers (discounts, invoices, complaints), say the operator will follow up, then return to the procedure. Warranty, prices, delivery and appointments are NEVER operator questions.
 7. At the outcome, explain what happens next (parts shipped FROM our warehouse to the customer, second call with service, technician's visit), who pays, and propose the first free slot from the result. When the customer agrees, call book_slot with that slot id. If they prefer another, propose the next one. When the customer agrees to receive the parts, call confirm_parts with their codes: without it nothing is ordered.
 8. Keep every reply to one or two short sentences. Warm and professional, never chatty. Repeat numbers back to confirm them.
 10. If a tool result says "stale" or "error", call answer_step again right away with the step_id given in that result and the option matching the customer's words. Never guess the outcome yourself and never use find_part to work out which part is needed: only the procedure's outcome names the parts. find_part is for parts the customer asks about by code or by name.
@@ -82,6 +82,10 @@ TOOLS: list[dict] = [
      "description": "Call when the customer agrees to receive the parts named in the outcome (or a part from find_part). Records the order for the operator, who approves it before shipping. Never say the parts are on their way without calling this.",
      "parameters": {"type": "object", "properties": {"codes": {"type": "array", "items": {"type": "string"}, "description": "The part codes the customer accepted, e.g. [\"GE-2140\", \"GE-2210\"]"}},
                     "required": ["codes"]}, "execution_mode": "hold"},
+    {"name": "get_call_status",
+     "description": "Call whenever the customer asks something that is not the answer to the current step, at ANY moment: warranty, who pays (parts, labour, consumables), total cost, delivery time, who fits the part, what has been ordered, the appointment, what happens next. Returns everything known on this call. Answer from it, then return to where you were. When in doubt, call it.",
+     "parameters": {"type": "object", "properties": {"question": {"type": "string", "description": "The customer's question, verbatim"}},
+                    "required": ["question"]}, "execution_mode": "hold"},
     {"name": "note_for_operator",
      "description": "Call when the customer asks for something you cannot answer from tool results (discounts, invoices, anything outside the procedure) or wants something done by a person. Tell the customer the operator will follow up.",
      "parameters": {"type": "object", "properties": {"note": {"type": "string"}}, "required": ["note"]}, "execution_mode": "interactive"},
@@ -212,6 +216,47 @@ def _already_answered(s, words: str) -> dict:
                     "with this step_id, this option_number and these words (or ask a short confirmation if unsure)."}
 
 
+def warranty_rules(s) -> dict:
+    """Who pays what on this machine, in words the agent can say."""
+    m = s.machine
+    if not m:
+        return {"known": False, "say": "the warranty depends on the machine: ask for the serial number on the plate at the back"}
+    if m.get("in_warranty"):
+        return {"known": True, "status": f"under warranty until {m['warranty_until']}",
+                "repair_parts": "free: the parts of the repair are covered", "labour_and_service_call": "free",
+                "consumables": "always charged (cleaning tablets, brushes): not covered by any warranty"}
+    return {"known": True, "status": f"out of warranty since {m['warranty_until']}",
+            "repair_parts": "charged at list price", "labour_and_service_call": "charged: a quote follows",
+            "consumables": "charged"}
+
+
+def call_status(s) -> dict:
+    """Everything known on the call, for any question in any order."""
+    from ..session import VOCAB
+    d = s.diagnosis
+    if d and d.outcome:
+        procedure = {"state": "outcome", **_outcome_view(s)}
+    elif d and d.current:
+        procedure = {"state": "in_progress", **_step_view(s)}
+    else:
+        procedure = {"state": "not_started", "hint": "the fault has not been described yet"}
+    parts = []
+    for c in s.cards.values():
+        ch = s.charge_for(c["code"])
+        parts.append({"code": c["code"], "spoken": spoken_code(c["code"]), "description": c.get("description_en") or c["description"],
+                      "status": {"confirmed": "ordered", "proposed": "not ordered yet", "dismissed": "declined"}[c["status"]],
+                      "fits_this_machine": c.get("compatible", True),
+                      "customer_pays_spoken": "free, covered by the warranty" if ch["covered_by_warranty"] else spoken_price(ch["customer_pays_eur"]),
+                      "why": ch["why"]})
+    ordered = [p for p in s.cards.values() if p["status"] == "confirmed"]
+    total = round(sum(s.charge_for(p["code"])["customer_pays_eur"] or 0 for p in ordered), 2)
+    return {"machine": {"model": VOCAB.model_names.get(s.model_id) or s.family or "unknown", **_machine_view(s)},
+            "who_pays": warranty_rules(s), "procedure": procedure, "parts": parts,
+            "ordered_total_customer_pays": "nothing" if total == 0 else spoken_price(total),
+            "appointment": s._slot_view(s.booking)["label_en"] + " with " + s.booking["technician"] if s.booking else None,
+            "notes_for_operator": s.notes}
+
+
 def _machine_view(s) -> dict:
     m = s.machine
     if not m:
@@ -310,32 +355,52 @@ async def run_tool(s, name: str, args: dict) -> dict:
             return {"status": "error", "hint": "option_number must be one of the options", "options": _step_view(s)["options"]}
         words = args.get("customer_words") or ""
         # The guard: the customer's own words are the evidence, not the agent's bookkeeping. Our classifier (numbers,
-        # yes/no, on/off, negation, shared words, meaning) reads them against the CURRENT step:
-        #   match            -> apply (even if the agent quoted the previous step_id: it often does)
-        #   no match, stale  -> a repeated call for a step already answered: nothing moves
-        #   no match, first  -> "unclear": the agent asks the step's question again; the second call is accepted
+        # yes/no, on/off, negation, shared words, meaning, in English and Italian) reads them against the CURRENT step:
+        #   words pick the agent's option                       -> apply (even if the agent quoted a stale step_id)
+        #   words pick nothing, words + earlier call pick it    -> apply ("no alarm" after "it stays cold")
+        #   words pick nothing, stale step_id                   -> a late or repeated call: nothing moves
+        #   words pick nothing / a different option (1st time) -> the agent asks or confirms; the 2nd call is accepted
         st = d.step
         from ..session import SEMANTIC
-        # read the words against the options in English AND Italian (the customer may speak either): best reading wins
-        readings = []
-        for lab, q in (("label_en", "text_en"), ("label_it", "text_it")):
-            brs = [{**b, "label_en": b.get(lab) or b["label_en"]} for b in st["branches"]]
-            readings.append(classify_branch(words, brs, SEMANTIC.similarities, question=st[q] if st["kind"] == "ask" else ""))
-        found = [r for r in readings if r[0] is not None]
-        j, conf = max(found, key=lambda r: r[1]) if found else max(readings, key=lambda r: r[1])
+
+        def read(text: str):
+            out = []
+            for lab, q in (("label_en", "text_en"), ("label_it", "text_it")):
+                brs = [{**b, "label_en": b.get(lab) or b["label_en"]} for b in st["branches"]]
+                out.append(classify_branch(text, brs, SEMANTIC.similarities, question=st[q] if st["kind"] == "ask" else ""))
+            hits = [r for r in out if r[0] is not None]
+            return max(hits, key=lambda r: r[1]) if hits else (None, max(r[1] for r in out))
+
+        j, conf = read(words)
+        via_context = False
+        if j is None:
+            context = " ".join(u["text"] for u in s.utterances if u["role"] == "customer")[-300:]
+            if context and context.strip() != words.strip():
+                jc, cc = read(words + " " + context)
+                if jc == i:                                     # context may confirm the agent, never pick for it
+                    j, conf, via_context = jc, cc, True
         stale = bool(args.get("step_id")) and args["step_id"] != d.current
         if j is None and stale:
             return {"status": "stale", "hint": f"step '{args['step_id']}' was already answered and these words do not answer "
                                               f"the current step '{d.current}'. Ask its question now.", **_step_view(s)}
-        if j is None and d.current not in s.unclear_steps:
+        tries = s.unclear_count.get(d.current, 0)
+        short_reply = len(words.split()) <= 5
+        first_time = tries == 0 or (tries == 1 and j is None and not short_reply)
+        if (j is None or j != i) and first_time:
+            s.unclear_count[d.current] = tries + 1
+        if j is None and first_time:
             s.unclear_steps.add(d.current)
             s._log_decision("branch_rejected", step=d.current, text=words, agent_option=i, confidence=conf)
             return {"status": "unclear",
                     "hint": "the customer's words do not answer this step. Do not choose for them: ask exactly this question, "
                             "then call answer_step again with what they say.", **_step_view(s)}
-        if j is not None and j != i:
-            # the agent read the words differently: its choice stands (it heard the whole conversation), noted for review
-            s._log_decision("branch_disagreement", step=d.current, text=words, agent_option=i, classifier=j, confidence=conf)
+        if j is not None and j != i and first_time:
+            s.unclear_steps.add(d.current)
+            s._log_decision("branch_mismatch", step=d.current, text=words, agent_option=i, classifier=j, confidence=conf)
+            return {"status": "confirm",
+                    "hint": f"the customer's words sound like '{st['branches'][j]['label_en']}', not '{st['branches'][i]['label_en']}'. "
+                            "Ask a short confirmation question, then call answer_step with the option the customer confirms.",
+                    **_step_view(s)}
         s._log_decision("branch", step=d.current, text=words, chosen=i, by="voice-agent", classifier=j, confidence=conf, stale_id=stale)
         await s.control({"action": "answer_step", "branch": i})
         if d.outcome:
@@ -373,6 +438,9 @@ async def run_tool(s, name: str, args: dict) -> dict:
             return {"status": "error", "hint": "none of these codes is on the table; use the codes from the outcome or from find_part"}
         return {"status": "confirmed", "codes": done,
                 "say": "the order is recorded; an operator approves it and the parts are shipped from our warehouse"}
+    if name == "get_call_status":
+        s._log_decision("status_asked", question=args.get("question", ""))
+        return call_status(s)
     if name == "note_for_operator":
         note = (args.get("note") or "").strip()
         if note:
@@ -380,6 +448,7 @@ async def run_tool(s, name: str, args: dict) -> dict:
             await s._agent(("Nota per l'operatore: " if s.lang == "it" else "Note for the operator: ") + note)
         return {"status": "noted", "say": "the operator will follow up on this"}
     if name == "end_call":
+        s.end_wanted = True
         d = s.diagnosis
         if d and d.current and "step" not in s.end_refused:
             # the procedure is still open: the customer's last answer must be recorded first ("it works now")
@@ -400,6 +469,21 @@ async def run_tool(s, name: str, args: dict) -> dict:
         s.voice_done = True
         return {"status": "ok", "end": True}
     return {"status": "error", "hint": f"unknown tool {name}"}
+
+
+def ready_to_hang_up(s, agent_text: str) -> bool:
+    """The agent says goodbye after the customer did (the customer is leaving, whatever is open), or after a refused
+    end_call with nothing left open."""
+    if s.voice_done or not _GOODBYE.search(agent_text or ""):
+        return False
+    if _GOODBYE.search(s.last_customer_text or ""):
+        return True
+    if not s.end_wanted:
+        return False
+    d = s.diagnosis
+    if d and d.current:
+        return False
+    return True
 
 
 def tool_result_text(result: dict) -> str:

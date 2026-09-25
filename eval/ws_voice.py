@@ -34,6 +34,18 @@ SCENARIOS = {
         "Yes, please book it.",
         "No, that's all. Thank you, goodbye.",
     ]),
+    "dave2": ("en-US-GuyNeural", [            # asks the warranty out of order, twice
+        "Hi, this is Dave Miller from Espresso Corner in Chicago. It's a Marea 2, serial number zero four one, three zero two.",
+        "Since this morning the machine stays cold. The gauge is at zero, no steam.",
+        "Before we go on: am I still under warranty?",
+        "Lights and buttons are on, but there are no alarms.",
+        "I pressed it, ten minutes later it is still cold.",
+        "Yes, I hear the contactor click when I switch it on.",
+        "It is one hundred ten volts.",
+        "Just one question. Are the parts under warranty, or do I have to pay?",
+        "Okay. Yes, book the first slot and order the parts.",
+        "No, that's all. Thank you, goodbye.",
+    ]),
     "mario": ("it-IT-DiegoNeural", [          # Italian customer, Italian agent (lang=it): Carmen's level alarm
         "Buongiorno, sono Mario del Bar Centrale di Lucca. Abbiamo la Marea 2. La macchina non carica l'acqua, la spia del livello lampeggia e la pompa va sempre.",
         "La matricola è zero quattro uno, uno otto otto.",
@@ -112,6 +124,10 @@ async def main() -> None:
                         if ev.get("end"):
                             await asyncio.sleep(3)
                             await agent_ws.send(json.dumps({"type": "session.end"}))
+                    elif ev["type"] == "hangup":
+                        print("    ## hangup after the goodbye")
+                        await asyncio.sleep(3)
+                        await agent_ws.send(json.dumps({"type": "session.end"}))
                     elif ev["type"] == "diagnosis":
                         print(f"    ## {ev['symptom']} -> {'done ' + ev['outcome'] if ev['done'] else 'step ' + ev['step']['id']}")
                     elif ev["type"] == "agent" and ("Prenotato" in ev["text"] or "Nota" in ev["text"]):
