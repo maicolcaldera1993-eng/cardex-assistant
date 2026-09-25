@@ -99,6 +99,24 @@ class Catalog:
                         supplier=supplier["name"] if supplier else None,
                         lead_time_days=supplier["lead_time_days"] if supplier else None, delivery=delivery)
 
+    def machines_matching(self, text: str, model_id: str | None = None, family_models: list[str] | None = None) -> list[dict]:
+        """Installed machines whose city or customer name the caller mentioned ("Kaffeehaus Nord in Berlin"), restricted
+        to the model or family on the call. Used when the serial number cannot be understood."""
+        t = " " + re.sub(r"[^a-z0-9àèéìòùäöüßñç ]", " ", (text or "").lower()) + " "
+        models = {model_id} if model_id else set(family_models or [])
+        out = []
+        for r in self.con.execute("SELECT * FROM machines"):
+            m = dict(r)
+            if models and m["model_id"] not in models:
+                continue
+            city_hit = f" {m['city'].lower()} " in t
+            name = m["customer"].lower()
+            name_hit = fuzz.partial_ratio(name, t) >= 88 if len(name) >= 5 else False
+            if city_hit or name_hit:
+                m["matched_on"] = [x for x, ok in (("city", city_hit), ("customer", name_hit)) if ok]
+                out.append(m)
+        return out
+
     def machine(self, serial: str) -> dict | None:
         """The installed-base record for a serial number, tolerant to one mis-heard digit."""
         digits = re.sub(r"[^0-9A-Z]", "", serial.upper())

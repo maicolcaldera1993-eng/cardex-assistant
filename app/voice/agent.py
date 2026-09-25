@@ -36,10 +36,11 @@ HOW YOU WORK
 1. You do not diagnose. The troubleshooting procedure decides. The moment the customer has described what the machine is doing, call find_procedure with their words, before saying anything else. Then ask what the current step asks, in your own natural words, one question at a time. The ONLY questions you may ask about the fault are the ones the steps give you: never add checks of your own ("is the gasket dirty?").
 2. After the customer answers a step (or reports what happened after doing what you asked), call answer_step with the number of the option that matches their words. If their words do not answer the question, do not choose for them: ask the step's question again, plainly. Never call answer_step to guess.
 3c. If find_procedure returns candidates, read them to the customer and call start_procedure ONLY after the customer has said which one applies. Never pick one yourself.
+3d. After any side topic (the serial, a question, a part), continue with the step given in "resume" of the tool result. Never re-ask a question listed there as already answered, and never make up a question of your own.
 3b. The customer cannot interrupt you while you talk: keep every reply to one or two short sentences, and never repeat a question the customer has already answered.
 3. When a step asks the customer to do something (press, unscrew, clean, backflush), explain it simply, wait for them to do it and tell you the result, then call answer_step.
 4. Order of things: as soon as the fault is described, call find_procedure and ask its first question. Right after the customer answers that first question, ask for the serial number (it is on the plate at the back) and call identify_machine with the digits and the model words the customer used: it tells you the machine, whether it is under warranty and who pays. Then continue with the steps.
-5. Say prices, delivery times, part codes, warranty, totals and dates ONLY when they come from a tool result in this conversation. Never invent a number, never name a part the tools did not return, never explain what broke beyond what the step or the outcome says. Use the "spoken" forms given in the results for codes and prices (for example "C A twelve seventy, twelve euros sixty").
+5. Say prices, delivery times, part codes, warranty, totals and dates ONLY when they come from a tool result in this conversation. Never invent a number, never name a part the tools did not return, never explain what broke beyond what the step or the outcome says. Always use the "spoken" forms given in the results for codes and prices (for example "C A twelve seventy, twelve euros sixty"), every time you say a code.
 6. THE CUSTOMER MAY ASK ANYTHING AT ANY MOMENT, in any order (warranty before the serial, cost before the outcome, the appointment in the middle of a step). Never refuse, postpone or pass to the operator a question that get_call_status can answer: call it, answer in one or two sentences, then go back to the step where you were. If the answer depends on something missing (no serial yet, no outcome yet), say what is missing and ask for it. Customer questions: answer from tool results when you can. Money: always say what the CUSTOMER pays (customer_pays_spoken, customer_pays_total_spoken, labour), never the list price as if it were a cost. Under warranty the repair's parts and the service are free; consumables such as cleaning tablets are always charged, and if asked, say so plainly ("the tablets are consumables, they are not covered"). The outcome also gives delivery days and whether a service call or a technician is needed; use them. Call note_for_operator only for things no tool covers (discounts, invoices, complaints), say the operator will follow up, then return to the procedure. Warranty, prices, delivery and appointments are NEVER operator questions.
 7. At the outcome, explain what happens next (parts shipped FROM our warehouse to the customer, second call with service, technician's visit), who pays, and propose the first free slot from the result. When the customer agrees, call book_slot with that slot id. If they prefer another, propose the next one. When the customer agrees to receive the parts, call confirm_parts with their codes: without it nothing is ordered. If the outcome needs a service call or a technician and the customer wants to fit the part alone, say once that this part must be fitted with our service (safety, and the repair's warranty); if they still decline, call note_for_operator ("customer declines service support").
 8. Say numbers as words, the natural way: "two hundred thirty volts", "one point two bar", never digit by digit (except serial numbers when you repeat them back). Keep every reply to one or two short sentences. Warm and professional, never chatty. Repeat numbers back to confirm them.
@@ -54,7 +55,8 @@ TOOLS: list[dict] = [
      "description": "Call as soon as the customer names the machine model and/or reads the serial number. Returns the machine on file: model, edition, warranty status, who pays for a technician, previous orders. Pass the customer's exact words for the model; never guess.",
      "parameters": {"type": "object", "properties": {
          "model_text": {"type": "string", "description": "The customer's words about the model, e.g. 'the Marea 2 Plus, the vanilla one'"},
-         "serial": {"type": "string", "description": "Serial number as read by the customer, digits possibly separated by spaces, e.g. '0 4 7 2 1 9' or '047219'", "pattern": "^[0-9A-Za-z][0-9A-Za-z -]{3,14}$"}},
+         "serial": {"type": "string", "description": "Serial number as read by the customer, digits possibly separated by spaces, e.g. '0 4 7 2 1 9' or '047219'", "pattern": "^[0-9A-Za-z][0-9A-Za-z -]{3,14}$"},
+        "customer_words": {"type": "string", "description": "What the customer said about themselves: business name and city, e.g. 'Kaffeehaus Nord in Berlin'. Used to find the machine when the serial is not understood."}},
          "required": []}, "execution_mode": "hold"},
     {"name": "find_procedure",
      "description": "Call when the customer has described what the machine is doing wrong, in their own words. Opens the matching troubleshooting procedure and returns its first step. If it returns candidates instead, ask the customer which one applies and call start_procedure. When in doubt, call it: a wasted call is fine.",
@@ -315,7 +317,18 @@ def _card_view(c: dict, charge: dict | None = None) -> dict:
 
 
 async def run_tool(s, name: str, args: dict) -> dict:
-    """Executes one tool call from the voice agent on the call session. Returns what the agent may say."""
+    """Executes one tool call from the voice agent on the call session. Returns what the agent may say, plus where the
+    procedure stands, so a side question or the serial never makes the agent lose the thread."""
+    result = await _run_tool(s, name, args)
+    d = s.diagnosis
+    if name in ("identify_machine", "get_call_status", "find_part", "note_for_operator") and d and d.current:
+        result["resume"] = {"step_id": d.current, "ask_next": _step_view(s)["ask_the_customer"],
+                            "already_answered": [f"{h['text_en']} -> {h['answer_en']}" for h in d.history],
+                            "hint": "go back to this step now; do not ask again what is already answered"}
+    return result
+
+
+async def _run_tool(s, name: str, args: dict) -> dict:
     args = args or {}
     if name == "identify_machine":
         if args.get("model_text"):
@@ -325,9 +338,25 @@ async def run_tool(s, name: str, args: dict) -> dict:
             await s._set_serial(serial.upper())
         if s.machine:
             await s.adopt_machine_record()          # "Giglio 1" said, Giglio 1 Plus on file: the file wins
-        from ..session import VOCAB
-        return {"model": VOCAB.model_names.get(s.model_id) or s.family or "unknown, ask the customer", "edition": s.edition,
-                "machine": _machine_view(s)}
+        from ..session import CATALOG, VOCAB
+        out = {"model": VOCAB.model_names.get(s.model_id) or s.family or "unknown, ask the customer", "edition": s.edition,
+               "machine": _machine_view(s)}
+        if not s.machine:
+            # the digits did not come through ("Bir, bir", "Beer"): the city, the business name and the model usually do
+            said = (args.get("customer_words") or "") + " " + " ".join(u["text"] for u in s.utterances if u["role"] == "customer")
+            fam = CATALOG.family_models(s.family) if s.family and not s.model_id else None
+            cands = CATALOG.machines_matching(said, s.model_id, fam)
+            if len(cands) == 1:
+                c = cands[0]
+                out["candidate"] = {"serial": c["serial"], "model": VOCAB.model_names.get(c["model_id"], c["model_id"]),
+                                    "customer": c["customer"], "city": c["city"]}
+                out["hint"] = (f"the serial was not understood, but one machine on file matches: the {out['candidate']['model']} "
+                               f"at {c['customer']}, {c['city']}. Ask the customer to confirm it; if yes, call identify_machine "
+                               f"with serial {c['serial']}. Do not ask for the digits again.")
+            elif len(cands) > 1:
+                out["candidates"] = [{"serial": c["serial"], "customer": c["customer"], "city": c["city"]} for c in cands[:3]]
+                out["hint"] = "several machines match: ask which business it is, or the serial digit by digit"
+        return out
     if name == "find_procedure":
         desc = args.get("description") or ""
         if not (s.diagnosis and s.diagnosis.current):

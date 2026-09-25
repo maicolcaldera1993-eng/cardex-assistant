@@ -308,3 +308,22 @@ def test_declined_service_support_is_explained_and_noted():
     assert r["status"] == "service_not_booked" and "must be fitted with our service" in r["hint"]
     run(run_tool(s, "note_for_operator", {"note": "customer declines service support"}))
     assert run(run_tool(s, "end_call", {}))["end"] is True
+
+
+def test_machine_found_by_city_when_the_serial_is_garbled():
+    """Klaus (25 Sept): 'Bir, bir', 'Marea', 'Beer' instead of 0-4-4-8-0-1."""
+    s, _ = make_session()
+    run(s.voice_transcript("customer", "Good morning, I'm Klaus Becker from Coffee House North in Berlin."))
+    r = run(run_tool(s, "identify_machine", {"model_text": "Onda MB2", "serial": "0 8 0"}))
+    assert not s.machine and r["candidate"]["serial"] == "044801" and "confirm" in r["hint"]
+    ok = run(run_tool(s, "identify_machine", {"serial": "044801"}))
+    assert ok["machine"]["on_file"] and s.machine["customer"] == "Kaffeehaus Nord"
+
+
+def test_side_tools_say_where_to_resume():
+    s, _ = make_session()
+    run(run_tool(s, "identify_machine", {"model_text": "Onda MB2"}))
+    run(run_tool(s, "find_procedure", {"description": "no steam, the steam boiler gauge is at zero"}))
+    run(run_tool(s, "answer_step", {"step_id": "gauge", "option_number": 1, "customer_words": "At zero, the boiler is cold."}))
+    r = run(run_tool(s, "identify_machine", {"serial": "044801"}))
+    assert r["resume"]["step_id"] == "enabled" and any("zero" in a.lower() for a in r["resume"]["already_answered"])
