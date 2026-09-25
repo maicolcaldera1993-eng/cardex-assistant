@@ -24,6 +24,7 @@ from .core.normalizer import canonicalize_codes, extract_codes
 from .core.roles import CUSTOMER, OPERATOR, RoleTracker
 from .core.semantic import AMBIGUITY_GAP, DECOY_MARGIN, SECTION_THRESHOLD, SYMPTOM_THRESHOLD, SemanticIndex
 from .core.symptoms import DefectsLibrary, Diagnosis, parse_then, Outcome
+from .core import terms
 from .core.vocabulary import VocabularyManager
 from .llm.clarify import Clarifier
 from .agent.dialog import AutoAgent
@@ -674,7 +675,8 @@ class CallSession:
         await self.emit({"type": "machine_record", "serial": rec["serial"], "model": name, "edition": rec["edition"],
                          "built": rec["built"], "voltage": rec["voltage"], "customer": rec["customer"], "city": rec["city"],
                          "country": rec["country"], "warranty_until": rec["warranty_until"], "in_warranty": in_warranty,
-                         "notes": rec["notes"], "orders": rec["orders"], "exact": rec["matched_exactly"]})
+                         "notes": rec["notes"], "orders": rec["orders"], "exact": rec["matched_exactly"],
+                         "warranty_terms": terms.WARRANTY_TERMS["it" if self.lang == "it" else "en"]})
         await self._emit_context()
         await self._maybe_reload_vocabulary()
 
@@ -867,6 +869,9 @@ class CallSession:
         """A final utterance relayed from the Voice Agent session: shown as a turn, remembered for the summary,
         and (for the customer) read for machine, serial and part codes like any other customer turn. An agent
         sentence cut short by the customer is kept, marked as interrupted."""
+        text = re.sub(r"<\s*(thought|thinking)\b[^>]*>.*?(<\s*/\s*\1\s*>|$)", "", text, flags=re.S | re.I).strip()
+        if not text:
+            return
         self.voice_turn += 1
         tid = self.voice_turn * 100
         who = CUSTOMER if role == "customer" else OPERATOR if role == "operator" else "agent"
@@ -1076,13 +1081,15 @@ class CallSession:
                     "richiamare il service se serve aiuto).",
                     "Ship the parts below: the customer fits them alone (declined the service call; can call service back).")
             say_k = "I'll ship the parts; if you need help fitting them, call our service and we'll book a call with you."
-        booking = self._booking_view(o.kind, parts) if o.kind in ("part_with_support", "technician") and not fits_alone else None
+        # the slots stay on screen after "fits alone": a customer who hears the price of the call may change their mind
+        booking = self._booking_view(o.kind, parts) if o.kind in ("part_with_support", "technician") else None
         if booking and booking["booked"]:
             b = booking["booked"]
             say_k = (f"Our technician can come on {b['label_en']}. Does that work for you?" if booking["kind"] == "onsite"
                      else f"We'll call you on {b['label_en']} to fit the parts together, once they have arrived. Does that work for you?")
-        pay = self._payment(o.kind, w, parts)
-        return {"kind": o.kind, "text": text[0] if it else text[1], "warranty": w, "warranty_text": wt[0] if it else wt[1],
+        costs = self._costs(o.kind, w, parts, fits_alone)
+        pay = self._payment(o.kind, w, costs)
+        return {"costs": costs,"kind": o.kind, "text": text[0] if it else text[1], "warranty": w, "warranty_text": wt[0] if it else wt[1],
                 "say_en": " ".join(x for x in (say_w, say_k, pay["say_en"] if pay else "") if x).strip(), "booking": booking,
                 "fits_alone": fits_alone, "payment": pay, "ship_to": self._ship_to() if parts else None,
                 "parts_confirmed": bool(parts) and all(c["status"] == "confirmed" for c in parts),
@@ -1090,15 +1097,27 @@ class CallSession:
                            "price_eur": c["price_eur"], "delivery": c["delivery"], "handling": c["handling"],
                            **self.charge_for(c["code"])} for c in parts]}
 
-    def _payment(self, kind: str, warranty, parts: list[dict]) -> dict | None:
+    def _costs(self, kind: str, warranty, parts: list[dict], fits_alone: bool) -> dict | None:
+        """What this outcome costs the customer: parts, shipping and the service call or visit, from Sereni's terms."""
+        if kind == "remote":
+            return None
+        parts_eur = round(sum(self.charge_for(c["code"])["customer_pays_eur"] or 0 for c in parts), 2)
+        ship = terms.shipping_eur(self.machine["country"] if self.machine else None, warranty) if parts else 0.0
+        lab = terms.labour(kind, warranty, fits_alone)
+        lab_eur = (lab or {}).get("customer_pays_eur", 0.0)
+        total = None if warranty is None or ship is None or lab_eur is None else round(parts_eur + ship + (lab_eur or 0.0), 2)
+        return {"parts_eur": parts_eur, "shipping_eur": ship, "labour": lab, "total_eur": total}
+
+    def _payment(self, kind: str, warranty, costs: dict | None) -> dict | None:
         """Who pays and how, after the call. Payment is never taken on the phone: a colleague reviews the work order
         and emails the quote with the payment instructions; the parts leave the warehouse when the payment is
         confirmed. Under warranty nothing is charged except consumables."""
         it = self.lang == "it"
-        pays = round(sum(self.charge_for(c["code"])["customer_pays_eur"] or 0 for c in parts), 2)
-        labour = kind in ("part_with_support", "technician") and warranty is False and not self.fits_alone
-        if kind == "remote" or (not parts and kind != "technician"):
+        if not costs:
             return None
+        pays = costs["total_eur"] or 0.0
+        lab = costs["labour"]
+        labour = bool(lab and lab["customer_pays_eur"])
         if warranty is None:
             return {"status": "unknown", "text": "Chi paga dipende dalla garanzia: serve la matricola." if it
                     else "Who pays depends on the warranty: the serial number is needed.", "say_en": ""}
@@ -1106,13 +1125,19 @@ class CallSession:
             return {"status": "free", "text": "Senza addebito: i ricambi partono appena la scheda è approvata." if it
                     else "No charge: the parts ship as soon as the work order is approved.",
                     "say_en": "There is nothing to pay: the parts ship as soon as the order is approved."}
-        return {"status": "awaiting_payment", "amount_eur": pays, "labour": labour,
+        bits = [f"the parts come to €{costs['parts_eur']:.2f}"] if costs["parts_eur"] else []
+        if costs["shipping_eur"]:
+            bits.append(f"shipping €{costs['shipping_eur']:.2f}")
+        if labour:
+            bits.append(f"the {lab['what_en'].split(' (')[0]} €{lab['customer_pays_eur']:.2f}")
+        cost_say = (", ".join(bits) + f": €{pays:.2f} in total. ").capitalize() if bits else ""
+        return {"status": "awaiting_payment", "amount_eur": pays, "labour": labour, "cost_say_en": cost_say,
                 "text": ("In attesa di pagamento: un collega revisiona la scheda e invia al cliente per email il preventivo "
                          "e le istruzioni di pagamento; i ricambi partono alla conferma del pagamento.") if it else
                         ("Awaiting payment: a colleague reviews the work order and emails the customer the quote and the "
                          "payment instructions; the parts ship once the payment is confirmed."),
-                "say_en": "A colleague will review your case and email you the quote and the payment instructions shortly; "
-                          "we ship the parts as soon as the payment is confirmed."}
+                "say_en": cost_say + "A colleague will review your case and email you the quote and the payment "
+                                     "instructions shortly; we ship the parts as soon as the payment is confirmed."}
 
     def _ship_to(self) -> str:
         m = self.machine

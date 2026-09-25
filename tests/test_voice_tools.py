@@ -62,7 +62,8 @@ def test_dave_end_to_end_through_the_tools():
     assert {x["code"] for x in o["parts"]} == {"CA-1181", "CA-1220"}
     # Dave is out of warranty: he pays the list price, labour is charged
     assert o["customer_pays_total_eur"] == 98.9 and o["customer_pays_total_spoken"] == "ninety-eight euros ninety"
-    assert o["labour"].startswith("charged")
+    assert o["labour"].endswith("thirty-five euros") and o["shipping"] == "twenty-nine euros"   # Chicago: outside the EU
+    assert o["customer_pays_total_with_shipping_and_service_spoken"] == "one hundred sixty-two euros ninety"
     ca = next(x for x in o["parts"] if x["code"] == "CA-1181")
     assert ca["spoken"] == "C A eleven eighty-one" and ca["customer_pays_spoken"] == "ninety-six euros" and not ca["covered_by_warranty"]
     assert o["warranty"].startswith("out of warranty")
@@ -195,7 +196,7 @@ def test_warranty_covers_the_repair_not_the_consumables():
     valve = o["parts"][0]
     assert valve["code"] == "GE-2160" and valve["covered_by_warranty"] and valve["customer_pays_eur"] == 0.0
     assert valve["customer_pays_spoken"].startswith("free") and o["customer_pays_total_spoken"].startswith("nothing")
-    assert o["labour"].startswith("free")
+    assert o["labour"].endswith("free, covered by the warranty") and o["shipping"] == "free"
     t = run(run_tool(s, "find_part", {"query": "cleaning tablets"}))
     tab = t["parts"][0]
     assert tab["code"] == "CR-6052" and not tab["covered_by_warranty"] and tab["why"] == "consumable" and tab["customer_pays_spoken"] == "nineteen euros"
@@ -427,7 +428,9 @@ def test_payment_and_shipping_after_the_call():
     s, events, o = _dave_at_outcome()
     assert "email you the quote" in o["payment"] and "Espresso Corner" in o["ship_to"]
     n = s._next_step()
-    assert n["payment"]["status"] == "awaiting_payment" and n["payment"]["amount_eur"] == 98.9 and n["payment"]["labour"]
+    assert n["payment"]["status"] == "awaiting_payment" and n["payment"]["amount_eur"] == 162.9 and n["payment"]["labour"]
+    assert n["costs"] == {"parts_eur": 98.9, "shipping_eur": 29.0, "total_eur": 162.9, "labour": n["costs"]["labour"]}
+    assert "€162.90 in total" in n["say_en"]
     assert "payment instructions" in n["say_en"] and not n["parts_confirmed"]
 
 
@@ -435,7 +438,8 @@ def test_operator_records_customer_fits_alone():
     s, events, o = _dave_at_outcome()
     run(s.control({"action": "fits_alone", "on": True}))
     n = s._next_step()
-    assert n["fits_alone"] and n["booking"] is None and n["parts_confirmed"]
+    assert n["fits_alone"] and n["booking"]["slots"] and n["parts_confirmed"]    # slots stay: the customer may change mind
+    assert n["costs"]["total_eur"] == 127.9
     assert not n["payment"]["labour"] and "da solo" in n["text"]
     assert any("da solo" in x or "alone" in x for x in s.notes)
     run(s.control({"action": "fits_alone", "on": False}))
@@ -472,3 +476,33 @@ def test_no_steam_on_a_marea_is_no_heat():
     assert s.diagnosis and s.diagnosis.symptom["id"] == "marea-no-heat"
     opened = [e for e in events if e.get("type") == "open_doc"]
     assert opened and all("è" not in e["title"] for e in opened)
+
+
+def test_a_slot_booked_after_fits_alone_brings_the_call_back():
+    s, events, o = _dave_at_outcome()
+    run(s.control({"action": "fits_alone", "on": True}))
+    run(s.control({"action": "book_slot", "id": s._next_step()["booking"]["slots"][0]["id"]}))
+    n = s._next_step()
+    assert not n["fits_alone"] and n["booking"]["booked"] and n["costs"]["total_eur"] == 162.9
+
+
+def test_thought_tags_never_reach_the_transcript():
+    events = []
+
+    async def emit(ev):
+        events.append(ev)
+
+    s = CallSession("key", emit, source="roleplay:dave", lang="en")
+    s.clarify_on = False
+    run(s.voice_transcript("customer", "<thought >Wait, sorry, you lost me there.</thought>"))
+    run(s.voice_transcript("customer", "<thought>thinking</thought> Okay, I will try that."))
+    turns = [e["text"] for e in events if e.get("type") == "turn"]
+    assert turns == ["Okay, I will try that."]
+
+
+def test_warranty_terms_answer_the_neglect_question():
+    from app.voice.agent import warranty_rules
+    s, _ = make_session()
+    run(run_tool(s, "identify_machine", {"serial": "051040"}))
+    r = warranty_rules(s)
+    assert any("does not void" in t for t in r["terms"])

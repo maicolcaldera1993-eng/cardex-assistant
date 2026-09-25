@@ -71,6 +71,8 @@ const T = {
     approve: "Approva e invia al magazzino", approved: "Approvato · ordine inviato al magazzino (simulazione)", print: "Stampa", again: "Nuova chiamata",
     showTranscript: "Trascritto completo", diarCheck: "Attribuzione delle voci", duration: "Durata",
     toastApproved: "Ordine approvato. In produzione partirebbe verso il magazzino.",
+    free: "gratuita", notIfAlone: "solo se il cliente richiama", estTotal: "Totale stimato a carico del cliente", service: "Service",
+    warrantyTerms: "Condizioni di garanzia",
     shipTo: "Spedizione a", payment: "Pagamento", orderConfirmed: "Ordine ricambi confermato", confirmOrder: "Conferma ordine ricambi",
     fitsAlone: "Il cliente li monta da solo", fitsAloneBtn: "Il cliente li monta da solo", declinedAlone: "rifiutato: il cliente monta da solo",
     approveQuote: "Approva e invia il preventivo", approvedQuote: "Approvato · preventivo e istruzioni di pagamento inviati (simulazione); i ricambi partono al pagamento",
@@ -141,6 +143,8 @@ const T = {
     approve: "Approve and send to the warehouse", approved: "Approved · order sent to the warehouse (simulation)", print: "Print", again: "New call",
     showTranscript: "Full transcript", diarCheck: "Voice attribution", duration: "Duration",
     toastApproved: "Order approved. In production it would go to the warehouse.",
+    free: "free", notIfAlone: "only if the customer calls back", estTotal: "Estimated total for the customer", service: "Service",
+    warrantyTerms: "Warranty terms",
     shipTo: "Ship to", payment: "Payment", orderConfirmed: "Parts order confirmed", confirmOrder: "Confirm parts order",
     fitsAlone: "Customer fits them alone", fitsAloneBtn: "Customer fits them alone", declinedAlone: "declined: customer fits the parts alone",
     approveQuote: "Approve and send the quote", approvedQuote: "Approved · quote and payment instructions sent (simulation); parts ship on payment",
@@ -415,7 +419,10 @@ function bookingHtml(b) {
 function followHtml(n) {
   // after the call: payment, shipping, and what the operator can still record (order confirmed, customer fits alone)
   const pay = n.payment ? `<div class="wline ${n.payment.status === "awaiting_payment" ? "bad" : n.payment.status === "free" ? "ok" : ""}">💳 ${esc(n.payment.text)}</div>` : "";
-  const ship = n.ship_to ? `<div class="wline">📦 ${L.shipTo}: ${esc(n.ship_to)}</div>` : "";
+  const c = n.costs;
+  const ship = n.ship_to ? `<div class="wline">📦 ${L.shipTo}: ${esc(n.ship_to)}${c && c.shipping_eur != null ? ` · ${c.shipping_eur ? eur(c.shipping_eur) : L.free}` : ""}</div>` : "";
+  const lab = c && c.labour ? `<div class="wline">🛠 ${esc(lang === "it" ? c.labour.what_it : c.labour.what_en)}: ${c.labour.customer_pays_eur == null ? "—" : c.labour.customer_pays_eur ? eur(c.labour.customer_pays_eur) : L.free}${n.fits_alone ? ` <small>(${L.notIfAlone})</small>` : ""}</div>` : "";
+  const tot = c && c.total_eur != null && c.total_eur > 0 ? `<div class="wline strong">${L.estTotal}: ${eur(c.total_eur)}</div>` : "";
   let acts = "";
   if (callMode === "op" && (n.parts || []).length) {
     acts = n.parts_confirmed ? `<span class="tag ok">✓ ${L.orderConfirmed}</span>` : `<button class="btn small ok" data-order>${L.confirmOrder}</button>`;
@@ -424,7 +431,7 @@ function followHtml(n) {
         : ` <button class="btn small ghost" data-alone="1">${L.fitsAloneBtn}</button>`;
     acts = `<div class="follow-acts">${acts}</div>`;
   } else if (n.fits_alone) acts = `<div class="follow-acts"><span class="tag warn">${L.fitsAlone}</span></div>`;
-  return pay + ship + acts;
+  return ship + lab + tot + pay + acts;
 }
 function wireDiag(p) {
   p.querySelectorAll("[data-order]").forEach((b) => (b.onclick = () => send({ type: "control", action: "confirm_outcome_parts" })));
@@ -533,7 +540,8 @@ function renderMachine(m) {
   box.innerHTML = `<div class="machine-top"><div><h5>${esc(m.model)}${m.edition ? " · Vaniglia" : ""}</h5><div class="serial">#${esc(m.serial)}${m.exact ? "" : ` (${L.serialHeard})`}</div></div>${w}</div>` +
     `<div class="machine-grid"><div><span>${L.customerName}</span><b>${esc(m.customer)}</b></div><div><span>${L.place}</span><b>${esc(m.city)} (${esc(m.country)})</b></div>` +
     `<div><span>${L.built}</span><b>${esc(m.built)}</b></div><div><span>${L.voltage}</span><b>${esc(m.voltage)}</b></div></div>` +
-    (m.notes ? `<div class="note">${esc(m.notes)}</div>` : "") + (orders ? `<ul class="orders">${orders}</ul>` : "");
+    (m.notes ? `<div class="note">${esc(m.notes)}</div>` : "") + (orders ? `<ul class="orders">${orders}</ul>` : "") +
+    ((m.warranty_terms || []).length ? `<details class="terms"><summary>${L.warrantyTerms}</summary><ul>${m.warranty_terms.map((t) => `<li>${esc(t)}</li>`).join("")}</ul></details>` : "");
 }
 
 // ------------------------------------------------------------------ documents
@@ -610,7 +618,9 @@ function renderSummary(s) {
         <dt>${L.nextStep}</dt><dd>${esc(s.next ? s.next.text : "—")}${s.next && s.next.warranty_text ? `<br><small>${esc(s.next.warranty_text)}</small>` : ""}</dd>
         <dt>${L.appointment}</dt><dd>${s.booking ? `${esc(s.booking.label)} · ${esc(s.booking.technician)}` : s.next && s.next.fits_alone ? `<span class="tag warn">${L.declinedAlone}</span>` : (["part_with_support", "technician"].includes(kind) ? `<span class="tag bad">${L.notBooked}</span>` : "—")}</dd>
         ${s.next && s.next.payment ? `<dt>${L.payment}</dt><dd>${esc(s.next.payment.text)}</dd>` : ""}
-        ${s.next && s.next.ship_to ? `<dt>${L.shipTo}</dt><dd>${esc(s.next.ship_to)}</dd>` : ""}</dl></section>
+        ${s.next && s.next.ship_to ? `<dt>${L.shipTo}</dt><dd>${esc(s.next.ship_to)}${s.next.costs && s.next.costs.shipping_eur != null ? ` · ${s.next.costs.shipping_eur ? eur(s.next.costs.shipping_eur) : L.free}` : ""}</dd>` : ""}
+        ${s.next && s.next.costs && s.next.costs.labour && !s.next.fits_alone ? `<dt>${L.service}</dt><dd>${esc(lang === "it" ? s.next.costs.labour.what_it : s.next.costs.labour.what_en)} · ${s.next.costs.labour.customer_pays_eur == null ? "—" : s.next.costs.labour.customer_pays_eur ? eur(s.next.costs.labour.customer_pays_eur) : L.free}</dd>` : ""}
+        ${s.next && s.next.costs && s.next.costs.total_eur ? `<dt>${L.estTotal}</dt><dd><b>${eur(s.next.costs.total_eur)}</b></dd>` : ""}</dl></section>
       <section class="report-sec wide"><h4>${L.secDiag}</h4>${steps}</section>
       <section class="report-sec wide"><h4>${L.secParts}</h4>${partsTbl}</section>
       ${(s.notes || []).length ? `<section class="report-sec wide"><h4>${L.secNotes}</h4><ul>${s.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul></section>` : ""}

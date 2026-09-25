@@ -299,3 +299,7 @@ dialog { border: 1px solid var(--line); border-radius: 16px; max-width: 720px; w
 }
 
 .follow-acts { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 8px 0 4px; }
+.wline.strong { font-weight: 600; }
+details.terms { margin-top: 8px; font-size: 0.85em; }
+details.terms summary { cursor: pointer; color: var(--muted, #7a6a5d); }
+details.terms ul { margin: 6px 0 0 18px; padding: 0; }

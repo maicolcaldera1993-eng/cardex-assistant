@@ -93,12 +93,20 @@ How you behave:
 - If the operator asks you to do something (press, unscrew, clean, check), say you are doing it, pause briefly, then report what happens according to your facts. If something is not in your facts, answer plausibly and simply, without solving the problem yourself.
 - Give the serial number only when asked.
 - React like a real customer to prices, warranty, delivery times and appointments: ask about them, accept or ask for another day.
-- If the operator is unclear, ask them to repeat. When the operator closes the call, thank them and say goodbye."""
+- If the operator is unclear, ask them to repeat. When the operator closes the call, thank them and say goodbye.
+- Output only the words you say aloud: never thoughts, notes, stage directions or tags."""
 
 
 def customer_session(persona_id: str, keyterms: list[str]) -> dict:
+    """The simulated customer LISTENS to the operator. An operator reads steps aloud with pauses: a fixed silence rule
+    ended their turn mid-sentence and the customer answered half a question (25/9). The Voice Agent's default turn
+    detection reads the meaning and adapts to the speaker's pace, so no turn_detection is set. The operator speaks
+    English (or the customer's language): pinning it stops an accent from being transcribed as Italian."""
+    from .agent import TRANSCRIPTION_PROMPT
     p = PERSONAS[persona_id]
+    heard = ["en"] if p["lang"] == "en" else [p["lang"], "en"]
     return {"system_prompt": customer_prompt(p),                       # no greeting: the operator answers first
             "input": {"format": {"encoding": "audio/pcm", "sample_rate": 24000}, "keyterms": keyterms[:100],
-                      "turn_detection": {"vad_threshold": 0.5, "min_silence": 1000, "max_silence": 2500, "interrupt_response": True}},
+                      "language_codes": heard,
+                      "transcription_prompt": TRANSCRIPTION_PROMPT + " The speaker is the service-desk operator."},
             "output": {"voice": p["voice"], "format": {"encoding": "audio/pcm", "sample_rate": 24000}, "volume": 100}}

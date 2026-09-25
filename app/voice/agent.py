@@ -41,7 +41,7 @@ HOW YOU WORK
 3. When a step asks the customer to do something (press, unscrew, clean, backflush), explain it simply, wait for them to do it and tell you the result, then call answer_step.
 4. Order of things: as soon as the fault is described, call find_procedure and ask its first question. Right after the customer answers that first question, ask for the serial number (it is on the plate at the back) and call identify_machine with the digits and the model words the customer used: it tells you the machine, whether it is under warranty and who pays. Then continue with the steps.
 5. Say prices, delivery times, part codes, warranty, totals and dates ONLY when they come from a tool result in this conversation. Never invent a number, never name a part the tools did not return, never explain what broke beyond what the step or the outcome says. Always use the "spoken" forms given in the results for codes and prices (for example "C A twelve seventy, twelve euros sixty"), every time you say a code.
-6. THE CUSTOMER MAY ASK ANYTHING AT ANY MOMENT, in any order (warranty before the serial, cost before the outcome, the appointment in the middle of a step). Never refuse, postpone or pass to the operator a question that get_call_status can answer: call it, answer in one or two sentences, then go back to the step where you were. If the answer depends on something missing (no serial yet, no outcome yet), say what is missing and ask for it. Customer questions: answer from tool results when you can. Money: always say what the CUSTOMER pays (customer_pays_spoken, customer_pays_total_spoken, labour), never the list price as if it were a cost. Under warranty the repair's parts and the service are free; consumables such as cleaning tablets are always charged, and if asked, say so plainly ("the tablets are consumables, they are not covered"). The outcome also gives delivery days and whether a service call or a technician is needed; use them. How to pay: never take payment on the phone and never invent links, card payments or bank details; say what the outcome's payment field says (a colleague emails the quote and payment instructions, the parts ship when the payment is confirmed). Call note_for_operator only for things no tool covers (discounts, invoices, complaints), say the operator will follow up, then return to the procedure. Warranty, prices, delivery and appointments are NEVER operator questions.
+6. THE CUSTOMER MAY ASK ANYTHING AT ANY MOMENT, in any order (warranty before the serial, cost before the outcome, the appointment in the middle of a step). Never refuse, postpone or pass to the operator a question that get_call_status can answer: call it, answer in one or two sentences, then go back to the step where you were. If the answer depends on something missing (no serial yet, no outcome yet), say what is missing and ask for it. Customer questions: answer from tool results when you can. Money: always say what the CUSTOMER pays (customer_pays_spoken, customer_pays_total_spoken, labour), never the list price as if it were a cost. Under warranty the repair's parts and the service are free; consumables such as cleaning tablets are always charged, and if asked, say so plainly ("the tablets are consumables, they are not covered"). What the warranty covers or excludes (for example whether missed cleaning voids it): answer from who_pays.terms of get_call_status. Shipping, the service call and the technician have fixed prices in the outcome (shipping, labour): quote them, never guess. The outcome also gives delivery days and whether a service call or a technician is needed; use them. How to pay: never take payment on the phone and never invent links, card payments or bank details; say what the outcome's payment field says (a colleague emails the quote and payment instructions, the parts ship when the payment is confirmed). Call note_for_operator only for things no tool covers (discounts, invoices, complaints), say the operator will follow up, then return to the procedure. Warranty, prices, delivery and appointments are NEVER operator questions.
 7. At the outcome, explain what happens next (parts shipped FROM our warehouse to the customer, second call with service, technician's visit), who pays, and propose the first free slot from the result. When the customer agrees, call book_slot with that slot id. If they prefer another, propose the next one. When the customer agrees to receive the parts, call confirm_parts with their codes: without it nothing is ordered. If the outcome needs a service call or a technician and the customer wants to fit the part alone, say once that this part must be fitted with our service (safety, and the repair's warranty); if they still decline, call note_for_operator ("customer declines service support").
 8. Say numbers as words, the natural way: "two hundred thirty volts", "one point two bar", never digit by digit (except serial numbers when you repeat them back). Keep every reply to one or two short sentences. Warm and professional, never chatty. Repeat numbers back to confirm them.
 10. If a tool result says "stale" or "error", call answer_step again right away with the step_id given in that result and the option matching the customer's words. Never guess the outcome yourself and never use find_part to work out which part is needed: only the procedure's outcome names the parts. find_part is for parts the customer asks about by code or by name.
@@ -109,6 +109,12 @@ _GOODBYE = re.compile(r"\b(good ?bye|bye|arrivederci|arrivederla|buona giornata|
                       r"auf wieder(h[oö]ren|sehen)|tsch[uü]ss|au revoir|bonne journ[ée]e|adeus|tchau|at[ée] logo)\b", re.I)
 
 
+TRANSCRIPTION_PROMPT = ("A phone call to the service desk of Sereni, an Italian maker of professional espresso machines "
+                        "(Marea, Giglio, Onda, Monda). People talk about boilers, heating elements, gaskets, solenoid valves, "
+                        "portafilters, steam wands, voltages, part codes of two letters and four digits (CA-1181, GE-2160) and "
+                        "serial numbers read digit by digit.")
+
+
 def agent_config(keyterms: list[str], lang: str = "en") -> dict:
     lang = lang if lang in LANGUAGES else "en"
     name, voice = LANGUAGES[lang]
@@ -117,6 +123,7 @@ def agent_config(keyterms: list[str], lang: str = "en") -> dict:
     return {"name": AGENT_NAME, "system_prompt": prompt, "greeting": GREETINGS[lang],
             "voice": {"voice_id": voice},
             "input": {"format": {"encoding": "audio/pcm", "sample_rate": 24000}, "keyterms": keyterms[:100],
+                      "language_codes": [lang], "transcription_prompt": TRANSCRIPTION_PROMPT,
                       # The browser keeps the mic closed while the agent's voice PLAYS (half duplex), so the customer
                       # cannot talk over it. interrupt_response stays on for the gap before playback: if the turn was
                       # closed too early ("Buongiorno." | "sono Mario...") the reply is dropped instead of the words.
@@ -220,6 +227,11 @@ def _already_answered(s, words: str) -> dict:
 
 def warranty_rules(s) -> dict:
     """Who pays what on this machine, in words the agent can say."""
+    from ..core.terms import WARRANTY_TERMS
+    return {**_warranty_rules(s), "terms": WARRANTY_TERMS["en"]}
+
+
+def _warranty_rules(s) -> dict:
     m = s.machine
     if not m:
         return {"known": False, "say": "the warranty depends on the machine: ask for the serial number on the plate at the back"}
@@ -294,6 +306,17 @@ def _outcome_view(s) -> dict:
                round(sum(p["customer_pays_eur"] or 0 for p in n["parts"]), 2)),
            "labour": ("free, covered by the warranty" if n["warranty"] is True else "charged, a quote follows" if n["warranty"] is False
                       else "depends on the warranty: ask the serial number")}
+    c = n.get("costs")
+    if c:
+        out["shipping"] = ("free" if c["shipping_eur"] == 0 else spoken_price(c["shipping_eur"]) if c["shipping_eur"] is not None
+                           else "depends on the destination: ask the serial number")
+        if c["labour"]:
+            lp = c["labour"]["customer_pays_eur"]
+            out["labour"] = c["labour"]["what_en"] + ": " + ("free, covered by the warranty" if lp == 0 else
+                                                               spoken_price(lp) if lp else "depends on the warranty: ask the serial number")
+        if c["total_eur"] is not None:
+            out["customer_pays_total_with_shipping_and_service_spoken"] = ("nothing" if c["total_eur"] == 0
+                                                                            else spoken_price(c["total_eur"]))
     if n.get("payment"):
         out["payment"] = n["payment"]["say_en"] or n["payment"]["text"]
         out["ship_to"] = n["ship_to"]
