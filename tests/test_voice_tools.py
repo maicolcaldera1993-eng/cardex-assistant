@@ -637,3 +637,18 @@ def test_no_outcome_offers_a_part_and_the_kit_that_contains_it():
                 if b["then"].startswith("outcome:") and b["then"].count(":") > 1:
                     codes = b["then"].split(":")[2].split(",")
                     assert not ({"GE-2140", "GE-2210"} <= set(codes) or {"GE-2410", "GE-2211"} <= set(codes)), (sid, codes)
+
+
+def test_spelled_email_is_accepted_invented_one_is_not():
+    from app.agent.dialog import said_email
+    said = ["Okay, the email is Michael Caldera.", "M-A-I-C-O-L, Caldera.", "The email is wrong again.",
+            "M-A-I-C-O-L-C-A-L-D-E-R-A-1993 at G.", "Mail."]
+    assert said_email("maicolcaldera1993@gmail.com", said)
+    assert not said_email("maicol.caldera1993@mail.com", ["Call Caldera.", "one nine nine three dot sorry at mail dot com"])
+    assert not said_email("mehmet@example.com", ["I'm Mehmet."])
+    assert said_email("dave@espressocorner.com", ["Sure, it is dave at espresso corner dot com."])
+
+
+def test_dollars_are_answered_with_euros_for_a_us_customer():
+    s, events, o = _dave_at_outcome()
+    assert "We invoice in euros" in s._next_step()["say_en"]

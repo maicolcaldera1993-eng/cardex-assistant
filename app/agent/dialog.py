@@ -155,6 +155,24 @@ def email_in(text: str) -> str:
     return email if _EMAIL.fullmatch(email) else ""
 
 
+def said_email(email: str, texts: list[str]) -> bool:
+    """Did the customer say this address? Spelled ('M-A-I-C-O-L, Caldera, one nine nine three at G. Mail'), read out
+    ('dave at espresso corner dot com') or written: the letters of the name and of the domain must appear, in order and
+    without the gaps, in what the customer said."""
+    if not email or "@" not in email or email.endswith("@example.com"):
+        return False
+    joined = ""
+    for t in texts:
+        t = t.lower()
+        for w, d in DIGIT_WORDS.items():
+            t = re.sub(rf"\b{w}\b", d, t)
+        joined += re.sub(r"[^a-z0-9]", "", t)
+    local, domain = email.lower().split("@", 1)
+    local = re.sub(r"[^a-z0-9]", "", local)
+    name = re.sub(r"[^a-z0-9]", "", domain.split(".")[0])
+    return bool(local) and local in joined and name in joined
+
+
 def digits_in(text: str) -> str:
     """'zero four one, three zero two' or '041302' -> '041302' (only when it looks like a serial)."""
     found = serials_in(text)

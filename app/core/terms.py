@@ -13,6 +13,9 @@ SHIPPING_WORLD_EUR = 29.00
 EU = {"IT", "DE", "AT", "ES", "NL", "FR", "PT", "BE", "LU", "IE", "DK", "SE", "FI", "PL", "CZ", "SK", "SI", "HR", "HU",
       "RO", "BG", "GR", "CY", "MT", "EE", "LV", "LT"}
 
+EURO_AREA = {"IT", "DE", "AT", "ES", "NL", "FR", "PT", "BE", "LU", "IE", "FI", "SK", "SI", "HR", "GR", "CY", "MT", "EE",
+             "LV", "LT"}
+
 WARRANTY_TERMS = {
     "en": [f"{WARRANTY_MONTHS} months from installation: repair parts, service calls, technician visits and shipping are free.",
            "Missed cleaning or backflushing does not void the warranty. Not covered: limescale damage without a water "

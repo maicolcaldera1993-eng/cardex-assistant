@@ -1184,6 +1184,8 @@ class CallSession:
         if labour:
             bits.append(f"the {lab['what_en'].split(' (')[0]} €{lab['customer_pays_eur']:.2f}")
         cost_say = (", ".join(bits) + f": €{pays:.2f} in total. ").capitalize() if bits else ""
+        if cost_say and self.machine and self.machine.get("country") not in terms.EURO_AREA:
+            cost_say += "We invoice in euros; your bank or card converts at the day's rate. "
         return {"status": "awaiting_payment", "amount_eur": pays, "labour": labour, "cost_say_en": cost_say,
                 "text": ("In attesa di pagamento: un collega revisiona la scheda e invia al cliente per email il preventivo "
                          "e le istruzioni di pagamento; i ricambi partono alla conferma del pagamento.") if it else
