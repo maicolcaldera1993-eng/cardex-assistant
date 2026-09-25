@@ -14,7 +14,7 @@ import re
 
 import httpx
 
-from ..agent.dialog import classify_branch, digits_in, for_customer
+from ..agent.dialog import classify_branch, digits_in, email_in, for_customer
 from ..core.normalizer import extract_codes
 
 AGENTS_URL = "https://agents.assemblyai.com/v1"
@@ -42,7 +42,7 @@ HOW YOU WORK
 4. Order of things: as soon as the fault is described, call find_procedure and ask its first question. Right after the customer answers that first question, ask for the serial number (it is on the plate at the back) and call identify_machine with the digits and the model words the customer used: it tells you the machine, whether it is under warranty and who pays. Then continue with the steps.
 5. Say prices, delivery times, part codes, warranty, totals and dates ONLY when they come from a tool result in this conversation. Never invent a number, never name a part the tools did not return, never explain what broke beyond what the step or the outcome says. Always use the "spoken" forms given in the results for codes and prices (for example "C A twelve seventy, twelve euros sixty"), every time you say a code.
 6. THE CUSTOMER MAY ASK ANYTHING AT ANY MOMENT, in any order (warranty before the serial, cost before the outcome, the appointment in the middle of a step). Never refuse, postpone or pass to the operator a question that get_call_status can answer: call it, answer in one or two sentences, then go back to the step where you were. If the answer depends on something missing (no serial yet, no outcome yet), say what is missing and ask for it. Customer questions: answer from tool results when you can. Money: always say what the CUSTOMER pays (customer_pays_spoken, customer_pays_total_spoken, labour), never the list price as if it were a cost. Under warranty the repair's parts and the service are free; consumables such as cleaning tablets are always charged, and if asked, say so plainly ("the tablets are consumables, they are not covered"). What the warranty covers or excludes (for example whether missed cleaning voids it): answer from who_pays.terms of get_call_status. Shipping, the service call and the technician have fixed prices in the outcome (shipping, labour): quote them, never guess. The outcome also gives delivery days and whether a service call or a technician is needed; use them. How to pay: never take payment on the phone and never invent links, card payments or bank details; say what the outcome's payment field says (a colleague emails the quote and payment instructions, the parts ship when the payment is confirmed). Call note_for_operator only for things no tool covers (discounts, invoices, complaints), say the operator will follow up, then return to the procedure. Warranty, prices, delivery and appointments are NEVER operator questions.
-7. At the outcome, explain what happens next (parts shipped FROM our warehouse to the customer, second call with service, technician's visit), who pays, and propose the first free slot from the result. When the customer agrees, call book_slot with that slot id. If they prefer another, propose the next one. When the customer agrees to receive the parts, call confirm_parts with their codes: without it nothing is ordered. If the outcome needs a service call or a technician and the customer wants to fit the part alone, say once that this part must be fitted with our service (safety, and the repair's warranty); if they still decline, call note_for_operator ("customer declines service support").
+7. At the outcome, explain what happens next (parts shipped FROM our warehouse to the customer, second call with service, technician's visit), who pays, and propose the first free slot from the result. When the customer agrees, call book_slot with that slot id. If they prefer another, propose the next one. When the customer agrees to receive the parts, call confirm_parts with their codes: without it nothing is ordered. If the customer pays anything, ask for an email address for the quote and the payment instructions, spell it back, and pass it in confirm_parts; never take payment on the call. If the outcome needs a service call or a technician and the customer wants to fit the part alone, say once that this part must be fitted with our service (safety, and the repair's warranty); if they still decline, call note_for_operator ("customer declines service support").
 8. Say numbers as words, the natural way: "two hundred thirty volts", "one point two bar", never digit by digit (except serial numbers when you repeat them back). Keep every reply to one or two short sentences. Warm and professional, never chatty. Repeat numbers back to confirm them.
 10. If a tool result says "stale" or "error", call answer_step again right away with the step_id given in that result and the option matching the customer's words. Never guess the outcome yourself and never use find_part to work out which part is needed: only the procedure's outcome names the parts. find_part is for parts the customer asks about by code or by name.
 9. When there is nothing else, thank them, say goodbye, and call end_call.
@@ -82,7 +82,8 @@ TOOLS: list[dict] = [
                     "required": ["slot_id"]}, "execution_mode": "hold"},
     {"name": "confirm_parts",
      "description": "Call when the customer agrees to receive the parts named in the outcome (or a part from find_part). Records the order for the operator, who approves it before shipping. Never say the parts are on their way without calling this.",
-     "parameters": {"type": "object", "properties": {"codes": {"type": "array", "items": {"type": "string"}, "description": "The part codes the customer accepted, e.g. [\"GE-2140\", \"GE-2210\"]"}},
+     "parameters": {"type": "object", "properties": {"codes": {"type": "array", "items": {"type": "string"}, "description": "The part codes the customer accepted, e.g. [\"GE-2140\", \"GE-2210\"]"},
+                                                     "email": {"type": "string", "description": "The customer's email for the quote and payment instructions, exactly as spelled, e.g. dave@espressocorner.com. Needed whenever the customer pays something."}},
                     "required": ["codes"]}, "execution_mode": "hold"},
     {"name": "get_call_status",
      "description": "Call whenever the customer asks something that is not the answer to the current step, at ANY moment: warranty, who pays (parts, labour, consumables), total cost, delivery time, who fits the part, what has been ordered, the appointment, what happens next. Returns everything known on this call. Answer from it, then return to where you were. When in doubt, call it.",
@@ -491,6 +492,10 @@ async def _run_tool(s, name: str, args: dict) -> dict:
                     "next": "ask if there is anything else; if not, say goodbye, THEN call end_call"}
         return {"status": "error", "hint": "slot id not free or unknown; propose another from the outcome"}
     if name == "confirm_parts":
+        if args.get("email"):
+            em = email_in(str(args["email"]))
+            if em:
+                await s._set_email(em)
         codes = [str(c).upper().strip() for c in (args.get("codes") or [])]
         done = []
         for code in codes:
@@ -499,7 +504,12 @@ async def _run_tool(s, name: str, args: dict) -> dict:
                 done.append(code)
         if not done:
             return {"status": "error", "hint": "none of these codes is on the table; use the codes from the outcome or from find_part"}
-        return {"status": "confirmed", "codes": done,
+        pays = s._next_step().get("payment") if s.diagnosis and s.diagnosis.outcome else None
+        if pays and pays["status"] == "awaiting_payment" and not s.email:
+            return {"status": "confirmed", "codes": done, "email_missing": True,
+                    "say": "the order is recorded; ask the customer's email for the quote and the payment instructions, "
+                           "spell it back, then call confirm_parts again with the same codes and the email"}
+        return {"status": "confirmed", "codes": done, "email": s.email or None,
                 "say": "the order is recorded; an operator approves it and the parts are shipped from our warehouse"}
     if name == "get_call_status":
         s._log_decision("status_asked", question=args.get("question", ""))

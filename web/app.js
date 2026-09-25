@@ -71,6 +71,7 @@ const T = {
     approve: "Approva e invia al magazzino", approved: "Approvato · ordine inviato al magazzino (simulazione)", print: "Stampa", again: "Nuova chiamata",
     showTranscript: "Trascritto completo", diarCheck: "Attribuzione delle voci", duration: "Durata",
     toastApproved: "Ordine approvato. In produzione partirebbe verso il magazzino.",
+    quoteTo: "Preventivo a", save: "Salva", askEmail: "email da chiedere", shipping: "Spedizione", stBooked: "prenotato", stNotBooked: "non prenotato",
     free: "gratuita", notIfAlone: "solo se il cliente richiama", estTotal: "Totale stimato a carico del cliente", service: "Service",
     warrantyTerms: "Condizioni di garanzia",
     shipTo: "Spedizione a", payment: "Pagamento", orderConfirmed: "Ordine ricambi confermato", confirmOrder: "Conferma ordine ricambi",
@@ -143,6 +144,7 @@ const T = {
     approve: "Approve and send to the warehouse", approved: "Approved · order sent to the warehouse (simulation)", print: "Print", again: "New call",
     showTranscript: "Full transcript", diarCheck: "Voice attribution", duration: "Duration",
     toastApproved: "Order approved. In production it would go to the warehouse.",
+    quoteTo: "Quote to", save: "Save", askEmail: "email to ask", shipping: "Shipping", stBooked: "booked", stNotBooked: "not booked",
     free: "free", notIfAlone: "only if the customer calls back", estTotal: "Estimated total for the customer", service: "Service",
     warrantyTerms: "Warranty terms",
     shipTo: "Ship to", payment: "Payment", orderConfirmed: "Parts order confirmed", confirmOrder: "Confirm parts order",
@@ -361,6 +363,7 @@ function handle(ev) {
     case "part_status": if (cards.has(ev.code)) { cards.get(ev.code).status = ev.status; renderParts(); } break;
     case "diagnosis": renderDiagnosis(ev); break;
     case "symptom_choice": renderChoice(ev.options); break;
+    case "contact": toast(`✉ ${ev.email}`); break;
     case "machine_record": {
       lastMachine = ev; renderMachine(ev);
       const w = $("st-warranty"); w.hidden = false;
@@ -431,9 +434,16 @@ function followHtml(n) {
         : ` <button class="btn small ghost" data-alone="1">${L.fitsAloneBtn}</button>`;
     acts = `<div class="follow-acts">${acts}</div>`;
   } else if (n.fits_alone) acts = `<div class="follow-acts"><span class="tag warn">${L.fitsAlone}</span></div>`;
-  return ship + lab + tot + pay + acts;
+  let mail = "";
+  if (n.payment && n.payment.status === "awaiting_payment") {
+    mail = callMode === "op"
+      ? `<div class="wline mail">✉ ${L.quoteTo}: <input id="in-email" type="email" placeholder="name@example.com" value="${esc(n.email || "")}"> <button class="btn small ghost" data-email>${L.save}</button>${n.email ? "" : ` <span class="tag warn">${L.askEmail}</span>`}</div>`
+      : `<div class="wline">✉ ${L.quoteTo}: ${n.email ? esc(n.email) : `<span class="tag warn">${L.askEmail}</span>`}</div>`;
+  }
+  return ship + lab + tot + pay + mail + acts;
 }
 function wireDiag(p) {
+  p.querySelectorAll("[data-email]").forEach((b) => (b.onclick = () => send({ type: "control", action: "set_email", email: $("in-email").value })));
   p.querySelectorAll("[data-order]").forEach((b) => (b.onclick = () => send({ type: "control", action: "confirm_outcome_parts" })));
   p.querySelectorAll("[data-alone]").forEach((b) => (b.onclick = () => send({ type: "control", action: "fits_alone", on: b.dataset.alone === "1" })));
   p.querySelectorAll("[data-slot]").forEach((b) => (b.onclick = () => send({ type: "control", action: "book_slot", id: b.dataset.slot })));
@@ -600,8 +610,18 @@ function renderSummary(s) {
     `<td><span class="tag ${stTag[p.st][0]}">${stTag[p.st][1]}</span></td><td class="num">${eur(p.price_eur)}</td>` +
     `<td class="num">${p.st === "incompatible" ? "—" : p.covered_by_warranty ? `<span class="tag ok">${L.covered}</span>` : eur(pays(p))}</td></tr>`).join("");
   const total = s.parts_confirmed.reduce((a, p) => a + (pays(p) || 0), 0);
-  const partsTbl = all.length ? `<table class="rtable"><thead><tr><th>${L.thCode}</th><th>${L.thDesc}</th><th>${L.thStatus}</th><th class="num">${L.thPrice}</th><th class="num">${L.thPays}</th></tr></thead><tbody>${partsRows}</tbody>` +
-    `<tfoot><tr><td colspan="4">${L.totalPays}</td><td class="num">${eur(total)}</td></tr></tfoot></table>` : `<p class="note">${L.none}</p>`;
+  // the work order reads like the final invoice: parts, then shipping and the service call from Sereni's terms
+  const co = s.next && s.next.costs;
+  let extraRows = "", grand = total;
+  if (co) {
+    if (co.shipping_eur != null && s.parts_confirmed.length)
+      extraRows += `<tr><td class="code">—</td><td>${L.shipping}</td><td></td><td class="num"></td><td class="num">${co.shipping_eur ? eur(co.shipping_eur) : `<span class="tag ok">${L.free}</span>`}</td></tr>`;
+    if (co.labour && !s.next.fits_alone)
+      extraRows += `<tr><td class="code">—</td><td>${esc(lang === "it" ? co.labour.what_it : co.labour.what_en)}</td><td><span class="tag ${s.booking ? "ok" : "warn"}">${s.booking ? L.stBooked : L.stNotBooked}</span></td><td class="num">${eur(co.labour.list_eur)}</td><td class="num">${co.labour.customer_pays_eur == null ? "—" : co.labour.customer_pays_eur ? eur(co.labour.customer_pays_eur) : `<span class="tag ok">${L.covered}</span>`}</td></tr>`;
+    grand = total + (s.parts_confirmed.length ? co.shipping_eur || 0 : 0) + (co.labour && !s.next.fits_alone && s.booking ? co.labour.customer_pays_eur || 0 : 0);
+  }
+  const partsTbl = all.length ? `<table class="rtable"><thead><tr><th>${L.thCode}</th><th>${L.thDesc}</th><th>${L.thStatus}</th><th class="num">${L.thPrice}</th><th class="num">${L.thPays}</th></tr></thead><tbody>${partsRows}${extraRows}</tbody>` +
+    `<tfoot><tr><td colspan="4">${L.totalPays}</td><td class="num">${eur(grand)}</td></tr></tfoot></table>` : `<p class="note">${L.none}</p>`;
   const diar = s.diarization_check ? `${Math.round((s.diarization_check.accuracy || 0) * 100)}%` : null;
   const transcript = s.transcript.map((t) => `<div class="turn ${t.role}${t.interrupted ? " interrupted" : ""}"><div class="who">${t.role === "operator" ? L.operator : t.role === "agent" ? L.agent : L.customer}</div>${esc(t.text)}${t.clear ? `<div class="clear">${esc(t.clear)}</div>` : ""}</div>`).join("");
   const hasOrder = s.parts_confirmed.length || s.booking;
@@ -620,7 +640,7 @@ function renderSummary(s) {
         ${s.next && s.next.payment ? `<dt>${L.payment}</dt><dd>${esc(s.next.payment.text)}</dd>` : ""}
         ${s.next && s.next.ship_to ? `<dt>${L.shipTo}</dt><dd>${esc(s.next.ship_to)}${s.next.costs && s.next.costs.shipping_eur != null ? ` · ${s.next.costs.shipping_eur ? eur(s.next.costs.shipping_eur) : L.free}` : ""}</dd>` : ""}
         ${s.next && s.next.costs && s.next.costs.labour && !s.next.fits_alone ? `<dt>${L.service}</dt><dd>${esc(lang === "it" ? s.next.costs.labour.what_it : s.next.costs.labour.what_en)} · ${s.next.costs.labour.customer_pays_eur == null ? "—" : s.next.costs.labour.customer_pays_eur ? eur(s.next.costs.labour.customer_pays_eur) : L.free}</dd>` : ""}
-        ${s.next && s.next.costs && s.next.costs.total_eur ? `<dt>${L.estTotal}</dt><dd><b>${eur(s.next.costs.total_eur)}</b></dd>` : ""}</dl></section>
+        ${s.next && s.next.payment && s.next.payment.status === "awaiting_payment" ? `<dt>${L.quoteTo}</dt><dd>${s.email ? esc(s.email) : `<span class="tag bad">${L.askEmail}</span>`}</dd>` : ""}</dl></section>
       <section class="report-sec wide"><h4>${L.secDiag}</h4>${steps}</section>
       <section class="report-sec wide"><h4>${L.secParts}</h4>${partsTbl}</section>
       ${(s.notes || []).length ? `<section class="report-sec wide"><h4>${L.secNotes}</h4><ul>${s.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul></section>` : ""}

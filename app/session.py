@@ -146,6 +146,7 @@ class CallSession:
         self.end_refused: set[str] = set()        # end_call refused once per reason: open step, parts, no goodbye
         self.end_wanted = False                   # the agent asked to end at least once
         self.fits_alone = False                   # the customer declined the service call: fits the parts alone
+        self.email = ""                           # where the quote and the payment instructions go
         self.last_agent_text = ""
         self.last_customer_text = ""
         self.serial_asked = 0                     # customer sentences still read as the answer to "which serial?"
@@ -447,6 +448,10 @@ class CallSession:
     async def _assist(self, tid: int, text: str, role: str, min_conf: float, recent: list[str] | None = None,
                       utt: dict | None = None) -> None:
         recent = recent or [text]
+        from .agent.dialog import email_in
+        em = email_in(text)                                    # said by the customer or read back by the operator
+        if em and em != self.email:
+            await self._set_email(em)
         hit = CONTEXT.detect(text)
         changed = False
         if hit.model_id and self.model_id and hit.model_id != self.model_id:
@@ -804,6 +809,8 @@ class CallSession:
             slot = next((x for x in CATALOG.service_slots(zone, from_day=int(off), limit=8) if x["id"] == msg["id"]), None)
             if slot:
                 self.booking = slot
+                if self.fits_alone:
+                    self.notes = [n for n in self.notes if "da solo" not in n and "alone" not in n]
                 self.fits_alone = False
                 await self._confirm_outcome_parts()            # booking the fitting means the parts are ordered
                 v = self._slot_view(slot)
@@ -826,6 +833,13 @@ class CallSession:
                     self.notes.append(note)
                 await self._agent(note)
             await self._emit_diagnosis()
+        elif a == "set_email":
+            from .agent.dialog import email_in
+            em = email_in(str(msg.get("email") or ""))
+            if em:
+                await self._set_email(em)
+            else:
+                await self._agent("Email non valida." if self.lang == "it" else "Not a valid email address.")
         elif a == "cancel_booking" and self.booking:
             self.booking = None
             await self._agent("Prenotazione annullata." if self.lang == "it" else "Booking cancelled.")
@@ -1089,9 +1103,11 @@ class CallSession:
                      else f"We'll call you on {b['label_en']} to fit the parts together, once they have arrived. Does that work for you?")
         costs = self._costs(o.kind, w, parts, fits_alone)
         pay = self._payment(o.kind, w, costs)
+        if pay and pay["status"] == "awaiting_payment" and not self.email:
+            pay["say_en"] += " What email address should we send the quote to?"
         return {"costs": costs,"kind": o.kind, "text": text[0] if it else text[1], "warranty": w, "warranty_text": wt[0] if it else wt[1],
                 "say_en": " ".join(x for x in (say_w, say_k, pay["say_en"] if pay else "") if x).strip(), "booking": booking,
-                "fits_alone": fits_alone, "payment": pay, "ship_to": self._ship_to() if parts else None,
+                "fits_alone": fits_alone, "payment": pay, "ship_to": self._ship_to() if parts else None, "email": self.email,
                 "parts_confirmed": bool(parts) and all(c["status"] == "confirmed" for c in parts),
                 "parts": [{"code": c["code"], "description": c["description"], "description_en": c["description_en"],
                            "price_eur": c["price_eur"], "delivery": c["delivery"], "handling": c["handling"],
@@ -1144,6 +1160,13 @@ class CallSession:
         if m:
             return f"{m['customer']}, {m['city']} ({m['country']})" + (" · indirizzo in anagrafica" if self.lang == "it" else " · address on file")
         return "indirizzo da chiedere al cliente" if self.lang == "it" else "address to ask the customer"
+
+    async def _set_email(self, email: str) -> None:
+        self.email = email.strip().lower()
+        await self._agent((f"Email per il preventivo: {self.email}" if self.lang == "it" else f"Email for the quote: {self.email}"))
+        await self.emit({"type": "contact", "email": self.email})
+        if self.diagnosis and self.diagnosis.outcome:
+            await self._emit_diagnosis()
 
     async def _confirm_outcome_parts(self) -> list[str]:
         done = []
@@ -1203,6 +1226,7 @@ class CallSession:
             "next": self._next_step() if self.diagnosis and self.diagnosis.outcome else None,
             "booking": self._slot_view(self.booking) if self.booking else None,
             "notes": self.notes,
+            "email": self.email,
             "voice_agent": self.voice,
             "machine_record": self.machine,
             "parts_confirmed": [{"code": c["code"], "description": c["description"], "price_eur": c["price_eur"],

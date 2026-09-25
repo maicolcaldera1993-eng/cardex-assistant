@@ -72,6 +72,39 @@ def serials_in(text: str) -> list[str]:
     return out
 
 
+_EMAIL = re.compile(r"[a-z0-9][a-z0-9._%+-]*@[a-z0-9-]+(?:\.[a-z0-9-]+)+", re.I)
+_TLD = r"(?:com|it|de|es|us|net|org|at|nl|fr|eu|pt|be|ch|tr|co\.uk|uk)"
+
+
+def email_in(text: str) -> str:
+    """An email address, written ('dave@corner.com') or spoken ('dave at espresso corner dot com',
+    'd a v e dot miller at gmail dot com', 'luca chiocciola pasteleria sol punto es')."""
+    t = text.lower()
+    m = _EMAIL.search(t)
+    if m:
+        return m.group(0).rstrip(".")
+    s = re.sub(r"[,;]", " ", t)
+    s = re.sub(r"\s+(?:at|chiocciola|arroba|at sign)\s+", "@", s)
+    s = re.sub(r"\s+(?:dot|punto|punkt|point)\s+", ".", s)
+    s = re.sub(r"\s+(?:underscore|trattino basso)\s+", "_", s)
+    s = re.sub(r"\s+(?:dash|hyphen|trattino|minus)\s+", "-", s)
+    m = re.search(rf"([a-z0-9._\- ]{{1,60}})@([a-z0-9\- ]{{1,40}}(?:\.[a-z0-9\- ]{{1,40}})*?\.{_TLD})\b", s)
+    if not m:
+        return ""
+    tokens = m.group(1).split()
+    if not tokens:
+        return ""
+    local = [tokens[-1]]
+    for tok in reversed(tokens[:-1]):                     # spelled letters: "d a v e" -> "dave"
+        if len(tok) == 1:
+            local.insert(0, tok)
+        else:
+            break
+    domain = re.sub(r"\s+", "", m.group(2))
+    email = "".join(local) + "@" + domain
+    return email if _EMAIL.fullmatch(email) else ""
+
+
 def digits_in(text: str) -> str:
     """'zero four one, three zero two' or '041302' -> '041302' (only when it looks like a serial)."""
     found = serials_in(text)

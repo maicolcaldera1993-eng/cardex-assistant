@@ -303,3 +303,4 @@ dialog { border: 1px solid var(--line); border-radius: 16px; max-width: 720px; w
 details.terms { margin-top: 8px; font-size: 0.85em; }
 details.terms summary { cursor: pointer; color: var(--muted, #7a6a5d); }
 details.terms ul { margin: 6px 0 0 18px; padding: 0; }
+.wline.mail input { font: inherit; padding: 3px 6px; border: 1px solid var(--line, #d9cfc4); border-radius: 6px; min-width: 0; width: 15em; max-width: 100%; }

@@ -506,3 +506,35 @@ def test_warranty_terms_answer_the_neglect_question():
     run(run_tool(s, "identify_machine", {"serial": "051040"}))
     r = warranty_rules(s)
     assert any("does not void" in t for t in r["terms"])
+
+
+def test_email_for_the_quote_from_the_call():
+    """Dave retry 25/9: the email was given on the call and lost. Spoken, read back or typed, it is recorded."""
+    from app.agent.dialog import email_in
+    assert email_in("Sure, it is dave at espresso corner dot com.") == "dave@espressocorner.com"
+    assert email_in("d a v e dot miller at gmail dot com") == "dave.miller@gmail.com"
+    assert email_in("I am at the shop, the dot on the display is on.") == ""
+    s, events, o = _dave_at_outcome()
+    assert "What email address" in s._next_step()["say_en"]
+    run(s.voice_transcript("agent", "What email should we send the quote to?"))
+    run(s.voice_transcript("customer", "Sure, it is dave at espresso corner dot com."))
+    assert s.email == "dave@espressocorner.com" and s._next_step()["email"] == s.email
+    assert any(e.get("type") == "contact" for e in events)
+    run(s.control({"action": "set_email", "email": "Dave.Miller@EspressoCorner.com"}))
+    assert s.email == "dave.miller@espressocorner.com"
+
+
+def test_confirm_parts_asks_for_the_email_when_the_customer_pays():
+    s, events, o = _dave_at_outcome()
+    r = run(run_tool(s, "confirm_parts", {"codes": ["CA-1181", "CA-1220"]}))
+    assert r.get("email_missing")
+    r = run(run_tool(s, "confirm_parts", {"codes": ["CA-1181", "CA-1220"], "email": "dave@espressocorner.com"}))
+    assert r["status"] == "confirmed" and r["email"] == "dave@espressocorner.com"
+
+
+def test_booking_after_fits_alone_drops_the_stale_note():
+    s, events, o = _dave_at_outcome()
+    run(s.control({"action": "fits_alone", "on": True}))
+    assert s.notes
+    run(s.control({"action": "book_slot", "id": s._next_step()["booking"]["slots"][0]["id"]}))
+    assert not any("alone" in n or "da solo" in n for n in s.notes)
