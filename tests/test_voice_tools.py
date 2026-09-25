@@ -202,3 +202,13 @@ def test_warranty_covers_the_repair_not_the_consumables():
     run(run_tool(s, "confirm_parts", {"codes": ["GE-2160", "CR-6052"]}))
     charges = {c["code"]: s.charge_for(c["code"])["customer_pays_eur"] for c in s.cards.values() if c["status"] == "confirmed"}
     assert charges == {"GE-2160": 0.0, "CR-6052": 19.0}
+
+
+def test_rim_description_opens_the_leak_and_is_already_the_answer():
+    """Mehmet (25 Sept): 'water comes from the portafilter rim, not from the group' offered three candidates, then the
+    agent asked the rim-or-body question again."""
+    s, _ = make_session()
+    run(run_tool(s, "identify_machine", {"model_text": "Marea 2 Evo"}))
+    r = run(run_tool(s, "find_procedure", {"description": "water comes from the portafilter rim. Not from the group."}))
+    assert r["status"] == "opened" and r["step_id"] == "where"
+    assert r["already_answered"]["option_number"] == 1 and "do not ask it again" in r["hint"]

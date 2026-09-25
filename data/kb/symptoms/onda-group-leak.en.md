@@ -6,7 +6,7 @@ Known-defects file, Onda family. Internal service document.
 
 ## How customers describe it {#descrizioni}
 
-«perde dal gruppo», «perde dal portafiltro», «esce acqua dai bordi», «gocciola dal gruppo», «cola dal portafiltro», «leaks at the group», «leaking from the group», «water around the portafilter», «leaks from the portafilter», «dripping around the handle»
+«perde dal gruppo», «perde dal portafiltro», «esce acqua dai bordi», «gocciola dal gruppo», «cola dal portafiltro», «leaks at the group», «leaking from the group», «water around the portafilter», «leaks from the portafilter», «dripping around the handle», «portafilter rim», «from the rim», «rim of the portafilter», «around the rim»
 
 ## Procedure {#procedura}
 

@@ -196,6 +196,22 @@ def _step_view(s) -> dict:
             "note": st.get("note_en")}
 
 
+def _already_answered(s, words: str) -> dict:
+    """When a procedure opens, the customer's own description may already answer its first question ("water comes from
+    the portafilter rim" answers "rim or group body?"). Checked with the same classifier as answer_step."""
+    d = s.diagnosis
+    if not (d and d.current and words):
+        return {}
+    from ..session import SEMANTIC
+    st = d.step
+    j, conf = classify_branch(words, st["branches"], SEMANTIC.similarities, question=st["text_en"] if st["kind"] == "ask" else "")
+    if j is None:
+        return {}
+    return {"already_answered": {"option_number": j + 1, "label": st["branches"][j]["label_en"], "customer_words": words},
+            "hint": "the customer's description already answers this question: do not ask it again, call answer_step now "
+                    "with this step_id, this option_number and these words (or ask a short confirmation if unsure)."}
+
+
 def _machine_view(s) -> dict:
     m = s.machine
     if not m:
@@ -272,7 +288,7 @@ async def run_tool(s, name: str, args: dict) -> dict:
         if not (s.diagnosis and s.diagnosis.current):
             await s._detect_symptom([desc], semantic=True)
         if s.diagnosis and s.diagnosis.current:
-            return {"status": "opened", **_step_view(s)}
+            return {"status": "opened", **_step_view(s), **_already_answered(s, desc)}
         if s.diagnosis and s.diagnosis.outcome:
             return {"status": "outcome", **_outcome_view(s)}
         cands = s.symptom_candidates(desc)
@@ -282,7 +298,8 @@ async def run_tool(s, name: str, args: dict) -> dict:
     if name == "start_procedure":
         await s.control({"action": "start_symptom", "symptom_id": args.get("symptom_id")})
         if s.diagnosis and s.diagnosis.current:
-            return {"status": "opened", **_step_view(s)}
+            said = " ".join(u["text"] for u in s.utterances if u["role"] == "customer")[-400:]
+            return {"status": "opened", **_step_view(s), **_already_answered(s, said)}
         return {"status": "error", "hint": "unknown procedure id; use an id from find_procedure"}
     if name == "answer_step":
         d = s.diagnosis

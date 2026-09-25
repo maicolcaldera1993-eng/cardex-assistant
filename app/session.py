@@ -1069,6 +1069,8 @@ class CallSession:
             "parts_confirmed": [{"code": c["code"], "description": c["description"], "price_eur": c["price_eur"],
                                  "stock": c["stock"], **self.charge_for(c["code"])} for c in confirmed],
             "parts_proposed": [{"code": c["code"], "description": c["description"], "price_eur": c["price_eur"],
+                                "compatible": c.get("compatible", True),
+                                "in_outcome": bool(self.diagnosis and self.diagnosis.outcome and c["code"] in self.diagnosis.outcome.parts),
                                 **self.charge_for(c["code"])} for c in self.cards.values() if c["status"] == "proposed"],
             "parts_dismissed": [c["code"] for c in self.cards.values() if c["status"] == "dismissed"],
             "transcript": [self.turns[k] for k in sorted(self.turns)],

@@ -471,7 +471,13 @@
         "perde dal bordo",
         "leaking group",
         "water leaks around",
-        "leaks when brewing"
+        "leaks when brewing",
+        "portafilter rim",
+        "from the rim",
+        "rim of the portafilter",
+        "around the rim",
+        "bordo del portafiltro",
+        "dal bordo del portafiltro"
       ],
       "start": "where",
       "steps": [
