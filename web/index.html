@@ -3,90 +3,148 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cardex Assistant</title>
+  <title>Cardex · Sereni service</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-  <header>
-    <div class="brand"><strong>Cardex Assistant</strong><span id="tagline"></span></div>
-    <div class="status">
-      <span class="pill" id="st-session">—</span>
-      <span class="pill" id="st-machine">—</span>
-      <span class="pill" id="st-vocab">—</span>
-      <span class="pill" id="st-timer">0:00</span>
-      <span class="pill" id="st-mic">mic</span>
-    </div>
-    <div class="controls">
-      <label class="switch"><input type="checkbox" id="tg-clarify" checked><span></span><em id="lb-clarify"></em></label>
-      <label class="switch"><input type="checkbox" id="tg-assistant" checked><span></span><em id="lb-assistant"></em></label>
-      <button id="btn-lang" class="ghost">EN</button>
+  <!-- ======================================================= top bar (home) -->
+  <header class="topbar" id="topbar">
+    <a class="logo" href="/" aria-label="Cardex">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="var(--brand)"/><path d="M9 12h11v5.5a5.5 5.5 0 0 1-11 0V12Z" fill="#fff"/><path d="M20 13.5h1.6a2.6 2.6 0 0 1 0 5.2H20" stroke="#fff" stroke-width="1.8" fill="none"/><path d="M12 7.5c0 1 1 1.3 1 2.3M15.5 7.5c0 1 1 1.3 1 2.3" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span><strong>Cardex</strong><em id="tagline"></em></span>
+    </a>
+    <div class="topbar-right">
+      <span class="badge-soft" id="demo-badge"></span>
+      <button id="btn-lang" class="btn ghost small"></button>
     </div>
   </header>
 
-  <section id="start">
-    <h1 id="start-title"></h1>
-    <p id="start-sub"></p>
-    <div class="start-buttons">
-      <div>
-        <select id="sample-select"></select>
-        <button id="btn-sample" class="primary"></button>
-      </div>
-      <div>
-        <button id="btn-mic" class="primary"></button>
-        <ul id="try-saying"></ul>
-      </div>
-      <div>
-        <select id="duet-select"></select>
-        <button id="btn-duet" class="primary"></button>
-        <p id="duet-help" class="help"></p>
-      </div>
-      <div>
-        <button id="btn-auto" class="primary"></button>
-        <p id="auto-help" class="help"></p>
-      </div>
-      <div>
-        <select id="voice-lang">
-          <option value="en">English</option><option value="it">Italiano</option><option value="es">Español</option>
-          <option value="de">Deutsch</option><option value="fr">Français</option><option value="pt">Português</option>
-        </select>
-        <button id="btn-voice" class="primary"></button>
-        <p id="voice-help" class="help"></p>
-      </div>
+  <!-- ======================================================= home -->
+  <section id="start" class="home">
+    <div class="hero">
+      <h1 id="start-title"></h1>
+      <p id="start-sub"></p>
+      <ul class="stats" id="stats"></ul>
     </div>
+
+    <div class="modes">
+      <!-- voice agent: the customer's side -->
+      <article class="mode mode-voice">
+        <div class="mode-head">
+          <div class="mode-icon"><svg viewBox="0 0 24 24"><path d="M4 13a8 8 0 0 1 16 0v4a2 2 0 0 1-2 2h-1v-6h3M4 13v4a2 2 0 0 0 2 2h1v-6H4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></div>
+          <div><span class="eyebrow" id="voice-eyebrow"></span><h2 id="voice-title"></h2></div>
+        </div>
+        <p class="mode-desc" id="voice-desc"></p>
+        <label class="field-label" id="lb-persona"></label>
+        <div class="personas" id="personas"></div>
+        <div class="persona-brief" id="persona-brief"></div>
+        <div class="mode-actions">
+          <label class="select-wrap"><span id="lb-voice-lang"></span>
+            <select id="voice-lang">
+              <option value="en">English</option><option value="it">Italiano</option><option value="es">Español</option>
+              <option value="de">Deutsch</option><option value="fr">Français</option><option value="pt">Português</option>
+            </select>
+          </label>
+          <button id="btn-voice" class="btn primary big"></button>
+        </div>
+        <p class="fine" id="voice-help"></p>
+      </article>
+
+      <!-- operator console -->
+      <article class="mode mode-op">
+        <div class="mode-head">
+          <div class="mode-icon op"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 20h8M12 16v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <div><span class="eyebrow" id="op-eyebrow"></span><h2 id="op-title"></h2></div>
+        </div>
+        <p class="mode-desc" id="op-desc"></p>
+        <div class="op-options">
+          <div class="op-option">
+            <div><strong id="sample-title"></strong><span id="sample-desc"></span></div>
+            <select id="sample-select"></select>
+            <button id="btn-sample" class="btn secondary"></button>
+          </div>
+          <div class="op-option">
+            <div><strong id="duet-title"></strong><span id="duet-help"></span></div>
+            <select id="duet-select"></select>
+            <button id="btn-duet" class="btn secondary"></button>
+          </div>
+          <div class="op-option">
+            <div><strong id="mic-title"></strong><span id="mic-desc"></span></div>
+            <button id="btn-mic" class="btn secondary"></button>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <section class="how">
+      <h3 id="how-title"></h3>
+      <ol class="how-steps" id="how-steps"></ol>
+      <p class="powered" id="powered"></p>
+    </section>
   </section>
 
-  <main id="call" hidden>
-    <section class="col" id="col-talk">
-      <div id="duet-panel" hidden>
-        <h2 id="h-duet"></h2>
-        <div id="duet-lines"></div>
+  <!-- ======================================================= call -->
+  <div id="call" class="call" hidden>
+    <div class="callbar">
+      <div class="callbar-left">
+        <span class="live-dot" id="live-dot"></span>
+        <div class="callbar-title"><strong id="call-mode"></strong><span id="st-session">—</span></div>
+        <span class="chip mono" id="st-timer">0:00</span>
+        <span class="chip" id="st-machine">—</span>
+        <span class="chip subtle" id="st-vocab">—</span>
       </div>
-      <h2 id="h-talk"></h2>
-      <div id="turns"></div>
-      <div id="partial" class="partial"></div>
-    </section>
-    <section class="col" id="col-work">
-      <div id="machine-record" hidden></div>
-      <h2 id="h-diag"></h2>
-      <div id="diagnosis" class="panel empty"></div>
-      <h2 id="h-parts"></h2>
-      <div id="parts"></div>
-    </section>
-    <section class="col" id="col-log">
-      <h2 id="h-docs"></h2>
-      <div id="doc-tabs" class="doc-tabs"></div>
-      <div id="doc-view" class="doc-view empty"></div>
-      <h2 id="h-log"></h2>
-      <div id="log"></div>
-      <div class="foot">
-        <button id="btn-swap" class="ghost"></button>
-        <button id="btn-end" class="danger"></button>
+      <div class="callbar-right">
+        <div class="meter mic-only" id="mic-meter" title="mic"><i></i><i></i><i></i><i></i><i></i></div>
+        <span class="chip mic-only" id="st-mic">mic</span>
+        <label class="switch op-only"><input type="checkbox" id="tg-clarify" checked><span></span><em id="lb-clarify"></em></label>
+        <label class="switch op-only"><input type="checkbox" id="tg-assistant" checked><span></span><em id="lb-assistant"></em></label>
+        <button id="btn-swap" class="btn ghost small op-only"></button>
+        <button id="btn-end" class="btn danger"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 14.5c5-4.7 13-4.7 18 0l-2.4 2.4-3.3-1.6v-2.6a10.6 10.6 0 0 0-6.6 0v2.6l-3.3 1.6Z" fill="currentColor"/></svg><span id="lb-end"></span></button>
       </div>
-    </section>
-  </main>
+    </div>
 
-  <section id="summary" hidden></section>
-  <dialog id="sheet"><article id="sheet-body"></article><button id="sheet-close" class="ghost">×</button></dialog>
+    <main class="board">
+      <section class="col" id="col-talk">
+        <div class="presence" id="presence" hidden>
+          <div class="orb" id="orb"><span></span></div>
+          <div><strong id="presence-title"></strong><small id="presence-sub"></small></div>
+        </div>
+        <div id="duet-panel" class="duet" hidden>
+          <h4 id="h-duet"></h4>
+          <div id="duet-lines"></div>
+        </div>
+        <h4 class="col-title" id="h-talk"></h4>
+        <div id="turns" class="turns"></div>
+        <div id="partial" class="partial"></div>
+      </section>
+
+      <section class="col" id="col-work">
+        <div id="machine-record" hidden></div>
+        <h4 class="col-title" id="h-diag"></h4>
+        <div id="diagnosis" class="panel empty"></div>
+        <h4 class="col-title" id="h-parts"></h4>
+        <div id="parts" class="parts"></div>
+      </section>
+
+      <section class="col" id="col-log">
+        <h4 class="col-title" id="h-docs"></h4>
+        <div id="doc-tabs" class="doc-tabs"></div>
+        <div id="doc-view" class="doc-view empty"></div>
+        <details class="logbox" id="logbox">
+          <summary id="h-log"></summary>
+          <div id="log"></div>
+        </details>
+      </section>
+    </main>
+  </div>
+
+  <!-- ======================================================= report -->
+  <section id="summary" class="report-wrap" hidden></section>
+  <div id="toast" class="toast" hidden></div>
+  <dialog id="sheet"><article id="sheet-body"></article><button id="sheet-close" class="btn ghost">×</button></dialog>
   <script src="/static/app.js" type="module"></script>
 </body>
 </html>

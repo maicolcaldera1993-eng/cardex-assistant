@@ -1,96 +1,277 @@
-// Cardex Assistant — operator page. No framework: one WebSocket, a handful of render functions.
+// Cardex — Sereni service desk. No framework: one WebSocket to our server (panel events, tools, transcript), plus
+// for the voice agent a second one to AssemblyAI's Voice Agent API, relayed by this page.
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const eur = (v) => (v == null ? "—" : v.toLocaleString(lang === "it" ? "it-IT" : "en-GB", { style: "currency", currency: "EUR" }));
 
+// ------------------------------------------------------------------ texts
 const T = {
   it: {
-    tagline: "service di primo ingresso · Sereni Macchine da Caffè",
-    startTitle: "Il collega esperto che sta in linea con te.",
-    startSub: "Trascrive la chiamata, ti spiega cosa intende il cliente, riconosce macchina e guasto, ti guida nella diagnosi e trova il ricambio.",
-    sample: "Riproduci una chiamata di esempio", mic: "Usa il mio microfono (tu sei il cliente)", duet: "Prova a due voci (tu operatore, cliente registrato)", duetHelp: "Parla tu al microfono come operatore. Quando tocca al cliente, clicca la battuta che vuoi fargli dire: la senti dalle casse e il microfono resta muto finché parla.", duetPanel: "Cliente registrato: fagli dire…", noDuets: "Nessuna prova a due voci disponibile", auto: "Assistente automatico (tu sei il cliente, l'assistente parla)", autoHelp: "Parla in inglese come cliente. L'assistente ti fa le domande a voce e segue le tue risposte; il microfono resta muto mentre parla.", agent: "Assistente", voice: "Voice Agent AssemblyAI (tu sei il cliente, l'agente dialoga)", voiceHelp: "Parla in inglese come cliente. L'agente ospitato da AssemblyAI ascolta, ragiona e risponde; i fascicoli, i ricambi e il calendario glieli passa questo server. Puoi interromperlo. Circa 4,50 $ l'ora.", voiceNotes: "Note per l'operatore", agentTalking: "l'agente parla, aspetta", interrupted: "interrotta",
-    clarify: "Versione chiara", assistant: "Assistente", talk: "Conversazione", diag: "Diagnosi guidata", parts: "Ricambi proposti",
-    log: "Registro dell'assistente", docs: "Documenti aperti dall'assistente", noDocs: "Quando si parla di una macchina, di un guasto o di un ricambio, il documento giusto si apre qui, al punto giusto.", choose: "Due guasti possibili. Di quale sta parlando?", merged: "frasi unite", micMuted: "mic muto (parla il cliente)", micDenied: "permesso negato", clearWait: "versione chiara in arrivo…", closeRemote: "Risolto da remoto", closeTech: "Serve il tecnico", closeHint: "Chiudi il problema quando il cliente conferma", change: "Fascicolo sbagliato? Cambia…", startProc: "Avvia una procedura a mano…", pending: "In attesa", startNow: "Avvia", drop: "Scarta", nextTitle: "Cosa fare ora", bookTech: "Appuntamento del tecnico", bookCall: "Seconda chiamata con il service", pickSlot: "Scegli uno slot libero e proponilo al cliente", unbook: "Annulla", needSerial: "Serve la matricola per sapere la zona del tecnico.", noPartner: "Nessun partner service in questo paese: passare alla sede.", noSlots: "Nessuno slot libero nelle prossime due settimane.", booked: "Prenotato", nextStep: "Prossimo passo", handling: { diy: "Lo monta il cliente", support: "Montaggio con il service", technician: "Serve il tecnico" }, sayPart: "Da dire al cliente", warranty: "In garanzia fino al", noWarranty: "Fuori garanzia dal", built: "costruita", installed: "installata", orders: "Ordini precedenti", serialHeard: "matricola sentita", serialNotFound: "matricola non in archivio", delivery: "Consegna", fromSupplier: "dal fornitore", days: "gg", keys: "tasti 1-4", showTranscript: "Mostra il trascritto completo", diarCheck: "Attribuzione delle voci", swap: "Scambia ruoli", end: "Fine chiamata", operator: "Operatore", customer: "Cliente",
-    noDiag: "Nessun sintomo riconosciuto. Quando il cliente descrive un problema, la procedura compare qui.",
-    ask: "Chiedi al cliente", do: "Fagli fare", say: "Da leggere al telefono", confirm: "Conferma", dismiss: "Scarta", sheet: "Scheda",
-    maintenance: "Manutenzione ordinaria saltata: consigliare", lowConf: "riconoscimento incerto",
+    tagline: "Service Sereni Macchine da Caffè", demoBadge: "Demo · dati fittizi",
+    startTitle: "Il primo livello di assistenza che conosce ogni macchina Sereni.",
+    startSub: "Cardex riconosce la macchina e il guasto, guida il cliente nella procedura del costruttore passo per passo, trova il ricambio giusto, dice chi paga e fissa l'intervento. Una persona approva prima che parta qualsiasi ordine.",
+    stats: (m, s) => [`<b>${m}</b> modelli`, `<b>${s}</b> procedure guidate`, `<b>237</b> ricambi a catalogo`, `<b>6</b> lingue parlate`],
+    voiceEyebrow: "Per il cliente", voiceTitle: "Chiama l'assistenza",
+    voiceDesc: "Tu sei il barista, l'agente vocale di AssemblyAI risponde. Conversa liberamente, ma ogni domanda viene dalla procedura e ogni numero dal gestionale.",
+    lbPersona: "Chi interpreti", lbVoiceLang: "Lingua della chiamata", voiceStart: "Avvia la chiamata",
+    voiceHelp: "Serve il microfono. Parla con calma e aspetta che l'agente finisca: mentre parla il microfono è in pausa. Chiudi con «Fine chiamata».",
+    opEyebrow: "Per l'operatore", opTitle: "Console operatore",
+    opDesc: "Un operatore italiano al telefono con un cliente straniero: Cardex trascrive chi dice cosa, mostra la versione chiara, apre la procedura al passo giusto e prepara i ricambi.",
+    sampleTitle: "Chiamata registrata", sampleDesc: "Ascolta una chiamata vera, senza microfono.", sampleBtn: "Ascolta",
+    duetTitle: "Prova con cliente registrato", duetHelp: "Tu fai l'operatore al microfono, clicchi le battute del cliente.", duetBtn: "Apri",
+    micTitle: "Microfono dal vivo", micDesc: "Parla tu come cliente, in inglese.", micBtn: "Apri console",
+    howTitle: "Come funziona",
+    how: [["Ascolta", "AssemblyAI Universal-3.5 Pro trascrive in tempo reale, distingue le voci e ricarica il vocabolario (modelli, codici) man mano che capisce di quale macchina si parla."],
+          ["Capisce", "Il guasto descritto in qualunque lingua viene collegato alla procedura del costruttore, ma solo tra quelle della macchina in linea: niente risposte inventate."],
+          ["Agisce", "Ricambi con prezzo e consegna dal gestionale, garanzia dalla matricola, appuntamento dal calendario del service, e una scheda d'intervento da approvare."]],
+    powered: "Voce e trascrizione: AssemblyAI Voice Agent API e Universal-3.5 Pro Streaming. Sereni, i clienti e il gestionale sono inventati per la demo.",
+    noDuets: "Nessuna prova disponibile", noSamples: "Nessuna chiamata registrata",
+    modeVoice: "Chiamata con l'agente vocale", modeOp: "Console operatore",
+    open: "in linea", closed: "chiusa", connecting: "connessione…",
+    presenceConnecting: "Connessione all'agente…", presenceSpeaking: "L'agente sta parlando", presenceListening: "Ti ascolto",
+    presenceSubSpeaking: "Il microfono è in pausa: aspetta che finisca.", presenceSubListening: "Parla pure.", presenceDenied: "Microfono non disponibile", presenceSubDenied: "Consenti il microfono nel browser, poi riavvia la chiamata.",
+    clarify: "Versione chiara", assistant: "Assistente", swap: "Scambia voci", end: "Fine chiamata",
+    talk: "Conversazione", diag: "Procedura guidata", parts: "Ricambi", docs: "Documenti", log: "Registro dell'assistente",
+    emptyTalk: "La conversazione compare qui, con chi dice cosa.", emptyParts: "Qui compaiono i ricambi citati o previsti dalla procedura.",
+    noDocs: "Quando si parla di una macchina, di un guasto o di un ricambio, il documento giusto si apre qui, al punto giusto.",
+    noDiag: "Nessun guasto riconosciuto. Appena il cliente descrive il problema, la procedura compare qui.",
+    agent: "Agente", operator: "Operatore", customer: "Cliente",
+    merged: "frasi unite", interrupted: "interrotta", lowConf: "riconoscimento incerto", clearWait: "versione chiara in arrivo…",
+    micMuted: "mic in pausa", micDenied: "microfono negato", agentTalking: "parla l'agente",
+    choose: "Due guasti possibili. Di quale si tratta?", change: "Procedura sbagliata? Cambia…", startProc: "Avvia una procedura a mano…",
+    ask: "Chiedi al cliente", do: "Fagli fare", say: "Da leggere al telefono", keys: "tasti 1-4",
+    watching: "L'agente conduce la procedura: i passi avanzano con le risposte del cliente.",
+    closeRemote: "Risolto da remoto", closeTech: "Serve il tecnico", closeHint: "Chiudi quando il cliente conferma",
+    pending: "In attesa", startNow: "Avvia", drop: "Scarta", maintenance: "Manutenzione ordinaria saltata: consigliare",
     outcome: { remote: "Risolto da remoto", part_diy: "Ricambio, lo monta il cliente", part_with_support: "Ricambio con supporto del service", technician: "Serve il tecnico" },
-    incompatible: "Non compatibile con questa macchina", superseded: "Sostituito da", requires: "richiede",
-    stock: "Giacenza", summary: "Resoconto della chiamata", machine: "Macchina", serial: "Matricola", symptom: "Sintomo", steps: "Verifiche fatte",
-    confirmed: "Ricambi confermati", proposed: "Proposti, non confermati", none: "nessuno", transcript: "Trascritto", again: "Nuova chiamata", outcomeLabel: "Esito",
-    phase: "Vocabolario fase", terms: "termini", open: "in linea", closed: "chiusa", noSamples: "Nessuna chiamata di esempio caricata",
-    tries: ["“Hi, we have a Marea 2 Plus and the coffee comes out weak and watery.”", "“The code on the invoice is G E twenty-one forty.”", "“I need the control board, E L three zero one zero.”"],
+    nextTitle: "Cosa fare ora", total: "Totale ricambi",
+    bookTech: "Appuntamento del tecnico", bookCall: "Seconda chiamata con il service", pickSlot: "Primi slot liberi", unbook: "Annulla",
+    needSerial: "Serve la matricola per sapere la zona del tecnico.", noPartner: "Nessun partner service in questo paese: passare alla sede.",
+    noSlots: "Nessuno slot libero nelle prossime due settimane.", booked: "Prenotato",
+    handling: { diy: "Lo monta il cliente", support: "Montaggio con il service", technician: "Serve il tecnico" },
+    sayPart: "Da dire al cliente", confirm: "Conferma", dismiss: "Scarta", sheet: "Scheda",
+    incompatible: "Non compatibile con questa macchina", superseded: "Sostituito da", requires: "richiede", fromSupplier: "dal fornitore", days: "gg",
+    reason: { exact: "codice esatto", "near-code": "codice simile", description: "dalla descrizione", replacement: "sostituto", procedure: "dalla procedura", "voice-agent": "richiesto" },
+    warranty: "In garanzia fino al", noWarranty: "Fuori garanzia dal", built: "Costruita", installed: "Installata", voltage: "Tensione", orders: "Ordini precedenti",
+    serialHeard: "sentita", phase: "Vocabolario", terms: "termini",
+    // report
+    wo: "Scheda d'intervento", reportFor: "Esito della chiamata", noOutcome: "Nessun esito",
+    secMachine: "Cliente e macchina", secDiag: "Diagnosi", secParts: "Ricambi", secNext: "Seguito", secNotes: "Note per l'operatore",
+    machine: "Macchina", serial: "Matricola", customerName: "Cliente", place: "Luogo", warrantyLbl: "Garanzia", symptom: "Guasto",
+    thCode: "Codice", thDesc: "Descrizione", thStatus: "Stato", thPrice: "Prezzo", stConfirmed: "confermato", stProposed: "da confermare", stDismissed: "scartato",
+    nextStep: "Prossimo passo", appointment: "Appuntamento", none: "nessuno", noSteps: "Nessuna verifica registrata.",
+    approve: "Approva e invia al magazzino", approved: "Approvato · ordine inviato al magazzino (simulazione)", print: "Stampa", again: "Nuova chiamata",
+    showTranscript: "Trascritto completo", diarCheck: "Attribuzione delle voci", duration: "Durata",
+    toastApproved: "Ordine approvato. In produzione partirebbe verso il magazzino.",
   },
   en: {
-    tagline: "first-line service desk · Sereni espresso machines",
-    startTitle: "The expert colleague who stays on the line with you.",
-    startSub: "It transcribes the call, tells you what the customer means, recognises the machine and the fault, guides the diagnosis and finds the part.",
-    sample: "Play a sample call", mic: "Use my microphone (you are the customer)", duet: "Two-voice rehearsal (you operator, recorded customer)", duetHelp: "Speak into the microphone as the operator. When it is the customer's turn, click the line you want them to say: you hear it from the speakers and your mic stays muted while they talk.", duetPanel: "Recorded customer: have them say…", noDuets: "No two-voice rehearsal available", auto: "Automatic assistant (you are the customer, the assistant speaks)", autoHelp: "Speak English as the customer. The assistant asks its questions aloud and follows your answers; the microphone stays muted while it talks.", agent: "Assistant", voice: "AssemblyAI Voice Agent (you are the customer, the agent converses)", voiceHelp: "Speak English as the customer. AssemblyAI's hosted agent listens, thinks and answers; the procedures, parts and calendar come from this server. You can interrupt it. About $4.50 per hour.", voiceNotes: "Notes for the operator", agentTalking: "agent talking, wait", interrupted: "interrupted",
-    clarify: "Clear version", assistant: "Assistant", talk: "Conversation", diag: "Guided diagnosis", parts: "Proposed parts",
-    log: "Assistant log", docs: "Documents opened by the assistant", noDocs: "When a machine, a fault or a part comes up, the right document opens here, at the right place.", choose: "Two possible faults. Which one is it?", merged: "sentences joined", micMuted: "mic muted (customer talking)", micDenied: "permission denied", clearWait: "clear version on its way…", closeRemote: "Fixed remotely", closeTech: "Technician needed", closeHint: "Close the problem when the customer confirms", change: "Wrong file? Change…", startProc: "Start a procedure by hand…", pending: "Waiting", startNow: "Start", drop: "Discard", nextTitle: "What to do now", bookTech: "Technician's visit", bookCall: "Second call with service", pickSlot: "Pick a free slot and propose it to the customer", unbook: "Cancel", needSerial: "The serial number is needed to know the technician's zone.", noPartner: "No service partner in this country: escalate to head office.", noSlots: "No free slot in the next two weeks.", booked: "Booked", nextStep: "Next step", handling: { diy: "Customer fits it", support: "Fitted with service support", technician: "Technician needed" }, sayPart: "Say to the customer", warranty: "Under warranty until", noWarranty: "Out of warranty since", built: "built", installed: "installed", orders: "Previous orders", serialHeard: "serial heard", serialNotFound: "serial not on file", delivery: "Delivery", fromSupplier: "from supplier", days: "days", keys: "keys 1-4", showTranscript: "Show the full transcript", diarCheck: "Voice attribution", swap: "Swap roles", end: "End call", operator: "Operator", customer: "Customer",
-    noDiag: "No symptom recognised yet. When the customer describes a problem, the procedure appears here.",
-    ask: "Ask the customer", do: "Have them do", say: "Read this out", confirm: "Confirm", dismiss: "Dismiss", sheet: "Sheet",
-    maintenance: "Routine maintenance skipped: recommend", lowConf: "low recognition confidence",
+    tagline: "Sereni espresso machines · service", demoBadge: "Demo · fictional data",
+    startTitle: "First-line support that knows every Sereni machine.",
+    startSub: "Cardex recognises the machine and the fault, walks the customer through the maker's procedure step by step, finds the right spare part, says who pays and books the visit. A person approves before any order goes out.",
+    stats: (m, s) => [`<b>${m}</b> models`, `<b>${s}</b> guided procedures`, `<b>237</b> parts in the catalogue`, `<b>6</b> spoken languages`],
+    voiceEyebrow: "For the customer", voiceTitle: "Call the service desk",
+    voiceDesc: "You are the barista; AssemblyAI's voice agent answers. It talks freely, but every question comes from the procedure and every number from the ERP.",
+    lbPersona: "Who you play", lbVoiceLang: "Call language", voiceStart: "Start the call",
+    voiceHelp: "Needs the microphone. Speak calmly and let the agent finish: while it talks your mic is paused. Close with “End call”.",
+    opEyebrow: "For the operator", opTitle: "Operator console",
+    opDesc: "An Italian operator on the phone with a foreign customer: Cardex transcribes who says what, shows the clear version, opens the procedure at the right step and lines up the parts.",
+    sampleTitle: "Recorded call", sampleDesc: "Listen to a real call, no microphone needed.", sampleBtn: "Listen",
+    duetTitle: "Rehearsal with a recorded customer", duetHelp: "You are the operator on the mic, you click the customer's lines.", duetBtn: "Open",
+    micTitle: "Live microphone", micDesc: "You speak as the customer, in English.", micBtn: "Open console",
+    howTitle: "How it works",
+    how: [["Listens", "AssemblyAI Universal-3.5 Pro transcribes in real time, tells the voices apart and reloads the vocabulary (models, codes) as it learns which machine the call is about."],
+          ["Understands", "A fault described in any language is linked to the maker's procedure, but only among those of the machine on the call: no made-up answers."],
+          ["Acts", "Parts with price and delivery from the ERP, warranty from the serial number, a slot from the service calendar, and a work order to approve."]],
+    powered: "Voice and transcription: AssemblyAI Voice Agent API and Universal-3.5 Pro Streaming. Sereni, its customers and the ERP are invented for the demo.",
+    noDuets: "No rehearsal available", noSamples: "No recorded call",
+    modeVoice: "Call with the voice agent", modeOp: "Operator console",
+    open: "on the line", closed: "closed", connecting: "connecting…",
+    presenceConnecting: "Connecting to the agent…", presenceSpeaking: "The agent is speaking", presenceListening: "Listening",
+    presenceSubSpeaking: "Your mic is paused: let it finish.", presenceSubListening: "Go ahead.", presenceDenied: "Microphone unavailable", presenceSubDenied: "Allow the microphone in the browser, then restart the call.",
+    clarify: "Clear version", assistant: "Assistant", swap: "Swap voices", end: "End call",
+    talk: "Conversation", diag: "Guided procedure", parts: "Parts", docs: "Documents", log: "Assistant log",
+    emptyTalk: "The conversation appears here, with who said what.", emptyParts: "Parts named on the call or foreseen by the procedure appear here.",
+    noDocs: "When a machine, a fault or a part comes up, the right document opens here, at the right place.",
+    noDiag: "No fault recognised yet. As soon as the customer describes the problem, the procedure appears here.",
+    agent: "Agent", operator: "Operator", customer: "Customer",
+    merged: "sentences joined", interrupted: "interrupted", lowConf: "low confidence", clearWait: "clear version on its way…",
+    micMuted: "mic paused", micDenied: "microphone denied", agentTalking: "agent talking",
+    choose: "Two possible faults. Which one is it?", change: "Wrong procedure? Change…", startProc: "Start a procedure by hand…",
+    ask: "Ask the customer", do: "Have them do", say: "Read this out", keys: "keys 1-4",
+    watching: "The agent leads the procedure: steps move on with the customer's answers.",
+    closeRemote: "Fixed remotely", closeTech: "Technician needed", closeHint: "Close when the customer confirms",
+    pending: "Waiting", startNow: "Start", drop: "Discard", maintenance: "Routine maintenance skipped: recommend",
     outcome: { remote: "Fixed remotely", part_diy: "Part, fitted by the customer", part_with_support: "Part with service support", technician: "Technician needed" },
-    incompatible: "Not compatible with this machine", superseded: "Superseded by", requires: "requires",
-    stock: "Stock", summary: "Call report", machine: "Machine", serial: "Serial", symptom: "Symptom", steps: "Checks done",
-    confirmed: "Confirmed parts", proposed: "Proposed, not confirmed", none: "none", transcript: "Transcript", again: "New call", outcomeLabel: "Outcome",
-    phase: "Vocabulary phase", terms: "keyterms", open: "on the line", closed: "closed", noSamples: "No sample calls loaded",
-    tries: ["“Hi, we have a Marea 2 Plus and the coffee comes out weak and watery.”", "“The code on the invoice is G E twenty-one forty.”", "“I need the control board, E L three zero one zero.”"],
+    nextTitle: "What to do now", total: "Parts total",
+    bookTech: "Technician's visit", bookCall: "Second call with service", pickSlot: "First free slots", unbook: "Cancel",
+    needSerial: "The serial number is needed to know the technician's zone.", noPartner: "No service partner in this country: escalate to head office.",
+    noSlots: "No free slot in the next two weeks.", booked: "Booked",
+    handling: { diy: "Customer fits it", support: "Fitted with service support", technician: "Technician needed" },
+    sayPart: "Say to the customer", confirm: "Confirm", dismiss: "Dismiss", sheet: "Sheet",
+    incompatible: "Not compatible with this machine", superseded: "Superseded by", requires: "requires", fromSupplier: "from supplier", days: "days",
+    reason: { exact: "exact code", "near-code": "similar code", description: "from description", replacement: "replacement", procedure: "from procedure", "voice-agent": "requested" },
+    warranty: "Under warranty until", noWarranty: "Out of warranty since", built: "Built", installed: "Installed", voltage: "Voltage", orders: "Previous orders",
+    serialHeard: "heard", phase: "Vocabulary", terms: "terms",
+    wo: "Work order", reportFor: "Call outcome", noOutcome: "No outcome",
+    secMachine: "Customer and machine", secDiag: "Diagnosis", secParts: "Parts", secNext: "Follow-up", secNotes: "Notes for the operator",
+    machine: "Machine", serial: "Serial", customerName: "Customer", place: "Location", warrantyLbl: "Warranty", symptom: "Fault",
+    thCode: "Code", thDesc: "Description", thStatus: "Status", thPrice: "Price", stConfirmed: "confirmed", stProposed: "to confirm", stDismissed: "dismissed",
+    nextStep: "Next step", appointment: "Appointment", none: "none", noSteps: "No checks recorded.",
+    approve: "Approve and send to the warehouse", approved: "Approved · order sent to the warehouse (simulation)", print: "Print", again: "New call",
+    showTranscript: "Full transcript", diarCheck: "Voice attribution", duration: "Duration",
+    toastApproved: "Order approved. In production it would go to the warehouse.",
   },
+};
+
+// customers to play in the voice-agent mode: facts only, the conversation is up to the caller
+const PERSONAS = [
+  { id: "luca", name: "Luca Ferraro", lang: "it", machine: "Giglio 1 Plus Vaniglia", serial: "051040",
+    it: { where: "Pasticceria italiana a Valencia", problem: "Quando togli il portafiltro a fine caffè, il fondo è liquido e schizza. Una ragazza al banco si è scottata.",
+          facts: ["Non senti più lo sfiato «pssh» verso la vaschetta a fine erogazione.", "I lavaggi con la pastiglia li faceva lui; da tre settimane forse nessuno.", "Se ti fanno aprire l'elettrovalvola: pistoncino rigato, gommina spaccata."],
+          ask: "Chiedi se è in garanzia e se la colpa dei ragazzi la fa perdere." },
+    en: { where: "Italian pastry shop in Valencia", problem: "When you remove the portafilter after the shot, the puck is wet and it sprays. A barista got burnt.",
+          facts: ["You no longer hear the short discharge into the drip tray.", "He used to backflush every night; maybe nobody has for three weeks.", "If asked to open the solenoid: the plunger is scratched, the rubber is split."],
+          ask: "Ask if it's under warranty and whether the staff's neglect voids it." } },
+  { id: "mehmet", name: "Mehmet Aydın", lang: "en", machine: "Marea 2 Evo", serial: "052710",
+    it: { where: "Capo barista, Hotel Excelsior, Vienna", problem: "Dal gruppo di sinistra, a portafiltro agganciato, esce acqua intorno al bordo e gocciola nella tazza.",
+          facts: ["L'acqua viene dal bordo del portafiltro, non dal gruppo sopra.", "Guarnizione originale, la maniglia va molto oltre il centro.", "Sulla vecchia confezione: G E twenty-four ten (è di un'altra macchina)."],
+          ask: "Chiedi se paghi, quanto ci mette ad arrivare e se puoi montarla tu." },
+    en: { where: "Head barista, Hotel Excelsior, Vienna", problem: "On the left group, with the portafilter locked, water comes out around the rim and drips into the cup.",
+          facts: ["Water comes from the portafilter rim, not from the group above.", "Original gasket; the handle goes far past the centre.", "The old packaging says G E twenty-four ten (another machine's part)."],
+          ask: "Ask if you pay, how long delivery takes, and whether you can fit it yourself." } },
+  { id: "dave", name: "Dave Miller", lang: "en", machine: "Marea 2 · 110 V", serial: "041302",
+    it: { where: "Espresso Corner, Chicago", problem: "Da stamattina la macchina resta fredda: manometro a zero, niente vapore.",
+          facts: ["Spie e tasti accesi, nessun allarme.", "Pulsante rosso premuto: dopo dieci minuti ancora fredda.", "All'accensione senti il clic del teleruttore. Macchina a 110 volt."],
+          ask: "Chiedi quanto costa in tutto e quando arrivano i pezzi; accetta il primo slot." },
+    en: { where: "Espresso Corner, Chicago", problem: "Since this morning the machine stays cold: gauge at zero, no steam.",
+          facts: ["Lights and buttons on, no alarm.", "Red reset button pressed: ten minutes later still cold.", "You hear the contactor click at power-on. 110-volt machine."],
+          ask: "Ask the total cost and when parts arrive; accept the first slot." } },
+  { id: "klaus", name: "Klaus Becker", lang: "en", machine: "Onda MB2", serial: "044801",
+    it: { where: "Kaffeehaus Nord, Berlino", problem: "Niente vapore: il manometro della caldaia vapore è a zero, il latte non si monta.",
+          facts: ["L'icona del vapore sul pannello è accesa.", "Sul display nessun errore, la pressione resta 0,0.", "Macchina Onda MB2 a 230 volt."],
+          ask: "Chiedi se deve venire un tecnico e quando." },
+    en: { where: "Kaffeehaus Nord, Berlin", problem: "No steam: the steam boiler gauge is at zero, milk won't froth.",
+          facts: ["The steam icon on the panel is on.", "No error on the display, pressure stays at 0.0.", "Onda MB2, 230 volts."],
+          ask: "Ask whether a technician must come, and when." } },
+  { id: "free", name: "", lang: null, machine: "", serial: "",
+    it: { where: "", problem: "", facts: [], ask: "" }, en: { where: "", problem: "", facts: [], ask: "" } },
+];
+const PERSONA_LABEL = { it: "Chiamata libera", en: "Free call" };
+const FREE_BRIEF = {
+  it: "Inventa tu cliente e guasto. Matricole in archivio: 047219 Marea 2 Plus · 041188 Marea 2 · 043377 Giglio 1 · 049155 Onda MB3 · 053002 Onda MB2 Evo · G24-0177 Monda 65 · G25-0412 Monda 65 Digit.",
+  en: "Make up your own customer and fault. Serials on file: 047219 Marea 2 Plus · 041188 Marea 2 · 043377 Giglio 1 · 049155 Onda MB3 · 053002 Onda MB2 Evo · G24-0177 Monda 65 · G25-0412 Monda 65 Digit.",
 };
 
 let lang = new URLSearchParams(location.search).get("lang") === "en" ? "en" : "it";
 let L = T[lang];
+let persona = "luca";
+let counts = { models: 10, symptoms: 32 };
 let ws = null, audioCtx = null, micStream = null, timer = null, t0 = 0, micMuted = false, duetId = null, duetPlaying = false, micWatchdog = null;
+let callMode = "op";
 const cards = new Map();
 const knownCodes = new Set();
 const docs = [];
 let activeDoc = -1;
+let lastMachine = null;
 
+// ------------------------------------------------------------------ home
 function applyLanguage() {
   L = T[lang];
   document.documentElement.lang = lang;
-  $("tagline").textContent = L.tagline; $("start-title").textContent = L.startTitle; $("start-sub").textContent = L.startSub;
-  $("btn-sample").textContent = L.sample; $("btn-mic").textContent = L.mic; $("btn-duet").textContent = L.duet; $("duet-help").textContent = L.duetHelp; $("h-duet").textContent = L.duetPanel; $("btn-auto").textContent = L.auto; $("auto-help").textContent = L.autoHelp; $("btn-voice").textContent = L.voice; $("voice-help").textContent = L.voiceHelp; $("lb-clarify").textContent = L.clarify; $("lb-assistant").textContent = L.assistant;
-  $("h-talk").textContent = L.talk; $("h-diag").textContent = L.diag; $("h-parts").textContent = L.parts; $("h-log").textContent = L.log; $("h-docs").textContent = L.docs; if ($("doc-view").classList.contains("empty")) $("doc-view").textContent = L.noDocs;
-  $("btn-swap").textContent = L.swap; $("btn-end").textContent = L.end; $("btn-lang").textContent = lang === "it" ? "EN" : "IT";
-  $("try-saying").innerHTML = L.tries.map((t) => `<li>${esc(t)}</li>`).join("");
+  const set = (id, v) => { const e = $(id); if (e) e.textContent = v; };
+  set("tagline", L.tagline); set("demo-badge", L.demoBadge); set("start-title", L.startTitle); set("start-sub", L.startSub);
+  $("stats").innerHTML = L.stats(counts.models, counts.symptoms).map((s) => `<li>${s}</li>`).join("");
+  set("voice-eyebrow", L.voiceEyebrow); set("voice-title", L.voiceTitle); set("voice-desc", L.voiceDesc); set("lb-persona", L.lbPersona);
+  set("lb-voice-lang", L.lbVoiceLang); set("btn-voice", L.voiceStart); set("voice-help", L.voiceHelp);
+  set("op-eyebrow", L.opEyebrow); set("op-title", L.opTitle); set("op-desc", L.opDesc);
+  set("sample-title", L.sampleTitle); set("sample-desc", L.sampleDesc); set("btn-sample", L.sampleBtn);
+  set("duet-title", L.duetTitle); set("duet-help", L.duetHelp); set("btn-duet", L.duetBtn);
+  set("mic-title", L.micTitle); set("mic-desc", L.micDesc); set("btn-mic", L.micBtn);
+  set("how-title", L.howTitle); set("powered", L.powered);
+  $("how-steps").innerHTML = L.how.map(([h, t]) => `<li><strong>${esc(h)}</strong><span>${esc(t)}</span></li>`).join("");
+  set("lb-clarify", L.clarify); set("lb-assistant", L.assistant); set("btn-swap", L.swap); set("lb-end", L.end);
+  set("h-talk", L.talk); set("h-diag", L.diag); set("h-parts", L.parts); set("h-docs", L.docs); set("h-log", L.log);
+  $("btn-lang").textContent = lang === "it" ? "English" : "Italiano";
+  if ($("doc-view").classList.contains("empty")) $("doc-view").textContent = L.noDocs;
   if ($("diagnosis").classList.contains("empty")) renderEmptyDiag();
+  renderPersonas();
 }
 
-async function loadSamples() {
-  const list = await fetch("/api/samples").then((r) => r.json()).catch(() => []);
-  const sel = $("sample-select");
-  sel.innerHTML = list.length ? list.map((s) => `<option value="${esc(s.id)}">${esc(s[`title_${lang}`] || s.title || s.id)}</option>`).join("")
-    : `<option value="">${esc(L.noSamples)}</option>`;
-  $("btn-sample").disabled = !list.length;
-  const duets = await fetch("/api/duets").then((r) => r.json()).catch(() => []);
+function renderPersonas() {
+  $("personas").innerHTML = PERSONAS.map((p) => `<button class="persona ${p.id === persona ? "active" : ""}" data-p="${p.id}">${esc(p.name || PERSONA_LABEL[lang])}<small>${esc(p.machine || "—")}</small></button>`).join("");
+  $("personas").querySelectorAll("[data-p]").forEach((b) => (b.onclick = () => {
+    persona = b.dataset.p;
+    const p = PERSONAS.find((x) => x.id === persona);
+    if (p.lang) $("voice-lang").value = p.lang;
+    renderPersonas();
+  }));
+  const p = PERSONAS.find((x) => x.id === persona);
+  const b = p[lang];
+  $("persona-brief").innerHTML = p.id === "free" ? `<p style="margin:0">${esc(FREE_BRIEF[lang])}</p>` :
+    `<h5>${esc(p.name)} · ${esc(b.where)}</h5>
+     <dl><dt>${esc(L.machine)}</dt><dd>${esc(p.machine)}</dd><dt>${esc(L.serial)}</dt><dd>${esc(p.serial)}</dd><dt>${esc(L.symptom)}</dt><dd>${esc(b.problem)}</dd></dl>
+     <ul>${b.facts.map((f) => `<li>${esc(f)}</li>`).join("")}</ul><div class="say-it">${esc(b.ask)}</div>`;
+}
+
+async function loadHomeData() {
+  const [models, symptoms, samples, duets] = await Promise.all([
+    fetch("/api/models").then((r) => r.json()).catch(() => null), fetch("/api/symptoms").then((r) => r.json()).catch(() => null),
+    fetch("/api/samples").then((r) => r.json()).catch(() => []), fetch("/api/duets").then((r) => r.json()).catch(() => [])]);
+  if (models) counts.models = models.length;
+  if (symptoms) counts.symptoms = symptoms.length;
+  $("stats").innerHTML = L.stats(counts.models, counts.symptoms).map((s) => `<li>${s}</li>`).join("");
+  $("sample-select").innerHTML = samples.length ? samples.map((s) => `<option value="${esc(s.id)}">${esc(s[`title_${lang}`] || s.title || s.id)}</option>`).join("") : `<option value="">${esc(L.noSamples)}</option>`;
+  $("btn-sample").disabled = !samples.length;
   $("duet-select").innerHTML = duets.length ? duets.map((d) => `<option value="${esc(d.id)}">${esc(d[`title_${lang}`] || d.id)}</option>`).join("") : `<option value="">${esc(L.noDuets)}</option>`;
   $("btn-duet").disabled = !duets.length;
 }
 
+// ------------------------------------------------------------------ call
 function send(obj) { if (ws && ws.readyState === 1) ws.send(JSON.stringify(obj)); }
 
 function startCall(source) {
-  $("start").hidden = true; $("summary").hidden = true; $("call").hidden = false;
-  ["turns", "parts", "log"].forEach((id) => ($(id).innerHTML = ""));
-  symptomMenu = []; renderEmptyDiag(); cards.clear(); knownCodes.clear(); docs.length = 0; activeDoc = -1; $("doc-tabs").innerHTML = ""; $("doc-view").className = "doc-view empty"; $("doc-view").textContent = L.noDocs;
+  callMode = source === "voice" ? "voice" : "op";
+  $("start").hidden = true; $("topbar").hidden = true; $("summary").hidden = true; $("call").hidden = false;
+  $("call").classList.toggle("voice", callMode === "voice");
+  $("call").classList.toggle("sample", source.startsWith("sample:"));
+  $("call-mode").textContent = callMode === "voice" ? L.modeVoice : L.modeOp;
+  $("st-session").textContent = L.connecting; $("live-dot").classList.remove("on");
+  $("turns").innerHTML = `<div class="empty-hint" id="talk-empty">${esc(L.emptyTalk)}</div>`;
+  $("parts").innerHTML = `<div class="empty-hint" id="parts-empty">${esc(L.emptyParts)}</div>`;
+  $("log").innerHTML = ""; $("machine-record").hidden = true; lastMachine = null;
+  symptomMenu = []; renderEmptyDiag(); cards.clear(); knownCodes.clear(); docs.length = 0; activeDoc = -1;
+  $("doc-tabs").innerHTML = ""; $("doc-view").className = "doc-view empty"; $("doc-view").textContent = L.noDocs;
+  $("presence").hidden = callMode !== "voice"; setPresence("connecting");
   const proto = location.protocol === "https:" ? "wss" : "ws";
   ws = new WebSocket(`${proto}://${location.host}/ws/call?source=${encodeURIComponent(source)}&lang=${lang}`);
   ws.binaryType = "arraybuffer";
   ws.onmessage = (ev) => handle(JSON.parse(ev.data));
-  ws.onclose = () => { stopMic(); clearInterval(timer); $("st-session").textContent = L.closed; $("st-session").classList.remove("on"); };
+  ws.onclose = () => { stopMic(); clearInterval(timer); $("st-session").textContent = L.closed; $("live-dot").classList.remove("on"); };
   duetId = source.startsWith("duet:") ? source.slice(5) : null; $("duet-panel").hidden = !duetId; $("duet-lines").innerHTML = "";
   ws.onopen = () => { t0 = Date.now(); timer = setInterval(tick, 500); if (source === "mic" || source === "auto" || duetId) startMic(); };
 }
 
 function tick() { const s = Math.floor((Date.now() - t0) / 1000); $("st-timer").textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; }
 
+function setMeter(peak, state) {
+  const m = $("mic-meter"); const bars = m.children; const level = Math.min(1, peak / 9000);
+  for (let i = 0; i < bars.length; i++) bars[i].style.height = `${4 + Math.max(0, level * 14 - Math.abs(i - 2) * 2.5)}px`;
+  m.classList.toggle("hot", state === "hot"); m.classList.toggle("hold", state === "hold");
+}
+let presenceState = "";
+function setPresence(state) {
+  if (state === presenceState) return;
+  presenceState = state;
+  const p = $("presence"); p.classList.toggle("speaking", state === "speaking"); p.classList.toggle("listening", state === "listening"); p.classList.toggle("denied", state === "denied");
+  $("presence-title").textContent = { speaking: L.presenceSpeaking, listening: L.presenceListening, denied: L.presenceDenied }[state] || L.presenceConnecting;
+  $("presence-sub").textContent = { speaking: L.presenceSubSpeaking, listening: L.presenceSubListening, denied: L.presenceSubDenied }[state] || "";
+}
+
 async function startMic() {
   try {
     micStream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true } });
   } catch (e) {
-    $("st-mic").textContent = "mic: " + (e.name === "NotAllowedError" ? L.micDenied : e.message); $("st-mic").classList.add("bad"); return;
+    $("st-mic").textContent = e.name === "NotAllowedError" ? L.micDenied : e.message; $("st-mic").classList.add("bad"); return;
   }
   audioCtx = new AudioContext();
   await audioCtx.resume();
@@ -100,8 +281,8 @@ async function startMic() {
     const pcm = new Int16Array(e.data); let peak = 0;
     for (let i = 0; i < pcm.length; i += 8) { const v = Math.abs(pcm[i]); if (v > peak) peak = v; }
     const pill = $("st-mic");
-    pill.textContent = micMuted ? L.micMuted : (peak > 1500 ? "mic ●" : "mic ○");
-    pill.classList.toggle("on", !micMuted && peak > 1500);
+    pill.textContent = micMuted ? L.micMuted : "mic"; pill.classList.toggle("on", !micMuted && peak > 1500);
+    setMeter(micMuted ? 0 : peak, micMuted ? "hold" : peak > 1500 ? "hot" : "");
     if (ws && ws.readyState === 1 && !micMuted) ws.send(e.data);
   };
   audioCtx.createMediaStreamSource(micStream).connect(node);
@@ -116,27 +297,32 @@ function highlight(text) {
 
 function handle(ev) {
   switch (ev.type) {
-    case "session": $("st-session").textContent = L.open; $("st-session").classList.add("on"); break;
+    case "session": $("st-session").textContent = L.open; $("live-dot").classList.add("on"); break;
     case "turn": renderTurn(ev); break;
     case "clear": { const el = document.querySelector(`#turn-${ev.turn_id} .clear`); if (el) { el.textContent = ev.text; el.classList.remove("wait"); } break; }
     case "clear_pending": { const el = document.querySelector(`#turn-${ev.turn_id} .clear`); if (el && !el.textContent) { el.textContent = L.clearWait; el.classList.add("wait"); } break; }
-    case "context": $("st-machine").textContent = [ev.model || ev.family || "—", ev.edition ? "Vaniglia" : "", ev.serial ? `#${ev.serial}` : ""].filter(Boolean).join(" · "); $("st-machine").classList.toggle("on", !!(ev.model || ev.family)); symptomMenu = ev.symptoms || []; if ($("diagnosis").classList.contains("empty")) renderEmptyDiag(); break;
-    case "vocabulary": $("st-vocab").textContent = `${L.phase} ${ev.phase} · ${ev.count} ${L.terms}`; $("st-vocab").classList.toggle("on", ev.phase > 1); $("st-vocab").title = ev.sample.join(", "); break;
+    case "context":
+      $("st-machine").textContent = [ev.model || ev.family || "—", ev.edition ? "Vaniglia" : "", ev.serial ? `#${ev.serial}` : ""].filter(Boolean).join(" · ");
+      $("st-machine").classList.toggle("on", !!(ev.model || ev.family));
+      symptomMenu = ev.symptoms || []; if ($("diagnosis").classList.contains("empty")) renderEmptyDiag();
+      if (lastMachine && ev.model && lastMachine.model !== ev.model) { lastMachine.model = ev.model; renderMachine(lastMachine); }
+      break;
+    case "vocabulary": $("st-vocab").textContent = `${L.phase} ${ev.phase} · ${ev.count} ${L.terms}`; $("st-vocab").title = ev.sample.join(", "); break;
     case "parts": ev.cards.forEach((c) => { cards.set(c.code, c); knownCodes.add(c.code); }); renderParts(); break;
     case "part_status": if (cards.has(ev.code)) { cards.get(ev.code).status = ev.status; renderParts(); } break;
     case "diagnosis": renderDiagnosis(ev); break;
     case "symptom_choice": renderChoice(ev.options); break;
-    case "machine_record": renderMachine(ev); break;
+    case "machine_record": lastMachine = ev; renderMachine(ev); break;
     case "duet_script": renderDuet(ev.lines); break;
     case "speak": speak(ev); break;
     case "tool_result": voiceToolResult(ev); break;
     case "duet": { const b = document.querySelector(`.duet-line[data-n="${ev.n}"]`); if (b) { b.classList.toggle("playing", ev.state === "playing"); if (ev.state === "done") b.classList.add("said"); } if (ev.state === "done" || ev.state === "busy") { clearTimeout(micWatchdog); setTimeout(() => { micMuted = false; duetPlaying = false; }, 300); } break; }
     case "open_doc": openDoc(ev); break;
-    case "agent": { const d = document.createElement("div"); d.innerHTML = `<time>${fmt(ev.at)}</time>${esc(ev.text)}`; $("log").prepend(d); break; }
-    case "model_mention": { const d = document.createElement("div"); d.innerHTML = `<button class="ghost" style="padding:2px 8px;font-size:12px">→ ${esc(ev.model)}</button>`; d.querySelector("button").onclick = () => send({ type: "control", action: "set_machine", model_id: ev.model_id }); $("log").prepend(d); break; }
+    case "agent": logLine(ev.text, false, ev.at); break;
+    case "model_mention": { const d = document.createElement("div"); d.innerHTML = `<button class="btn small">→ ${esc(ev.model)}</button>`; d.querySelector("button").onclick = () => send({ type: "control", action: "set_machine", model_id: ev.model_id }); $("log").prepend(d); break; }
     case "toggles": $("tg-assistant").checked = ev.assistant; $("tg-clarify").checked = ev.clarify; break;
     case "summary": renderSummary(ev.summary); break;
-    case "error": { const d = document.createElement("div"); d.style.color = "var(--bad)"; d.textContent = ev.text; $("log").prepend(d); break; }
+    case "error": logLine(ev.text, true); break;
   }
 }
 const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
@@ -144,34 +330,33 @@ const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(
 function renderTurn(ev) {
   if (!ev.final) { $("partial").textContent = ev.text; return; }
   $("partial").textContent = "";
+  $("talk-empty")?.remove();
   let el = $(`turn-${ev.id}`);
   if (!el) { el = document.createElement("div"); el.id = `turn-${ev.id}`; $("turns").appendChild(el); }
   el.className = `turn ${ev.role}${ev.interrupted ? " interrupted" : ""}`;
   const keptClear = el.querySelector(".clear")?.textContent || "";
-  const merged = (ev.merged > 1 ? `<span class="merged">${ev.merged} ${L.merged}</span>` : "") + (ev.interrupted ? `<span class="merged">${L.interrupted}</span>` : "");
-  const low = ev.min_conf < 0.6 ? `<span class="low">${L.lowConf} (${ev.min_conf})</span>` : "";
+  const extra = (ev.merged > 1 ? `<span class="merged">${ev.merged} ${L.merged}</span>` : "") + (ev.interrupted ? `<span class="merged">${L.interrupted}</span>` : "") +
+    (ev.min_conf < 0.6 ? `<span class="low">${L.lowConf}</span>` : "");
   const wasWaiting = el.querySelector(".clear")?.classList.contains("wait");
   const who = ev.role === "operator" ? L.operator : ev.role === "agent" ? L.agent : L.customer;
-  el.innerHTML = `<div class="who">${who}${merged}${low}</div><div class="said">${highlight(ev.text)}</div><div class="clear ${wasWaiting ? "wait" : ""}">${esc(keptClear)}</div>`;
+  el.innerHTML = `<div class="who">${who}${extra}</div><div class="said">${highlight(ev.text)}</div><div class="clear ${wasWaiting ? "wait" : ""}">${esc(keptClear)}</div>`;
   const box = $("col-talk");
-  const nearBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 160;
-  if (nearBottom) box.scrollTop = box.scrollHeight;
+  if (box.scrollHeight - box.scrollTop - box.clientHeight < 200) box.scrollTop = box.scrollHeight;
 }
 
-let symptomMenu = [];   // procedures that apply to the machine in the call (from the context event)
+// ------------------------------------------------------------------ procedure
+let symptomMenu = [];
 function menuSelect(items, placeholder) {
   return items.length ? `<select class="alt"><option value="">${placeholder}</option>${items.map((a) => `<option value="${esc(a.id)}">${esc(a.title)}</option>`).join("")}</select>` : "";
 }
-// the service calendar (fictional, two weeks): a call from the Florence desk once the parts are there, or a
-// technician in the customer's zone; the operator books with one click and reads the date to the customer
 function bookingHtml(b) {
   if (!b) return "";
   let body;
-  if (b.booked) body = `<div class="booked">✓ ${L.booked}: ${esc(b.booked.label)} · ${esc(b.booked.technician)} <button data-unbook class="ghost">${L.unbook}</button></div>`;
+  if (b.booked) body = `<div class="booked">✓ ${L.booked}: ${esc(b.booked.label)} · ${esc(b.booked.technician)} ${callMode === "op" ? `<button data-unbook class="btn small ghost">${L.unbook}</button>` : ""}</div>`;
   else if (b.need_serial) body = `<div class="note">${L.needSerial}</div>`;
   else if (b.no_partner) body = `<div class="note">${L.noPartner}</div>`;
   else if (!b.slots.length) body = `<div class="note">${L.noSlots}</div>`;
-  else body = `<div class="note">${L.pickSlot} · ${esc(b.slots[0].technician)}</div><div class="slots">${b.slots.map((s) => `<button data-slot="${esc(s.id)}">${esc(s.label)}</button>`).join("")}</div>`;
+  else body = `<div class="note">${L.pickSlot} · ${esc(b.slots[0].technician)}</div><div class="slots">${b.slots.map((s) => `<button class="btn small" data-slot="${esc(s.id)}" ${callMode === "voice" ? "disabled" : ""}>${esc(s.label)}</button>`).join("")}</div>`;
   return `<div class="booking"><div class="kind">${b.kind === "onsite" ? L.bookTech : L.bookCall}</div>${body}</div>`;
 }
 function wireDiag(p) {
@@ -184,43 +369,47 @@ function wireDiag(p) {
   const sel = p.querySelector("select.alt");
   if (sel) sel.onchange = () => { if (sel.value) send({ type: "control", action: "start_symptom", symptom_id: sel.value }); };
 }
-// nothing recognised yet: the operator can still open the right file by hand
 function renderEmptyDiag() {
   const p = $("diagnosis"); p.className = "panel empty";
-  p.innerHTML = `<div>${esc(L.noDiag)}</div>${menuSelect(symptomMenu, L.startProc)}`;
+  p.innerHTML = `<div>${esc(L.noDiag)}</div>${callMode === "op" ? `<div style="margin-top:10px">${menuSelect(symptomMenu, L.startProc)}</div>` : ""}`;
   wireDiag(p); currentBranches = 0;
+}
+function partsTable(parts) {
+  if (!parts.length) return "";
+  const rows = parts.map((c) => {
+    const dl = (c.delivery || [])[0];
+    const when = dl ? (dl.qty > 0 ? esc(dl.from.replace(/^[A-Z]{2}-\d+ /, "")) : L.fromSupplier) + ", " + dl.days + " " + L.days : "";
+    return `<tr><td><span class="code">${esc(c.code)}</span><br>${esc(c.description)}<br><span class="tag ${c.handling === "diy" ? "ok" : "warn"}">${L.handling[c.handling] || ""}</span> <small>${when}</small></td><td>${eur(c.price_eur)}</td></tr>`;
+  }).join("");
+  const total = parts.reduce((a, c) => a + (c.price_eur || 0), 0);
+  return `<table class="nparts"><tbody>${rows}</tbody><tfoot><tr><td>${L.total}</td><td>${eur(total)}</td></tr></tfoot></table>`;
 }
 function renderDiagnosis(d) {
   const p = $("diagnosis"); p.className = "panel";
-  const hist = d.history.length ? `<ol class="hist">${d.history.map((h) => `<li>${esc(h.text)} → <strong>${esc(h.answer)}</strong></li>`).join("")}</ol>` : "";
-  const maint = d.maintenance_skipped ? `<div class="note">⚠ ${L.maintenance} ${d.suggested_parts.map(esc).join(", ")}</div>` : "";
-  const head = `<div class="dhead"><h3>${esc(d.symptom)}</h3>${menuSelect(d.alternatives || [], L.change)}</div>`;
-  // a second fault heard during the procedure waits here; the operator starts it when the first one is closed
+  const hist = d.history.length ? `<ol class="timeline">${d.history.map((h) => `<li>${esc(h.text)}<br><span class="ans">${esc(h.answer)}</span></li>`).join("")}</ol>` : "";
+  const maint = d.maintenance_skipped ? `<div class="maint">⚠ ${L.maintenance} ${d.suggested_parts.map(esc).join(", ")}</div>` : "";
+  const head = `<div class="dhead"><h3>${esc(d.symptom)}</h3>${callMode === "op" ? menuSelect(d.alternatives || [], L.change) : ""}</div>`;
   const pend = (d.pending || []).length ? `<div class="pending"><small>${L.pending}</small>${d.pending.map((q) =>
-    `<span>${esc(q.title)} <button data-start="${esc(q.id)}" class="ok">${L.startNow}</button><button data-drop="${esc(q.id)}" class="ghost">${L.drop}</button></span>`).join("")}</div>` : "";
+    `<span>${esc(q.title)} <button data-start="${esc(q.id)}" class="btn small ok">${L.startNow}</button><button data-drop="${esc(q.id)}" class="btn small ghost">${L.drop}</button></span>`).join("")}</div>` : "";
   if (d.done) {
-    // what to do now: parts with price and delivery, who pays, service call or technician, one sentence to read
     const n = d.next || {};
-    const parts = (n.parts || []).map((c) => {
-      const dl = (c.delivery || [])[0];
-      const when = dl ? (dl.qty > 0 ? esc(dl.from.replace(/^[A-Z]{2}-\d+ /, "")) : L.fromSupplier) + ", " + dl.days + " " + L.days : "";
-      return `<li><strong>${esc(c.code)}</strong> ${esc(c.description)} · ${c.price_eur != null ? c.price_eur.toFixed(2) + " €" : "—"}${when ? " · " + when : ""} · <em>${L.handling[c.handling] || ""}</em></li>`;
-    }).join("");
     p.innerHTML = `${head}${hist}${maint}<div class="outcome ${d.outcome}">${L.outcome[d.outcome]}</div>` +
       `<div class="next"><div class="kind">${L.nextTitle}</div><div>${esc(n.text || "")}</div>` +
       (n.warranty_text ? `<div class="wline ${n.warranty === true ? "ok" : n.warranty === false ? "bad" : ""}">${esc(n.warranty_text)}</div>` : "") +
-      (parts ? `<ul class="nparts">${parts}</ul>` : "") + bookingHtml(n.booking) +
-      (n.say_en ? `<div class="say"><small>${L.say}</small>${esc(n.say_en)}</div>` : "") + `</div>${pend}`;
+      partsTable(n.parts || []) + bookingHtml(n.booking) +
+      (n.say_en && callMode === "op" ? `<div class="say"><small>${L.say}</small>${esc(n.say_en)}</div>` : "") + `</div>${pend}`;
     wireDiag(p); currentBranches = 0;
     return;
   }
   const s = d.step;
-  p.innerHTML = `${head}${hist}${maint}<div class="step"><div class="kind">${s.kind === "ask" ? L.ask : L.do}</div><div>${esc(s.text)}</div>` +
-    `<div class="say"><small>${L.say}</small>${esc(s.say_in_english)}</div>${s.note ? `<div class="note">${esc(s.note)}</div>` : ""}` +
-    `<div class="branches">${s.branches.map((b, i) => `<button data-branch="${i}"><kbd>${i + 1}</kbd> ${esc(b)}</button>`).join("")}</div><div class="note">${L.keys}</div></div>` +
-    `<div class="closebar"><span class="note">${L.closeHint}</span><button data-close="remote" class="ok">${L.closeRemote}</button><button data-close="technician" class="danger">${L.closeTech}</button></div>${pend}`;
+  const branches = callMode === "voice"
+    ? `<div class="branches watch">${s.branches.map((b) => `<span class="opt">${esc(b)}</span>`).join("")}</div><div class="watching">${L.watching}</div>`
+    : `<div class="branches">${s.branches.map((b, i) => `<button class="btn" data-branch="${i}"><kbd>${i + 1}</kbd> ${esc(b)}</button>`).join("")}</div>`;
+  p.innerHTML = `${head}${hist}${maint}<div class="step"><div class="kind">${s.kind === "ask" ? L.ask : L.do}</div><div class="q">${esc(s.text)}</div>` +
+    (callMode === "op" ? `<div class="say"><small>${L.say}</small>${esc(s.say_in_english)}</div>` : "") + (s.note ? `<div class="note">${esc(s.note)}</div>` : "") + branches + `</div>` +
+    (callMode === "op" ? `<div class="closebar"><span class="note">${L.closeHint} · ${L.keys}</span><button data-close="remote" class="btn small ok">${L.closeRemote}</button><button data-close="technician" class="btn small warn">${L.closeTech}</button></div>` : "") + pend;
   wireDiag(p);
-  currentBranches = s.branches.length;
+  currentBranches = callMode === "op" ? s.branches.length : 0;
   if (d.doc) followStep(d.doc);
 }
 let currentBranches = 0;
@@ -229,7 +418,6 @@ document.addEventListener("keydown", (e) => {
   const n = parseInt(e.key, 10);
   if (n >= 1 && n <= currentBranches && !$("call").hidden) { send({ type: "control", action: "answer_step", branch: n - 1 }); currentBranches = 0; }
 });
-// the symptom page follows the procedure: the current step is the highlighted section
 function followStep(doc) {
   const i = docs.findIndex((d) => d.page === doc.page);
   if (i < 0) return;
@@ -248,39 +436,37 @@ function applyAnchor(d) {
   const focus = v.querySelector("mark") || head;
   if (focus) v.scrollTop = Math.max(0, focus.offsetTop - v.offsetTop - 40);
 }
+function renderChoice(options) {
+  const p = $("diagnosis"); p.className = "panel";
+  p.innerHTML = `<h3 style="margin:0">${L.choose}</h3><div class="choice">${options.map((o) => `<button class="btn" data-sym="${esc(o.symptom_id)}">${esc(o.title)} <small>${Math.round(o.score * 100)}%</small></button>`).join("")}</div>`;
+  p.querySelectorAll("[data-sym]").forEach((b) => (b.onclick = () => send({ type: "control", action: "start_symptom", symptom_id: b.dataset.sym })));
+}
 
 function renderDuet(lines) {
-  // for every customer line: what the operator says first (cue), the line to click, what the assistant should do
   $("duet-lines").innerHTML = lines.map((l) => `${l.cue ? `<div class="cue op">${esc(l.cue)}</div>` : ""}<button class="duet-line" data-n="${l.n}"><small>${l.n}</small>${esc(l.text)}</button>${l.expect_it ? `<div class="cue expect">${esc(l.expect_it)}</div>` : ""}`).join("");
+  $("h-duet").textContent = lang === "it" ? "Cliente registrato: fagli dire…" : "Recorded customer: have them say…";
   $("duet-lines").querySelectorAll(".duet-line").forEach((b) => (b.onclick = () => {
     const n = +b.dataset.n, line = lines.find((x) => x.n === n);
-    if (duetPlaying) return;                                   // one clip at a time: a second click must not mute the mic
+    if (duetPlaying) return;
     duetPlaying = true; micMuted = true;
-    const a = new Audio(`/duet-audio/${duetId}/${line.file}`);
-    a.play().catch(() => {});
+    new Audio(`/duet-audio/${duetId}/${line.file}`).play().catch(() => {});
     send({ type: "control", action: "play_line", n });
     clearTimeout(micWatchdog);
-    micWatchdog = setTimeout(() => { micMuted = false; duetPlaying = false; }, (line.seconds + 4) * 1000);   // never stuck muted
+    micWatchdog = setTimeout(() => { micMuted = false; duetPlaying = false; }, (line.seconds + 4) * 1000);
   }));
 }
 
 function renderMachine(m) {
-  const box = $("machine-record"); box.hidden = false;
+  const box = $("machine-record"); box.hidden = false; box.className = "machine";
   const w = m.in_warranty ? `<span class="tag ok">${L.warranty} ${esc(m.warranty_until)}</span>` : `<span class="tag bad">${L.noWarranty} ${esc(m.warranty_until)}</span>`;
-  const orders = (m.orders || []).slice(0, 4).map((o) => `<li>${esc(o.ordered_on)} · <strong>${esc(o.code)}</strong> ×${o.qty} — ${esc(lang === "it" ? o.description_it : o.description_en)}</li>`).join("");
-  box.className = "panel machine";
-  box.innerHTML = `<div class="who">${m.exact ? "#" : L.serialHeard + " → #"}${esc(m.serial)} · ${esc(m.model)}${m.edition ? " · Vaniglia" : ""} · ${esc(m.voltage)}</div>` +
-    `<div>${esc(m.customer)}, ${esc(m.city)} (${esc(m.country)}) · ${L.built} ${esc(m.built)} · ${L.installed} ${esc(m.installed)}</div><div>${w}</div>` +
-    (m.notes ? `<div class="note">${esc(m.notes)}</div>` : "") + (orders ? `<div class="note">${L.orders}:</div><ul class="hist">${orders}</ul>` : "");
+  const orders = (m.orders || []).slice(0, 3).map((o) => `<li>${esc(o.ordered_on)} · <b>${esc(o.code)}</b> ×${o.qty} — ${esc(lang === "it" ? o.description_it : o.description_en)}</li>`).join("");
+  box.innerHTML = `<div class="machine-top"><div><h5>${esc(m.model)}${m.edition ? " · Vaniglia" : ""}</h5><div class="serial">#${esc(m.serial)}${m.exact ? "" : ` (${L.serialHeard})`}</div></div>${w}</div>` +
+    `<div class="machine-grid"><div><span>${L.customerName}</span><b>${esc(m.customer)}</b></div><div><span>${L.place}</span><b>${esc(m.city)} (${esc(m.country)})</b></div>` +
+    `<div><span>${L.built}</span><b>${esc(m.built)}</b></div><div><span>${L.voltage}</span><b>${esc(m.voltage)}</b></div></div>` +
+    (m.notes ? `<div class="note">${esc(m.notes)}</div>` : "") + (orders ? `<ul class="orders">${orders}</ul>` : "");
 }
 
-function renderChoice(options) {
-  const p = $("diagnosis"); p.className = "panel";
-  p.innerHTML = `<h3>${L.choose}</h3><div class="choice">${options.map((o) => `<button data-sym="${esc(o.symptom_id)}">${esc(o.title)} <small>(${Math.round(o.score * 100)}%)</small></button>`).join("")}</div>`;
-  p.querySelectorAll("[data-sym]").forEach((b) => (b.onclick = () => send({ type: "control", action: "start_symptom", symptom_id: b.dataset.sym })));
-}
-
-// ---- documents: one tab per opened page, scrolled to the section, with the matching sentence marked
+// ------------------------------------------------------------------ documents
 const KIND = { manual: "📘", symptom: "🩺", part: "🔩" };
 async function openDoc(ev) {
   let i = docs.findIndex((d) => d.page === ev.page);
@@ -299,67 +485,97 @@ async function showDoc(i) {
   applyAnchor(d);
 }
 
+// ------------------------------------------------------------------ parts
 function renderParts() {
-  const why = { exact: "=", "near-code": "≈", description: "“…”", replacement: "↻", procedure: "✓" };
+  if (!cards.size) return;
+  $("parts-empty")?.remove();
   $("parts").innerHTML = [...cards.values()].reverse().map((c) => {
-    const stock = (c.delivery || []).map((d) => d.qty > 0 ? `${esc(d.from.replace(/^[A-Z]{2}-\d+ /, ""))}: ${d.qty} · ${d.days} ${L.days}` : `${L.fromSupplier} ${esc(d.from)}: ${d.days} ${L.days}`).join(" | ");
+    const where = (c.delivery || []).map((d) => `<span class="chip">${d.qty > 0 ? `${esc(d.from.replace(/^[A-Z]{2}-\d+ /, ""))} · ${d.qty} · ${d.days} ${L.days}` : `${L.fromSupplier} · ${d.days} ${L.days}`}</span>`).join("");
     const flags = [!c.compatible ? L.incompatible : "", c.superseded_by ? `${L.superseded} ${c.superseded_by}${c.requires ? `, ${L.requires} ${c.requires}` : ""}` : ""].filter(Boolean);
-    return `<div class="card ${c.status}"><span class="code">${esc(c.code)}</span><span class="why">${why[c.reason] || ""} ${Math.round(c.score * 100)}%</span>` +
-      `<div>${esc(c.description)}</div><div class="meta"><strong>${c.price_eur != null ? c.price_eur.toFixed(2) + " €" : ""}</strong> · ${L.delivery}: ${stock}</div>` +
+    return `<div class="card ${c.status}"><div class="card-top"><div><span class="code">${esc(c.code)}</span><span class="why">${esc(L.reason[c.reason] || L.reason[c.source] || "")}</span></div><span class="price">${eur(c.price_eur)}</span></div>` +
+      `<div class="desc">${esc(c.description)}</div><div class="meta"><span class="tag ${c.handling === "diy" ? "ok" : "warn"}">${L.handling[c.handling] || ""}</span>${where}</div>` +
       (flags.length ? `<div class="flag">${flags.map(esc).join(" · ")}</div>` : "") +
-      `<div class="handling ${c.handling}">${L.handling[c.handling] || ""}</div>` +
-      (c.say_en ? `<div class="say"><small>${L.sayPart}</small>${esc(c.say_en)}</div>` : "") +
-      `<div class="actions"><button data-act="confirm_part" data-code="${esc(c.code)}">${L.confirm}</button><button data-act="dismiss_part" data-code="${esc(c.code)}">${L.dismiss}</button><button data-sheet="${esc(c.code)}" class="ghost">${L.sheet}</button></div></div>`;
+      (c.say_en && callMode === "op" ? `<div class="say"><small>${L.sayPart}</small>${esc(c.say_en)}</div>` : "") +
+      `<div class="actions">${callMode === "op" ? `<button class="btn small" data-act="confirm_part" data-code="${esc(c.code)}">${L.confirm}</button><button class="btn small ghost" data-act="dismiss_part" data-code="${esc(c.code)}">${L.dismiss}</button>` : (c.status === "confirmed" ? `<span class="tag ok">✓ ${L.stConfirmed}</span>` : "")}<button data-sheet="${esc(c.code)}" class="btn small ghost">${L.sheet}</button></div></div>`;
   }).join("");
   $("parts").querySelectorAll("[data-act]").forEach((b) => (b.onclick = () => send({ type: "control", action: b.dataset.act, code: b.dataset.code })));
-  $("parts").querySelectorAll("[data-sheet]").forEach((b) => (b.onclick = async () => {
+  $("parts").querySelectorAll("[data-sheet]").forEach((b) => (b.onclick = () => {
     const c = cards.get(b.dataset.sheet);
     openDoc({ kind: "part", page: `parts/${b.dataset.sheet}.md`, anchor: "montaggio", title: `${b.dataset.sheet} — ${c ? c.description : ""}`, highlight: null });
   }));
 }
 
+// ------------------------------------------------------------------ report (work order)
 function renderSummary(s) {
-  $("call").hidden = true; $("summary").hidden = false;
-  const o = s.outcome ? `${L.outcome[s.outcome.kind] || s.outcome.kind}${s.outcome.parts?.length ? " · " + s.outcome.parts.join(", ") : ""}` : "—";
-  const row = (k, v) => `<tr><th>${k}</th><td>${v}</td></tr>`;
-  const parts = s.parts_confirmed.map((p) => `<strong>${esc(p.code)}</strong> — ${esc(p.description)} (${p.price_eur?.toFixed(2)} €)`).join("<br>") || L.none;
-  const proposed = (s.parts_proposed || []).map((p) => `${esc(p.code)} — ${esc(p.description)}`).join("<br>") || L.none;
-  const steps = s.steps.map((h) => `${esc(h.text)} → <strong>${esc(h.answer)}</strong>`).join("<br>") || "—";
-  const diar = s.diarization_check ? `${s.diarization_check.attributed_correctly}/${s.diarization_check.segments} (${Math.round((s.diarization_check.accuracy || 0) * 100)}%)` : null;
-  const transcript = s.transcript.map((t) => `<div class="turn ${t.role}${t.interrupted ? " interrupted" : ""}"><div class="who">${t.role === "operator" ? L.operator : t.role === "agent" ? L.agent : L.customer}${t.interrupted ? ` <span class="merged">${L.interrupted}</span>` : ""}</div>${esc(t.text)}${t.clear ? `<div class="clear">${esc(t.clear)}</div>` : ""}</div>`).join("");
-  $("summary").innerHTML = `<div class="panel"><h3>${L.summary}</h3>
-    <div class="outcome ${s.outcome ? s.outcome.kind : ""}" style="margin:0 0 10px">${esc(o)}</div>
-    <table>${row(L.machine, esc(s.machine || "—") + (s.edition ? " · Vaniglia" : ""))}${row(L.serial, esc(s.serial || "—"))}${row(L.symptom, esc(s.symptom || "—"))}
-    ${row(L.steps, steps)}${s.next ? row(L.nextStep, esc(s.next.text) + (s.next.warranty_text ? `<br><span class="${s.next.warranty === true ? "ok" : s.next.warranty === false ? "bad" : ""}">${esc(s.next.warranty_text)}</span>` : "")) : ""}
-    ${s.booking ? row(L.booked, `${esc(s.booking.label)} · ${esc(s.booking.technician)}`) : ""}${(s.notes || []).length ? row(L.voiceNotes, s.notes.map(esc).join("<br>")) : ""}${row(L.confirmed, parts)}${row(L.proposed, proposed)}${diar ? row(L.diarCheck, diar) : ""}</table>
-    <details style="margin-top:12px"><summary>${L.showTranscript} (${s.transcript.length})</summary><div style="margin-top:8px">${transcript}</div></details>
-    <p><button class="primary" onclick="location.reload()">${L.again}</button></p></div>`;
+  $("call").hidden = true; $("topbar").hidden = false; $("summary").hidden = false;
+  const now = new Date();
+  const woNum = `SR-${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}-${String(now.getHours()).padStart(2, "0")}${String(now.getMinutes()).padStart(2, "0")}`;
+  const kind = s.outcome ? s.outcome.kind : null;
+  const m = s.machine_record || {};
+  const warranty = m.warranty_until ? (m.in_warranty ? `<span class="tag ok">${L.warranty} ${esc(m.warranty_until)}</span>` : `<span class="tag bad">${L.noWarranty} ${esc(m.warranty_until)}</span>`) : "—";
+  const steps = s.steps.length ? `<ol class="timeline">${s.steps.map((h) => `<li>${esc(h.text)}<br><span class="ans">${esc(h.answer)}</span></li>`).join("")}</ol>` : `<p class="note">${L.noSteps}</p>`;
+  const all = [...s.parts_confirmed.map((p) => ({ ...p, st: "confirmed" })), ...(s.parts_proposed || []).map((p) => ({ ...p, st: "proposed" }))];
+  const partsRows = all.map((p) => `<tr><td class="code">${esc(p.code)}</td><td>${esc(p.description)}</td><td><span class="tag ${p.st === "confirmed" ? "ok" : "warn"}">${p.st === "confirmed" ? L.stConfirmed : L.stProposed}</span></td><td class="num">${eur(p.price_eur)}</td></tr>`).join("");
+  const total = s.parts_confirmed.reduce((a, p) => a + (p.price_eur || 0), 0);
+  const partsTbl = all.length ? `<table class="rtable"><thead><tr><th>${L.thCode}</th><th>${L.thDesc}</th><th>${L.thStatus}</th><th class="num">${L.thPrice}</th></tr></thead><tbody>${partsRows}</tbody>` +
+    `<tfoot><tr><td colspan="3">${L.total} (${L.stConfirmed})</td><td class="num">${eur(total)}</td></tr></tfoot></table>` : `<p class="note">${L.none}</p>`;
+  const diar = s.diarization_check ? `${Math.round((s.diarization_check.accuracy || 0) * 100)}%` : null;
+  const transcript = s.transcript.map((t) => `<div class="turn ${t.role}${t.interrupted ? " interrupted" : ""}"><div class="who">${t.role === "operator" ? L.operator : t.role === "agent" ? L.agent : L.customer}</div>${esc(t.text)}${t.clear ? `<div class="clear">${esc(t.clear)}</div>` : ""}</div>`).join("");
+  const hasOrder = s.parts_confirmed.length || s.booking;
+  $("summary").innerHTML = `<article class="report">
+    <div class="report-head"><div><div class="wo">${L.wo} · ${woNum}</div><h2>${esc(s.symptom || L.reportFor)}</h2>
+      <div class="note">${now.toLocaleString(lang === "it" ? "it-IT" : "en-GB")} · ${L.duration} ${fmt(s.duration_s || 0)}${diar ? ` · ${L.diarCheck} ${diar}` : ""}</div></div>
+      <div class="outcome ${kind || ""}">${kind ? L.outcome[kind] : L.noOutcome}</div></div>
+    <div class="report-body">
+      <section class="report-sec"><h4>${L.secMachine}</h4><dl class="kv">
+        <dt>${L.machine}</dt><dd>${esc(s.machine || "—")}${s.edition ? " · Vaniglia" : ""}</dd><dt>${L.serial}</dt><dd>${esc(s.serial || "—")}</dd>
+        <dt>${L.customerName}</dt><dd>${esc(m.customer || "—")}</dd><dt>${L.place}</dt><dd>${m.city ? `${esc(m.city)} (${esc(m.country)})` : "—"}</dd>
+        <dt>${L.warrantyLbl}</dt><dd>${warranty}</dd></dl></section>
+      <section class="report-sec"><h4>${L.secNext}</h4><dl class="kv">
+        <dt>${L.nextStep}</dt><dd>${esc(s.next ? s.next.text : "—")}${s.next && s.next.warranty_text ? `<br><small>${esc(s.next.warranty_text)}</small>` : ""}</dd>
+        <dt>${L.appointment}</dt><dd>${s.booking ? `${esc(s.booking.label)} · ${esc(s.booking.technician)}` : "—"}</dd></dl></section>
+      <section class="report-sec wide"><h4>${L.secDiag}</h4>${steps}</section>
+      <section class="report-sec wide"><h4>${L.secParts}</h4>${partsTbl}</section>
+      ${(s.notes || []).length ? `<section class="report-sec wide"><h4>${L.secNotes}</h4><ul>${s.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul></section>` : ""}
+    </div>
+    <details><summary>${L.showTranscript} (${s.transcript.length})</summary><div class="turns">${transcript}</div></details>
+    <div class="report-actions"><span class="approved" id="approved" hidden>✓ ${L.approved}</span>
+      ${hasOrder ? `<button class="btn primary" id="btn-approve">${L.approve}</button>` : ""}
+      <button class="btn" id="btn-print">${L.print}</button><button class="btn" id="btn-again">${L.again}</button></div>
+  </article>`;
+  $("btn-approve")?.addEventListener("click", () => { $("approved").hidden = false; $("btn-approve").remove(); toast(L.toastApproved); });
+  $("btn-print").onclick = () => window.print();
+  $("btn-again").onclick = () => location.reload();
+  window.scrollTo(0, 0);
+}
+function toast(text) { const t = $("toast"); t.textContent = text; t.hidden = false; clearTimeout(t._h); t._h = setTimeout(() => (t.hidden = true), 3500); }
+function logLine(text, bad, at) {
+  const d = document.createElement("div"); if (bad) d.className = "err";
+  d.innerHTML = `${at != null ? `<time>${fmt(at)}</time>` : ""}${esc(text)}`;
+  $("log").prepend(d);
+  if (bad) toast(text.slice(0, 140));
 }
 
-$("btn-sample").onclick = () => startCall(`sample:${$("sample-select").value}`);
-$("btn-mic").onclick = () => startCall("mic");
-$("btn-auto").onclick = () => startCall("auto");
-$("btn-voice").onclick = () => startVoice();
-
-// ---- AssemblyAI Voice Agent: the hosted agent listens and talks over its own socket; this page relays its
-// transcripts and tool calls to our server (memory, procedures, parts, calendar) and the results back
+// ------------------------------------------------------------------ AssemblyAI Voice Agent
+// The hosted agent listens and talks over its own socket; this page relays its transcripts and tool calls to our
+// server (memory, procedures, parts, calendar) and the results back.
 let vws = null, vCtx = null, vStream = null, vNext = 0, vSources = [], vEndPending = false;
 async function startVoice() {
-  startCall("voice");                                                    // our socket: panel events, tools, transcript
+  startCall("voice");
   vEndPending = false;
   let agent, tok;
   try {
-    agent = await fetch(`/api/voice/agent?lang=${encodeURIComponent($("voice-lang").value || "en")}`).then((r) => r.json());   // the customer's language: voice and greeting
+    agent = await fetch(`/api/voice/agent?lang=${encodeURIComponent($("voice-lang").value || "en")}`).then((r) => r.json());
     tok = await fetch("/api/voice/token").then((r) => r.json());
   } catch (e) { logLine("voice agent: " + e.message, true); return; }
-  if (!agent.agent_id || !tok.token) { logLine("voice agent: " + JSON.stringify(agent.detail || tok.detail || agent), true); return; }
+  if (!agent.session || !tok.token) { logLine("voice agent: " + JSON.stringify(agent.detail || tok.detail || agent), true); return; }
   const url = new URL("wss://agents.assemblyai.com/v1/ws"); url.searchParams.set("token", tok.token);
   vws = new WebSocket(url.toString());
-  vws.onopen = () => { vws.send(JSON.stringify({ type: "session.update", session: agent.session })); };   // the whole agent inline, with our function tools
+  vws.onopen = () => { vws.send(JSON.stringify({ type: "session.update", session: agent.session })); };
   vws.onmessage = (e) => {
     const m = JSON.parse(e.data);
     switch (m.type) {
-      case "session.ready": $("st-session").textContent = "voice agent"; startVoiceMic(); break;
+      case "session.ready": $("st-session").textContent = L.open; $("live-dot").classList.add("on"); startVoiceMic(); break;
       case "transcript.user": send({ type: "control", action: "transcript", role: "customer", text: m.text }); break;
       case "transcript.agent": send({ type: "control", action: "transcript", role: "agent", text: m.text, interrupted: !!m.interrupted }); break;
       case "reply.audio": voicePlay(m.data || m.audio); break;
@@ -367,9 +583,9 @@ async function startVoice() {
         if (m.status === "interrupted") voiceStop();
         if (vEndPending) { const left = vCtx ? Math.max(0, vNext - vCtx.currentTime) : 0; setTimeout(voiceEnd, left * 1000 + 800); }
         break;
-      case "tool.call": send({ type: "control", action: "tool", call_id: m.call_id, name: m.name, arguments: m.arguments }); logLine("tool: " + m.name + " " + JSON.stringify(m.arguments || {})); break;
+      case "tool.call": send({ type: "control", action: "tool", call_id: m.call_id, name: m.name, arguments: m.arguments }); logLine("⚙ " + m.name + " " + JSON.stringify(m.arguments || {})); break;
       case "session.error": case "error": logLine("voice agent: " + (m.message || m.code || e.data), true); break;
-      case "session.ended": logLine(`voice agent: ${Math.round(m.audio_duration_seconds || 0)} s of audio`); vws.close(); break;
+      case "session.ended": logLine(`voice agent: ${Math.round(m.audio_duration_seconds || 0)} s`); vws.close(); break;
     }
   };
   vws.onclose = () => { stopVoiceMic(); vws = null; send({ type: "control", action: "voice_end" }); };
@@ -377,23 +593,22 @@ async function startVoice() {
 function voiceToolResult(ev) {
   if (!vws || vws.readyState !== 1) return;
   vws.send(JSON.stringify({ type: "tool.result", call_id: ev.call_id, result: ev.result, is_error: false }));
-  if (ev.end) { vEndPending = true; setTimeout(voiceEnd, 15000); }       // normally after the goodbye has played (reply.done)
+  if (ev.end) { vEndPending = true; setTimeout(voiceEnd, 15000); }
 }
 function voiceEnd() { if (vws && vws.readyState === 1) { try { vws.send(JSON.stringify({ type: "session.end" })); } catch (e) { /* closing */ } } }
 async function startVoiceMic() {
   try {
     vStream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true } });
   } catch (e) {
-    $("st-mic").textContent = "mic: " + (e.name === "NotAllowedError" ? L.micDenied : e.message); $("st-mic").classList.add("bad"); return;
+    $("st-mic").textContent = e.name === "NotAllowedError" ? L.micDenied : e.message; $("st-mic").classList.add("bad"); setPresence("denied"); return;
   }
   vCtx = new AudioContext({ sampleRate: 24000 });
   await vCtx.resume();
   await vCtx.audioWorklet.addModule("/static/worklet.js");
   const node = new AudioWorkletNode(vCtx, "pcm16-downsampler", { processorOptions: { rate: 24000 } });
-  const silence = btoa(String.fromCharCode.apply(null, new Uint8Array(2400)));   // 50 ms of nothing at 24 kHz
+  const silence = btoa(String.fromCharCode.apply(null, new Uint8Array(2400)));
   node.port.onmessage = (e) => {
-    // half duplex, like a radio: while the agent's voice is still playing (plus a short tail) the customer is not
-    // heard, so nothing said over the agent can interrupt it or be read as the answer to the next question
+    // half duplex: while the agent's voice is still playing (plus a short tail) the customer is not heard
     const agentTalking = vCtx && vCtx.currentTime < vNext + 0.35;
     const bytes = new Uint8Array(e.data); let bin = "";
     for (let i = 0; i < bytes.length; i += 0x2000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x2000));
@@ -401,8 +616,10 @@ async function startVoiceMic() {
     const pcm = new Int16Array(e.data); let peak = 0;
     for (let i = 0; i < pcm.length; i += 8) { const v = Math.abs(pcm[i]); if (v > peak) peak = v; }
     const pill = $("st-mic");
-    pill.textContent = agentTalking ? L.agentTalking : (peak > 1500 ? "mic ●" : "mic ○");
+    pill.textContent = agentTalking ? L.agentTalking : "mic";
     pill.classList.toggle("on", !agentTalking && peak > 1500); pill.classList.toggle("hold", agentTalking);
+    setMeter(agentTalking ? 0 : peak, agentTalking ? "hold" : peak > 1500 ? "hot" : "");
+    setPresence(agentTalking ? "speaking" : "listening");
   };
   vCtx.createMediaStreamSource(vStream).connect(node);
 }
@@ -419,29 +636,29 @@ function voicePlay(b64) {
   vSources.push(src); src.onended = () => { vSources = vSources.filter((s) => s !== src); };
 }
 function voiceStop() { vSources.forEach((s) => { try { s.stop(); } catch (e) { /* already done */ } }); vSources = []; vNext = 0; }
-function logLine(text, bad) { const d = document.createElement("div"); if (bad) d.style.color = "var(--bad)"; d.textContent = text; $("log").prepend(d); }
 
-// the automatic assistant talks: show the sentence as a turn, play it, keep the mic muted until it has finished,
-// then tell the server so the assistant listens again
+// the edge-tts automatic assistant (superseded by the Voice Agent, kept for the headless tests)
 function speak(ev) {
   const el = document.createElement("div"); el.className = "turn agent";
   el.innerHTML = `<div class="who">${L.agent}</div><div class="said">${esc(ev.text)}</div>`;
-  $("turns").appendChild(el);
-  const box = $("col-talk"); box.scrollTop = box.scrollHeight;
+  $("talk-empty")?.remove(); $("turns").appendChild(el);
   micMuted = true;
   const a = new Audio(ev.url);
   let done = false;
   const finish = () => { if (done) return; done = true; clearTimeout(micWatchdog); setTimeout(() => { micMuted = false; send({ type: "control", action: "spoken" }); }, 250); };
-  a.onended = finish; a.onerror = finish;
-  a.play().catch(finish);
-  clearTimeout(micWatchdog);
-  micWatchdog = setTimeout(finish, (ev.seconds + 6) * 1000);   // never stuck muted
+  a.onended = finish; a.onerror = finish; a.play().catch(finish);
+  clearTimeout(micWatchdog); micWatchdog = setTimeout(finish, (ev.seconds + 6) * 1000);
 }
+
+// ------------------------------------------------------------------ wiring
+$("btn-sample").onclick = () => startCall(`sample:${$("sample-select").value}`);
+$("btn-mic").onclick = () => startCall("mic");
 $("btn-duet").onclick = () => startCall(`duet:${$("duet-select").value}`);
-$("btn-end").onclick = () => { voiceEnd(); send({ type: "control", action: "end_call" }); };   // voice agent first, then our session
+$("btn-voice").onclick = () => startVoice();
+$("btn-end").onclick = () => { voiceEnd(); send({ type: "control", action: "end_call" }); };
 $("btn-swap").onclick = () => send({ type: "control", action: "swap_roles" });
 $("tg-clarify").onchange = (e) => send({ type: "control", action: "toggle", what: "clarify", on: e.target.checked });
 $("tg-assistant").onchange = (e) => send({ type: "control", action: "toggle", what: "assistant", on: e.target.checked });
-$("btn-lang").onclick = () => { lang = lang === "it" ? "en" : "it"; applyLanguage(); loadSamples(); };
+$("btn-lang").onclick = () => { lang = lang === "it" ? "en" : "it"; applyLanguage(); loadHomeData(); };
 $("sheet-close").onclick = () => $("sheet").close();
-applyLanguage(); loadSamples();
+applyLanguage(); loadHomeData();
