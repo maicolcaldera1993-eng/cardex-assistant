@@ -963,6 +963,21 @@ class CallSession:
                 "slots": [self._slot_view(x) for x in slots],
                 "booked": self._slot_view(self.booking) if self.booking and self.booking["kind"] == "remote" else None}
 
+    CONSUMABLE_GROUPS = ("CR",)            # tablets, brushes, trims: never covered by the warranty
+
+    def charge_for(self, code: str) -> dict:
+        """What the customer pays for one part: the list price, unless the machine is under warranty and the part is
+        one of the parts of the procedure's outcome (a repair). Consumables are always charged."""
+        c = self.cards.get(code) or {}
+        price = c.get("price_eur")
+        in_repair = bool(self.diagnosis and self.diagnosis.outcome and code in self.diagnosis.outcome.parts)
+        consumable = code[:2] in self.CONSUMABLE_GROUPS
+        w = self.machine.get("in_warranty") if self.machine else None
+        covered = bool(w and in_repair and not consumable)
+        why = ("warranty" if covered else "consumable" if consumable else "out_of_warranty" if w is False
+               else "not_in_repair" if w else "warranty_unknown")
+        return {"list_price_eur": price, "covered_by_warranty": covered, "customer_pays_eur": 0.0 if covered else price, "why": why}
+
     def _next_step(self) -> dict:
         """What the operator does now that the procedure has an outcome: the parts with price and delivery, who pays,
         the service call or the technician's visit to book (with the free slots), and one English sentence to read."""
@@ -1001,7 +1016,8 @@ class CallSession:
         return {"kind": o.kind, "text": text[0] if it else text[1], "warranty": w, "warranty_text": wt[0] if it else wt[1],
                 "say_en": (say_w + " " + say_k).strip(), "booking": booking,
                 "parts": [{"code": c["code"], "description": c["description"], "description_en": c["description_en"],
-                           "price_eur": c["price_eur"], "delivery": c["delivery"], "handling": c["handling"]} for c in parts]}
+                           "price_eur": c["price_eur"], "delivery": c["delivery"], "handling": c["handling"],
+                           **self.charge_for(c["code"])} for c in parts]}
 
     # ------------------------------------------------------------------ emitters
     async def _on_clear(self, turn_id: int, text: str) -> None:
@@ -1051,9 +1067,9 @@ class CallSession:
             "voice_agent": self.voice,
             "machine_record": self.machine,
             "parts_confirmed": [{"code": c["code"], "description": c["description"], "price_eur": c["price_eur"],
-                                 "stock": c["stock"]} for c in confirmed],
-            "parts_proposed": [{"code": c["code"], "description": c["description"], "price_eur": c["price_eur"]}
-                               for c in self.cards.values() if c["status"] == "proposed"],
+                                 "stock": c["stock"], **self.charge_for(c["code"])} for c in confirmed],
+            "parts_proposed": [{"code": c["code"], "description": c["description"], "price_eur": c["price_eur"],
+                                **self.charge_for(c["code"])} for c in self.cards.values() if c["status"] == "proposed"],
             "parts_dismissed": [c["code"] for c in self.cards.values() if c["status"] == "dismissed"],
             "transcript": [self.turns[k] for k in sorted(self.turns)],
             "diarization_check": self._diarization_report(),

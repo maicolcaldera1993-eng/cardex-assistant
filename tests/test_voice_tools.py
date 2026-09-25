@@ -59,9 +59,12 @@ def test_dave_end_to_end_through_the_tools():
     run(run_tool(s, "answer_step", {"step_id": "contactor", "option_number": 1, "customer_words": "clicks, no heat"}))  # -> element
     o = run(run_tool(s, "answer_step", {"step_id": "element", "option_number": 2, "customer_words": "110 volts"}))
     assert o["status"] == "outcome" and o["outcome"] == "part_with_support"
-    assert {x["code"] for x in o["parts"]} == {"CA-1181", "CA-1220"} and o["parts_total_eur"] == 98.9
-    assert o["parts_total_spoken"] == "ninety-eight euros ninety"
-    assert next(x["spoken"] for x in o["parts"] if x["code"] == "CA-1181") == "C A eleven eighty-one, ninety-six euros"
+    assert {x["code"] for x in o["parts"]} == {"CA-1181", "CA-1220"}
+    # Dave is out of warranty: he pays the list price, labour is charged
+    assert o["customer_pays_total_eur"] == 98.9 and o["customer_pays_total_spoken"] == "ninety-eight euros ninety"
+    assert o["labour"].startswith("charged")
+    ca = next(x for x in o["parts"] if x["code"] == "CA-1181")
+    assert ca["spoken"] == "C A eleven eighty-one" and ca["customer_pays_spoken"] == "ninety-six euros" and not ca["covered_by_warranty"]
     assert o["warranty"].startswith("out of warranty")
     assert o["booking"]["kind"].startswith("second call") and o["booking"]["free_slots"]
     slot = o["booking"]["free_slots"][0]["slot_id"]
@@ -70,7 +73,7 @@ def test_dave_end_to_end_through_the_tools():
     assert b["status"] == "booked" and s.booking["id"] == slot
 
     t = run(run_tool(s, "find_part", {"query": "a box of the cleaning tablets"}))
-    assert t["status"] == "found" and t["parts"][0]["code"] == "CR-6052" and t["parts"][0]["price_eur"] == 19.0
+    assert t["status"] == "found" and t["parts"][0]["code"] == "CR-6052" and t["parts"][0]["list_price_eur"] == 19.0
 
     note = run(run_tool(s, "note_for_operator", {"note": "asks for a discount on the element"}))
     assert note["status"] == "noted" and s.notes == ["asks for a discount on the element"]
@@ -178,3 +181,24 @@ def test_luca_giglio_plus_record_wins_and_booking_orders_the_parts():
     b = run(run_tool(s, "book_slot", {"slot_id": o["booking"]["free_slots"][0]["slot_id"]}))
     assert b["status"] == "booked" and b["parts_ordered_with_it"] == ["GE-2160"] and s.cards["GE-2160"]["status"] == "confirmed"
     assert run(run_tool(s, "end_call", {}))["status"] == "no_goodbye"
+
+
+def test_warranty_covers_the_repair_not_the_consumables():
+    """Luca's call (25 Sept): under warranty the agent quoted 84 euros for the valve, and the tablets looked covered."""
+    s, _ = make_session()
+    run(run_tool(s, "identify_machine", {"serial": "051040"}))
+    run(run_tool(s, "find_procedure", {"description": "when I take out the portafilter after the coffee, it spits and sprays"}))
+    run(run_tool(s, "answer_step", {"step_id": "discharge", "option_number": 1, "customer_words": "No, I don't hear the discharge."}))
+    run(run_tool(s, "answer_step", {"step_id": "backflush-date", "option_number": 1, "customer_words": "More than a week ago."}))
+    run(run_tool(s, "answer_step", {"step_id": "backflush", "option_number": 2, "customer_words": "I did it, it still spits."}))
+    o = run(run_tool(s, "answer_step", {"step_id": "valve-body", "option_number": 2, "customer_words": "The plunger is scratched and the rubber is broken, damaged."}))
+    valve = o["parts"][0]
+    assert valve["code"] == "GE-2160" and valve["covered_by_warranty"] and valve["customer_pays_eur"] == 0.0
+    assert valve["customer_pays_spoken"].startswith("free") and o["customer_pays_total_spoken"].startswith("nothing")
+    assert o["labour"].startswith("free")
+    t = run(run_tool(s, "find_part", {"query": "cleaning tablets"}))
+    tab = t["parts"][0]
+    assert tab["code"] == "CR-6052" and not tab["covered_by_warranty"] and tab["why"] == "consumable" and tab["customer_pays_spoken"] == "nineteen euros"
+    run(run_tool(s, "confirm_parts", {"codes": ["GE-2160", "CR-6052"]}))
+    charges = {c["code"]: s.charge_for(c["code"])["customer_pays_eur"] for c in s.cards.values() if c["status"] == "confirmed"}
+    assert charges == {"GE-2160": 0.0, "CR-6052": 19.0}

@@ -58,7 +58,8 @@ const T = {
     wo: "Scheda d'intervento", reportFor: "Esito della chiamata", noOutcome: "Nessun esito",
     secMachine: "Cliente e macchina", secDiag: "Diagnosi", secParts: "Ricambi", secNext: "Seguito", secNotes: "Note per l'operatore",
     machine: "Macchina", serial: "Matricola", customerName: "Cliente", place: "Luogo", warrantyLbl: "Garanzia", symptom: "Guasto",
-    thCode: "Codice", thDesc: "Descrizione", thStatus: "Stato", thPrice: "Prezzo", stConfirmed: "confermato", stProposed: "da confermare", stDismissed: "scartato",
+    thCode: "Codice", thDesc: "Descrizione", thStatus: "Stato", thPrice: "Listino", thPays: "A carico cliente", totalPays: "Totale a carico del cliente (confermati)",
+    covered: "in garanzia", consumable: "materiale di consumo: non coperto dalla garanzia", pays: "paga il cliente", stConfirmed: "confermato", stProposed: "da confermare", stDismissed: "scartato",
     nextStep: "Prossimo passo", appointment: "Appuntamento", none: "nessuno", noSteps: "Nessuna verifica registrata.",
     approve: "Approva e invia al magazzino", approved: "Approvato · ordine inviato al magazzino (simulazione)", print: "Stampa", again: "Nuova chiamata",
     showTranscript: "Trascritto completo", diarCheck: "Attribuzione delle voci", duration: "Durata",
@@ -115,7 +116,8 @@ const T = {
     wo: "Work order", reportFor: "Call outcome", noOutcome: "No outcome",
     secMachine: "Customer and machine", secDiag: "Diagnosis", secParts: "Parts", secNext: "Follow-up", secNotes: "Notes for the operator",
     machine: "Machine", serial: "Serial", customerName: "Customer", place: "Location", warrantyLbl: "Warranty", symptom: "Fault",
-    thCode: "Code", thDesc: "Description", thStatus: "Status", thPrice: "Price", stConfirmed: "confirmed", stProposed: "to confirm", stDismissed: "dismissed",
+    thCode: "Code", thDesc: "Description", thStatus: "Status", thPrice: "List price", thPays: "Customer pays", totalPays: "Customer pays in total (confirmed)",
+    covered: "warranty", consumable: "consumable: not covered by the warranty", pays: "customer pays", stConfirmed: "confirmed", stProposed: "to confirm", stDismissed: "dismissed",
     nextStep: "Next step", appointment: "Appointment", none: "none", noSteps: "No checks recorded.",
     approve: "Approve and send to the warehouse", approved: "Approved · order sent to the warehouse (simulation)", print: "Print", again: "New call",
     showTranscript: "Full transcript", diarCheck: "Voice attribution", duration: "Duration",
@@ -379,10 +381,11 @@ function partsTable(parts) {
   const rows = parts.map((c) => {
     const dl = (c.delivery || [])[0];
     const when = dl ? (dl.qty > 0 ? esc(dl.from.replace(/^[A-Z]{2}-\d+ /, "")) : L.fromSupplier) + ", " + dl.days + " " + L.days : "";
-    return `<tr><td><span class="code">${esc(c.code)}</span><br>${esc(c.description)}<br><span class="tag ${c.handling === "diy" ? "ok" : "warn"}">${L.handling[c.handling] || ""}</span> <small>${when}</small></td><td>${eur(c.price_eur)}</td></tr>`;
+    return `<tr><td><span class="code">${esc(c.code)}</span><br>${esc(c.description)}<br><span class="tag ${c.handling === "diy" ? "ok" : "warn"}">${L.handling[c.handling] || ""}</span> <small>${when}</small></td>` +
+      `<td>${c.covered_by_warranty ? `<s>${eur(c.price_eur)}</s><br><span class="tag ok">${L.covered}</span>` : eur(c.customer_pays_eur ?? c.price_eur)}</td></tr>`;
   }).join("");
-  const total = parts.reduce((a, c) => a + (c.price_eur || 0), 0);
-  return `<table class="nparts"><tbody>${rows}</tbody><tfoot><tr><td>${L.total}</td><td>${eur(total)}</td></tr></tfoot></table>`;
+  const total = parts.reduce((a, c) => a + ((c.customer_pays_eur ?? c.price_eur) || 0), 0);
+  return `<table class="nparts"><tbody>${rows}</tbody><tfoot><tr><td>${L.totalPays}</td><td>${eur(total)}</td></tr></tfoot></table>`;
 }
 function renderDiagnosis(d) {
   const p = $("diagnosis"); p.className = "panel";
@@ -515,10 +518,13 @@ function renderSummary(s) {
   const warranty = m.warranty_until ? (m.in_warranty ? `<span class="tag ok">${L.warranty} ${esc(m.warranty_until)}</span>` : `<span class="tag bad">${L.noWarranty} ${esc(m.warranty_until)}</span>`) : "—";
   const steps = s.steps.length ? `<ol class="timeline">${s.steps.map((h) => `<li>${esc(h.text)}<br><span class="ans">${esc(h.answer)}</span></li>`).join("")}</ol>` : `<p class="note">${L.noSteps}</p>`;
   const all = [...s.parts_confirmed.map((p) => ({ ...p, st: "confirmed" })), ...(s.parts_proposed || []).map((p) => ({ ...p, st: "proposed" }))];
-  const partsRows = all.map((p) => `<tr><td class="code">${esc(p.code)}</td><td>${esc(p.description)}</td><td><span class="tag ${p.st === "confirmed" ? "ok" : "warn"}">${p.st === "confirmed" ? L.stConfirmed : L.stProposed}</span></td><td class="num">${eur(p.price_eur)}</td></tr>`).join("");
-  const total = s.parts_confirmed.reduce((a, p) => a + (p.price_eur || 0), 0);
-  const partsTbl = all.length ? `<table class="rtable"><thead><tr><th>${L.thCode}</th><th>${L.thDesc}</th><th>${L.thStatus}</th><th class="num">${L.thPrice}</th></tr></thead><tbody>${partsRows}</tbody>` +
-    `<tfoot><tr><td colspan="3">${L.total} (${L.stConfirmed})</td><td class="num">${eur(total)}</td></tr></tfoot></table>` : `<p class="note">${L.none}</p>`;
+  const pays = (p) => (p.customer_pays_eur == null ? p.price_eur : p.customer_pays_eur);
+  const partsRows = all.map((p) => `<tr><td class="code">${esc(p.code)}</td><td>${esc(p.description)}${p.why === "consumable" ? `<br><small class="note">${L.consumable}</small>` : ""}</td>` +
+    `<td><span class="tag ${p.st === "confirmed" ? "ok" : "warn"}">${p.st === "confirmed" ? L.stConfirmed : L.stProposed}</span></td><td class="num">${eur(p.price_eur)}</td>` +
+    `<td class="num">${p.covered_by_warranty ? `<span class="tag ok">${L.covered}</span>` : eur(pays(p))}</td></tr>`).join("");
+  const total = s.parts_confirmed.reduce((a, p) => a + (pays(p) || 0), 0);
+  const partsTbl = all.length ? `<table class="rtable"><thead><tr><th>${L.thCode}</th><th>${L.thDesc}</th><th>${L.thStatus}</th><th class="num">${L.thPrice}</th><th class="num">${L.thPays}</th></tr></thead><tbody>${partsRows}</tbody>` +
+    `<tfoot><tr><td colspan="4">${L.totalPays}</td><td class="num">${eur(total)}</td></tr></tfoot></table>` : `<p class="note">${L.none}</p>`;
   const diar = s.diarization_check ? `${Math.round((s.diarization_check.accuracy || 0) * 100)}%` : null;
   const transcript = s.transcript.map((t) => `<div class="turn ${t.role}${t.interrupted ? " interrupted" : ""}"><div class="who">${t.role === "operator" ? L.operator : t.role === "agent" ? L.agent : L.customer}</div>${esc(t.text)}${t.clear ? `<div class="clear">${esc(t.clear)}</div>` : ""}</div>`).join("");
   const hasOrder = s.parts_confirmed.length || s.booking;

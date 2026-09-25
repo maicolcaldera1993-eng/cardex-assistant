@@ -40,7 +40,7 @@ HOW YOU WORK
 3. When a step asks the customer to do something (press, unscrew, clean, backflush), explain it simply, wait for them to do it and tell you the result, then call answer_step.
 4. Order of things: as soon as the fault is described, call find_procedure and ask its first question. Right after the customer answers that first question, ask for the serial number (it is on the plate at the back) and call identify_machine with the digits and the model words the customer used: it tells you the machine, whether it is under warranty and who pays. Then continue with the steps.
 5. Say prices, delivery times, part codes, warranty, totals and dates ONLY when they come from a tool result in this conversation. Never invent a number, never name a part the tools did not return, never explain what broke beyond what the step or the outcome says. Use the "spoken" forms given in the results for codes and prices (for example "C A twelve seventy, twelve euros sixty").
-6. Customer questions: answer from tool results when you can. The outcome gives the total of the parts (parts_total_eur), the delivery days, the warranty and whether labour is charged, and whether a service call or a technician is needed; use them. Call note_for_operator only for things the tools do not cover (discounts, invoices, complaints, anything outside the procedure), say the operator will follow up, then return to the procedure.
+6. Customer questions: answer from tool results when you can. Money: always say what the CUSTOMER pays (customer_pays_spoken, customer_pays_total_spoken, labour), never the list price as if it were a cost. Under warranty the repair's parts and the service are free; consumables such as cleaning tablets are always charged, and if asked, say so plainly ("the tablets are consumables, they are not covered"). The outcome also gives delivery days and whether a service call or a technician is needed; use them. Call note_for_operator only for things the tools do not cover (discounts, invoices, complaints, anything outside the procedure), say the operator will follow up, then return to the procedure.
 7. At the outcome, explain what happens next (parts shipped FROM our warehouse to the customer, second call with service, technician's visit), who pays, and propose the first free slot from the result. When the customer agrees, call book_slot with that slot id. If they prefer another, propose the next one. When the customer agrees to receive the parts, call confirm_parts with their codes: without it nothing is ordered.
 8. Keep every reply to one or two short sentences. Warm and professional, never chatty. Repeat numbers back to confirm them.
 10. If a tool result says "stale" or "error", call answer_step again right away with the step_id given in that result and the option matching the customer's words. Never guess the outcome yourself and never use find_part to work out which part is needed: only the procedure's outcome names the parts. find_part is for parts the customer asks about by code or by name.
@@ -218,13 +218,19 @@ def _outcome_view(s) -> dict:
                        "technician": "a technician's visit is needed"}[kind],
            "warranty": {True: "under warranty: no charge", False: "out of warranty: parts and labour are charged, a quote follows",
                         None: "warranty unknown: ask the serial number"}[n["warranty"]],
-           "parts": [{"code": p["code"], "spoken": spoken_code(p["code"]) + ", " + spoken_price(p["price_eur"]),
-                      "description": p.get("description_en") or p["description"], "price_eur": p["price_eur"],
+           "parts": [{"code": p["code"], "spoken": spoken_code(p["code"]),
+                      "list_price_spoken": spoken_price(p["price_eur"]),
+                      "customer_pays_spoken": "free, covered by the warranty" if p["covered_by_warranty"] else spoken_price(p["customer_pays_eur"]),
+                      "covered_by_warranty": p["covered_by_warranty"], "customer_pays_eur": p["customer_pays_eur"],
+                      "description": p.get("description_en") or p["description"], "list_price_eur": p["price_eur"],
                       "delivery": (p["delivery"][0]["from"].replace("FI-01 ", "").replace("NL-01 ", "") + ", " + p["delivery"][0]["days"] + " working days") if p["delivery"] else "unknown",
                       "fitting": {"diy": "the customer fits it", "support": "fitted on a service call"}.get(p["handling"], p["handling"])}
                      for p in n["parts"]],
-           "parts_total_eur": round(sum(p["price_eur"] or 0 for p in n["parts"]), 2),
-           "parts_total_spoken": spoken_price(round(sum(p["price_eur"] or 0 for p in n["parts"]), 2))}
+           "customer_pays_total_eur": round(sum(p["customer_pays_eur"] or 0 for p in n["parts"]), 2),
+           "customer_pays_total_spoken": (lambda t: "nothing, all covered by the warranty" if t == 0 else spoken_price(t))(
+               round(sum(p["customer_pays_eur"] or 0 for p in n["parts"]), 2)),
+           "labour": ("free, covered by the warranty" if n["warranty"] is True else "charged, a quote follows" if n["warranty"] is False
+                      else "depends on the warranty: ask the serial number")}
     b = n.get("booking")
     if b:
         out["booking"] = {"kind": "technician's visit" if b["kind"] == "onsite" else "second call with service (video call)",
@@ -234,10 +240,13 @@ def _outcome_view(s) -> dict:
     return out
 
 
-def _card_view(c: dict) -> dict:
+def _card_view(c: dict, charge: dict | None = None) -> dict:
     d = c["delivery"][0] if c.get("delivery") else None
-    return {"code": c["code"], "spoken": spoken_code(c["code"]) + ", " + spoken_price(c["price_eur"]),
-            "description": c.get("description_en") or c["description"], "price_eur": c["price_eur"],
+    charge = charge or {"covered_by_warranty": False, "customer_pays_eur": c["price_eur"], "why": "unknown"}
+    return {"code": c["code"], "spoken": spoken_code(c["code"]), "list_price_spoken": spoken_price(c["price_eur"]),
+            "customer_pays_spoken": "free, covered by the warranty" if charge["covered_by_warranty"] else spoken_price(charge["customer_pays_eur"]),
+            "covered_by_warranty": charge["covered_by_warranty"], "why": charge["why"],
+            "description": c.get("description_en") or c["description"], "list_price_eur": c["price_eur"],
             "delivery": (d["from"].replace("FI-01 ", "").replace("NL-01 ", "") + ", " + d["days"] + " working days") if d else "unknown",
             "fits_this_machine": c["compatible"], "superseded_by": c.get("superseded_by"), "requires": c.get("requires"),
             "fitting": {"diy": "the customer fits it", "support": "fitted on a service call"}.get(c.get("handling"), c.get("handling")),
@@ -321,7 +330,7 @@ async def run_tool(s, name: str, args: dict) -> dict:
         if not cards:
             return {"status": "none", "hint": "no part on file matches these words. Do not invent one: call note_for_operator with the "
                                               "request and tell the customer the operator will follow up (or ask for the code on the invoice)."}
-        return {"status": "found", "parts": [_card_view(c) for c in cards]}
+        return {"status": "found", "parts": [_card_view(c, s.charge_for(c["code"])) for c in cards]}
     if name == "book_slot":
         await s.control({"action": "book_slot", "id": args.get("slot_id")})
         if s.booking:
