@@ -142,6 +142,7 @@ class CallSession:
         self.last_agent_text = ""
         self.last_customer_text = ""
         self.serial_asked = False                 # the other side just asked for the serial number
+        self.pending_description = ""             # the fault as described before the machine was known
 
     # ------------------------------------------------------------------ lifecycle
     async def run(self) -> None:

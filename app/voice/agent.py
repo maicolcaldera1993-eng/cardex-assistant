@@ -59,7 +59,7 @@ TOOLS: list[dict] = [
         "customer_words": {"type": "string", "description": "What the customer said about themselves: business name and city, e.g. 'Kaffeehaus Nord in Berlin'. Used to find the machine when the serial is not understood."}},
          "required": []}, "execution_mode": "hold"},
     {"name": "find_procedure",
-     "description": "Call when the customer has described what the machine is doing wrong, in their own words. Opens the matching troubleshooting procedure and returns its first step. If it returns candidates instead, ask the customer which one applies and call start_procedure. When in doubt, call it: a wasted call is fine.",
+     "description": "Call when the customer has described what the machine is doing wrong, in their own words. The machine (model or serial) must be known first: if the result says need_machine, identify the machine and call again. Opens the matching troubleshooting procedure and returns its first step. If it returns candidates instead, ask the customer which one applies and call start_procedure. When in doubt, call it: a wasted call is fine.",
      "parameters": {"type": "object", "properties": {"description": {"type": "string", "description": "What the customer said about the fault, verbatim"}},
                     "required": ["description"]}, "execution_mode": "hold"},
     {"name": "start_procedure",
@@ -341,6 +341,8 @@ async def _run_tool(s, name: str, args: dict) -> dict:
         from ..session import CATALOG, VOCAB
         out = {"model": VOCAB.model_names.get(s.model_id) or s.family or "unknown, ask the customer", "edition": s.edition,
                "machine": _machine_view(s)}
+        if (s.model_id or s.family) and s.pending_description and not s.diagnosis:
+            out["next"] = f"the fault was already described: call find_procedure now with: {s.pending_description!r}"
         if not s.machine:
             # the digits did not come through ("Bir, bir", "Beer"): the city, the business name and the model usually do
             said = (args.get("customer_words") or "") + " " + " ".join(u["text"] for u in s.utterances if u["role"] == "customer")
@@ -359,6 +361,13 @@ async def _run_tool(s, name: str, args: dict) -> dict:
         return out
     if name == "find_procedure":
         desc = args.get("description") or ""
+        s.pending_description = desc or s.pending_description
+        if not (s.model_id or s.family or s.machine):
+            # procedures differ by machine (an Onda has a steam boiler of its own, a Marea does not): know it first
+            return {"status": "need_machine",
+                    "hint": "the procedure depends on the machine: ask which Sereni machine it is (model name on the front, or "
+                            "the serial number on the plate at the back), call identify_machine, then call find_procedure again "
+                            "with this same description. Do not ask the customer to describe the fault again."}
         if not (s.diagnosis and s.diagnosis.current):
             await s._detect_symptom([desc], semantic=True)
         if s.diagnosis and s.diagnosis.current:

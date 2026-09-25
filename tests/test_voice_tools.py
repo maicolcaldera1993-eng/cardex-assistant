@@ -367,3 +367,17 @@ def test_serial_answered_in_words_after_the_operator_asks():
     run(s.voice_transcript("operator", "Can you read me the serial number on the plate at the back?"))
     run(s.voice_transcript("customer", "Yes, of course. It is zero four four, eight zero one."))
     assert s.machine and s.machine["serial"] == "044801" and s.machine["customer"] == "Kaffeehaus Nord"
+
+
+def test_no_procedure_before_the_machine_is_known():
+    s, _ = make_session()
+    r = run(run_tool(s, "find_procedure", {"description": "there is no steam at all since this morning, I cannot froth milk"}))
+    assert r["status"] == "need_machine" and not s.diagnosis
+    m = run(run_tool(s, "identify_machine", {"serial": "044801"}))
+    assert "find_procedure" in m["next"]
+    r = run(run_tool(s, "find_procedure", {"description": "there is no steam at all since this morning, I cannot froth milk"}))
+    assert r["status"] in ("opened", "candidates")
+    if r["status"] == "opened":
+        assert s.diagnosis.symptom["id"].startswith("onda-")
+    else:
+        assert all(c["symptom_id"].startswith("onda-") for c in r["candidates"])

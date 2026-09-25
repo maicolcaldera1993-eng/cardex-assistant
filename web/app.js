@@ -19,6 +19,8 @@ const T = {
     opEyebrow: "Modalità 2", opTitle: "Assistenza all'operatore",
     opDesc: "Cardex affianca l'operatore del service durante la telefonata con un cliente straniero: trascrive chi dice cosa, mostra la versione chiara in italiano, apre la procedura al passo giusto con la frase da leggere, prepara ricambi, appuntamento e scheda d'intervento.",
     opTry: "Provalo tu, nei panni dell'operatore al telefono: il cliente è un'intelligenza artificiale che recita il suo ruolo; tu rispondi al microfono e segui la procedura guidata.",
+    duoTitle: "Oppure ascolta una chiamata", duoDesc: "L'assistente risponde al cliente scelto sopra, interpretato da un'altra IA: senti le due voci e vedi Cardex lavorare. Nessun microfono.", duoBtn: "Ascolta",
+    modeDuo: "Chiamata tra due IA · ascolto", duoAgent: "Parla l'assistente Sereni", duoCustomer: "Parla il cliente", duoSub: "Ascolta: nessun microfono in questa modalità.", duoPickCustomer: "Scegli prima un cliente d'esempio.",
     rpTitle: "Fai tu l'operatore", rpDesc: "Scegli il cliente: ti chiama, descrive il guasto e risponde alle tue domande. Non conosci la soluzione: te la suggerisce Cardex.", rpBtn: "Rispondi alla chiamata",
     customerTalking: "Il cliente sta parlando", customerSub: "Il microfono è in pausa: aspetta che finisca.", yourTurn: "Tocca a te", yourTurnSub: "Rispondi al cliente: segui la procedura a destra.", opFirst: "Il telefono squilla: rispondi tu per primo, per esempio «Servizio Sereni, buongiorno».",
     modeRoleplay: "Assistenza all'operatore · cliente simulato",
@@ -83,6 +85,8 @@ const T = {
     opEyebrow: "Mode 2", opTitle: "Operator assist",
     opDesc: "Cardex sits next to the service operator during a call with a foreign customer: it transcribes who says what, shows a clear Italian version, opens the procedure at the right step with the sentence to read, and prepares parts, appointment and work order.",
     opTry: "Try it as the operator on the phone: the customer is an AI playing its part; you answer on the microphone and follow the guided procedure.",
+    duoTitle: "Or listen to a call", duoDesc: "The assistant answers the customer picked above, played by another AI: hear both voices and watch Cardex work. No microphone.", duoBtn: "Listen",
+    modeDuo: "Call between two AIs · listening", duoAgent: "The Sereni assistant is speaking", duoCustomer: "The customer is speaking", duoSub: "Listen: no microphone in this mode.", duoPickCustomer: "Pick a sample customer first.",
     rpTitle: "Be the operator", rpDesc: "Pick the customer: they call, describe the fault and answer your questions. You don't know the fix: Cardex suggests it.", rpBtn: "Answer the call",
     customerTalking: "The customer is speaking", customerSub: "Your mic is paused: let them finish.", yourTurn: "Your turn", yourTurnSub: "Answer the customer: follow the procedure on the right.", opFirst: "The phone rings: you speak first, for example “Sereni service, good morning”.",
     modeRoleplay: "Operator assist · simulated customer",
@@ -198,6 +202,7 @@ function applyLanguage() {
   set("lb-voice-lang", L.lbVoiceLang); set("btn-voice", L.voiceStart); set("voice-help", L.voiceHelp);
   set("op-eyebrow", L.opEyebrow); set("op-title", L.opTitle); set("op-desc", L.opDesc); set("op-try", L.opTry); set("voice-try", L.voiceTry);
   set("rp-title", L.rpTitle); set("rp-desc", L.rpDesc); set("btn-roleplay", L.rpBtn);
+  set("duo-title", L.duoTitle); set("duo-desc", L.duoDesc); set("btn-duo", L.duoBtn);
   $("rp-select").innerHTML = PERSONAS.filter((p) => p.id !== "free").concat([{ id: "carmen", name: "Carmen Ruiz", machine: "Marea 2" }])
     .map((p) => `<option value="${p.id}">${esc(p.name)} · ${esc(p.machine)}</option>`).join("");
   set("sample-title", L.sampleTitle); set("sample-desc", L.sampleDesc); set("btn-sample", L.sampleBtn);
@@ -280,9 +285,12 @@ function setPresence(state) {
   if (state === presenceState) return;
   presenceState = state;
   const p = $("presence"); p.classList.toggle("speaking", state === "speaking"); p.classList.toggle("listening", state === "listening"); p.classList.toggle("denied", state === "denied");
-  const R = roleplay;
-  $("presence-title").textContent = { speaking: R ? L.customerTalking : L.presenceSpeaking, listening: R ? L.yourTurn : L.presenceListening, denied: L.presenceDenied }[state] || L.presenceConnecting;
-  $("presence-sub").textContent = { speaking: R ? L.customerSub : L.presenceSubSpeaking, listening: R ? (rpSpoke ? L.yourTurnSub : L.opFirst) : L.presenceSubListening, denied: L.presenceSubDenied }[state] || "";
+  const R = roleplay, D = !!duo;
+  $("presence-title").textContent = D ? ({ speaking: L.duoAgent, customer: L.duoCustomer }[state] || L.modeDuo)
+    : ({ speaking: R ? L.customerTalking : L.presenceSpeaking, listening: R ? L.yourTurn : L.presenceListening, denied: L.presenceDenied }[state] || L.presenceConnecting);
+  $("presence-sub").textContent = D ? L.duoSub
+    : ({ speaking: R ? L.customerSub : L.presenceSubSpeaking, listening: R ? (rpSpoke ? L.yourTurnSub : L.opFirst) : L.presenceSubListening, denied: L.presenceSubDenied }[state] || "");
+  p.classList.toggle("customer", state === "customer");
 }
 
 async function startMic() {
@@ -621,7 +629,10 @@ function voiceToolResult(ev) {
   vws.send(JSON.stringify({ type: "tool.result", call_id: ev.call_id, result: ev.result, is_error: false }));
   if (ev.end) { vEndPending = true; setTimeout(voiceEnd, 15000); }
 }
-function voiceEnd() { if (vws && vws.readyState === 1) { try { vws.send(JSON.stringify({ type: "session.end" })); } catch (e) { /* closing */ } } }
+function voiceEnd() {
+  if (duo) { duoEnd(); return; }
+  if (vws && vws.readyState === 1) { try { vws.send(JSON.stringify({ type: "session.end" })); } catch (e) { /* closing */ } }
+}
 async function startVoiceMic() {
   try {
     vStream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true } });
@@ -663,6 +674,100 @@ function voicePlay(b64) {
 }
 function voiceStop() { vSources.forEach((s) => { try { s.stop(); } catch (e) { /* already done */ } }); vSources = []; vNext = 0; }
 
+// ------------------------------------------------------------------ two AIs talking (no microphone)
+// A = the Sereni assistant (Cardex's tools), B = the simulated customer. Each agent's voice is played on the speakers and
+// streamed into the other agent at real-time pace (50 ms frames); silence fills the gaps so turn detection works.
+let duo = null;
+const FRAME = 2400;                                    // 50 ms of PCM16 at 24 kHz
+const b64ToBytes = (b64) => { const s = atob(b64); const u = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) u[i] = s.charCodeAt(i); return u; };
+const bytesToB64 = (u) => { let s = ""; for (let i = 0; i < u.length; i += 0x2000) s += String.fromCharCode.apply(null, u.subarray(i, i + 0x2000)); return btoa(s); };
+async function startDuo() {
+  const p = PERSONAS.find((x) => x.id === persona);
+  if (!p || p.id === "free") { toast(L.duoPickCustomer); return; }
+  startCall("voice");
+  $("call-mode").textContent = L.modeDuo; $("call").classList.add("duo");
+  vEndPending = false;
+  const ctx = new AudioContext({ sampleRate: 24000 }); await ctx.resume().catch(() => {});
+  duo = { ctx, next: 0, sockets: {}, queues: { A: [], B: [] }, carry: { A: new Uint8Array(0), B: new Uint8Array(0) }, ready: { A: false, B: false }, sent: { A: 0, B: 0 }, heard: { A: 0, B: 0 }, timer: null, speaking: "", ended: false };
+  window.cardexDuo = () => ({ ready: duo.ready, queued: { A: duo.queues.A.length, B: duo.queues.B.length }, sent: duo.sent, audioFrom: duo.heard });
+  let a, b, ta, tb;
+  try {
+    [a, b, ta, tb] = await Promise.all([
+      fetch(`/api/voice/agent?lang=${encodeURIComponent(p.lang || "en")}`).then((r) => r.json()),
+      fetch(`/api/voice/customer?persona=${encodeURIComponent(p.id)}`).then((r) => r.json()),
+      fetch("/api/voice/token").then((r) => r.json()), fetch("/api/voice/token").then((r) => r.json())]);
+  } catch (e) { logLine("duo: " + e.message, true); return; }
+  const open = (who, token, session) => {
+    const url = new URL("wss://agents.assemblyai.com/v1/ws"); url.searchParams.set("token", token);
+    const ws = new WebSocket(url.toString()); duo.sockets[who] = ws;
+    if (who === "A") vws = ws;                               // tool results and the hang-up go to the assistant
+    const other = who === "A" ? "B" : "A";
+    ws.onopen = () => ws.send(JSON.stringify({ type: "session.update", session }));
+    ws.onmessage = (e) => {
+      const m = JSON.parse(e.data);
+      if (m.type === "session.ready") {
+        duo.ready[who] = true;
+        if (who === "B") open("A", ta.token, a.session);        // the customer listens first, then the assistant greets
+      } else if (m.type === "reply.audio") {
+        duo.heard[who]++;
+        const bytes = b64ToBytes(m.data || m.audio);
+        duoPlay(bytes, who);
+        duoFeed(other, bytes);                                        // the other agent hears it as one continuous stream
+      } else if (m.type === "reply.done") {
+        duoFeed(other, null);                                         // flush the tail of the sentence
+        if (who === "A" && vEndPending) setTimeout(duoEnd, Math.max(0, duo.next - duo.ctx.currentTime) * 1000 + 800);
+      } else if (m.type === "transcript.agent") {
+        send({ type: "control", action: "transcript", role: who === "A" ? "agent" : "customer", text: m.text, interrupted: !!m.interrupted });
+      } else if (m.type === "tool.call" && who === "A") {
+        send({ type: "control", action: "tool", call_id: m.call_id, name: m.name, arguments: m.arguments });
+        logLine("⚙ " + m.name + " " + JSON.stringify(m.arguments || {}));
+      } else if (m.type === "session.error" || m.type === "error") {
+        logLine(`duo ${who}: ` + (m.message || m.code || e.data), true);
+      }
+    };
+    ws.onclose = () => { if (!duo || duo.ended) return; duoEnd(); };
+  };
+  open("B", tb.token, b.session);
+  $("st-session").textContent = L.open; $("live-dot").classList.add("on");
+  const silence = bytesToB64(new Uint8Array(FRAME));
+  duo.timer = setInterval(() => {
+    for (const who of ["A", "B"]) {
+      const ws = duo.sockets[who];
+      if (!ws || ws.readyState !== 1 || !duo.ready[who]) continue;          // frames wait in the queue until the session is ready
+      const q = duo.queues[who].shift(); if (q) duo.sent[who]++;
+      ws.send(JSON.stringify({ type: "input.audio", audio: q || silence }));
+    }
+    const talking = duo.ctx.currentTime < duo.next ? duo.speaking : "";
+    setPresence(talking === "A" ? "speaking" : talking === "B" ? "customer" : "listening");
+  }, 50);
+}
+// audio arrives in chunks of any size: keep a running buffer per listener and cut exact 50 ms frames from it, so the
+// listener hears continuous speech (padding every chunk to a frame would insert gaps and garble it)
+function duoFeed(to, bytes) {
+  let buf = duo.carry[to];
+  if (bytes) { const n = new Uint8Array(buf.length + bytes.length); n.set(buf); n.set(bytes, buf.length); buf = n; }
+  let i = 0;
+  for (; i + FRAME <= buf.length; i += FRAME) duo.queues[to].push(bytesToB64(buf.subarray(i, i + FRAME)));
+  buf = buf.subarray(i);
+  if (!bytes && buf.length) { const f = new Uint8Array(FRAME); f.set(buf); duo.queues[to].push(bytesToB64(f)); buf = new Uint8Array(0); }
+  duo.carry[to] = buf;
+}
+function duoPlay(bytes, who) {
+  const pcm = new Int16Array(bytes.buffer, 0, bytes.length >> 1); const f32 = new Float32Array(pcm.length);
+  for (let i = 0; i < pcm.length; i++) f32[i] = pcm[i] / 32768;
+  const buf = duo.ctx.createBuffer(1, f32.length, 24000); buf.getChannelData(0).set(f32);
+  const src = duo.ctx.createBufferSource(); src.buffer = buf; src.connect(duo.ctx.destination);
+  const at = Math.max(duo.ctx.currentTime + 0.05, duo.next); src.start(at); duo.next = at + buf.duration; duo.speaking = who;
+}
+function duoEnd() {
+  if (!duo || duo.ended) return;
+  duo.ended = true; clearInterval(duo.timer);
+  for (const ws of Object.values(duo.sockets)) { try { if (ws.readyState === 1) ws.send(JSON.stringify({ type: "session.end" })); ws.close(); } catch (e) { /* closing */ } }
+  setTimeout(() => { try { duo.ctx.close(); } catch (e) { /* closed */ } }, 1500);
+  vws = null;
+  send({ type: "control", action: "voice_end" });
+}
+
 // the edge-tts automatic assistant (superseded by the Voice Agent, kept for the headless tests)
 function speak(ev) {
   const el = document.createElement("div"); el.className = "turn agent";
@@ -682,6 +787,7 @@ $("btn-mic").onclick = () => startCall("mic");
 $("btn-duet").onclick = () => startCall(`duet:${$("duet-select").value}`);
 $("btn-voice").onclick = () => startVoice();
 $("btn-roleplay").onclick = () => startVoice($("rp-select").value);
+$("btn-duo").onclick = () => startDuo();
 $("btn-end").onclick = () => { voiceEnd(); send({ type: "control", action: "end_call" }); };
 $("btn-swap").onclick = () => send({ type: "control", action: "swap_roles" });
 $("tg-clarify").onchange = (e) => send({ type: "control", action: "toggle", what: "clarify", on: e.target.checked });
