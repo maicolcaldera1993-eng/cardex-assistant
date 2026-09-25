@@ -60,7 +60,7 @@ const T = {
     machine: "Macchina", serial: "Matricola", customerName: "Cliente", place: "Luogo", warrantyLbl: "Garanzia", symptom: "Guasto",
     thCode: "Codice", thDesc: "Descrizione", thStatus: "Stato", thPrice: "Listino", thPays: "A carico cliente", totalPays: "Totale a carico del cliente (confermati)",
     covered: "in garanzia", consumable: "materiale di consumo: non coperto dalla garanzia", pays: "paga il cliente", stConfirmed: "confermato", stProposed: "da confermare", stDismissed: "scartato", stMentioned: "citato, non ordinato", stIncompatible: "non compatibile",
-    nextStep: "Prossimo passo", appointment: "Appuntamento", none: "nessuno", noSteps: "Nessuna verifica registrata.",
+    nextStep: "Prossimo passo", appointment: "Appuntamento", notBooked: "non prenotato: richiesto dall'esito", none: "nessuno", noSteps: "Nessuna verifica registrata.",
     approve: "Approva e invia al magazzino", approved: "Approvato · ordine inviato al magazzino (simulazione)", print: "Stampa", again: "Nuova chiamata",
     showTranscript: "Trascritto completo", diarCheck: "Attribuzione delle voci", duration: "Durata",
     toastApproved: "Ordine approvato. In produzione partirebbe verso il magazzino.",
@@ -118,7 +118,7 @@ const T = {
     machine: "Machine", serial: "Serial", customerName: "Customer", place: "Location", warrantyLbl: "Warranty", symptom: "Fault",
     thCode: "Code", thDesc: "Description", thStatus: "Status", thPrice: "List price", thPays: "Customer pays", totalPays: "Customer pays in total (confirmed)",
     covered: "warranty", consumable: "consumable: not covered by the warranty", pays: "customer pays", stConfirmed: "confirmed", stProposed: "to confirm", stDismissed: "dismissed", stMentioned: "mentioned, not ordered", stIncompatible: "does not fit",
-    nextStep: "Next step", appointment: "Appointment", none: "none", noSteps: "No checks recorded.",
+    nextStep: "Next step", appointment: "Appointment", notBooked: "not booked: required by the outcome", none: "none", noSteps: "No checks recorded.",
     approve: "Approve and send to the warehouse", approved: "Approved · order sent to the warehouse (simulation)", print: "Print", again: "New call",
     showTranscript: "Full transcript", diarCheck: "Voice attribution", duration: "Duration",
     toastApproved: "Order approved. In production it would go to the warehouse.",
@@ -542,7 +542,7 @@ function renderSummary(s) {
         <dt>${L.warrantyLbl}</dt><dd>${warranty}</dd></dl></section>
       <section class="report-sec"><h4>${L.secNext}</h4><dl class="kv">
         <dt>${L.nextStep}</dt><dd>${esc(s.next ? s.next.text : "—")}${s.next && s.next.warranty_text ? `<br><small>${esc(s.next.warranty_text)}</small>` : ""}</dd>
-        <dt>${L.appointment}</dt><dd>${s.booking ? `${esc(s.booking.label)} · ${esc(s.booking.technician)}` : "—"}</dd></dl></section>
+        <dt>${L.appointment}</dt><dd>${s.booking ? `${esc(s.booking.label)} · ${esc(s.booking.technician)}` : (["part_with_support", "technician"].includes(kind) ? `<span class="tag bad">${L.notBooked}</span>` : "—")}</dd></dl></section>
       <section class="report-sec wide"><h4>${L.secDiag}</h4>${steps}</section>
       <section class="report-sec wide"><h4>${L.secParts}</h4>${partsTbl}</section>
       ${(s.notes || []).length ? `<section class="report-sec wide"><h4>${L.secNotes}</h4><ul>${s.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul></section>` : ""}

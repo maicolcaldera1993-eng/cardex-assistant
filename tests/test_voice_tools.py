@@ -292,3 +292,19 @@ def test_both_goodbyes_hang_up_even_with_a_step_open():
     run(s.voice_transcript("customer", "No, that's all. Thank you, goodbye."))
     run(s.voice_transcript("agent", "Thank you for calling Sereni. Goodbye."))
     assert s.voice_done and any(e["type"] == "hangup" for e in events)
+
+
+def test_declined_service_support_is_explained_and_noted():
+    s, _ = make_session()
+    run(run_tool(s, "identify_machine", {"serial": "041302"}))
+    run(run_tool(s, "find_procedure", {"description": "the machine stays cold, the gauge is at zero, no steam"}))
+    run(run_tool(s, "answer_step", {"step_id": "lights", "option_number": 3, "customer_words": "Everything is on, no alarm, but it is cold."}))
+    run(run_tool(s, "answer_step", {"step_id": "reset", "option_number": 2, "customer_words": "I pressed it, ten minutes later it is still cold."}))
+    run(run_tool(s, "answer_step", {"step_id": "contactor", "option_number": 1, "customer_words": "Yes, it clicks, but no heat."}))
+    run(run_tool(s, "answer_step", {"step_id": "element", "option_number": 2, "customer_words": "110 volts."}))
+    run(run_tool(s, "confirm_parts", {"codes": ["CA-1181", "CA-1220"]}))
+    run(s.voice_transcript("agent", "Thank you for calling Sereni. Goodbye!"))
+    r = run(run_tool(s, "end_call", {}))
+    assert r["status"] == "service_not_booked" and "must be fitted with our service" in r["hint"]
+    run(run_tool(s, "note_for_operator", {"note": "customer declines service support"}))
+    assert run(run_tool(s, "end_call", {}))["end"] is True
