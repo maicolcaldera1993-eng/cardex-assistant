@@ -1,0 +1,11 @@
+.venv/
+.env
+.env.*
+**/__pycache__/
+*.pyc
+.pytest_cache/
+eval/
+tests/
+.git/
+samples/dev-*
+data/kb/*.vectors.npz

@@ -268,7 +268,7 @@ async function loadHomeData() {
 // ------------------------------------------------------------------ call
 function send(obj) { if (ws && ws.readyState === 1) ws.send(JSON.stringify(obj)); }
 
-function startCall(source) {
+function startCall(source, agents = 1) {
   callMode = source === "voice" ? "voice" : "op";
   roleplay = source.startsWith("roleplay");
   $("start").hidden = true; $("topbar").hidden = true; $("summary").hidden = true; $("call").hidden = false;
@@ -283,7 +283,7 @@ function startCall(source) {
   $("doc-tabs").innerHTML = ""; $("doc-view").className = "doc-view empty"; $("doc-view").textContent = L.noDocs;
   $("presence").hidden = callMode !== "voice" && !roleplay; setPresence("connecting");
   const proto = location.protocol === "https:" ? "wss" : "ws";
-  ws = new WebSocket(`${proto}://${location.host}/ws/call?source=${encodeURIComponent(source)}&lang=${lang}`);
+  ws = new WebSocket(`${proto}://${location.host}/ws/call?source=${encodeURIComponent(source)}&lang=${lang}&agents=${agents}`);
   ws.binaryType = "arraybuffer";
   ws.onmessage = (ev) => handle(JSON.parse(ev.data));
   ws.onclose = () => {
@@ -382,7 +382,8 @@ function handle(ev) {
     case "agent": logLine(ev.text, false, ev.at); break;
     case "model_mention": { const d = document.createElement("div"); d.innerHTML = `<button class="btn small">→ ${esc(ev.model)}</button>`; d.querySelector("button").onclick = () => send({ type: "control", action: "set_machine", model_id: ev.model_id }); $("log").prepend(d); break; }
     case "toggles": $("tg-assistant").checked = ev.assistant; $("tg-clarify").checked = ev.clarify; break;
-    case "summary": renderSummary(ev.summary); break;
+    case "summary": stopAgents(); renderSummary(ev.summary); break;
+    case "limit": stopAgents(); toast(ev.text); logLine(ev.text, true); $("lb-end").textContent = L.backHome; $("btn-end").onclick = () => location.reload(); break;
     case "error": logLine(ev.text, true); break;
   }
 }
@@ -735,6 +736,12 @@ function voiceToolResult(ev) {
   vws.send(JSON.stringify({ type: "tool.result", call_id: ev.call_id, result: ev.result, is_error: false }));
   if (ev.end) { vEndPending = true; setTimeout(voiceEnd, 15000); }
 }
+function stopAgents() {
+  // the server closed the call (time limit, demo limit): no Voice Agent keeps running, and billing, behind the report
+  if (duo) { try { duoEnd(); } catch (e) { /* already ended */ } }
+  if (vws) { const w = vws; vws = null; try { w.send(JSON.stringify({ type: "session.end" })); w.close(); } catch (e) { /* closing */ } }
+  voiceStop(); stopVoiceMic();
+}
 function voiceEnd() {
   if (duo) { duoEnd(); return; }
   if (vws && vws.readyState === 1) { try { vws.send(JSON.stringify({ type: "session.end" })); } catch (e) { /* closing */ } }
@@ -804,7 +811,7 @@ const bytesToB64 = (u) => { let s = ""; for (let i = 0; i < u.length; i += 0x200
 async function startDuo() {
   const p = PERSONAS.find((x) => x.id === persona);
   if (!p || p.id === "free") { toast(L.duoPickCustomer); return; }
-  startCall("voice");
+  startCall("voice", 2);
   $("call-mode").textContent = L.modeDuo; $("call").classList.add("duo");
   vEndPending = false;
   const ctx = new AudioContext({ sampleRate: 24000 }); await ctx.resume().catch(() => {});

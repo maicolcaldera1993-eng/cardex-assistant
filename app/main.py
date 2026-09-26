@@ -7,7 +7,7 @@ import os
 from pathlib import Path
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, HTTPException, Request, WebSocket, WebSocketDisconnect
 from fastapi.responses import FileResponse, PlainTextResponse, Response
 from fastapi.staticfiles import StaticFiles
 
@@ -17,6 +17,7 @@ load_dotenv(ROOT / ".env")
 import markdown  # noqa: E402
 
 from .session import CATALOG, DEFECTS, SAMPLES, SEMANTIC, VOCAB, CallSession  # noqa: E402
+from .limits import BUDGET, client_ip  # noqa: E402
 
 API_KEY = os.environ.get("ASSEMBLYAI_API_KEY", "")
 MAX_CONCURRENT = int(os.getenv("MAX_CONCURRENT_SESSIONS", "2"))
@@ -93,12 +94,20 @@ async def voice_customer(persona: str = "dave") -> dict:
 
 
 @app.get("/api/voice/token")
-async def voice_token() -> dict:
-    """A single-use session token, so the browser never sees the API key."""
+async def voice_token(request: Request) -> dict:
+    """A single-use session token, so the browser never sees the API key. Only for a caller with a call open."""
     from .voice.agent import session_token
     if not API_KEY:
         raise HTTPException(503, "ASSEMBLYAI_API_KEY is not configured")
+    if not BUDGET.allow_token(client_ip(request.headers, request.client)):
+        raise HTTPException(429, "Open a call from the page first (demo limit).")
     return {"token": await session_token(API_KEY)}
+
+
+@app.get("/api/demo")
+def demo_status() -> dict:
+    """What the public demo has left today."""
+    return BUDGET.status()
 
 
 @app.get("/api/tts/{key}.mp3")
@@ -164,9 +173,15 @@ def manual(model_id: str) -> str:
 
 
 @app.websocket("/ws/call")
-async def call(ws: WebSocket, source: str = "mic", lang: str = "it") -> None:
+async def call(ws: WebSocket, source: str = "mic", lang: str = "it", agents: int = 1) -> None:
     global _active
     await ws.accept()
+    voice = source == "voice" or source.startswith("roleplay")
+    if voice:
+        why = BUDGET.refuse_call(client_ip(ws.headers, ws.client))
+        if why:
+            await ws.send_json({"type": "limit", "text": why})
+            return await ws.close()
     if not API_KEY:
         await ws.send_json({"type": "error", "text": "ASSEMBLYAI_API_KEY is not configured on the server"})
         return await ws.close()
@@ -184,6 +199,8 @@ async def call(ws: WebSocket, source: str = "mic", lang: str = "it") -> None:
                 pass
 
     session = CallSession(API_KEY, emit, source=source, lang=lang if lang in ("it", "en") else "it")
+    if voice:
+        BUDGET.start(id(session), client_ip(ws.headers, ws.client), agents)
     runner = asyncio.create_task(session.run())
     try:
         while not runner.done():
@@ -209,6 +226,7 @@ async def call(ws: WebSocket, source: str = "mic", lang: str = "it") -> None:
         except (asyncio.TimeoutError, Exception):  # noqa: BLE001
             runner.cancel()
         _active -= 1
+        BUDGET.end(id(session))
         try:
             await ws.close()
         except Exception:  # noqa: BLE001
