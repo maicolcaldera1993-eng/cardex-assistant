@@ -756,3 +756,20 @@ def test_outcome_comes_in_pieces_and_the_record_answers_the_voltage():
     assert "C A eleven eighty-one" in o["say_first"] and "ninety-eight euros ninety" in o["say_first"]
     assert "shipping" not in o["say_first"].lower() and "video call" not in o["say_first"].lower()
     assert "Say ONLY say_first" in o["how_to_tell_it"]
+
+
+def test_prefer_a_technician_is_a_no():
+    """Luca online 26/9: 'non vorrei smontare e poi creare dei danni' was read as 'the plunger is damaged'."""
+    from app.agent.dialog import classify_branch
+    from app.core.symptoms import DefectsLibrary
+    from app.session import SEMANTIC
+    st = DefectsLibrary().symptoms["marea-spits-end-of-shot"]["_steps"]["valve-body"]
+    for words in ("Preferirei che venisse un tecnico a risolvere la cosa, sì, non vorrei smontare e poi creare dei danni io.",
+                  "I'd rather have a technician do it, I don't want to open it.",
+                  "No, I can't do that, I don't have the tools."):
+        i, _ = classify_branch(words, st["branches"], SEMANTIC.similarities if SEMANTIC.ready else None,
+                               question=st["text_en"])
+        assert st["branches"][i]["label_en"] == "No", words
+    i, _ = classify_branch("Yes, I opened it: the plunger is scratched and the rubber is damaged.", st["branches"],
+                           SEMANTIC.similarities if SEMANTIC.ready else None, question=st["text_en"])
+    assert st["branches"][i]["label_en"].startswith("Yes, but")

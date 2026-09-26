@@ -253,6 +253,12 @@ _NOT_FIXED = re.compile(r"\b(doesn'?t|does not|didn'?t|did not|won'?t|not|nothin
                         r"\bno funciona\b|\bimmer noch\b|\bfunktioniert nicht\b|\btoujours\b|\bne marche pas\b|\bainda\b")
 _FIXED = re.compile(r"\b(it )?works\b|\bworking (again|now)\b|\bfixed\b|\bsolved\b|\bresolved\b|\bgone\b|"
                     r"\bnow it'?s (fine|ok|okay|good)\b|\bfunziona\b|\brisolto\b|\bfunciona\b|\bfunktioniert\b|\bmarche\b")
+# "I'd rather have a technician", "non vorrei smontare": the customer cannot or will not do it (the "No" option), even
+# when the sentence also says "damage" ("...e poi creare dei danni" once picked "Yes, but the plunger is damaged")
+_REFUSAL = re.compile(r"\bprefer\w*\b[^.]{0,40}\b(tecnico|technician|techniker|t[ée]cnico|technicien)|"
+                      r"\b(rather not|i'?d rather have|i can'?t|i cannot|i won'?t|i don'?t want to|not able to|"
+                      r"non (posso|riesco|voglio|vorrei|me la sento|saprei)|no (puedo|quiero|s[ée])|"
+                      r"ich (kann|will|möchte) (das )?nicht|je ne (peux|veux|sais) pas|não (consigo|quero|sei))\b", re.I)
 _FIXED_LABEL = re.compile(r"\b(fixed|works|solved|resolved)\b")
 _STILL_LABEL = re.compile(r"^(still|no change|same)\b|\bstill\b")
 
@@ -294,6 +300,10 @@ def classify_branch(text: str, branches: list[dict], similarities: Callable[[str
     low = text.lower()
     tried_bad = bool(_NOT_FIXED.search(low))
     tried_good = not tried_bad and bool(_FIXED.search(low))
+    refused = bool(_REFUSAL.search(low))
+    negatives = [k for k, p in enumerate(pols) if p < 0]
+    if refused and len(negatives) == 1:
+        return negatives[0], 1.0                               # a refusal is decisive when the step has one "No"
     scores = []
     for k, (lab, sim) in enumerate(zip(labels, sims)):
         lw, ln, lwords = content_words(lab), numbers_in(lab), set(re.findall(r"[a-z']+", lab.lower()))
@@ -319,6 +329,8 @@ def classify_branch(text: str, branches: list[dict], similarities: Callable[[str
         if pol_l > 0 and len(lwords) <= 2 and q_numbers & tn:
             s += 0.5                                              # "Is it at 1.2 bar?" - "it is at 1.2": yes
         lab_fixed, lab_still = bool(_FIXED_LABEL.search(lab.lower())), bool(_STILL_LABEL.search(lab.lower()))
+        if refused and pols[k]:
+            s += 0.5 if pols[k] < 0 else -0.4                   # "No" wins, "Yes, ..." loses
         if tried_bad and (lab_still or lab_fixed):
             s += 0.4 if lab_still else -0.4
         elif tried_good and (lab_still or lab_fixed):

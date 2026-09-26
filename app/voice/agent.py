@@ -45,7 +45,8 @@ HOW YOU WORK
 7b. Tell the outcome in short turns, never all at once: the outcome result gives say_first (what failed, what replaces it, what it costs, warranty or not): say only that and wait for the customer. Then one piece per turn: delivery, the service call or visit (ask about it yourself if they have not), the email. Two or three sentences per turn. Do not propose a slot before the customer has agreed to the service call. If the outcome needs a service call or a technician and the customer wants to fit the part alone, say once that this part must be fitted with our service (safety, and the repair's warranty); if they still decline, call note_for_operator ("customer declines service support").
 8. Say numbers as words, the natural way: "two hundred thirty volts", "one point two bar", never digit by digit (except serial numbers when you repeat them back). Keep every reply to one or two short sentences. Warm and professional, never chatty. Repeat numbers back to confirm them.
 10. If a tool result says "stale" or "error", call answer_step again right away with the step_id given in that result and the option matching the customer's words. Never guess the outcome yourself and never use find_part to work out which part is needed: only the procedure's outcome names the parts. find_part is for parts the customer asks about by code or by name.
-9. When there is nothing else, thank them, say goodbye, and call end_call.
+9. Closing takes two turns, always in this order: first ask "Is there anything else I can help you with?" and wait for the answer; only when the customer says there is nothing else, thank them, say goodbye, and call end_call. Never say goodbye in the same turn as other information, and never before that question.
+10b. Prices, fees, shipping, delivery days, dates and appointment slots exist only in tool results of this call: never say one that no tool gave you. While a procedure step is still open there is no outcome yet: if asked about cost, say it will be clear at the end of the checks. Anything about the warranty or who pays: from get_call_status, never from memory.
 Everything you do is recorded for a human operator, who approves orders and bookings afterwards; say so if asked."""
 
 
@@ -558,7 +559,7 @@ async def _run_tool(s, name: str, args: dict) -> dict:
             ordered = [c for c in proposed if s.cards[c]["status"] == "confirmed"]
             return {"status": "booked", "when": v["label_en"], "with": s.booking["technician"],
                     "parts_ordered_with_it": ordered,
-                    "next": "ask if there is anything else; if not, say goodbye, THEN call end_call"}
+                    "next": "ask whether there is anything else and wait; do not say goodbye yet"}
         return {"status": "error", "hint": "slot id not free or unknown; propose another from the outcome"}
     if name == "set_email":
         raw = str(args.get("email") or "").strip().lower()
@@ -590,6 +591,8 @@ async def _run_tool(s, name: str, args: dict) -> dict:
                     "say": "the order is recorded; ask the customer's email for the quote and the payment instructions, "
                            "spell it back, then call confirm_parts again with the same codes and the email"}
         return {"status": "confirmed", "codes": done, "email": s.email or None,
+                "next": "tell the next piece of the outcome if any is left, otherwise ask whether there is anything else; "
+                        "do not say goodbye yet",
                 "say": "the order is recorded; an operator approves it and the parts are shipped from our warehouse"}
     if name == "get_call_status":
         s._log_decision("status_asked", question=args.get("question", ""))
@@ -601,7 +604,8 @@ async def _run_tool(s, name: str, args: dict) -> dict:
             if re.search(r"declin|fit.{0,20}(alone|himself|herself|themsel|own)|monta.{0,20}da sol", note, re.I):
                 s.fits_alone = True
             await s._agent(("Nota per l'operatore: " if s.lang == "it" else "Note for the operator: ") + note)
-        return {"status": "noted", "say": "the operator will follow up on this"}
+        return {"status": "noted", "say": "the operator will follow up on this",
+                "next": "go back to where the call was; no prices, dates or slots that no tool gave you"}
     if name == "end_call":
         s.end_wanted = True
         d = s.diagnosis
@@ -610,13 +614,13 @@ async def _run_tool(s, name: str, args: dict) -> dict:
             s.end_refused.add("step")
             return {"status": "open_step", "end": False,
                     "hint": "a procedure step is still open. Call answer_step now with the customer's last answer to it "
-                            "(for example 'fixed'), then say goodbye and call end_call again.", **_step_view(s)}
+                            "(for example 'fixed'), then ask whether there is anything else.", **_step_view(s)}
         pending = [c for c in (d.outcome.parts if d and d.outcome else []) if c in s.cards and s.cards[c]["status"] == "proposed"]
         if pending and "parts" not in s.end_refused:
             s.end_refused.add("parts")
             return {"status": "parts_not_confirmed", "end": False, "codes": pending,
                     "hint": "the outcome's parts are not ordered. If the customer agreed, call confirm_parts with these codes; "
-                            "if not, say so. Then say goodbye and call end_call again."}
+                            "if not, say so. Then ask whether there is anything else."}
         needs_visit = bool(d and d.outcome and d.outcome.kind in ("part_with_support", "technician"))
         if needs_visit and not s.booking and not s.notes and "visit" not in s.end_refused:
             s.end_refused.add("visit")
@@ -625,7 +629,7 @@ async def _run_tool(s, name: str, args: dict) -> dict:
                     "hint": f"this repair needs {what}: nothing is booked. Explain once, briefly, that this part must be fitted with "
                             "our service on the line (electrical/safety work, and it keeps the warranty on the repair), and propose a "
                             "slot. If the customer still declines, call note_for_operator with 'customer declines service support', "
-                            "then say goodbye and call end_call again."}
+                            "then ask whether there is anything else."}
         # the customer decides when the call is over: "That's right." is not a goodbye (26/9: the call was closed on it)
         customer_leaving = customer_is_leaving(s.last_customer_text)
         if not customer_leaving and "else" not in s.end_refused:
