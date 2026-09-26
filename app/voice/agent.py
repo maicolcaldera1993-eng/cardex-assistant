@@ -591,7 +591,8 @@ async def _run_tool(s, name: str, args: dict) -> dict:
             return {"status": "no_goodbye", "end": False,
                     "hint": "ask the customer if there is anything else; if not, thank them and say goodbye, then call end_call again."}
         s.voice_done = True
-        return {"status": "ok", "end": True}
+        # the goodbye was already said: another one after this result doubled it (26/9)
+        return {"status": "ok", "end": True, "say": "nothing: the goodbye was already said, the call is closing"}
     return {"status": "error", "hint": f"unknown tool {name}"}
 
 
