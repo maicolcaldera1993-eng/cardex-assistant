@@ -104,6 +104,7 @@ class CallSession:
         self.email = ""                           # where the quote and the payment instructions go
         self.email_on_file = False                # ... taken from the customer record, to confirm with the customer
         self.agent_lang = "en"                    # the language the automatic assistant is speaking
+        self.customer_turns = 0                   # the customer's sentences so far (the language is chosen at the start)
         self.last_agent_text = ""
         self.last_customer_text = ""
         self.serial_asked = 0                     # customer sentences still read as the answer to "which serial?"
@@ -612,13 +613,19 @@ class CallSession:
         await self.emit({"type": "turn", "id": tid, "final": True, "text": text, "role": who, "speaker": None, "min_conf": 1.0,
                          "merged": 1, "interrupted": bool(interrupted)})
         if self.voice:
-            from .agent.dialog import language_of
+            from .agent.dialog import language_of, language_request
             said_in = language_of(text) or (self.agent_lang if who == "agent" else None)
             if said_in and said_in != self.lang and self.clarify_on:
                 self.clarifier.submit(tid, text)                  # English subtitles, they may arrive later
                 await self.emit({"type": "clear_pending", "turn_id": tid})
-            if who == CUSTOMER and said_in and said_in != self.agent_lang:
-                await self._switch_language(said_in, text)
+            if who == CUSTOMER:
+                # the call follows the customer's language only at its start (the first two sentences, before any
+                # procedure) or when they ask for it: "Ok, va bene." at the end once switched a finished call to Italian
+                self.customer_turns += 1
+                early = self.customer_turns <= 2 and not self.diagnosis
+                target = language_request(text) or (said_in if early else None)
+                if target and target != self.agent_lang:
+                    await self._switch_language(target, text)
         if who in (CUSTOMER, OPERATOR) and self.assistant_on:
             if who == CUSTOMER and self.roleplay and self.clarify_on and self.customer_lang != self.lang:
                 self.clarifier.submit(tid, text)                  # the clear Italian version, as on a real call
@@ -643,6 +650,9 @@ class CallSession:
         instructions = (f"The customer now speaks {name}. From now on speak only {name}. Answer their last words now: "
                         f"{last_text!r}. Continue from where the call is: the machine, serial, answers and outcome in CALL STATE are "
                         "already known, never ask them again; for the current step call answer_step with its step_id.")
+        if self.diagnosis and self.diagnosis.outcome:
+            instructions += (" The troubleshooting is FINISHED (outcome in CALL STATE): ask no technical question; only answer "
+                             "what the customer asks, then close the call.")
         self._log_decision("language_switch", to=lang, text=last_text)
         await self._agent(f"Il cliente parla {name}: passo alla voce {name}." if self.lang == "it"
                           else f"The customer speaks {name}: switching to the {name} voice.")

@@ -82,6 +82,15 @@ _GREETING = {"buongiorno": "it", "buonasera": "it", "salve": "it", "pronto": "it
              "guten": "de", "grüß": "de", "servus": "de"}
 
 
+def language_request(text: str) -> str | None:
+    """The language the customer explicitly asks for ("possiamo parlare in italiano?", "in English, please"), or None."""
+    t = (text or "").lower()
+    for lg, pat in _LANG_REQUEST:
+        if re.search(pat, t):
+            return lg
+    return None
+
+
 def language_of(text: str) -> str | None:
     """The language a sentence is in, from its commonest words (en/it/es/de/fr/pt), or None when too short or unclear.
     An explicit request ("possiamo parlare in italiano?") decides by itself, even inside an English sentence; a lone

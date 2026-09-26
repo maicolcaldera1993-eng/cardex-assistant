@@ -675,3 +675,24 @@ def test_slots_span_several_days():
     s, events, o = _dave_at_outcome()
     days = {x["when"].split(",")[0][:10] for x in o["booking"]["free_slots"]}
     assert len(o["booking"]["free_slots"]) >= 6 and len(days) >= 3
+
+
+def test_language_switch_only_at_the_start_or_on_request():
+    """Luca online 26/9: 'Ok, va bene.' at the end switched a finished call to Italian."""
+    s, events = make_session()
+    s.lang = "en"
+    run(s.voice_transcript("customer", "Good morning, I'm Luca Ferraro from Valencia, we have a Giglio 1 Plus."))
+    run(s.voice_transcript("customer", "When I remove the portafilter after the shot, the puck is wet and it sprays."))
+    run(s.voice_transcript("customer", "Ok, va bene."))
+    run(s.voice_transcript("customer", "Sì, perfetto, grazie mille, va bene così."))
+    assert not [e for e in events if e.get("type") == "switch_language"] and s.agent_lang == "en"
+    run(s.voice_transcript("customer", "Scusi, possiamo parlare in italiano?"))
+    sw = [e for e in events if e.get("type") == "switch_language"]
+    assert len(sw) == 1 and sw[0]["lang"] == "it"
+
+
+def test_italian_at_the_start_switches():
+    s, events = make_session()
+    s.lang = "en"
+    run(s.voice_transcript("customer", "Buongiorno."))
+    assert [e for e in events if e.get("type") == "switch_language"][0]["lang"] == "it"
