@@ -738,3 +738,21 @@ def test_a_thank_you_alone_does_not_end_the_call():
     s.voice_done = True
     run(s.control({"action": "keep_open"}))
     assert not s.voice_done
+
+
+def test_outcome_comes_in_pieces_and_the_record_answers_the_voltage():
+    """Dave online 26/9 16:39: a 30-second monologue at the outcome; the voltage asked although the serial says 110 V."""
+    s, _ = make_session()
+    run(run_tool(s, "identify_machine", {"serial": "041302"}))
+    run(run_tool(s, "find_procedure", {"description": "since this morning the machine stays cold, the pressure gauge is at zero"}))
+    run(run_tool(s, "answer_step", {"step_id": "lights", "option_number": 3, "customer_words": "everything is on but it is cold"}))
+    run(run_tool(s, "answer_step", {"step_id": "reset", "option_number": 2, "customer_words": "still cold"}))
+    st = run(run_tool(s, "answer_step", {"step_id": "contactor", "option_number": 1, "customer_words": "clicks, no heat"}))
+    assert st["step_id"] == "element" and st["known_from_record"]["label"].endswith("110 V")
+    assert "records for this serial say 110 volts" in st["ask_the_customer"]
+    o = run(run_tool(s, "answer_step", {"step_id": "element", "option_number": st["known_from_record"]["option_number"],
+                                        "customer_words": "Yes, correct."}))
+    assert o["status"] == "outcome"
+    assert "C A eleven eighty-one" in o["say_first"] and "ninety-eight euros ninety" in o["say_first"]
+    assert "shipping" not in o["say_first"].lower() and "video call" not in o["say_first"].lower()
+    assert "Say ONLY say_first" in o["how_to_tell_it"]

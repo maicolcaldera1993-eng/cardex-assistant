@@ -14,7 +14,7 @@ import re
 
 import httpx
 
-from ..agent.dialog import classify_branch, digits_in, email_in, for_customer, said_email
+from ..agent.dialog import classify_branch, digits_in, email_in, for_customer, numbers_in, polarity, said_email
 
 AGENTS_URL = "https://agents.assemblyai.com/v1"
 AGENT_NAME = "Cardex Assistant"
@@ -42,7 +42,7 @@ HOW YOU WORK
 5. Say prices, delivery times, part codes, warranty, totals and dates ONLY when they come from a tool result in this conversation. Never invent a number, never name a part the tools did not return, never explain what broke beyond what the step or the outcome says. Always use the "spoken" forms given in the results for codes and prices (for example "C A twelve seventy, twelve euros sixty"), every time you say a code.
 6. THE CUSTOMER MAY ASK ANYTHING AT ANY MOMENT, in any order (warranty before the serial, cost before the outcome, the appointment in the middle of a step). Never refuse, postpone or pass to the operator a question that get_call_status can answer: call it, answer in one or two sentences, then go back to the step where you were. If the answer depends on something missing (no serial yet, no outcome yet), say what is missing and ask for it. Customer questions: answer from tool results when you can. Money: always say what the CUSTOMER pays (customer_pays_spoken, customer_pays_total_spoken, labour), never the list price as if it were a cost. Under warranty the repair's parts and the service are free; consumables such as cleaning tablets are always charged, and if asked, say so plainly ("the tablets are consumables, they are not covered"). What the warranty covers or excludes (for example whether missed cleaning voids it): answer from who_pays.terms of get_call_status. Shipping, the service call and the technician have fixed prices in the outcome (shipping, labour): quote them, never guess. The outcome also gives delivery days and whether a service call or a technician is needed; use them. How to pay: never take payment on the phone and never invent links, card payments or bank details; say what the outcome's payment field says (a colleague emails the quote and payment instructions, the parts ship when the payment is confirmed). Call note_for_operator only for things no tool covers (discounts, invoices, complaints), say the operator will follow up, then return to the procedure. Warranty, prices, delivery and appointments are NEVER operator questions.
 7. At the outcome, explain what happens next (parts shipped FROM our warehouse to the customer, second call with service, technician's visit), who pays, and propose the first free slot from the result. Call book_slot only when the customer has accepted THAT slot; never book or move an appointment on your own. If they want to choose or the slot does not suit them, read three or four free slots on different days and let them pick. The outcome's parts all ship together: never ask the customer to choose between them. When the customer agrees to receive the parts, call confirm_parts with their codes: without it nothing is ordered. If the customer pays anything, if the customer pays something, the quote and the payment instructions go by email: read out the email on file (machine.email_on_file) and ask if it is still right. If they pay nothing, never mention a quote or a payment: only confirm the email on file for the order confirmation. Only if it is wrong or missing, ask for a new one, let the customer spell it to the end without interrupting, call set_email, read back its result and ask if it is right. Never take payment on the call. Prices are in euros: if asked about another currency, say we invoice in euros and their bank or card converts at the day's rate.
-7b. Tell the outcome in short turns, never all at once: first what has to be replaced and what the customer pays in total; wait for their reaction; then delivery and the service call or visit; then the email. Two or three sentences per turn. If the outcome needs a service call or a technician and the customer wants to fit the part alone, say once that this part must be fitted with our service (safety, and the repair's warranty); if they still decline, call note_for_operator ("customer declines service support").
+7b. Tell the outcome in short turns, never all at once: the outcome result gives say_first (what failed, what replaces it, what it costs, warranty or not): say only that and wait for the customer. Then one piece per turn: delivery, the service call or visit (ask about it yourself if they have not), the email. Two or three sentences per turn. Do not propose a slot before the customer has agreed to the service call. If the outcome needs a service call or a technician and the customer wants to fit the part alone, say once that this part must be fitted with our service (safety, and the repair's warranty); if they still decline, call note_for_operator ("customer declines service support").
 8. Say numbers as words, the natural way: "two hundred thirty volts", "one point two bar", never digit by digit (except serial numbers when you repeat them back). Keep every reply to one or two short sentences. Warm and professional, never chatty. Repeat numbers back to confirm them.
 10. If a tool result says "stale" or "error", call answer_step again right away with the step_id given in that result and the option matching the customer's words. Never guess the outcome yourself and never use find_part to work out which part is needed: only the procedure's outcome names the parts. find_part is for parts the customer asks about by code or by name.
 9. When there is nothing else, thank them, say goodbye, and call end_call.
@@ -210,14 +210,33 @@ def spoken_price(eur: float | None) -> str:
 
 
 # ------------------------------------------------------------------ the tools, run against a CallSession
+def _known_from_record(s) -> int | None:
+    """The option of the current step that the serial's record already answers (the voltage on the rating plate),
+    or None."""
+    d, m = s.diagnosis, s.machine
+    if not (d and d.current and m and m.get("voltage")) or "volt" not in d.step["text_en"].lower():
+        return None
+    from ..session import SEMANTIC, VOCAB
+    said = f"{VOCAB.model_names.get(m['model_id'], '')} {m['voltage'].replace('V', '')} volts"
+    j, _ = classify_branch(said, d.step["branches"], SEMANTIC.similarities)
+    return j
+
+
 def _step_view(s) -> dict:
     d = s.diagnosis
     st = d.step
     text = for_customer(st["text_en"])
-    return {"symptom": d.symptom["symptom_en"], "step_id": st["id"], "kind": st["kind"],
-            "ask_the_customer": text if st["kind"] == "ask" else text + " Then ask what happened.",
-            "options": [{"number": i + 1, "label": b["label_en"]} for i, b in enumerate(st["branches"])],
-            "note": st.get("note_en")}
+    out = {"symptom": d.symptom["symptom_en"], "step_id": st["id"], "kind": st["kind"],
+           "ask_the_customer": text if st["kind"] == "ask" else text + " Then ask what happened.",
+           "options": [{"number": i + 1, "label": b["label_en"]} for i, b in enumerate(st["branches"])],
+           "note": st.get("note_en")}
+    j = _known_from_record(s)
+    if j is not None:
+        # 26/9: "110, but don't you know from the serial number?"
+        out["known_from_record"] = {"option_number": j + 1, "label": st["branches"][j]["label_en"]}
+        out["ask_the_customer"] = (f"Our records for this serial say {s.machine['voltage'].replace('V', ' volts')}: "
+                                   "just ask the customer to confirm it, do not ask as if you did not know.")
+    return out
 
 
 def _already_answered(s, words: str) -> dict:
@@ -295,10 +314,36 @@ def _machine_view(s) -> dict:
             "previous_orders": [f"{o['ordered_on']} {o['code']} x{o['qty']}" for o in m.get("orders", [])[:4]]}
 
 
+def _say_first(s, n: dict) -> str:
+    """The first thing to tell at the outcome, and only that: what failed, what replaces it, what the customer pays
+    for it, warranty or not. Delivery, the service call and the email come after the customer has answered."""
+    d = s.diagnosis
+    if n["kind"] == "remote":
+        return "Good news: the problem is solved, nothing needs to be replaced."
+    parts = " and ".join(f"{(p.get('description_en') or p['description']).split(',')[0].lower()} ({spoken_code(p['code'])})"
+                         for p in n["parts"])
+    what = f"This is the {d.symptom['symptom_en'].split(',')[0].lower()} problem: we need to replace the {parts}." if parts \
+        else "This needs a technician's visit."
+    c = n.get("costs") or {}
+    if n["warranty"] is True:
+        money = "Your machine is under warranty, so this costs you nothing."
+    elif n["warranty"] is False:
+        money = (f"Your machine is out of warranty: the parts cost {spoken_price(c.get('parts_eur') or 0)}."
+                 if parts else "Your machine is out of warranty, so the visit is charged.")
+    else:
+        money = "To tell you who pays, I need the serial number on the plate at the back."
+    return f"{what} {money}"
+
+
 def _outcome_view(s) -> dict:
     n = s._next_step()
     kind = n["kind"]
     out = {"outcome": kind,
+           "say_first": _say_first(s, n),
+           "how_to_tell_it": ("Say ONLY say_first now, in your own words, then stop and let the customer answer. Then, one "
+                              "piece per turn: delivery; then the service call or the technician visit if the outcome needs "
+                              "one (ask about it yourself if the customer has not); then, if they pay something, the email "
+                              "for the quote. Everything else below is for their questions; never read it all out."),
            "meaning": {"remote": "fixed remotely, nothing to ship",
                        "part_diy": "ship the parts, the customer fits them with the sheet",
                        "part_with_support": "ship the parts and book a second call with service to fit them",
@@ -453,6 +498,11 @@ async def _run_tool(s, name: str, args: dict) -> dict:
             return max(hits, key=lambda r: r[1]) if hits else (None, max(r[1] for r in out))
 
         j, conf = read(words)
+        known = _known_from_record(s)
+        other_number = numbers_in(words) - {re.sub(r"\D", "", s.machine["voltage"])} if known is not None else set()
+        if known is not None and i == known and not other_number and polarity(words) >= 0 \
+                and not re.search(r"\b(no|not|wrong|different)\b", words, re.I):
+            j, conf = known, 1.0                               # "yes, correct" confirms what the serial's record says
         if j is None:
             context = " ".join(u["text"] for u in s.utterances if u["role"] == "customer")[-300:]
             if context and context.strip() != words.strip():
