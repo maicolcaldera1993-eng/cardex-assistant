@@ -15,7 +15,6 @@ import re
 import httpx
 
 from ..agent.dialog import classify_branch, digits_in, email_in, for_customer, said_email
-from ..core.normalizer import extract_codes
 
 AGENTS_URL = "https://agents.assemblyai.com/v1"
 AGENT_NAME = "Cardex Assistant"
@@ -49,7 +48,6 @@ HOW YOU WORK
 9. When there is nothing else, thank them, say goodbye, and call end_call.
 Everything you do is recorded for a human operator, who approves orders and bookings afterwards; say so if asked."""
 
-GREETING = "Sereni service, good morning. Which machine are you calling about, and what is it doing?"
 
 TOOLS: list[dict] = [
     {"name": "identify_machine",
@@ -452,13 +450,12 @@ async def _run_tool(s, name: str, args: dict) -> dict:
             return max(hits, key=lambda r: r[1]) if hits else (None, max(r[1] for r in out))
 
         j, conf = read(words)
-        via_context = False
         if j is None:
             context = " ".join(u["text"] for u in s.utterances if u["role"] == "customer")[-300:]
             if context and context.strip() != words.strip():
                 jc, cc = read(words + " " + context)
                 if jc == i:                                     # context may confirm the agent, never pick for it
-                    j, conf, via_context = jc, cc, True
+                    j, conf = jc, cc
         stale = bool(args.get("step_id")) and args["step_id"] != d.current
         if j is None and stale:
             return {"status": "stale", "hint": f"step '{args['step_id']}' was already answered and these words do not answer "

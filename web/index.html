@@ -43,12 +43,6 @@
         <div class="personas" id="personas"></div>
         <div class="persona-brief" id="persona-brief"></div>
         <div class="mode-actions">
-          <label class="select-wrap" hidden><span id="lb-voice-lang"></span>
-            <select id="voice-lang">
-              <option value="en">English</option><option value="it">Italiano</option><option value="es">Español</option>
-              <option value="de">Deutsch</option><option value="fr">Français</option><option value="pt">Português</option>
-            </select>
-          </label>
           <button id="btn-voice" class="btn primary big"></button>
         </div>
         <p class="fine" id="voice-help"></p>
@@ -71,20 +65,6 @@
             <div><strong id="rp-title"></strong><span id="rp-desc"></span></div>
             <select id="rp-select"></select>
             <button id="btn-roleplay" class="btn primary"></button>
-          </div>
-          <div class="op-option" hidden>
-            <div><strong id="duet-title"></strong><span id="duet-help"></span></div>
-            <select id="duet-select"></select>
-            <button id="btn-duet" class="btn secondary"></button>
-          </div>
-          <div class="op-option" hidden>
-            <div><strong id="sample-title"></strong><span id="sample-desc"></span></div>
-            <select id="sample-select"></select>
-            <button id="btn-sample" class="btn secondary"></button>
-          </div>
-          <div class="op-option" hidden>
-            <div><strong id="mic-title"></strong><span id="mic-desc"></span></div>
-            <button id="btn-mic" class="btn secondary"></button>
           </div>
         </div>
       </article>
@@ -113,7 +93,6 @@
         <span class="chip mic-only" id="st-mic">mic</span>
         <label class="switch op-only"><input type="checkbox" id="tg-clarify" checked><span></span><em id="lb-clarify"></em></label>
         <label class="switch op-only"><input type="checkbox" id="tg-assistant" checked><span></span><em id="lb-assistant"></em></label>
-        <button id="btn-swap" class="btn ghost small op-only"></button>
         <button id="btn-end" class="btn danger"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 14.5c5-4.7 13-4.7 18 0l-2.4 2.4-3.3-1.6v-2.6a10.6 10.6 0 0 0-6.6 0v2.6l-3.3 1.6Z" fill="currentColor"/></svg><span id="lb-end"></span></button>
       </div>
     </div>
@@ -124,13 +103,8 @@
           <div class="orb" id="orb"><span></span></div>
           <div><strong id="presence-title"></strong><small id="presence-sub"></small></div>
         </div>
-        <div id="duet-panel" class="duet" hidden>
-          <h4 id="h-duet"></h4>
-          <div id="duet-lines"></div>
-        </div>
         <h4 class="col-title" id="h-talk"></h4>
         <div id="turns" class="turns"></div>
-        <div id="partial" class="partial"></div>
       </section>
 
       <section class="col" id="col-work">

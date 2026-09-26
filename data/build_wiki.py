@@ -35,7 +35,7 @@ def sentences(text: str) -> list[str]:
 
 
 def manual_sections(path: Path, model_id: str) -> list[dict]:
-    out, title, buf, level = [], None, [], 0
+    out, title, buf = [], None, []
     lines = path.read_text(encoding="utf-8").splitlines()
     twin = path.with_name(f"{model_id}.en.md")        # English headings carry the Italian anchors: {#slug}
     title_en = {}
@@ -60,7 +60,7 @@ def manual_sections(path: Path, model_id: str) -> list[dict]:
         m = re.match(r"^(#{2,3})\s+(.*)", ln)
         if m:
             flush()
-            title, buf, level = re.sub(r"^\d+\.\s*", "", m.group(2)).strip(), [], len(m.group(1))
+            title, buf = re.sub(r"^\d+\.\s*", "", m.group(2)).strip(), []
         else:
             buf.append(ln)
     flush()

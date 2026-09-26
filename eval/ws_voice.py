@@ -84,9 +84,10 @@ async def main() -> None:
     queue = list(lines)
     lang = {"mario": "it"}.get(WHO, "en")
     agent = httpx.get(f"http://127.0.0.1:{PORT}/api/voice/agent", params={"lang": lang}, timeout=60).json()
-    token = httpx.get(f"http://127.0.0.1:{PORT}/api/voice/token", timeout=30).json()["token"]
-    async with websockets.connect(f"ws://127.0.0.1:{PORT}/ws/call?source=voice&lang=it", max_size=None) as ours, \
-            websockets.connect(f"wss://agents.assemblyai.com/v1/ws?token={token}", max_size=None) as agent_ws:
+    # the call is opened first, as the page does: the server gives Voice Agent tokens only to an open call
+    async with websockets.connect(f"ws://127.0.0.1:{PORT}/ws/call?source=voice&lang=en", max_size=None) as ours:
+        token = httpx.get(f"http://127.0.0.1:{PORT}/api/voice/token", timeout=30).json()["token"]
+        agent_ws = await websockets.connect(f"wss://agents.assemblyai.com/v1/ws?token={token}", max_size=None)
         await agent_ws.send(json.dumps({"type": "session.update", "session": agent["session"]}))
         step = RATE * 2 * CHUNK_MS // 1000
         talking = False

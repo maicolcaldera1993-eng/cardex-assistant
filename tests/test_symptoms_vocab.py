@@ -1,10 +1,8 @@
-"""Operator-assist core: symptoms matched from the customer's words, step-by-step procedures and their outcomes,
-answers to an open step not taken for new faults, keyterm vocabulary reloaded in phases, operator/customer roles from
-AssemblyAI speaker labels."""
+"""Core: symptoms matched from the customer's words, step-by-step procedures and their outcomes, answers to an open
+step not taken for new faults, keyterm vocabulary built in phases."""
 import pytest
 
 from app.core.catalog import Catalog
-from app.core.roles import CUSTOMER, OPERATOR, RoleTracker
 from app.core.symptoms import DefectsLibrary, Outcome
 from app.core.vocabulary import MAX_CHARS, MAX_TERMS, VocabularyManager
 
@@ -86,17 +84,6 @@ def test_vocabulary_family_only():
     assert v.phase == 2 and "GE-2410" in v.keyterms and "GE-2140" not in v.keyterms
 
 
-def test_roles():
-    r = RoleTracker()
-    assert r.role_for("A")[0] == OPERATOR
-    assert r.role_for("B")[0] == CUSTOMER
-    assert r.role_for("PENDING")[0] == CUSTOMER      # inherits previous speaker
-    assert r.role_for("A")[0] == OPERATOR
-    r.swap()
-    assert r.role_for("A")[0] == CUSTOMER
-    assert RoleTracker(single_speaker_role=CUSTOMER).role_for("A")[0] == CUSTOMER
-
-
 @pytest.mark.parametrize("text,symptom", [
     # sentences actually spoken by the project owner in the first microphone test
     ("Abbiamo una macchinetta del caffè Marea 2 Plus e abbiamo notato che il caffè esce in maniera debole.", "marea-weak-coffee"),
@@ -107,14 +94,6 @@ def test_roles():
 def test_symptoms_as_people_really_say_them(text, symptom):
     hit = lib.match(text, model_id="marea-2-plus")
     assert hit and hit.symptom_id == symptom
-
-
-def test_pinned_customer_label_wins_over_first_speaker_rule():
-    r = RoleTracker()
-    r.pin_customer("A")                       # the recorded customer spoke first
-    assert r.role_for("A")[0] == CUSTOMER
-    assert r.role_for("B")[0] == OPERATOR
-    assert r.role_for("A")[0] == CUSTOMER
 
 
 # --- while a step is open, the customer's words are answers, not new faults (Dave rehearsal, 22 Sept) ---------------

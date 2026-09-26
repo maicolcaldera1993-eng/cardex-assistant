@@ -338,7 +338,7 @@ def test_roleplay_relays_both_sides_and_cardex_assists_the_operator():
         events.append(ev)
 
     s = CallSession("key", emit, source="roleplay:klaus", lang="it")
-    assert s.relay and s.roleplay and not s.voice
+    assert s.roleplay and not s.voice
     s.clarify_on = False
     run(s.voice_transcript("operator", "Sereni service, good morning, how can I help?"))
     run(s.voice_transcript("customer", "Good morning, this is Klaus from Kaffeehaus Nord in Berlin. We have the Onda MB2 and since this morning there is no steam, the steam boiler gauge is at zero."))

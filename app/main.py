@@ -1,4 +1,4 @@
-"""FastAPI entry point: one page, one WebSocket per call, a few read-only endpoints."""
+"""FastAPI entry point: the page, one WebSocket per call (the relay of the Voice Agent), read-only data endpoints."""
 from __future__ import annotations
 
 import asyncio
@@ -8,7 +8,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request, WebSocket, WebSocketDisconnect
-from fastapi.responses import FileResponse, PlainTextResponse, Response
+from fastapi.responses import FileResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -16,7 +16,7 @@ load_dotenv(ROOT / ".env")
 
 import markdown  # noqa: E402
 
-from .session import CATALOG, DEFECTS, SAMPLES, SEMANTIC, VOCAB, CallSession  # noqa: E402
+from .session import CATALOG, DEFECTS, SEMANTIC, VOCAB, CallSession  # noqa: E402
 from .limits import BUDGET, client_ip  # noqa: E402
 
 API_KEY = os.environ.get("ASSEMBLYAI_API_KEY", "")
@@ -34,8 +34,6 @@ async def no_cache_for_the_app_itself(request, call_next):
     if request.url.path == "/" or request.url.path.startswith("/static/"):
         response.headers["Cache-Control"] = "no-store"
     return response
-if (ROOT / "samples" / "duet").is_dir():
-    app.mount("/duet-audio", StaticFiles(directory=ROOT / "samples" / "duet"), name="duet-audio")
 
 
 @app.on_event("startup")
@@ -52,21 +50,6 @@ def index() -> FileResponse:
 @app.get("/healthz")
 def healthz() -> dict:
     return {"ok": True, "active_sessions": _active, "key_configured": bool(API_KEY), "semantic_ready": SEMANTIC.ready}
-
-
-@app.get("/api/samples")
-def samples() -> list[dict]:
-    manifest = SAMPLES / "manifest.json"
-    return json.loads(manifest.read_text(encoding="utf-8")) if manifest.exists() else []
-
-
-@app.get("/api/duets")
-def duets() -> list[dict]:
-    out = []
-    for f in sorted((ROOT / "samples" / "duet").glob("*/script.json")):
-        d = json.loads(f.read_text(encoding="utf-8"))
-        out.append({"id": d["id"], "title_it": d["title_it"], "title_en": d["title_en"], "lines": len(d["lines"])})
-    return out
 
 
 @app.get("/api/voice/agent")
@@ -115,16 +98,6 @@ async def voice_token(request: Request) -> dict:
 def demo_status() -> dict:
     """What the public demo has left today."""
     return BUDGET.status()
-
-
-@app.get("/api/tts/{key}.mp3")
-def tts_audio(key: str) -> Response:
-    """The automatic assistant's sentences, synthesised on demand and kept in memory."""
-    from .agent.tts import TTS
-    data = TTS.cache.get(key)
-    if data is None:
-        raise HTTPException(404)
-    return Response(content=data, media_type="audio/mpeg", headers={"Cache-Control": "no-store"})
 
 
 @app.get("/api/models")
@@ -180,15 +153,17 @@ def manual(model_id: str) -> str:
 
 
 @app.websocket("/ws/call")
-async def call(ws: WebSocket, source: str = "mic", lang: str = "it", agents: int = 1) -> None:
+async def call(ws: WebSocket, source: str = "voice", lang: str = "en", agents: int = 1) -> None:
+    """source: "voice" (the automatic assistant, or the two-AI call with agents=2) or "roleplay:<persona>"."""
     global _active
     await ws.accept()
-    voice = source == "voice" or source.startswith("roleplay")
-    if voice:
-        why = BUDGET.refuse_call(client_ip(ws.headers, ws.client))
-        if why:
-            await ws.send_json({"type": "limit", "text": why})
-            return await ws.close()
+    if source != "voice" and not source.startswith("roleplay:"):
+        await ws.send_json({"type": "error", "text": f"unknown call type: {source}"})
+        return await ws.close()
+    why = BUDGET.refuse_call(client_ip(ws.headers, ws.client))
+    if why:
+        await ws.send_json({"type": "limit", "text": why})
+        return await ws.close()
     if not API_KEY:
         await ws.send_json({"type": "error", "text": "ASSEMBLYAI_API_KEY is not configured on the server"})
         return await ws.close()
@@ -205,9 +180,8 @@ async def call(ws: WebSocket, source: str = "mic", lang: str = "it", agents: int
             except Exception:  # noqa: BLE001 - browser went away
                 pass
 
-    session = CallSession(API_KEY, emit, source=source, lang=lang if lang in ("it", "en") else "it")
-    if voice:
-        BUDGET.start(id(session), client_ip(ws.headers, ws.client), agents)
+    session = CallSession(API_KEY, emit, source=source, lang=lang if lang in ("it", "en") else "en")
+    BUDGET.start(id(session), client_ip(ws.headers, ws.client), agents)
     runner = asyncio.create_task(session.run())
     try:
         while not runner.done():
@@ -217,9 +191,7 @@ async def call(ws: WebSocket, source: str = "mic", lang: str = "it", agents: int
                 continue
             if msg["type"] == "websocket.disconnect":
                 break
-            if msg.get("bytes"):
-                await session.push_audio(msg["bytes"])
-            elif msg.get("text"):
+            if msg.get("text"):
                 try:
                     await session.control(json.loads(msg["text"]))
                 except Exception as e:  # noqa: BLE001 - a broken click must show up in the log, not vanish

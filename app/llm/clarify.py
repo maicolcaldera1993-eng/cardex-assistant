@@ -9,7 +9,6 @@ Endpoint, model and rate are environment settings, so a better model needs no co
 from __future__ import annotations
 
 import asyncio
-import json
 import os
 import re
 import time

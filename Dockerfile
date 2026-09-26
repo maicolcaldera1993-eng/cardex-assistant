@@ -9,7 +9,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY app ./app
 COPY data ./data
 COPY web ./web
-COPY samples ./samples
 
 # download the embedding model and build the vector cache at build time, not at every start
 RUN python -c "from app.core.semantic import SemanticIndex; s = SemanticIndex(); s.load(); print('semantic ready', s.ready)"

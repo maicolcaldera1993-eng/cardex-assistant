@@ -1,25 +1,28 @@
+# Python
 __pycache__/
 *.pyc
 .venv/
-venv/
+.pytest_cache/
+.ruff_cache/
+
+# secrets: only the template is committed
 .env
 .env.*
 !.env.example
+
+# working audio and local logs
 *.wav
 *.mp3
 *.m4a
-!samples/**
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-node_modules/
-dist/
-.DS_Store
-Thumbs.db
+eval/spike_audio/
+eval/logs/
 *.log
+
+# rebuilt on start from data/kb/index.json
+data/kb/*.vectors.npz
+
+# editors and OS
 .idea/
 .vscode/
-eval/spike_audio/
-samples/dev-*
-eval/logs/
-data/kb/*.vectors.npz
+.DS_Store
+Thumbs.db

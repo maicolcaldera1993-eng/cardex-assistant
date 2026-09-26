@@ -89,7 +89,6 @@ mark { background: #fde6c3; padding: 0 3px; border-radius: 4px; }
 .persona-brief ul { margin: 6px 0 0; padding-left: 18px; } .persona-brief li { margin: 2px 0; }
 .persona-brief .say-it { margin-top: 8px; font-style: italic; color: var(--agent); }
 .mode-actions { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; justify-content: space-between; margin-top: 4px; }
-.select-wrap { display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 600; color: var(--ink-2); }
 .fine { font-size: 12px; color: var(--mute); margin: 0; }
 .op-options { display: flex; flex-direction: column; gap: 10px; }
 .op-option { display: grid; grid-template-columns: 1fr auto; gap: 8px 12px; align-items: center; padding: 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface-2); }
@@ -123,7 +122,6 @@ mark { background: #fde6c3; padding: 0 3px; border-radius: 4px; }
 .meter.hot i { background: var(--ok); }
 .meter.hold i { background: var(--agent); opacity: .5; }
 .call.voice .op-only { display: none; }
-.call.sample .mic-only { display: none; }
 .board { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr) minmax(0, 1.12fr); gap: 14px; padding: 14px 18px; min-height: 0; }
 @media (max-width: 1080px) { .board { grid-template-columns: 1fr; } .call { height: auto; } .col { max-height: 75vh; } }
 .col { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px; overflow: auto; min-height: 0; box-shadow: var(--shadow); scroll-behavior: smooth; }
@@ -154,21 +152,9 @@ mark { background: #fde6c3; padding: 0 3px; border-radius: 4px; }
 .turn.agent { align-self: flex-end; background: var(--agent-soft); border-color: #dcd3f7; border-bottom-right-radius: 4px; } .turn.agent .who { color: var(--agent); }
 .turn.interrupted { opacity: .55; font-style: italic; }
 .turn .clear { color: var(--ok); font-style: italic; margin-top: 4px; font-size: 13px; } .turn .clear.wait { color: var(--mute); font-size: 12px; }
-.turn .low { color: var(--warn); font-weight: 600; text-transform: none; letter-spacing: 0; }
 .turn .merged { font-weight: 500; color: var(--mute); text-transform: none; letter-spacing: 0; }
-.partial { color: var(--mute); font-style: italic; min-height: 22px; margin-top: 8px; }
 .empty-hint { color: var(--mute); font-size: 13px; padding: 18px; text-align: center; border: 1px dashed var(--line-2); border-radius: 12px; }
 
-/* duet rehearsal */
-.duet { margin-bottom: 14px; padding: 10px; border: 1px dashed var(--cust); border-radius: 12px; background: #f5fbfb; }
-.duet h4 { margin: 0 0 8px; font-size: 12px; color: var(--cust); text-transform: uppercase; letter-spacing: .6px; }
-#duet-lines { display: flex; flex-direction: column; gap: 4px; max-height: 38vh; overflow: auto; }
-.duet-line { text-align: left; font: 12px var(--font); padding: 6px 9px; border-radius: 9px; border: 1px solid #c5e6e8; background: #fff; cursor: pointer; }
-.duet-line.said { opacity: .45; } .duet-line.playing { border-color: var(--cust); background: var(--cust-soft); font-weight: 600; }
-.duet-line small { color: var(--mute); margin-right: 6px; }
-.cue { font-size: 11px; line-height: 1.35; padding: 2px 8px; }
-.cue.op { color: var(--op); margin-top: 6px; } .cue.op::before { content: "Tu: "; font-weight: 700; }
-.cue.expect { color: var(--mute); font-style: italic; } .cue.expect::before { content: "Atteso: "; font-style: normal; font-weight: 600; }
 
 /* machine record */
 .machine { border: 1px solid var(--line); border-radius: var(--r); padding: 14px; margin-bottom: 16px; background: linear-gradient(180deg, var(--surface-2), var(--surface)); }

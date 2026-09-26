@@ -1,0 +1,7 @@
+# tests and the headless checks in eval/ (not needed to run the app)
+-r requirements.txt
+pytest>=8.2
+websockets>=12
+edge-tts>=6.1
+miniaudio>=1.59
+ruff>=0.6

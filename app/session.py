@@ -1,9 +1,8 @@
-"""One support call: audio in, events out.
+"""One support call: transcripts in, events out.
 
-The transcript layer is always on. Two operator toggles sit on top of it:
-`clarify` (the clear version of what the customer said) and `assistant` (model,
-symptom, guided diagnosis, part cards, keyterm reloads). The assistant proposes;
-every decision is a click from the operator.
+The page talks to AssemblyAI's Voice Agent and relays here what is said on the call (the customer, the
+automatic assistant or the operator) and the agent's tool calls. The session is the call's memory: machine,
+serial and warranty, the troubleshooting procedure, the parts, the booking, and the work order at the end.
 """
 from __future__ import annotations
 
@@ -12,36 +11,28 @@ import json
 import os
 import re
 import time
-import wave
 from dataclasses import asdict
 from pathlib import Path
 from typing import Awaitable, Callable
 
-from .asr.assemblyai_stream import AssemblyAIStream
 from .core.catalog import Catalog
 from .core.context import ContextDetector
 from .core.normalizer import canonicalize_codes, extract_codes
-from .core.roles import CUSTOMER, OPERATOR, RoleTracker
 from .core.semantic import AMBIGUITY_GAP, DECOY_MARGIN, SECTION_THRESHOLD, SYMPTOM_THRESHOLD, SemanticIndex
 from .core.symptoms import DefectsLibrary, Diagnosis, parse_then, Outcome, content_words
 from .core import terms
 from .core.vocabulary import VocabularyManager
 from .llm.clarify import Clarifier
-from .agent.dialog import AutoAgent
-from .agent.tts import TTS
 from .voice.agent import run_tool, tool_result_text
 
 ROOT = Path(__file__).resolve().parents[1]
-SAMPLES = ROOT / "samples"
-DUETS = SAMPLES / "duet"
+OPERATOR, CUSTOMER = "operator", "customer"
 MAX_SESSION_SECONDS = int(os.getenv("MAX_SESSION_SECONDS", "600"))          # public demo guard
-MAX_REHEARSAL_SECONDS = int(os.getenv("MAX_REHEARSAL_SECONDS", "1500"))     # two-voice rehearsals take longer
+MAX_REHEARSAL_SECONDS = int(os.getenv("MAX_REHEARSAL_SECONDS", "1500"))     # operator practice may take longer
 _REQUEST_CUE = re.compile(r"\b(need|want|add|box|extra|include|buy|purchase|as well|order|ordered|send|replace|replacement|spare|part|broken|new one|another|"
                           r"serve|servono|ordin\w+|mand\w+|sostitu\w+|ricambio|rotto|rotta|nuov[oa])\b", re.I)
-INACTIVITY_TIMEOUT = int(os.getenv("INACTIVITY_TIMEOUT_SECONDS", "60"))
 _DEBUG_LOG = os.getenv("CARDEX_DEBUG_TURNS") or str(ROOT / "eval" / "logs" / "turns.jsonl")   # raw final turns, local only
 Path(_DEBUG_LOG).parent.mkdir(parents=True, exist_ok=True)
-CHUNK_MS = 50
 
 # Loaded once, shared by every session (read-only).
 CATALOG = Catalog()
@@ -50,25 +41,8 @@ DEFECTS = DefectsLibrary()
 VOCAB = VocabularyManager(CATALOG)
 SEMANTIC = SemanticIndex()      # the model is loaded in the background at server start-up (see main.py)
 
-# Same voice keeps talking: it is the same utterance, however long the pause (reading a code off an invoice
-# takes seconds). Only the other voice, a very long silence or a very long bubble closes it.
-MERGE_WINDOW_S = 60
-MERGE_WINDOW_SINGLE_S = 6      # one-voice demo mode: nobody else can close the utterance, so use time
-MERGE_MAX_WORDS = 70
-
 Emit = Callable[[dict], Awaitable[None]]
 
-
-def _manifest_single(source: str) -> str | None:
-    """A sample recorded with one voice declares who that voice is in samples/manifest.json."""
-    try:
-        name = source.split(":", 1)[1]
-        for s in json.loads((SAMPLES / "manifest.json").read_text(encoding="utf-8")):
-            if s["id"] == name:
-                return s.get("single_speaker")
-    except (IndexError, OSError, ValueError):
-        pass
-    return None
 
 _SERIAL = re.compile(r"(?:serial(?: number)?|matricola|numero di serie|n[úu]mero de serie|seriennummer)\D{0,15}((?:\d[\s\-]?){5,8})", re.I)
 _SERIAL_ASKED = re.compile(r"serial|matricola|numero di serie|n[úu]mero de serie|seriennummer|typenschild|targhetta", re.I)
@@ -82,21 +56,8 @@ def sentence_complete(text: str) -> bool:
 
 
 class CallSession:
-    def __init__(self, api_key: str, emit: Emit, *, source: str = "mic", lang: str = "it"):
+    def __init__(self, api_key: str, emit: Emit, *, source: str = "voice", lang: str = "en"):
         self.api_key, self.emit, self.source, self.lang = api_key, emit, source, lang
-        single = CUSTOMER if source in ("mic", "auto") else _manifest_single(source)   # duet: two real voices, no single role
-        self.duet: dict | None = None
-        self.duet_playing = False
-        self.duet_last_done = -10.0
-        self.duet_windows: list[tuple[float, float]] = []
-        self.diarization_agrees: list[tuple[str, str | None]] = []   # (role from timing, label from AssemblyAI)
-        self.label_votes: dict[str, dict[str, int]] = {}             # voice label -> votes for operator / customer
-        self.stream_ms = 0.0
-        if source.startswith("duet:"):
-            f = DUETS / source.split(":", 1)[1] / "script.json"
-            if f.is_file() and f.resolve().parent.parent == DUETS.resolve():
-                self.duet = json.loads(f.read_text(encoding="utf-8"))
-        self.roles = RoleTracker(single_speaker_role=single)
         self.assistant_on, self.clarify_on = True, True
         self.model_id: str | None = None
         self.family: str | None = None
@@ -114,7 +75,6 @@ class CallSession:
         self.cards: dict[str, dict] = {}
         self.turns: dict[int, dict] = {}          # utterance id -> utterance (merged turns of one voice)
         self.utterances: list[dict] = []
-        self.turn_to_utt: dict[int, int] = {}
         self.opened_docs: set[str] = set()
         self.offered_choices: set[tuple] = set()
         self.vocab_phase = 0
@@ -122,12 +82,8 @@ class CallSession:
         self.outcome: dict | None = None
         self.booking: dict | None = None         # service slot booked by the operator (fictional calendar)
         self.started = time.monotonic()
-        self.asr: AssemblyAIStream | None = None
-        self.audio_q: asyncio.Queue[bytes | None] = asyncio.Queue(maxsize=400)
         self.clarifier = Clarifier(api_key, lang, self._on_clear)
         self._closing = False
-        # automatic mode: the assistant itself asks the questions (voice) and follows the customer's answers
-        self.auto = AutoAgent(self, TTS, SEMANTIC.similarities) if source == "auto" else None
         # voice agent mode: AssemblyAI's hosted agent listens and talks; we are its memory and its tools
         self.voice = source == "voice"
         # operator practice with a simulated customer: both sides come as transcripts relayed by the page
@@ -136,7 +92,6 @@ class CallSession:
         if self.roleplay:
             from .voice.customer import PERSONAS
             self.customer_lang = PERSONAS.get(source.split(":", 1)[-1], {}).get("lang", "")
-        self.relay = self.voice or self.roleplay
         self.voice_done = False
         self.voice_ended = asyncio.Event()
         self.voice_turn = 0
@@ -156,295 +111,34 @@ class CallSession:
 
     # ------------------------------------------------------------------ lifecycle
     async def run(self) -> None:
+        """The call lasts until the page says the Voice Agent session ended, or the demo time limit."""
         vocab = VOCAB.build()
         self.vocab_phase, self.vocab_key = 1, (None, None, None, ())
-        if self.relay:
-            try:
-                await self.emit({"type": "session", "state": "open", "source": self.source, "lang": self.lang,
-                                 "limits": {"max_seconds": MAX_SESSION_SECONDS}})
-                await self._emit_vocab(vocab)
-                await self._emit_context()
-                if self.roleplay or self.voice:
-                    self.clarifier.start()              # English subtitles for lines in another language
-                await asyncio.wait_for(self.voice_ended.wait(), timeout=MAX_REHEARSAL_SECONDS if self.roleplay else MAX_SESSION_SECONDS)
-            except asyncio.TimeoutError:
-                await self._agent("Tempo massimo raggiunto." if self.lang == "it" else "Time limit reached.")
-            except Exception as e:  # noqa: BLE001
-                await self.emit({"type": "error", "text": f"{type(e).__name__}: {e}"})
-            finally:
-                if self.roleplay or self.voice:
-                    await self.clarifier.close()
-                await self._emit_summary()
-            return
         try:
-            async with AssemblyAIStream(self.api_key, keyterms=vocab.keyterms, prompt=vocab.prompt,
-                                        inactivity_timeout=INACTIVITY_TIMEOUT) as asr:
-                self.asr = asr
-                self.clarifier.start()
-                await self.emit({"type": "session", "state": "open", "source": self.source, "lang": self.lang,
-                                 "limits": {"max_seconds": MAX_REHEARSAL_SECONDS if self.duet else MAX_SESSION_SECONDS}})
-                await self._emit_vocab(vocab)
-                if self.duet:
-                    await self.emit({"type": "duet_script", "id": self.duet["id"], "lines": self.duet["lines"]})
-                if self.auto:
-                    await self.auto.start()
-                feeder = asyncio.create_task(self._feed_sample() if self.source.startswith("sample:") else self._feed_mic())
-                guard = asyncio.create_task(self._time_limit())
-                try:
-                    async for msg in asr.messages():
-                        await self._on_asr(msg)
-                finally:
-                    feeder.cancel()
-                    guard.cancel()
+            await self.emit({"type": "session", "state": "open", "source": self.source, "lang": self.lang,
+                             "limits": {"max_seconds": MAX_SESSION_SECONDS}})
+            await self._emit_vocab(vocab)
+            await self._emit_context()
+            self.clarifier.start()                      # English subtitles for lines in another language
+            await asyncio.wait_for(self.voice_ended.wait(), timeout=MAX_REHEARSAL_SECONDS if self.roleplay else MAX_SESSION_SECONDS)
+        except asyncio.TimeoutError:
+            await self._agent("Tempo massimo raggiunto." if self.lang == "it" else "Time limit reached.")
         except Exception as e:  # noqa: BLE001
             await self.emit({"type": "error", "text": f"{type(e).__name__}: {e}"})
         finally:
             await self.clarifier.close()
             await self._emit_summary()
 
-    async def _time_limit(self) -> None:
-        limit = MAX_REHEARSAL_SECONDS if self.duet else MAX_SESSION_SECONDS
-        await asyncio.sleep(max(0, limit - 45))
-        await self._agent("Tra 45 secondi la chiamata si chiude per il limite di durata." if self.lang == "it"
-                          else "The call closes in 45 seconds (time limit).")
-        await asyncio.sleep(45)
-        await self._agent("Limite di durata della demo raggiunto: chiudo la chiamata." if self.lang == "it"
-                          else "Demo time limit reached: closing the call.")
-        await self.end()
-
     async def end(self) -> None:
-        if self.relay:
-            self._closing = True
-            self.voice_ended.set()
-            return
-        if not self._closing and self.asr:
-            self._closing = True
-            # the last thing said has no pause after it: send a little silence so the model hears the end,
-            # force the turn to close, give the final text time to arrive, then terminate
-            try:
-                silence = b"\x00" * (16000 * 2 * CHUNK_MS // 1000)
-                for _ in range(16):
-                    await self.asr.send_audio(silence)
-                    await asyncio.sleep(CHUNK_MS / 1000)
-                await self.asr.force_endpoint()
-                await asyncio.sleep(1.5)
-            except Exception:  # noqa: BLE001
-                pass
-            await self.audio_q.put(None)
-            await self.asr.terminate()
-
-    async def push_audio(self, pcm: bytes) -> None:
-        if not self._closing:
-            try:
-                self.audio_q.put_nowait(pcm)
-            except asyncio.QueueFull:
-                pass
-
-    async def _feed_mic(self) -> None:
-        while True:
-            chunk = await self.audio_q.get()
-            if chunk is None:
-                return
-            if self.duet_playing:
-                continue                      # the recorded customer is talking: the operator's mic stays out of the stream
-            await self.asr.send_audio(chunk)
-            self.stream_ms += len(chunk) / 32          # 16 kHz, 16-bit mono: 32 bytes per millisecond of audio
-
-    async def play_duet_line(self, n: int) -> None:
-        """Streams one recorded customer line into the same AssemblyAI session, at real-time pace, while the
-        browser plays it through the speakers for the operator to hear. Two real voices, one stream."""
-        if not self.duet or self._closing:
-            return
-        if self.duet_playing:
-            await self.emit({"type": "duet", "state": "busy", "n": n})    # tell the page, so the mic is never left muted
-            return
-        line = next((l for l in self.duet["lines"] if l["n"] == n), None)
-        if not line:
-            return
-        path = DUETS / self.duet["id"] / line["file"]
-        with wave.open(str(path), "rb") as w:
-            pcm = w.readframes(w.getnframes())
-        self.duet_playing = True
-        await self.emit({"type": "duet", "state": "playing", "n": n})
-        start_ms = self.stream_ms
-        self.duet_windows.append((start_ms, float("inf")))     # open window: turns arrive WHILE the clip plays
-        try:
-            step = 16000 * 2 * CHUNK_MS // 1000
-            t0 = time.monotonic()
-            for k, i in enumerate(range(0, len(pcm), step)):
-                if self._closing:
-                    return
-                await self.asr.send_audio(pcm[i:i + step].ljust(step, b"\x00"))
-                self.stream_ms += step / 32
-                await asyncio.sleep(max(0.0, t0 + (k + 1) * CHUNK_MS / 1000 - time.monotonic()))
-            await asyncio.sleep(0.4)
-        finally:
-            self.duet_windows[-1] = (start_ms, self.stream_ms)     # close the window: where the recorded customer spoke
-            self.duet_playing = False
-            self.duet_last_done = time.monotonic()
-            await self.emit({"type": "duet", "state": "done", "n": n})
-
-    def _diarization_report(self) -> dict | None:
-        """Rehearsal only: did AssemblyAI's speaker labels agree with the roles we know from timing?"""
-        if not self.diarization_agrees:
-            return None
-        n = len(self.diarization_agrees)
-        ok = sum(1 for truth, said in self.diarization_agrees if truth == said)
-        return {"segments": n, "attributed_correctly": ok, "accuracy": round(ok / n, 2) if n else None}
-
-    def _duet_role(self, words: list[dict]) -> str | None:
-        """In rehearsal mode roles come from timing, not from diarization: a turn whose words fall inside a
-        recorded-clip window is the customer, anything else is the operator at the microphone."""
-        if not words:
-            return None
-        mid = (words[0].get("start", 0) + words[-1].get("end", 0)) / 2
-        for a, b in self.duet_windows:
-            if a - 50 <= mid <= b + 100:          # the operator's mic is off while the clip plays: edges are sharp
-                return CUSTOMER
-        return OPERATOR
-
-    async def _feed_sample(self) -> None:
-        name = self.source.split(":", 1)[1]
-        path = (SAMPLES / name).with_suffix(".wav")
-        if not path.is_file() or path.parent != SAMPLES:
-            await self.emit({"type": "error", "text": f"sample not found: {name}"})
-            return await self.end()
-        with wave.open(str(path), "rb") as w:
-            pcm = w.readframes(w.getnframes())
-        step = 16000 * 2 * CHUNK_MS // 1000
-        t0 = time.monotonic()
-        for n, i in enumerate(range(0, len(pcm), step)):
-            if self._closing:
-                return
-            await self.asr.send_audio(pcm[i:i + step].ljust(step, b"\x00"))
-            await asyncio.sleep(max(0.0, t0 + (n + 1) * CHUNK_MS / 1000 - time.monotonic()))
-        await asyncio.sleep(1.5)
-        await self.end()
-
-    # ------------------------------------------------------------------ ASR events
-    async def _on_asr(self, msg: dict) -> None:
-        t = msg.get("type")
-        if t == "Turn":
-            await self._on_turn(msg)
-        elif t == "SpeakerRevision":
-            for rev in msg.get("revisions", msg.get("turns", [])):
-                tid = self.turn_to_utt.get(rev.get("turn_order"))
-                if tid in self.turns and rev.get("speaker_label"):
-                    role, label = self.roles.role_for(rev["speaker_label"])
-                    self.turns[tid].update(role=role, speaker=label)
-        elif t == "Termination":
-            await self._agent(f"Sessione chiusa: {msg.get('audio_duration_seconds')} s di audio." if self.lang == "it"
-                              else f"Session closed: {msg.get('audio_duration_seconds')} s of audio.")
-        elif t == "Error" or "error" in msg:
-            await self.emit({"type": "error", "text": json.dumps(msg)[:300]})
+        self._closing = True
+        self.voice_ended.set()
 
     def _log_decision(self, what: str, **data) -> None:
         """Same local log as the raw turns: what the assistant decided and why, so a wrong symptom can be traced
         without re-running the audio."""
         if _DEBUG_LOG:
             with open(_DEBUG_LOG, "a", encoding="utf-8") as f:
-                f.write(json.dumps({"stream_ms": round(self.stream_ms), "decision": what, **data}, ensure_ascii=False) + "\n")
-
-    async def _on_turn(self, msg: dict) -> None:
-        if _DEBUG_LOG and msg.get("end_of_turn"):
-            with open(_DEBUG_LOG, "a", encoding="utf-8") as f:
-                f.write(json.dumps({"stream_ms": round(self.stream_ms), "windows": self.duet_windows, "turn": msg}, ensure_ascii=False) + "\n")
-        tid = msg.get("turn_order", 0)
-        text = (msg.get("transcript") or "").strip()
-        if not text:
-            return
-        if not msg.get("end_of_turn"):
-            if self.auto:
-                self.auto.still_talking()                  # partial words: the customer has not finished
-            await self.emit({"type": "turn", "id": tid, "final": False, "text": text})
-            return
-        self.last_eot_confidence = float(msg.get("end_of_turn_confidence") or 1.0)   # the automatic assistant waits longer on a shaky turn end
-        words = msg.get("words") or []
-        # One AssemblyAI turn can hold both voices when the second starts without a pause ("Okay, what's the
-        # problem? We have a problem with..."). Split it by word: timing in rehearsal mode, word-level speaker
-        # labels otherwise. Each piece is then handled as a turn of its own.
-        segments = self._split_by_speaker(words, msg.get("speaker_label"))
-        if len(segments) <= 1:
-            role, label = (segments[0][0], segments[0][1]) if segments else self.roles.role_for(msg.get("speaker_label"))
-            await self._on_final_piece(tid * 100, text, role, label, words)      # same id scale as split pieces
-            return
-        for i, (role, label, piece_words) in enumerate(segments):
-            piece = " ".join(w.get("text", "") for w in piece_words).strip()
-            if piece:
-                await self._on_final_piece(tid * 100 + i, piece, role, label, piece_words)
-
-    def _split_by_speaker(self, words: list[dict], turn_label: str | None) -> list[tuple[str, str | None, list[dict]]]:
-        """Roles come from AssemblyAI's word-level voice labels, in every mode: the first voice with a final
-        turn is the operator (they answered the phone), the other one the customer. In rehearsal mode the clip
-        timing is used only to CHECK the labels (the report's diarization line), never to decide."""
-        if not words:
-            return []
-        out: list[tuple[str, str | None, list[dict]]] = []
-        prev_role: str | None = None
-        for w in words:
-            wl = w.get("speaker")
-            if wl in (None, "", "PENDING") and prev_role:
-                role, label = prev_role, turn_label
-            else:
-                role, label = self.roles.role_for(wl or turn_label)
-            if out and out[-1][0] == role:
-                out[-1][2].append(w)
-            else:
-                out.append((role, label, [w]))
-            prev_role = role
-        # diarization labels flicker: one or two words of the other voice inside a sentence are noise, not a speaker change
-        smoothed: list[tuple[str, str | None, list[dict]]] = []
-        for i, seg in enumerate(out):
-            stray = 0 < i < len(out) - 1 and len(seg[2]) <= 2 and out[i - 1][0] == out[i + 1][0]
-            if smoothed and (stray or smoothed[-1][0] == seg[0]):
-                smoothed[-1][2].extend(seg[2])
-            else:
-                smoothed.append((seg[0], seg[1], list(seg[2])))
-        if self.duet:
-            for role, label, ws in smoothed:
-                truth = self._duet_role(ws)
-                if truth:
-                    self.diarization_agrees.append((truth, role))     # (who really spoke, who we said)
-        return smoothed
-
-    async def _on_final_piece(self, tid: int, text: str, role: str, label: str | None, words: list[dict]) -> None:
-        min_conf = round(min((w.get("confidence", 1.0) for w in words), default=1.0), 2)
-        now = round(time.monotonic() - self.started, 1)
-
-        last = self.utterances[-1] if self.utterances else None
-        window = MERGE_WINDOW_SINGLE_S if self.roles.single else MERGE_WINDOW_S
-        if (last and last["role"] == role and now - last["at_end"] <= window
-                and len(last["raw"].split()) + len(text.split()) <= MERGE_MAX_WORDS):
-            last["raw"] += " " + text
-            last["fragments"].append(text)
-            last["turn_ids"].append(tid)
-            last["min_conf"] = min(last["min_conf"], min_conf)
-            last["confs"].append(min_conf)
-            last["at_end"] = now
-            utt = last
-        else:
-            utt = {"id": tid, "raw": text, "fragments": [text], "confs": [min_conf], "role": role, "speaker": label, "turn_ids": [tid], "min_conf": min_conf,
-                   "at": now, "at_end": now, "clear": None}
-            self.utterances.append(utt)
-            self.turns[tid] = utt
-        self.turn_to_utt[tid] = utt["id"]
-        utt["text"], utt["codes"] = canonicalize_codes(utt["raw"])      # "e L3010" is shown as "EL-3010"
-
-        await self.emit({"type": "turn", "id": utt["id"], "final": True, "text": utt["text"], "role": role,
-                         "speaker": label, "min_conf": utt["min_conf"], "merged": len(utt["turn_ids"])})
-        if role == CUSTOMER and self.clarify_on:
-            self.clarifier.submit(utt["id"], utt["text"])
-            await self.emit({"type": "clear_pending", "turn_id": utt["id"]})
-        if self.assistant_on:
-            # the whole utterance is re-read every time it grows: "the code is..." [4 s] "GE-2140" is one thought
-            # codes need the whole utterance (a code can straddle a pause); meaning is read on what was just said,
-            # the last two fragments, otherwise a long utterance dilutes it
-            recent = [canonicalize_codes(f)[0] for f in utt["fragments"][-2:]]
-            if len(recent) == 2:
-                recent = [recent[-1], " ".join(recent)]          # what was just said, then with its predecessor for context
-            await self._assist(utt["id"], utt["text"], role, utt["confs"][-1], recent, utt)
-        if self.auto and role == CUSTOMER:
-            self.auto.heard(text)                            # the automatic assistant answers once the customer pauses
+                f.write(json.dumps({"t": round(time.monotonic() - self.started, 1), "decision": what, **data}, ensure_ascii=False) + "\n")
 
     # ------------------------------------------------------------------ the assistant
     async def _assist(self, tid: int, text: str, role: str, min_conf: float, recent: list[str] | None = None,
@@ -773,8 +467,6 @@ class CallSession:
         self.vocab_key, self.vocab_trigger, self.last_vocab_at = key, trigger, time.monotonic()
         vocab = VOCAB.build(model_id=self.model_id, family=self.family, group=group, symptom_parts=list(parts))
         self.vocab_phase = vocab.phase
-        if self.asr and not self._closing:
-            await self.asr.update(keyterms=vocab.keyterms, prompt=vocab.prompt)
         await self._emit_vocab(vocab)
 
     # ------------------------------------------------------------------ operator controls
@@ -782,11 +474,6 @@ class CallSession:
         a = msg.get("action")
         if a == "end_call":
             await self.end()
-        elif a == "play_line" and self.duet:
-            asyncio.create_task(self.play_duet_line(int(msg.get("n", 0))))
-        elif a == "swap_roles":
-            self.roles.swap()
-            await self._agent("Ruoli scambiati." if self.lang == "it" else "Roles swapped.")
         elif a == "toggle":
             if msg.get("what") == "assistant":
                 self.assistant_on = bool(msg.get("on"))
@@ -852,16 +539,14 @@ class CallSession:
             self.booking = None
             await self._agent("Prenotazione annullata." if self.lang == "it" else "Booking cancelled.")
             await self._emit_diagnosis()
-        elif a == "spoken" and self.auto:
-            await self.auto.spoken()
-        elif a == "transcript" and self.relay and msg.get("text"):
+        elif a == "transcript" and msg.get("text"):
             await self.voice_transcript(msg.get("role") or "customer", str(msg["text"]).strip(), bool(msg.get("interrupted")))
         elif a == "tool" and self.voice:
             result = await run_tool(self, msg.get("name") or "", msg.get("arguments") or {})
             self._log_decision("tool", name=msg.get("name"), arguments=msg.get("arguments"), result=result)
             await self.emit({"type": "tool_result", "call_id": msg.get("call_id"), "name": msg.get("name"),
                              "result": tool_result_text(result), "end": bool(result.get("end"))})
-        elif a == "voice_end" and self.relay:
+        elif a == "voice_end":
             await self.end()
         elif a in ("confirm_part", "dismiss_part") and msg.get("code") in self.cards:
             self.cards[msg["code"]]["status"] = "confirmed" if a == "confirm_part" else "dismissed"
@@ -1279,5 +964,4 @@ class CallSession:
                                 **self.charge_for(c["code"])} for c in self.cards.values() if c["status"] == "proposed"],
             "parts_dismissed": [c["code"] for c in self.cards.values() if c["status"] == "dismissed"],
             "transcript": [self.turns[k] for k in sorted(self.turns)],
-            "diarization_check": self._diarization_report(),
         }})

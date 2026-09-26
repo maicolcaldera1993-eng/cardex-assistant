@@ -14,37 +14,34 @@ const T = {
     voiceEyebrow: "Modalità 1", voiceTitle: "Assistente automatico",
     voiceDesc: "Un assistente vocale che risponde da solo alle chiamate dei clienti. Riconosce macchina e guasto, guida il cliente nella procedura del costruttore, dice chi paga, ordina i ricambi e fissa l'intervento. Conversa liberamente, ma ogni domanda viene dalla procedura e ogni cifra dal gestionale.",
     voiceTry: "Provalo tu, nei panni del cliente: scegli una delle chiamate d'esempio, con la scheda di cosa dire, oppure il parlato libero.",
-    lbPersona: "Chiamate d'esempio", lbVoiceLang: "Lingua della chiamata", voiceStart: "Chiama l'assistenza",
+    lbPersona: "Chiamate d'esempio", voiceStart: "Chiama l'assistenza",
     voiceHelp: "Serve il microfono. L'assistente parte in inglese e segue la tua lingua (italiano, spagnolo, tedesco, francese, portoghese), con sottotitoli in inglese. Aspetta che finisca di parlare; chiudi con «Fine chiamata».",
     opEyebrow: "Modalità 2", opTitle: "Assistenza all'operatore",
-    opDesc: "Cardex affianca l'operatore del service durante la telefonata con un cliente straniero: trascrive chi dice cosa, mostra la versione chiara in italiano, apre la procedura al passo giusto con la frase da leggere, prepara ricambi, appuntamento e scheda d'intervento.",
+    opDesc: "Cardex affianca l'operatore del service durante la telefonata: ascolta entrambe le parti, apre la procedura del costruttore al passo giusto con la frase da leggere, trova ricambi, garanzia e appuntamento, e prepara la scheda d'intervento.",
     opTry: "Provalo tu, nei panni dell'operatore al telefono: il cliente è un'intelligenza artificiale che recita il suo ruolo; tu rispondi al microfono e segui la procedura guidata.",
     duoTitle: "Oppure ascolta una chiamata", duoDesc: "L'assistente risponde al cliente scelto sopra, interpretato da un'altra IA: senti le due voci e vedi Cardex lavorare. Nessun microfono.", duoBtn: "Ascolta",
     modeDuo: "Chiamata tra due IA · ascolto", duoAgent: "Parla l'assistente Sereni", duoCustomer: "Parla il cliente", duoSub: "Ascolta: nessun microfono in questa modalità.", duoPickCustomer: "Scegli prima un cliente d'esempio.",
     rpTitle: "Fai tu l'operatore", rpDesc: "Scegli il cliente: ti chiama, descrive il guasto e risponde alle tue domande. Non conosci la soluzione: te la suggerisce Cardex.", rpBtn: "Rispondi alla chiamata",
     customerTalking: "Il cliente sta parlando", customerSub: "Il microfono è in pausa: aspetta che finisca.", yourTurn: "Tocca a te", yourTurnSub: "Rispondi al cliente: segui la procedura a destra.", opFirst: "Il telefono squilla: rispondi tu per primo, per esempio «Servizio Sereni, buongiorno».",
     modeRoleplay: "Assistenza all'operatore · cliente simulato",
-    sampleTitle: "Ascolta una chiamata", sampleDesc: "Una telefonata registrata, senza microfono: guarda cosa riconosce Cardex.", sampleBtn: "Ascolta",
-    duetTitle: "Fai tu l'operatore", duetHelp: "Parli al microfono come operatore e clicchi le battute del cliente registrato; Cardex ti suggerisce cosa chiedere.", duetBtn: "Inizia",
-    micTitle: "Parlato libero", micDesc: "Parla tu, come cliente, e guarda cosa capisce Cardex.", micBtn: "Apri console",
+    
     howTitle: "Come funziona",
-    how: [["Ascolta", "AssemblyAI Universal-3.5 Pro trascrive in tempo reale, distingue le voci e ricarica il vocabolario (modelli, codici) man mano che capisce di quale macchina si parla."],
+    how: [["Ascolta", "Il Voice Agent di AssemblyAI ascolta e parla: capisce 18 lingue, ne parla 6 e passa alla lingua del cliente; modelli e codici ricambio sono termini chiave."],
           ["Capisce", "Il guasto descritto in qualunque lingua viene collegato alla procedura del costruttore, ma solo tra quelle della macchina in linea: niente risposte inventate."],
           ["Agisce", "Ricambi con prezzo e consegna dal gestionale, garanzia dalla matricola, appuntamento dal calendario del service, e una scheda d'intervento da approvare."]],
-    powered: "Voce e trascrizione: AssemblyAI Voice Agent API e Universal-3.5 Pro Streaming. Sereni, i clienti e il gestionale sono inventati per la demo.",
-    noDuets: "Nessuna prova disponibile", noSamples: "Nessuna chiamata registrata",
-    modeVoice: "Chiamata con l'agente vocale", modeOp: "Console operatore",
+    powered: "Voce: AssemblyAI Voice Agent API (riconoscimento Universal-3.5 Pro). Sereni, i clienti e il gestionale sono inventati per la demo.",
+    modeVoice: "Chiamata con l'agente vocale", 
     open: "in linea", closed: "chiusa", connecting: "connessione…",
     presenceConnecting: "Connessione all'agente…", presenceSpeaking: "L'agente sta parlando", presenceListening: "Ti ascolto",
     presenceSubSpeaking: "Il microfono è in pausa: aspetta che finisca.", presenceSubListening: "Parla pure.", presenceDenied: "Microfono non disponibile", presenceSubDenied: "Consenti il microfono nel browser, poi riavvia la chiamata.",
-    clarify: "Versione chiara", assistant: "Assistente", swap: "Scambia voci", end: "Fine chiamata",
+    clarify: "Versione chiara", assistant: "Assistente", end: "Fine chiamata",
     talk: "Conversazione", diag: "Procedura guidata", parts: "Ricambi", docs: "Documenti", log: "Registro dell'assistente",
     emptyTalk: "La conversazione compare qui, con chi dice cosa.", emptyParts: "Qui compaiono i ricambi citati o previsti dalla procedura.",
     noDocs: "Quando si parla di una macchina, di un guasto o di un ricambio, il documento giusto si apre qui, al punto giusto.",
     noDiag: "Nessun guasto riconosciuto. Appena il cliente descrive il problema, la procedura compare qui.",
     agent: "Agente", operator: "Operatore", customer: "Cliente",
-    merged: "frasi unite", interrupted: "interrotta", lowConf: "riconoscimento incerto", clearWait: "versione chiara in arrivo…",
-    micMuted: "mic in pausa", micDenied: "microfono negato", agentTalking: "parla l'agente",
+    interrupted: "interrotta", clearWait: "versione chiara in arrivo…",
+    micDenied: "microfono negato", agentTalking: "parla l'agente",
     choose: "Due guasti possibili. Di quale si tratta?", change: "Procedura sbagliata? Cambia…", startProc: "Avvia una procedura a mano…",
     ask: "Chiedi al cliente", do: "Fagli fare", say: "Da leggere al telefono", keys: "tasti 1-4",
     watching: "L'agente conduce la procedura: i passi avanzano con le risposte del cliente.",
@@ -88,37 +85,34 @@ const T = {
     voiceEyebrow: "Mode 1", voiceTitle: "Automatic assistant",
     voiceDesc: "A voice assistant that answers customers' calls on its own. It recognises the machine and the fault, walks the customer through the maker's procedure, says who pays, orders the parts and books the visit. It talks freely, but every question comes from the procedure and every figure from the ERP.",
     voiceTry: "Try it as the customer: pick one of the sample calls, each with a sheet of what to say, or free speech.",
-    lbPersona: "Sample calls", lbVoiceLang: "Call language", voiceStart: "Call the service desk",
+    lbPersona: "Sample calls", voiceStart: "Call the service desk",
     voiceHelp: "Needs the microphone. The assistant starts in English and follows your language (Italian, Spanish, German, French, Portuguese), with English subtitles. Let it finish talking; close with “End call”.",
     opEyebrow: "Mode 2", opTitle: "Operator assist",
-    opDesc: "Cardex sits next to the service operator during a call with a foreign customer: it transcribes who says what, shows a clear Italian version, opens the procedure at the right step with the sentence to read, and prepares parts, appointment and work order.",
+    opDesc: "Cardex sits next to the service operator during the call: it listens to both sides, opens the maker's procedure at the right step with the sentence to read, finds parts, warranty and a slot, and prepares the work order.",
     opTry: "Try it as the operator on the phone: the customer is an AI playing its part; you answer on the microphone and follow the guided procedure.",
     duoTitle: "Or listen to a call", duoDesc: "The assistant answers the customer picked above, played by another AI: hear both voices and watch Cardex work. No microphone.", duoBtn: "Listen",
     modeDuo: "Call between two AIs · listening", duoAgent: "The Sereni assistant is speaking", duoCustomer: "The customer is speaking", duoSub: "Listen: no microphone in this mode.", duoPickCustomer: "Pick a sample customer first.",
     rpTitle: "Be the operator", rpDesc: "Pick the customer: they call, describe the fault and answer your questions. You don't know the fix: Cardex suggests it.", rpBtn: "Answer the call",
     customerTalking: "The customer is speaking", customerSub: "Your mic is paused: let them finish.", yourTurn: "Your turn", yourTurnSub: "Answer the customer: follow the procedure on the right.", opFirst: "The phone rings: you speak first, for example “Sereni service, good morning”.",
     modeRoleplay: "Operator assist · simulated customer",
-    sampleTitle: "Listen to a call", sampleDesc: "A recorded call, no microphone: see what Cardex picks up.", sampleBtn: "Listen",
-    duetTitle: "Be the operator", duetHelp: "You speak on the mic as the operator and click the recorded customer's lines; Cardex suggests what to ask.", duetBtn: "Start",
-    micTitle: "Free speech", micDesc: "You speak, as the customer, and see what Cardex understands.", micBtn: "Open console",
+    
     howTitle: "How it works",
-    how: [["Listens", "AssemblyAI Universal-3.5 Pro transcribes in real time, tells the voices apart and reloads the vocabulary (models, codes) as it learns which machine the call is about."],
+    how: [["Listens", "AssemblyAI's Voice Agent listens and speaks: it understands 18 languages, speaks 6 and switches to the customer's; machine names and part codes are key terms."],
           ["Understands", "A fault described in any language is linked to the maker's procedure, but only among those of the machine on the call: no made-up answers."],
           ["Acts", "Parts with price and delivery from the ERP, warranty from the serial number, a slot from the service calendar, and a work order to approve."]],
-    powered: "Voice and transcription: AssemblyAI Voice Agent API and Universal-3.5 Pro Streaming. Sereni, its customers and the ERP are invented for the demo.",
-    noDuets: "No rehearsal available", noSamples: "No recorded call",
-    modeVoice: "Call with the voice agent", modeOp: "Operator console",
+    powered: "Voice: AssemblyAI Voice Agent API (Universal-3.5 Pro speech recognition). Sereni, its customers and the ERP are invented for the demo.",
+    modeVoice: "Call with the voice agent", 
     open: "on the line", closed: "closed", connecting: "connecting…",
     presenceConnecting: "Connecting to the agent…", presenceSpeaking: "The agent is speaking", presenceListening: "Listening",
     presenceSubSpeaking: "Your mic is paused: let it finish.", presenceSubListening: "Go ahead.", presenceDenied: "Microphone unavailable", presenceSubDenied: "Allow the microphone in the browser, then restart the call.",
-    clarify: "Clear version", assistant: "Assistant", swap: "Swap voices", end: "End call",
+    clarify: "Clear version", assistant: "Assistant", end: "End call",
     talk: "Conversation", diag: "Guided procedure", parts: "Parts", docs: "Documents", log: "Assistant log",
     emptyTalk: "The conversation appears here, with who said what.", emptyParts: "Parts named on the call or foreseen by the procedure appear here.",
     noDocs: "When a machine, a fault or a part comes up, the right document opens here, at the right place.",
     noDiag: "No fault recognised yet. As soon as the customer describes the problem, the procedure appears here.",
     agent: "Agent", operator: "Operator", customer: "Customer",
-    merged: "sentences joined", interrupted: "interrupted", lowConf: "low confidence", clearWait: "clear version on its way…",
-    micMuted: "mic paused", micDenied: "microphone denied", agentTalking: "agent talking",
+    interrupted: "interrupted", clearWait: "clear version on its way…",
+    micDenied: "microphone denied", agentTalking: "agent talking",
     choose: "Two possible faults. Which one is it?", change: "Wrong procedure? Change…", startProc: "Start a procedure by hand…",
     ask: "Ask the customer", do: "Have them do", say: "Read this out", keys: "keys 1-4",
     watching: "The agent leads the procedure: steps move on with the customer's answers.",
@@ -200,7 +194,7 @@ let lang = (() => { const q = new URLSearchParams(location.search).get("lang"); 
 let L = T[lang];
 let persona = "luca";
 let counts = { models: 10, symptoms: 32 };
-let ws = null, audioCtx = null, micStream = null, timer = null, t0 = 0, micMuted = false, duetId = null, duetPlaying = false, micWatchdog = null;
+let ws = null, timer = null, t0 = 0;
 let callMode = "op";
 let roleplay = false, rpSpoke = false;
 const cards = new Map();
@@ -217,18 +211,15 @@ function applyLanguage() {
   set("tagline", L.tagline); set("demo-badge", L.demoBadge); set("start-title", L.startTitle); set("start-sub", L.startSub);
   $("stats").innerHTML = L.stats(counts.models, counts.symptoms).map((s) => `<li>${s}</li>`).join("");
   set("voice-eyebrow", L.voiceEyebrow); set("voice-title", L.voiceTitle); set("voice-desc", L.voiceDesc); set("lb-persona", L.lbPersona);
-  set("lb-voice-lang", L.lbVoiceLang); set("btn-voice", L.voiceStart); set("voice-help", L.voiceHelp);
+  set("btn-voice", L.voiceStart); set("voice-help", L.voiceHelp);
   set("op-eyebrow", L.opEyebrow); set("op-title", L.opTitle); set("op-desc", L.opDesc); set("op-try", L.opTry); set("voice-try", L.voiceTry);
   set("rp-title", L.rpTitle); set("rp-desc", L.rpDesc); set("btn-roleplay", L.rpBtn);
   set("duo-title", L.duoTitle); set("duo-desc", L.duoDesc); set("btn-duo", L.duoBtn);
   $("rp-select").innerHTML = PERSONAS.filter((p) => p.id !== "free").concat([{ id: "carmen", name: "Carmen Ruiz", machine: "Marea 2" }])
     .map((p) => `<option value="${p.id}">${esc(p.name)} · ${esc(p.machine)}</option>`).join("");
-  set("sample-title", L.sampleTitle); set("sample-desc", L.sampleDesc); set("btn-sample", L.sampleBtn);
-  set("duet-title", L.duetTitle); set("duet-help", L.duetHelp); set("btn-duet", L.duetBtn);
-  set("mic-title", L.micTitle); set("mic-desc", L.micDesc); set("btn-mic", L.micBtn);
   set("how-title", L.howTitle); set("powered", L.powered);
   $("how-steps").innerHTML = L.how.map(([h, t]) => `<li><strong>${esc(h)}</strong><span>${esc(t)}</span></li>`).join("");
-  set("lb-clarify", L.clarify); set("lb-assistant", L.assistant); set("btn-swap", L.swap); set("lb-end", L.end);
+  set("lb-clarify", L.clarify); set("lb-assistant", L.assistant); set("lb-end", L.end);
   set("h-talk", L.talk); set("h-diag", L.diag); set("h-parts", L.parts); set("h-docs", L.docs); set("h-log", L.log);
   $("btn-lang").textContent = lang === "it" ? "English" : "Italiano";
   if ($("doc-view").classList.contains("empty")) $("doc-view").textContent = L.noDocs;
@@ -253,16 +244,11 @@ function renderPersonas() {
 }
 
 async function loadHomeData() {
-  const [models, symptoms, samples, duets] = await Promise.all([
-    fetch("/api/models").then((r) => r.json()).catch(() => null), fetch("/api/symptoms").then((r) => r.json()).catch(() => null),
-    fetch("/api/samples").then((r) => r.json()).catch(() => []), fetch("/api/duets").then((r) => r.json()).catch(() => [])]);
+  const [models, symptoms] = await Promise.all([
+    fetch("/api/models").then((r) => r.json()).catch(() => null), fetch("/api/symptoms").then((r) => r.json()).catch(() => null)]);
   if (models) counts.models = models.length;
   if (symptoms) counts.symptoms = symptoms.length;
   $("stats").innerHTML = L.stats(counts.models, counts.symptoms).map((s) => `<li>${s}</li>`).join("");
-  $("sample-select").innerHTML = samples.length ? samples.map((s) => `<option value="${esc(s.id)}">${esc(s[`title_${lang}`] || s.title || s.id)}</option>`).join("") : `<option value="">${esc(L.noSamples)}</option>`;
-  $("btn-sample").disabled = !samples.length;
-  $("duet-select").innerHTML = duets.length ? duets.map((d) => `<option value="${esc(d.id)}">${esc(d[`title_${lang}`] || d.id)}</option>`).join("") : `<option value="">${esc(L.noDuets)}</option>`;
-  $("btn-duet").disabled = !duets.length;
 }
 
 // ------------------------------------------------------------------ call
@@ -273,8 +259,7 @@ function startCall(source, agents = 1) {
   roleplay = source.startsWith("roleplay");
   $("start").hidden = true; $("topbar").hidden = true; $("summary").hidden = true; $("call").hidden = false;
   $("call").classList.toggle("voice", callMode === "voice");
-  $("call").classList.toggle("sample", source.startsWith("sample:"));
-  $("call-mode").textContent = callMode === "voice" ? L.modeVoice : roleplay ? L.modeRoleplay : L.modeOp;
+  $("call-mode").textContent = callMode === "voice" ? L.modeVoice : L.modeRoleplay;
   $("st-session").textContent = L.connecting; $("live-dot").classList.remove("on");
   $("turns").innerHTML = `<div class="empty-hint" id="talk-empty">${esc(L.emptyTalk)}</div>`;
   $("parts").innerHTML = `<div class="empty-hint" id="parts-empty">${esc(L.emptyParts)}</div>`;
@@ -284,18 +269,16 @@ function startCall(source, agents = 1) {
   $("presence").hidden = callMode !== "voice" && !roleplay; setPresence("connecting");
   const proto = location.protocol === "https:" ? "wss" : "ws";
   ws = new WebSocket(`${proto}://${location.host}/ws/call?source=${encodeURIComponent(source)}&lang=${lang}&agents=${agents}`);
-  ws.binaryType = "arraybuffer";
   ws.onmessage = (ev) => handle(JSON.parse(ev.data));
   ws.onclose = () => {
-    stopMic(); clearInterval(timer); $("st-session").textContent = L.closed; $("live-dot").classList.remove("on");
+    clearInterval(timer); $("st-session").textContent = L.closed; $("live-dot").classList.remove("on");
     if (!$("call").hidden) {                                   // the server went away mid-call: say so, end the agents
       toast(L.serverLost); logLine(L.serverLost, true);
       if (duo) duoEnd(); else if (vws && vws.readyState === 1) { try { vws.send(JSON.stringify({ type: "session.end" })); vws.close(); } catch (e) { /* closing */ } }
       $("lb-end").textContent = L.backHome; $("btn-end").onclick = () => location.reload();
     }
   };
-  duetId = source.startsWith("duet:") ? source.slice(5) : null; $("duet-panel").hidden = !duetId; $("duet-lines").innerHTML = "";
-  ws.onopen = () => { t0 = Date.now(); timer = setInterval(tick, 500); if (source === "mic" || source === "auto" || duetId) startMic(); };
+  ws.onopen = () => { t0 = Date.now(); timer = setInterval(tick, 500); };
 }
 
 function tick() { const s = Math.floor((Date.now() - t0) / 1000); $("st-timer").textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; }
@@ -317,28 +300,6 @@ function setPresence(state) {
     : ({ speaking: R ? L.customerSub : L.presenceSubSpeaking, listening: R ? (rpSpoke ? L.yourTurnSub : L.opFirst) : L.presenceSubListening, denied: L.presenceSubDenied }[state] || "");
   p.classList.toggle("customer", state === "customer");
 }
-
-async function startMic() {
-  try {
-    micStream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true } });
-  } catch (e) {
-    $("st-mic").textContent = e.name === "NotAllowedError" ? L.micDenied : e.message; $("st-mic").classList.add("bad"); return;
-  }
-  audioCtx = new AudioContext();
-  await audioCtx.resume();
-  await audioCtx.audioWorklet.addModule("/static/worklet.js");
-  const node = new AudioWorkletNode(audioCtx, "pcm16-downsampler");
-  node.port.onmessage = (e) => {
-    const pcm = new Int16Array(e.data); let peak = 0;
-    for (let i = 0; i < pcm.length; i += 8) { const v = Math.abs(pcm[i]); if (v > peak) peak = v; }
-    const pill = $("st-mic");
-    pill.textContent = micMuted ? L.micMuted : "mic"; pill.classList.toggle("on", !micMuted && peak > 1500);
-    setMeter(micMuted ? 0 : peak, micMuted ? "hold" : peak > 1500 ? "hot" : "");
-    if (ws && ws.readyState === 1 && !micMuted) ws.send(e.data);
-  };
-  audioCtx.createMediaStreamSource(micStream).connect(node);
-}
-function stopMic() { if (micStream) micStream.getTracks().forEach((t) => t.stop()); if (audioCtx) audioCtx.close(); micStream = audioCtx = null; }
 
 function highlight(text) {
   let h = esc(text);
@@ -372,12 +333,9 @@ function handle(ev) {
       toast(`${ev.model} #${ev.serial} · ${w.textContent}`);
       break;
     }
-    case "duet_script": renderDuet(ev.lines); break;
-    case "speak": speak(ev); break;
     case "tool_result": voiceToolResult(ev); break;
     case "switch_language": switchVoice(ev); break;
     case "hangup": if (vws) { vEndPending = true; setTimeout(voiceEnd, 15000); } break;
-    case "duet": { const b = document.querySelector(`.duet-line[data-n="${ev.n}"]`); if (b) { b.classList.toggle("playing", ev.state === "playing"); if (ev.state === "done") b.classList.add("said"); } if (ev.state === "done" || ev.state === "busy") { clearTimeout(micWatchdog); setTimeout(() => { micMuted = false; duetPlaying = false; }, 300); } break; }
     case "open_doc": openDoc(ev); break;
     case "agent": logLine(ev.text, false, ev.at); break;
     case "model_mention": { const d = document.createElement("div"); d.innerHTML = `<button class="btn small">→ ${esc(ev.model)}</button>`; d.querySelector("button").onclick = () => send({ type: "control", action: "set_machine", model_id: ev.model_id }); $("log").prepend(d); break; }
@@ -390,15 +348,12 @@ function handle(ev) {
 const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
 
 function renderTurn(ev) {
-  if (!ev.final) { $("partial").textContent = ev.text; return; }
-  $("partial").textContent = "";
   $("talk-empty")?.remove();
   let el = $(`turn-${ev.id}`);
   if (!el) { el = document.createElement("div"); el.id = `turn-${ev.id}`; $("turns").appendChild(el); }
   el.className = `turn ${ev.role}${ev.interrupted ? " interrupted" : ""}`;
   const keptClear = el.querySelector(".clear")?.textContent || "";
-  const extra = (ev.merged > 1 ? `<span class="merged">${ev.merged} ${L.merged}</span>` : "") + (ev.interrupted ? `<span class="merged">${L.interrupted}</span>` : "") +
-    (ev.min_conf < 0.6 ? `<span class="low">${L.lowConf}</span>` : "");
+  const extra = ev.interrupted ? `<span class="merged">${L.interrupted}</span>` : "";
   const wasWaiting = el.querySelector(".clear")?.classList.contains("wait");
   const who = ev.role === "operator" ? L.operator : ev.role === "agent" ? L.agent : L.customer;
   el.innerHTML = `<div class="who">${who}${extra}</div><div class="said">${highlight(ev.text)}</div><div class="clear ${wasWaiting ? "wait" : ""}">${esc(keptClear)}</div>`;
@@ -529,20 +484,6 @@ function renderChoice(options) {
   const p = $("diagnosis"); p.className = "panel";
   p.innerHTML = `<h3 style="margin:0">${L.choose}</h3><div class="choice">${options.map((o) => `<button class="btn" data-sym="${esc(o.symptom_id)}">${esc(o.title)} <small>${Math.round(o.score * 100)}%</small></button>`).join("")}</div>`;
   p.querySelectorAll("[data-sym]").forEach((b) => (b.onclick = () => send({ type: "control", action: "start_symptom", symptom_id: b.dataset.sym })));
-}
-
-function renderDuet(lines) {
-  $("duet-lines").innerHTML = lines.map((l) => `${l.cue ? `<div class="cue op">${esc(l.cue)}</div>` : ""}<button class="duet-line" data-n="${l.n}"><small>${l.n}</small>${esc(l.text)}</button>${l.expect_it ? `<div class="cue expect">${esc(l.expect_it)}</div>` : ""}`).join("");
-  $("h-duet").textContent = lang === "it" ? "Cliente registrato: fagli dire…" : "Recorded customer: have them say…";
-  $("duet-lines").querySelectorAll(".duet-line").forEach((b) => (b.onclick = () => {
-    const n = +b.dataset.n, line = lines.find((x) => x.n === n);
-    if (duetPlaying) return;
-    duetPlaying = true; micMuted = true;
-    new Audio(`/duet-audio/${duetId}/${line.file}`).play().catch(() => {});
-    send({ type: "control", action: "play_line", n });
-    clearTimeout(micWatchdog);
-    micWatchdog = setTimeout(() => { micMuted = false; duetPlaying = false; }, (line.seconds + 4) * 1000);
-  }));
 }
 
 function renderMachine(m) {
@@ -702,7 +643,13 @@ async function openVoiceSocket(session, rp, onReady) {
         if (onReady) onReady(ws);
         break;
       case "transcript.user": if (rp) rpSpoke = true; send({ type: "control", action: "transcript", role: rp ? "operator" : "customer", text: m.text }); break;
-      case "transcript.agent": send({ type: "control", action: "transcript", role: rp ? "customer" : "agent", text: m.text, interrupted: !!m.interrupted }); break;
+      case "transcript.agent": {
+        // the text of a reply arrives before its audio has finished playing: show it when it is heard, not before
+        const msg = { type: "control", action: "transcript", role: rp ? "customer" : "agent", text: m.text, interrupted: !!m.interrupted };
+        const wait = vCtx && !m.interrupted ? Math.max(0, vNext - vCtx.currentTime) : 0;
+        setTimeout(() => send(msg), wait * 1000);
+        break;
+      }
       case "reply.audio": voicePlay(m.data || m.audio); break;
       case "reply.done":
         if (m.status === "interrupted") voiceStop();
@@ -758,27 +705,14 @@ async function startVoiceMic() {
   const node = new AudioWorkletNode(vCtx, "pcm16-downsampler", { processorOptions: { rate: 24000 } });
   const silence = btoa(String.fromCharCode.apply(null, new Uint8Array(2400)));
   const b64 = (buf) => { const bytes = new Uint8Array(buf); let bin = ""; for (let i = 0; i < bytes.length; i += 0x2000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x2000)); return btoa(bin); };
-  let loud = 0; const held = [];
   node.port.onmessage = (e) => {
     const pcm = new Int16Array(e.data); let peak = 0;
     for (let i = 0; i < pcm.length; i += 8) { const v = Math.abs(pcm[i]); if (v > peak) peak = v; }
-    // While the agent's voice plays, the mic is held back (so the agent does not hear itself through the speakers).
-    // A clear, sustained voice over it (150 ms above the echo level) is the customer interrupting: the agent's audio
-    // stops and the held frames go out first, so no word of the customer is lost (25/9: spelling an email was
-    // impossible because every word said over the agent was thrown away).
-    let agentTalking = vCtx && vCtx.currentTime < vNext + 0.35;
-    if (agentTalking) {
-      held.push(e.data); if (held.length > 6) held.shift();
-      loud = peak > 5000 ? loud + 1 : 0;
-      if (loud >= 3) { voiceStop(); agentTalking = false; loud = 0; }
-    }
-    if (vws && vws.readyState === 1) {
-      if (agentTalking) vws.send(JSON.stringify({ type: "input.audio", audio: silence }));
-      else {
-        while (held.length) vws.send(JSON.stringify({ type: "input.audio", audio: b64(held.shift()) }));
-        vws.send(JSON.stringify({ type: "input.audio", audio: b64(e.data) }));
-      }
-    }
+    // Half duplex: while the agent's voice plays (plus a short tail) the mic sends silence, so the agent never hears
+    // itself through the speakers. A barge-in on loud voice was tried on 26/9 and removed the same day: with laptop
+    // speakers the agent's own echo crossed the threshold, cut its reply and made it start again.
+    const agentTalking = vCtx && vCtx.currentTime < vNext + 0.35;
+    if (vws && vws.readyState === 1) vws.send(JSON.stringify({ type: "input.audio", audio: agentTalking ? silence : b64(e.data) }));
     const pill = $("st-mic");
     pill.textContent = agentTalking ? L.agentTalking : "mic";
     pill.classList.toggle("on", !agentTalking && peak > 1500); pill.classList.toggle("hold", agentTalking);
@@ -895,28 +829,11 @@ function duoEnd() {
   send({ type: "control", action: "voice_end" });
 }
 
-// the edge-tts automatic assistant (superseded by the Voice Agent, kept for the headless tests)
-function speak(ev) {
-  const el = document.createElement("div"); el.className = "turn agent";
-  el.innerHTML = `<div class="who">${L.agent}</div><div class="said">${esc(ev.text)}</div>`;
-  $("talk-empty")?.remove(); $("turns").appendChild(el);
-  micMuted = true;
-  const a = new Audio(ev.url);
-  let done = false;
-  const finish = () => { if (done) return; done = true; clearTimeout(micWatchdog); setTimeout(() => { micMuted = false; send({ type: "control", action: "spoken" }); }, 250); };
-  a.onended = finish; a.onerror = finish; a.play().catch(finish);
-  clearTimeout(micWatchdog); micWatchdog = setTimeout(finish, (ev.seconds + 6) * 1000);
-}
-
 // ------------------------------------------------------------------ wiring
-$("btn-sample").onclick = () => startCall(`sample:${$("sample-select").value}`);
-$("btn-mic").onclick = () => startCall("mic");
-$("btn-duet").onclick = () => startCall(`duet:${$("duet-select").value}`);
 $("btn-voice").onclick = () => startVoice();
 $("btn-roleplay").onclick = () => startVoice($("rp-select").value);
 $("btn-duo").onclick = () => startDuo();
 $("btn-end").onclick = () => { voiceEnd(); send({ type: "control", action: "end_call" }); };
-$("btn-swap").onclick = () => send({ type: "control", action: "swap_roles" });
 $("tg-clarify").onchange = (e) => send({ type: "control", action: "toggle", what: "clarify", on: e.target.checked });
 $("tg-assistant").onchange = (e) => send({ type: "control", action: "toggle", what: "assistant", on: e.target.checked });
 $("btn-lang").onclick = () => {
