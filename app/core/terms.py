@@ -1,15 +1,28 @@
 """Sereni's commercial terms (fictional, like the rest of the company): what a service call, a technician's visit and
-shipping cost, and what the warranty covers. The assistant quotes these; it never invents a price."""
+shipping cost, and what the warranty covers. Prices come from the ERP's price list (service_prices in sereni.db); the
+assistant quotes these and never invents a price."""
+import sqlite3
+from pathlib import Path
 
 WARRANTY_MONTHS = 24
 
-SERVICE_CALL_EUR = 35.0          # remote video call with the service desk, up to 30 minutes
-TECH_CALLOUT_EUR = 90.0          # technician's visit: call-out
-TECH_HOURLY_EUR = 60.0           # ... plus labour per hour
-TECH_ESTIMATED_HOURS = 1.0
 
-SHIPPING_EU_EUR = 9.90           # express courier from Florence or the Rotterdam hub
-SHIPPING_WORLD_EUR = 29.00
+def _price_list() -> dict[str, float]:
+    try:
+        con = sqlite3.connect(Path(__file__).resolve().parents[2] / "data" / "sereni.db")
+        try:
+            return dict(con.execute("SELECT code, price_eur FROM service_prices"))
+        finally:
+            con.close()
+    except sqlite3.Error:
+        return {}
+
+
+PRICES = _price_list()
+SERVICE_CALL_EUR = PRICES.get("SERVICE-CALL", 35.0)      # remote video call with the service desk, up to 30 minutes
+TECH_VISIT_EUR = PRICES.get("TECH-VISIT", 80.0)          # technician's visit, fixed call-out
+SHIPPING_EU_EUR = PRICES.get("SHIP-EU", 9.90)            # express courier from Florence or the Rotterdam hub
+SHIPPING_WORLD_EUR = PRICES.get("SHIP-WORLD", 29.00)
 EU = {"IT", "DE", "AT", "ES", "NL", "FR", "PT", "BE", "LU", "IE", "DK", "SE", "FI", "PL", "CZ", "SK", "SI", "HR", "HU",
       "RO", "BG", "GR", "CY", "MT", "EE", "LV", "LT"}
 
@@ -43,9 +56,8 @@ def labour(kind: str, in_warranty: bool | None, fits_alone: bool = False) -> dic
     if kind == "part_with_support" and not fits_alone:
         what_en, what_it, eur = "service video call (up to 30 min)", "videochiamata con il service (fino a 30 min)", SERVICE_CALL_EUR
     elif kind == "technician":
-        eur = TECH_CALLOUT_EUR + TECH_HOURLY_EUR * TECH_ESTIMATED_HOURS
-        what_en = f"technician's visit (€{TECH_CALLOUT_EUR:.0f} call-out + €{TECH_HOURLY_EUR:.0f}/h, about {TECH_ESTIMATED_HOURS:.0f} h)"
-        what_it = f"visita del tecnico (€{TECH_CALLOUT_EUR:.0f} uscita + €{TECH_HOURLY_EUR:.0f}/h, circa {TECH_ESTIMATED_HOURS:.0f} h)"
+        eur = TECH_VISIT_EUR
+        what_en, what_it = "technician's visit (fixed call-out)", "uscita del tecnico (prezzo fisso)"
     else:
         return None
     return {"what_en": what_en, "what_it": what_it, "list_eur": eur,

@@ -39,7 +39,7 @@ Known-defects file, Onda family. Internal service document.
 
 - Yes, done: fixed → **fixed remotely**
 - Yes, but the plunger is damaged → **part with service support**: GE-2165 (3-way solenoid valve body without coil)
-- No → **part with service support**: GE-2162 (Group solenoid valve 3-way complete 24 V, Onda)
+- No → **technician**: GE-2162 (Group solenoid valve 3-way complete 24 V, Onda)
 
 ### 5. Ask: Does the drip tray drain normally or does it stay full? {#passo-5}
 

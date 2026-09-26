@@ -356,7 +356,7 @@
             {
               "label_it": "No",
               "label_en": "No",
-              "then": "outcome:part_with_support:GE-2162"
+              "then": "outcome:technician:GE-2162"
             }
           ],
           "note_it": "Elettrovalvole Onda a 24 V: la bobina è separata (EL-3087).",

@@ -773,3 +773,44 @@ def test_prefer_a_technician_is_a_no():
     i, _ = classify_branch("Yes, I opened it: the plunger is scratched and the rubber is damaged.", st["branches"],
                            SEMANTIC.similarities if SEMANTIC.ready else None, question=st["text_en"])
     assert st["branches"][i]["label_en"].startswith("Yes, but")
+
+
+def _luca_at_valve(serial="051040"):
+    s, _ = make_session()
+    run(run_tool(s, "identify_machine", {"serial": serial}))
+    run(run_tool(s, "find_procedure", {"description": "when I take out the portafilter after the coffee, it spits and sprays"}))
+    run(run_tool(s, "answer_step", {"step_id": "discharge", "option_number": 1, "customer_words": "No, I don't hear the discharge."}))
+    run(run_tool(s, "answer_step", {"step_id": "backflush-date", "option_number": 1, "customer_words": "Weeks ago."}))
+    run(run_tool(s, "answer_step", {"step_id": "backflush", "option_number": 2, "customer_words": "I did it, it still spits."}))
+    return s
+
+
+def test_cannot_open_the_valve_brings_the_technician():
+    """The user's rule (26/9): a customer who cannot open the valve gets the technician, free under warranty."""
+    s = _luca_at_valve()
+    o = run(run_tool(s, "answer_step", {"step_id": "valve-body", "option_number": 3,
+                                        "customer_words": "Preferirei che venisse un tecnico, non vorrei smontare."}))
+    assert o["status"] == "outcome" and o["outcome"] == "technician" and [p["code"] for p in o["parts"]] == ["GE-2160"]
+    assert o["labour"].endswith("free, covered by the warranty") and o["shipping"] == "free"
+    assert o["booking"]["kind"] == "technician's visit"
+
+
+def test_technician_price_out_of_warranty_is_the_flat_call_out():
+    from app.core import terms
+    assert terms.TECH_VISIT_EUR == 80.0 and terms.SERVICE_CALL_EUR == 35.0 and terms.SHIPPING_WORLD_EUR == 29.0
+    lab = terms.labour("technician", False)
+    assert lab["customer_pays_eur"] == 80.0 and terms.labour("technician", True)["customer_pays_eur"] == 0.0
+
+
+def test_a_check_the_customer_cannot_do_ends_with_a_technician():
+    """The user's rule (26/9): a customer who will not touch the machine gets the technician at the listed price."""
+    s, _ = make_session()
+    run(run_tool(s, "identify_machine", {"serial": "050904"}))         # a Marea 2 in Valencia
+    run(run_tool(s, "find_procedure", {"description": "when I take out the portafilter after the coffee, it spits and sprays"}))
+    run(run_tool(s, "answer_step", {"step_id": "discharge", "option_number": 1, "customer_words": "No, I don't hear the discharge."}))
+    run(run_tool(s, "answer_step", {"step_id": "backflush-date", "option_number": 1, "customer_words": "Weeks ago."}))
+    assert s.diagnosis.current == "backflush" and s.diagnosis.step["kind"] == "do"
+    o = run(run_tool(s, "answer_step", {"step_id": "backflush", "option_number": 2,
+                                        "customer_words": "I can't do that, I don't want to touch the machine."}))
+    assert o["status"] == "outcome" and o["outcome"] == "technician"
+    assert any("could not carry out" in n for n in s.notes)

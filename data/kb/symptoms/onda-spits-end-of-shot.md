@@ -39,7 +39,7 @@ Fascicolo difetti noti, famiglia Onda. Documento interno al service.
 
 - Sì, fatto: risolto → **risolto da remoto**
 - Sì, ma il pistoncino è rovinato → **ricambio con supporto del service**: GE-2165 (Corpo elettrovalvola 3 vie senza bobina)
-- No → **ricambio con supporto del service**: GE-2162 (Elettrovalvola gruppo 3 vie completa 24 V, Onda)
+- No → **tecnico**: GE-2162 (Elettrovalvola gruppo 3 vie completa 24 V, Onda)
 
 ### 5. Chiedere: La vaschetta scarica normalmente o resta piena? {#passo-5}
 

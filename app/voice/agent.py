@@ -497,6 +497,17 @@ async def _run_tool(s, name: str, args: dict) -> dict:
             hits = [r for r in out if r[0] is not None]
             return max(hits, key=lambda r: r[1]) if hits else (None, max(r[1] for r in out))
 
+        from ..agent.dialog import _REFUSAL, cannot_options
+        negatives = cannot_options(st["branches"])
+        if st["kind"] == "do" and not negatives and _REFUSAL.search(words.lower()):
+            # "I can't do that, I don't want to open it": the check cannot be done by the customer and the procedure has
+            # no branch for it, so it ends with a technician's visit instead of staying open (26/9)
+            note = f"Customer could not carry out the check: {st['text_en']}"
+            s.notes.append(note)
+            s._log_decision("cannot_do", step=d.current, text=words)
+            await s.control({"action": "close_symptom", "kind": "technician"})
+            return {"status": "outcome", "why": "the customer cannot carry out this check: a technician will do it",
+                    **_outcome_view(s)}
         j, conf = read(words)
         known = _known_from_record(s)
         other_number = numbers_in(words) - {re.sub(r"\D", "", s.machine["voltage"])} if known is not None else set()

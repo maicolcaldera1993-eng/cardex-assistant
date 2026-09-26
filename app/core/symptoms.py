@@ -52,11 +52,11 @@ class DefectsLibrary:
                 for st in s["steps"]:
                     for b in st["branches"]:
                         o = parse_then(b["then"])
-                        if isinstance(o, Outcome) and o.kind in ("part_diy", "part_with_support"):
+                        if isinstance(o, Outcome) and o.kind in ("part_diy", "part_with_support", "technician"):
                             for code in o.parts:
-                                # a part is "with support" if any procedure says so
+                                # a part is "with support" if any procedure says so (or a technician fits it)
                                 prev = self.handling.get(code)
-                                self.handling[code] = "support" if (o.kind == "part_with_support" or prev == "support") else "diy"
+                                self.handling[code] = "support" if (o.kind != "part_diy" or prev == "support") else "diy"
 
     def match(self, text: str, model_id: str | None = None, family: str | None = None,
               threshold: float = 0.86) -> SymptomHit | None:

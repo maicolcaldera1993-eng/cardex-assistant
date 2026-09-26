@@ -857,7 +857,8 @@ class CallSession:
         if kind == "remote":
             return None
         parts_eur = round(sum(self.charge_for(c["code"])["customer_pays_eur"] or 0 for c in parts), 2)
-        ship = terms.shipping_eur(self.machine["country"] if self.machine else None, warranty) if parts else 0.0
+        # the technician brings the parts: nothing is shipped to the customer
+        ship = terms.shipping_eur(self.machine["country"] if self.machine else None, warranty) if parts and kind != "technician" else 0.0
         lab = terms.labour(kind, warranty, fits_alone)
         lab_eur = (lab or {}).get("customer_pays_eur", 0.0)
         total = None if warranty is None or ship is None or lab_eur is None else round(parts_eur + ship + (lab_eur or 0.0), 2)

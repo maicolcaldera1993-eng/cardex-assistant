@@ -670,7 +670,7 @@
             {
               "label_it": "No",
               "label_en": "No",
-              "then": "outcome:part_with_support:GE-2160"
+              "then": "outcome:technician:GE-2160"
             }
           ]
         },

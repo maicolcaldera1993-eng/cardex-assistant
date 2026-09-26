@@ -259,6 +259,11 @@ _REFUSAL = re.compile(r"\bprefer\w*\b[^.]{0,40}\b(tecnico|technician|techniker|t
                       r"\b(rather not|i'?d rather have|i can'?t|i cannot|i won'?t|i don'?t want to|not able to|"
                       r"non (posso|riesco|voglio|vorrei|me la sento|saprei)|no (puedo|quiero|s[ée])|"
                       r"ich (kann|will|möchte) (das )?nicht|je ne (peux|veux|sais) pas|não (consigo|quero|sei))\b", re.I)
+def cannot_options(branches: list[dict]) -> list[int]:
+    """The options that mean "no / cannot do it" ("No", "Cannot find the button"), not "Still spits"."""
+    return [k for k, b in enumerate(branches) if re.match(r"(no|not|cannot|can't|unable)\b", b["label_en"].strip(), re.I)]
+
+
 _FIXED_LABEL = re.compile(r"\b(fixed|works|solved|resolved)\b")
 _STILL_LABEL = re.compile(r"^(still|no change|same)\b|\bstill\b")
 
@@ -301,7 +306,7 @@ def classify_branch(text: str, branches: list[dict], similarities: Callable[[str
     tried_bad = bool(_NOT_FIXED.search(low))
     tried_good = not tried_bad and bool(_FIXED.search(low))
     refused = bool(_REFUSAL.search(low))
-    negatives = [k for k, p in enumerate(pols) if p < 0]
+    negatives = cannot_options(branches)
     if refused and len(negatives) == 1:
         return negatives[0], 1.0                               # a refusal is decisive when the step has one "No"
     scores = []

@@ -37,7 +37,7 @@ Known-defects file, Marea family. Internal service document.
 
 - Yes, done: fixed → **fixed remotely**
 - Yes, but the plunger is damaged → **part with service support**: GE-2160 (Group solenoid valve 3-way complete 230 V)
-- No → **part with service support**: GE-2160 (Group solenoid valve 3-way complete 230 V)
+- No → **technician**: GE-2160 (Group solenoid valve 3-way complete 230 V)
 
 ### 5. Ask: Does the drip tray drain normally or does it stay full? {#passo-5}
 

@@ -37,7 +37,7 @@ Fascicolo difetti noti, famiglia Marea. Documento interno al service.
 
 - Sì, lo fa: risolto → **risolto da remoto**
 - Sì, ma il pistoncino è rovinato → **ricambio con supporto del service**: GE-2160 (Elettrovalvola gruppo 3 vie completa 230 V)
-- No → **ricambio con supporto del service**: GE-2160 (Elettrovalvola gruppo 3 vie completa 230 V)
+- No → **tecnico**: GE-2160 (Elettrovalvola gruppo 3 vie completa 230 V)
 
 ### 5. Chiedere: La vaschetta si svuota regolarmente o resta piena? {#passo-5}
 

@@ -52,6 +52,14 @@ MACHINES = [
     ("048530", "marea-2-plus", None, "2025-06", "230V", "Kaffeehaus Nord", "Berlin", "DE", "2025-07-01", "2027-07-01", None),
     ("050904", "marea-2", None, "2025-11", "230V", "Pastelería Sol", "Valencia", "ES", "2025-12-09", "2027-12-09", "Hard water area: no softener fitted."),
 ]
+# the service price list: charged only out of warranty (fictional)
+SERVICE_PRICES = [
+    ("SERVICE-CALL", "Videochiamata con il service (fino a 30 min)", "Service video call (up to 30 min)", 35.00),
+    ("TECH-VISIT", "Uscita del tecnico (prezzo fisso)", "Technician's visit (fixed call-out)", 80.00),
+    ("SHIP-EU", "Spedizione ricambi, Unione Europea", "Parts shipping, European Union", 9.90),
+    ("SHIP-WORLD", "Spedizione ricambi, fuori UE", "Parts shipping, outside the EU", 29.00),
+]
+
 # the address quotes and payment instructions go to, one per customer (fictional)
 CONTACT_EMAILS = {
     "Café Berlin": "service@cafe-berlin-hamburg.de", "Bar Centrale": "info@barcentrale-lucca.it",
@@ -193,6 +201,7 @@ def build_db() -> None:
                            city TEXT, country TEXT, installed TEXT, warranty_until TEXT, notes TEXT, contact_email TEXT);
     CREATE TABLE machine_orders (serial TEXT, ordered_on TEXT, code TEXT, qty INTEGER);
     CREATE TABLE service_zones (zone TEXT PRIMARY KEY, name TEXT, kind TEXT, technician TEXT, slot_times TEXT);
+    CREATE TABLE service_prices (code TEXT PRIMARY KEY, description_it TEXT, description_en TEXT, price_eur REAL);
     CREATE TABLE service_busy (zone TEXT, day_offset INTEGER, slot INTEGER);
     CREATE INDEX ix_compat_model ON compatibility(model_id);
     """)
@@ -207,6 +216,7 @@ def build_db() -> None:
     c.executemany("INSERT INTO machines VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", [m + (CONTACT_EMAILS.get(m[5]),) for m in MACHINES])
     c.executemany("INSERT INTO machine_orders VALUES (?,?,?,?)", MACHINE_ORDERS)
     c.executemany("INSERT INTO service_zones VALUES (?,?,?,?,?)", SERVICE_ZONES)
+    c.executemany("INSERT INTO service_prices VALUES (?,?,?,?)", SERVICE_PRICES)
     c.executemany("INSERT INTO service_busy VALUES (?,?,?)", service_busy_rows())
 
     for p in bc.PARTS:
