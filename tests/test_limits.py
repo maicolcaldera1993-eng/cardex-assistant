@@ -39,7 +39,9 @@ def test_token_waits_for_the_call_that_is_opening():
     from fastapi import HTTPException
     import app.main as main
     b = DemoBudget()
+    saved_budget = main.BUDGET
     main.BUDGET = b
+    loop = asyncio.new_event_loop()               # not asyncio.run: it would leave no current loop for other tests
     main.API_KEY = main.API_KEY or "test"
 
     async def fake_token(key, seconds=600):
@@ -60,11 +62,13 @@ def test_token_waits_for_the_call_that_is_opening():
         asyncio.create_task(open_call_later())
         return await main.voice_token(Req())
     try:
-        assert asyncio.run(scenario())["token"] == "tok"
+        assert loop.run_until_complete(scenario())["token"] == "tok"
         try:
-            asyncio.run(main.voice_token(type("R", (), {"headers": {"x-forwarded-for": "6.6.6.6"}, "client": None})()))
+            loop.run_until_complete(main.voice_token(type("R", (), {"headers": {"x-forwarded-for": "6.6.6.6"}, "client": None})()))
             assert False, "a caller without a call must be refused"
         except HTTPException as e:
             assert e.status_code == 429
     finally:
         agent.session_token = orig
+        main.BUDGET = saved_budget
+        loop.close()
