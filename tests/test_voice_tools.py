@@ -79,6 +79,7 @@ def test_dave_end_to_end_through_the_tools():
     note = run(run_tool(s, "note_for_operator", {"note": "asks for a discount on the element"}))
     assert note["status"] == "noted" and s.notes == ["asks for a discount on the element"]
 
+    run(s.voice_transcript("customer", "No, that's all, thank you."))
     run(s.voice_transcript("agent", "Thank you for calling Sereni, goodbye."))
     e = run(run_tool(s, "end_call", {}))
     assert e["end"] is True and s.voice_done
@@ -162,7 +163,7 @@ def test_end_call_waits_for_the_open_step():
     r = run(run_tool(s, "end_call", {}))
     assert r["status"] == "open_step" and r["end"] is False and not s.voice_done
     r = run(run_tool(s, "end_call", {}))
-    assert r["status"] == "no_goodbye" and r["end"] is False
+    assert r["status"] == "customer_not_done" and r["end"] is False      # the customer has not said goodbye
     run(s.voice_transcript("agent", "Grazie per aver chiamato, arrivederci."))
     assert run(run_tool(s, "end_call", {}))["end"] is True
 
@@ -181,7 +182,7 @@ def test_luca_giglio_plus_record_wins_and_booking_orders_the_parts():
     assert o["outcome"] == "part_with_support" and [p["code"] for p in o["parts"]] == ["GE-2160"]
     b = run(run_tool(s, "book_slot", {"slot_id": o["booking"]["free_slots"][0]["slot_id"]}))
     assert b["status"] == "booked" and b["parts_ordered_with_it"] == ["GE-2160"] and s.cards["GE-2160"]["status"] == "confirmed"
-    assert run(run_tool(s, "end_call", {}))["status"] == "no_goodbye"
+    assert run(run_tool(s, "end_call", {}))["status"] == "customer_not_done"
 
 
 def test_warranty_covers_the_repair_not_the_consumables():
@@ -238,9 +239,9 @@ def test_status_under_warranty_says_parts_free_and_tablets_charged():
     assert st["who_pays"]["repair_parts"].startswith("free") and st["who_pays"]["consumables"].startswith("always charged")
 
 
-def test_goodbye_after_a_refused_end_hangs_up():
+def test_goodbye_after_the_customers_goodbye_hangs_up():
     s, events = make_session()
-    assert run(run_tool(s, "end_call", {}))["status"] == "no_goodbye"
+    run(s.voice_transcript("customer", "Great, thank you, bye."))
     run(s.voice_transcript("agent", "Thank you, Dave. Goodbye."))
     assert s.voice_done and any(e["type"] == "hangup" for e in events)
     s2, ev2 = make_session()
@@ -308,6 +309,7 @@ def test_declined_service_support_is_explained_and_noted():
     r = run(run_tool(s, "end_call", {}))
     assert r["status"] == "service_not_booked" and "must be fitted with our service" in r["hint"]
     run(run_tool(s, "note_for_operator", {"note": "customer declines service support"}))
+    run(s.voice_transcript("customer", "Okay, that's all, thanks."))
     assert run(run_tool(s, "end_call", {}))["end"] is True
 
 
@@ -696,3 +698,30 @@ def test_italian_at_the_start_switches():
     s.lang = "en"
     run(s.voice_transcript("customer", "Buongiorno."))
     assert [e for e in events if e.get("type") == "switch_language"][0]["lang"] == "it"
+
+
+def test_the_call_ends_only_when_the_customer_is_done():
+    """Mehmet online 26/9: the agent said goodbye after "That's right." and the call closed."""
+    from app.voice.agent import ready_to_hang_up
+    s, events, o = _dave_at_outcome()
+    run(run_tool(s, "confirm_parts", {"codes": ["CA-1181", "CA-1220"]}))
+    run(run_tool(s, "book_slot", {"slot_id": o["booking"]["free_slots"][0]["slot_id"]}))
+    s.last_customer_text = "That's right."
+    s.last_agent_text = "The order is recorded. Thank you for calling Sereni. Goodbye!"
+    assert not ready_to_hang_up(s, s.last_agent_text)
+    r = run(run_tool(s, "end_call", {}))
+    assert r["status"] == "customer_not_done" and not r["end"]
+    s.last_customer_text = "No, that's all, thank you."
+    assert ready_to_hang_up(s, "You're welcome. Goodbye!")
+    assert run(run_tool(s, "end_call", {}))["end"] is True
+
+
+def test_identify_after_the_outcome_gives_the_costs_again():
+    """Mehmet online 26/9: shipping quoted as charged because the costs were read before the warranty was known."""
+    s, _ = make_session()
+    s.model_id, s.family = "marea-2-evo", "Marea"                       # the model is named, the serial comes later
+    run(run_tool(s, "find_procedure", {"description": "the group leaks around the rim of the portafilter"}))
+    run(run_tool(s, "answer_step", {"step_id": "where", "option_number": 1, "customer_words": "From the rim of the portafilter."}))
+    run(run_tool(s, "answer_step", {"step_id": "gasket-age", "option_number": 1, "customer_words": "Original gasket, far past the centre."}))
+    m = run(run_tool(s, "identify_machine", {"serial": "052710"}))
+    assert m["outcome_now"]["shipping"] == "free"

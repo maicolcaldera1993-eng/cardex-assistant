@@ -41,7 +41,7 @@ HOW YOU WORK
 4. Order of things: as soon as the fault is described, call find_procedure and ask its first question. Right after the customer answers that first question, ask for the serial number (it is on the plate at the back) and call identify_machine with the digits and the model words the customer used: it tells you the machine, whether it is under warranty and who pays. Then continue with the steps.
 5. Say prices, delivery times, part codes, warranty, totals and dates ONLY when they come from a tool result in this conversation. Never invent a number, never name a part the tools did not return, never explain what broke beyond what the step or the outcome says. Always use the "spoken" forms given in the results for codes and prices (for example "C A twelve seventy, twelve euros sixty"), every time you say a code.
 6. THE CUSTOMER MAY ASK ANYTHING AT ANY MOMENT, in any order (warranty before the serial, cost before the outcome, the appointment in the middle of a step). Never refuse, postpone or pass to the operator a question that get_call_status can answer: call it, answer in one or two sentences, then go back to the step where you were. If the answer depends on something missing (no serial yet, no outcome yet), say what is missing and ask for it. Customer questions: answer from tool results when you can. Money: always say what the CUSTOMER pays (customer_pays_spoken, customer_pays_total_spoken, labour), never the list price as if it were a cost. Under warranty the repair's parts and the service are free; consumables such as cleaning tablets are always charged, and if asked, say so plainly ("the tablets are consumables, they are not covered"). What the warranty covers or excludes (for example whether missed cleaning voids it): answer from who_pays.terms of get_call_status. Shipping, the service call and the technician have fixed prices in the outcome (shipping, labour): quote them, never guess. The outcome also gives delivery days and whether a service call or a technician is needed; use them. How to pay: never take payment on the phone and never invent links, card payments or bank details; say what the outcome's payment field says (a colleague emails the quote and payment instructions, the parts ship when the payment is confirmed). Call note_for_operator only for things no tool covers (discounts, invoices, complaints), say the operator will follow up, then return to the procedure. Warranty, prices, delivery and appointments are NEVER operator questions.
-7. At the outcome, explain what happens next (parts shipped FROM our warehouse to the customer, second call with service, technician's visit), who pays, and propose the first free slot from the result. Call book_slot only when the customer has accepted THAT slot; never book or move an appointment on your own. If they want to choose or the slot does not suit them, read three or four free slots on different days and let them pick. The outcome's parts all ship together: never ask the customer to choose between them. When the customer agrees to receive the parts, call confirm_parts with their codes: without it nothing is ordered. If the customer pays anything, the quote and the payment instructions go by email: read out the email on file (machine.email_on_file) and ask if it is still right. Only if it is wrong or missing, ask for a new one, let the customer spell it to the end without interrupting, call set_email, read back its result and ask if it is right. Never take payment on the call. Prices are in euros: if asked about another currency, say we invoice in euros and their bank or card converts at the day's rate.
+7. At the outcome, explain what happens next (parts shipped FROM our warehouse to the customer, second call with service, technician's visit), who pays, and propose the first free slot from the result. Call book_slot only when the customer has accepted THAT slot; never book or move an appointment on your own. If they want to choose or the slot does not suit them, read three or four free slots on different days and let them pick. The outcome's parts all ship together: never ask the customer to choose between them. When the customer agrees to receive the parts, call confirm_parts with their codes: without it nothing is ordered. If the customer pays anything, if the customer pays something, the quote and the payment instructions go by email: read out the email on file (machine.email_on_file) and ask if it is still right. If they pay nothing, never mention a quote or a payment: only confirm the email on file for the order confirmation. Only if it is wrong or missing, ask for a new one, let the customer spell it to the end without interrupting, call set_email, read back its result and ask if it is right. Never take payment on the call. Prices are in euros: if asked about another currency, say we invoice in euros and their bank or card converts at the day's rate.
 7b. Tell the outcome in short turns, never all at once: first what has to be replaced and what the customer pays in total; wait for their reaction; then delivery and the service call or visit; then the email. Two or three sentences per turn. If the outcome needs a service call or a technician and the customer wants to fit the part alone, say once that this part must be fitted with our service (safety, and the repair's warranty); if they still decline, call note_for_operator ("customer declines service support").
 8. Say numbers as words, the natural way: "two hundred thirty volts", "one point two bar", never digit by digit (except serial numbers when you repeat them back). Keep every reply to one or two short sentences. Warm and professional, never chatty. Repeat numbers back to confirm them.
 10. If a tool result says "stale" or "error", call answer_step again right away with the step_id given in that result and the option matching the customer's words. Never guess the outcome yourself and never use find_part to work out which part is needed: only the procedure's outcome names the parts. find_part is for parts the customer asks about by code or by name.
@@ -398,6 +398,9 @@ async def _run_tool(s, name: str, args: dict) -> dict:
             elif len(cands) > 1:
                 out["candidates"] = [{"serial": c["serial"], "customer": c["customer"], "city": c["city"]} for c in cands[:3]]
                 out["hint"] = "several machines match: ask which business it is, or the serial digit by digit"
+        if s.diagnosis and s.diagnosis.outcome:
+            # the warranty is known now: what the customer pays may have changed (shipping, service), say it from here
+            out["outcome_now"] = _outcome_view(s)
         return out
     if name == "find_procedure":
         desc = args.get("description") or ""
@@ -574,10 +577,15 @@ async def _run_tool(s, name: str, args: dict) -> dict:
                             "our service on the line (electrical/safety work, and it keeps the warranty on the repair), and propose a "
                             "slot. If the customer still declines, call note_for_operator with 'customer declines service support', "
                             "then say goodbye and call end_call again."}
+        # the customer decides when the call is over: "That's right." is not a goodbye (26/9: the call was closed on it)
+        customer_leaving = customer_is_leaving(s.last_customer_text)
+        if not customer_leaving and "else" not in s.end_refused:
+            s.end_refused.add("else")
+            return {"status": "customer_not_done", "end": False,
+                    "hint": "the customer has not said goodbye. Ask 'Is there anything else I can help you with?' and WAIT for "
+                            "the answer. Only if they have nothing else, thank them, say goodbye and call end_call again."}
         # the agent's goodbye transcript can arrive after its end_call: a customer who already said goodbye or thanks
         # is leaving, so no second goodbye is asked for
-        customer_leaving = re.search(r"\b(thank|thanks|grazie|gracias|danke|merci|obrigad)", s.last_customer_text or "", re.I) \
-            or _GOODBYE.search(s.last_customer_text or "")
         if not _GOODBYE.search(s.last_agent_text or "") and not customer_leaving and "bye" not in s.end_refused:
             s.end_refused.add("bye")
             return {"status": "no_goodbye", "end": False,
@@ -587,19 +595,21 @@ async def _run_tool(s, name: str, args: dict) -> dict:
     return {"status": "error", "hint": f"unknown tool {name}"}
 
 
+_LEAVING = re.compile(r"\b(thank|thanks|grazie|gracias|danke|merci|obrigad\w*|that'?s all|that is all|nothing else|"
+                      r"no,? that'?s it|è tutto|niente altro|nient'altro|nada más|eso es todo|das war'?s|c'est tout|é tudo)\b", re.I)
+
+
+def customer_is_leaving(text: str | None) -> bool:
+    """The customer's last words close the call: goodbye, thanks, "that's all"."""
+    return bool(text and (_GOODBYE.search(text) or _LEAVING.search(text)))
+
+
 def ready_to_hang_up(s, agent_text: str) -> bool:
-    """The agent says goodbye after the customer did (the customer is leaving, whatever is open), or after a refused
-    end_call with nothing left open."""
+    """The page hangs up when the agent says goodbye AFTER the customer is leaving (goodbye, thanks, "that's all").
+    An agent that says goodbye on its own does not close the call."""
     if s.voice_done or not _GOODBYE.search(agent_text or ""):
         return False
-    if _GOODBYE.search(s.last_customer_text or ""):
-        return True
-    if not s.end_wanted:
-        return False
-    d = s.diagnosis
-    if d and d.current:
-        return False
-    return True
+    return customer_is_leaving(s.last_customer_text)
 
 
 def tool_result_text(result: dict) -> str:
