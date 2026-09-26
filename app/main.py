@@ -99,7 +99,14 @@ async def voice_token(request: Request) -> dict:
     from .voice.agent import session_token
     if not API_KEY:
         raise HTTPException(503, "ASSEMBLYAI_API_KEY is not configured")
-    if not BUDGET.allow_token(client_ip(request.headers, request.client)):
+    # the page opens the call socket and asks for the token at the same moment: give the call a few seconds to
+    # register before refusing (26/9: the token request won the race and every call failed with 429)
+    ip = client_ip(request.headers, request.client)
+    for _ in range(40):
+        if BUDGET.allow_token(ip):
+            break
+        await asyncio.sleep(0.1)
+    else:
         raise HTTPException(429, "Open a call from the page first (demo limit).")
     return {"token": await session_token(API_KEY)}
 
