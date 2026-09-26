@@ -134,6 +134,7 @@ def agent_config(keyterms: list[str], lang: str = "en") -> dict:
             "voice": {"voice_id": voice},
             "input": {"format": {"encoding": "audio/pcm", "sample_rate": 24000}, "keyterms": keyterms[:100],
                       "language_codes": list(LANGUAGES), "transcription_prompt": TRANSCRIPTION_PROMPT,
+                      "transcription_mode": "max_accuracy",   # waits longer before closing a turn: fewer split sentences
                       # No turn_detection: a fixed one-second silence cut the customer's sentences ("spray all over"
                       # arrived as "Rice all over." | "pray, man."). The default reads the meaning of what was said
                       # and adapts to the speaker's pace (AssemblyAI docs: leave it on default). The browser still
@@ -317,13 +318,11 @@ def _machine_view(s) -> dict:
 def _say_first(s, n: dict) -> str:
     """The first thing to tell at the outcome, and only that: what failed, what replaces it, what the customer pays
     for it, warranty or not. Delivery, the service call and the email come after the customer has answered."""
-    d = s.diagnosis
     if n["kind"] == "remote":
         return "Good news: the problem is solved, nothing needs to be replaced."
     parts = " and ".join(f"{(p.get('description_en') or p['description']).split(',')[0].lower()} ({spoken_code(p['code'])})"
                          for p in n["parts"])
-    what = f"This is the {d.symptom['symptom_en'].split(',')[0].lower()} problem: we need to replace the {parts}." if parts \
-        else "This needs a technician's visit."
+    what = f"To fix it we need to replace the {parts}." if parts else "This needs a technician's visit."
     c = n.get("costs") or {}
     if n["warranty"] is True:
         money = "Your machine is under warranty, so this costs you nothing."
