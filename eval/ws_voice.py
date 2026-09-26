@@ -92,6 +92,12 @@ async def main() -> None:
         step = RATE * 2 * CHUNK_MS // 1000
         talking = False
         done = asyncio.Event()
+        gate = {"last": None, "pending": []}      # tool results only when the reply is done (AssemblyAI docs)
+
+        async def flush():
+            if gate["last"] == "reply.done":
+                while gate["pending"]:
+                    await agent_ws.send(json.dumps(gate["pending"].pop(0)))
 
         async def say_next():
             nonlocal talking
@@ -120,7 +126,8 @@ async def main() -> None:
                 async for raw in ours:
                     ev = json.loads(raw)
                     if ev["type"] == "tool_result":
-                        await agent_ws.send(json.dumps({"type": "tool.result", "call_id": ev["call_id"], "result": ev["result"], "is_error": False}))
+                        gate["pending"].append({"type": "tool.result", "call_id": ev["call_id"], "result": ev["result"], "is_error": False})
+                        await flush()
                         print(f"    <- {ev['name']}: {ev['result'][:160]}")
                         if ev.get("end"):
                             await asyncio.sleep(3)
@@ -160,7 +167,14 @@ async def main() -> None:
                 elif t == "tool.call":
                     print(f"    -> {m['name']} {json.dumps(m.get('arguments') or {})[:120]}")
                     await ours.send(json.dumps({"type": "control", "action": "tool", "call_id": m["call_id"], "name": m["name"], "arguments": m.get("arguments") or {}}))
-                elif t == "reply.done":
+                elif t in ("reply.started", "input.speech.started"):
+                    gate["last"] = t
+                if t == "reply.done":
+                    gate["last"] = t
+                    if m.get("status") == "interrupted":
+                        gate["pending"].clear()
+                    else:
+                        await flush()
                     # speak only once the agent has really finished: a tool call or a new reply within 1.5 s cancels it
                     if queue and m.get("status") != "interrupted" and (speaking_task is None or speaking_task.done()):
                         async def later():

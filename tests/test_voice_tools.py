@@ -616,7 +616,7 @@ def test_end_call_after_the_customer_thanked():
     s, events, o = _dave_at_outcome()
     run(run_tool(s, "confirm_parts", {"codes": ["CA-1181", "CA-1220"], "email": "dave@espressocorner.com"}))
     run(run_tool(s, "book_slot", {"slot_id": o["booking"]["free_slots"][0]["slot_id"]}))
-    s.last_customer_text = "Okay, thank you."
+    s.last_customer_text = "No, that's all, thank you."
     s.last_agent_text = "The call is booked."                 # the agent's goodbye has not arrived yet
     r = run(run_tool(s, "end_call", {}))
     assert r.get("end") is True
@@ -725,3 +725,16 @@ def test_identify_after_the_outcome_gives_the_costs_again():
     run(run_tool(s, "answer_step", {"step_id": "gasket-age", "option_number": 1, "customer_words": "Original gasket, far past the centre."}))
     m = run(run_tool(s, "identify_machine", {"serial": "052710"}))
     assert m["outcome_now"]["shipping"] == "free"
+
+
+def test_a_thank_you_alone_does_not_end_the_call():
+    """Dave 26/9 (session recording): "in order to save something" was transcribed live as "Thank you."."""
+    from app.voice.agent import customer_is_leaving, ready_to_hang_up
+    s, events, o = _dave_at_outcome()
+    s.last_customer_text = "Thank you."
+    assert not customer_is_leaving(s.last_customer_text) and not ready_to_hang_up(s, "Thank you for calling. Goodbye.")
+    assert customer_is_leaving("No, that's all, thanks.") and customer_is_leaving("Great, bye!")
+    assert customer_is_leaving("No, grazie, è tutto.")
+    s.voice_done = True
+    run(s.control({"action": "keep_open"}))
+    assert not s.voice_done

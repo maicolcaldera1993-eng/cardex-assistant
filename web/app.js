@@ -75,7 +75,7 @@ const T = {
     fitsAlone: "Il cliente li monta da solo", fitsAloneBtn: "Il cliente li monta da solo", declinedAlone: "rifiutato: il cliente monta da solo",
     approveQuote: "Approva e invia il preventivo", approvedQuote: "Approvato · preventivo e istruzioni di pagamento inviati (simulazione); i ricambi partono al pagamento",
     toastQuote: "Preventivo inviato al cliente per email (simulazione). Alla conferma del pagamento il magazzino spedisce.",
-    serverLost: "Connessione con il server persa: la chiamata è stata interrotta.", backHome: "Torna alla home",
+    serverLost: "Connessione con il server persa: la chiamata è stata interrotta.", keptOpen: "Il cliente parla ancora: la chiamata resta aperta.", backHome: "Torna alla home",
   },
   en: {
     tagline: "Sereni espresso machines · service", demoBadge: "Demo · fictional data",
@@ -145,7 +145,7 @@ const T = {
     fitsAlone: "Customer fits them alone", fitsAloneBtn: "Customer fits them alone", declinedAlone: "declined: customer fits the parts alone",
     approveQuote: "Approve and send the quote", approvedQuote: "Approved · quote and payment instructions sent (simulation); parts ship on payment",
     toastQuote: "Quote emailed to the customer (simulation). The warehouse ships once the payment is confirmed.",
-    serverLost: "Connection to the server lost: the call was interrupted.", backHome: "Back to home",
+    serverLost: "Connection to the server lost: the call was interrupted.", keptOpen: "The customer is still talking: the call stays open.", backHome: "Back to home",
   },
 };
 
@@ -335,7 +335,7 @@ function handle(ev) {
     }
     case "tool_result": voiceToolResult(ev); break;
     case "switch_language": switchVoice(ev); break;
-    case "hangup": if (vws) { vEndPending = true; setTimeout(voiceEnd, 15000); } break;
+    case "hangup": if (vws) planHangup(); break;
     case "open_doc": openDoc(ev); break;
     case "agent": logLine(ev.text, false, ev.at); break;
     case "model_mention": { const d = document.createElement("div"); d.innerHTML = `<button class="btn small">→ ${esc(ev.model)}</button>`; d.querySelector("button").onclick = () => send({ type: "control", action: "set_machine", model_id: ev.model_id }); $("log").prepend(d); break; }
@@ -631,6 +631,7 @@ async function openVoiceSocket(session, rp, onReady) {
   const url = new URL("wss://agents.assemblyai.com/v1/ws"); url.searchParams.set("token", tok.token);
   const ws = new WebSocket(url.toString());
   ws.calls = new Set();                                     // tool calls asked by THIS session
+  toolGate(ws);
   vws = ws;
   ws.onopen = () => { ws.send(JSON.stringify({ type: "session.update", session })); };
   ws.onmessage = (e) => {
@@ -651,9 +652,15 @@ async function openVoiceSocket(session, rp, onReady) {
         break;
       }
       case "reply.audio": voicePlay(m.data || m.audio); break;
+      case "reply.started": ws.lastEvt = m.type; break;
+      case "input.speech.started":
+        ws.lastEvt = m.type;
+        if (vEndPending) keepCallOpen();                     // "no, wait": the customer speaks after the goodbye
+        break;
       case "reply.done":
-        if (m.status === "interrupted") voiceStop();
-        if (vEndPending) { const left = vCtx ? Math.max(0, vNext - vCtx.currentTime) : 0; setTimeout(voiceEnd, left * 1000 + 800); }
+        ws.lastEvt = m.type;
+        if (m.status === "interrupted") { voiceStop(); ws.pending.length = 0; } else flushTools(ws);
+        if (vEndPending) { const left = vCtx ? Math.max(0, vNext - vCtx.currentTime) : 0; vEndTimer = setTimeout(voiceEnd, left * 1000 + 1500); }
         break;
       case "tool.call": ws.calls.add(m.call_id); send({ type: "control", action: "tool", call_id: m.call_id, name: m.name, arguments: m.arguments }); logLine("⚙ " + m.name + " " + JSON.stringify(m.arguments || {})); break;
       case "session.error": case "error": logLine("voice agent: " + (m.message || m.code || e.data), true); break;
@@ -678,10 +685,26 @@ async function switchVoice(ev) {
   });
   try { old.send(JSON.stringify({ type: "session.end" })); old.close(); } catch (e) { /* already closing */ }
 }
+// Tool results go back only when the agent's reply is done and nothing has happened since (AssemblyAI docs: sent at
+// any other moment they made the agent speak on its own, twice or three times, 26/9); an interrupted reply drops them.
+function toolGate(ws) { ws.lastEvt = null; ws.pending = []; }
+function flushTools(ws) {
+  if (ws.lastEvt !== "reply.done" || ws.readyState !== 1) return;
+  while (ws.pending.length) ws.send(JSON.stringify(ws.pending.shift()));
+}
+let vEndTimer = null;
+function planHangup() { vEndPending = true; clearTimeout(vEndTimer); vEndTimer = setTimeout(voiceEnd, 15000); }
+function keepCallOpen() {
+  vEndPending = false; clearTimeout(vEndTimer);
+  send({ type: "control", action: "keep_open" });
+  logLine(L.keptOpen);
+}
 function voiceToolResult(ev) {
   if (!vws || vws.readyState !== 1 || (vws.calls && !vws.calls.has(ev.call_id))) return;   // asked by a handed-over session
-  vws.send(JSON.stringify({ type: "tool.result", call_id: ev.call_id, result: ev.result, is_error: false }));
-  if (ev.end) { vEndPending = true; setTimeout(voiceEnd, 15000); }
+  if (!vws.pending) toolGate(vws);
+  vws.pending.push({ type: "tool.result", call_id: ev.call_id, result: ev.result, is_error: false });
+  flushTools(vws);
+  if (ev.end) planHangup();
 }
 function stopAgents() {
   // the server closed the call (time limit, demo limit): no Voice Agent keeps running, and billing, behind the report
@@ -761,7 +784,7 @@ async function startDuo() {
   const open = (who, token, session) => {
     const url = new URL("wss://agents.assemblyai.com/v1/ws"); url.searchParams.set("token", token);
     const ws = new WebSocket(url.toString()); duo.sockets[who] = ws;
-    if (who === "A") vws = ws;                               // tool results and the hang-up go to the assistant
+    if (who === "A") { vws = ws; toolGate(ws); }             // tool results and the hang-up go to the assistant
     const other = who === "A" ? "B" : "A";
     ws.onopen = () => ws.send(JSON.stringify({ type: "session.update", session }));
     ws.onmessage = (e) => {
@@ -774,8 +797,11 @@ async function startDuo() {
         const bytes = b64ToBytes(m.data || m.audio);
         duoPlay(bytes, who);
         duoFeed(other, bytes);                                        // the other agent hears it as one continuous stream
+      } else if (m.type === "reply.started" || m.type === "input.speech.started") {
+        if (who === "A") ws.lastEvt = m.type;
       } else if (m.type === "reply.done") {
         duoFeed(other, null);                                         // flush the tail of the sentence
+        if (who === "A") { ws.lastEvt = m.type; if (m.status === "interrupted") ws.pending.length = 0; else flushTools(ws); }
         if (who === "A" && vEndPending) setTimeout(duoEnd, Math.max(0, duo.next - duo.ctx.currentTime) * 1000 + 800);
       } else if (m.type === "transcript.agent") {
         send({ type: "control", action: "transcript", role: who === "A" ? "agent" : "customer", text: m.text, interrupted: !!m.interrupted });

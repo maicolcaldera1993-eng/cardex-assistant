@@ -547,6 +547,10 @@ class CallSession:
             self._log_decision("tool", name=msg.get("name"), arguments=msg.get("arguments"), result=result)
             await self.emit({"type": "tool_result", "call_id": msg.get("call_id"), "name": msg.get("name"),
                              "result": tool_result_text(result), "end": bool(result.get("end"))})
+        elif a == "keep_open":
+            # the customer spoke after the agent's goodbye ("no, wait"): the call goes on
+            self.voice_done = False
+            self.end_refused.discard("else")
         elif a == "voice_end":
             await self.end()
         elif a in ("confirm_part", "dismiss_part") and msg.get("code") in self.cards:

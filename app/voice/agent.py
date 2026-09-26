@@ -595,12 +595,15 @@ async def _run_tool(s, name: str, args: dict) -> dict:
     return {"status": "error", "hint": f"unknown tool {name}"}
 
 
-_LEAVING = re.compile(r"\b(thank|thanks|grazie|gracias|danke|merci|obrigad\w*|that'?s all|that is all|nothing else|"
-                      r"no,? that'?s it|è tutto|niente altro|nient'altro|nada más|eso es todo|das war'?s|c'est tout|é tudo)\b", re.I)
+_LEAVING = re.compile(r"\b(that'?s all|that is all|nothing else|no,? that'?s it|no,? thanks?|no,? thank you|"
+                      r"è tutto|niente altro|nient'altro|no,? grazie|nada más|eso es todo|no,? gracias|das war'?s|"
+                      r"nein,? danke|c'est tout|non,? merci|é tudo|não,? obrigad\w*)\b", re.I)
 
 
 def customer_is_leaving(text: str | None) -> bool:
-    """The customer's last words close the call: goodbye, thanks, "that's all"."""
+    """The customer's last words close the call: a goodbye, or "no, that's all" / "no thanks" after "anything else?".
+    A thank-you alone is not enough: the live transcript once turned "in order to save something" into "Thank you."
+    with full confidence (26/9)."""
     return bool(text and (_GOODBYE.search(text) or _LEAVING.search(text)))
 
 
