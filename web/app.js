@@ -216,7 +216,8 @@ function applyLanguage() {
   set("op-eyebrow", L.opEyebrow); set("op-title", L.opTitle); set("op-desc", L.opDesc); set("op-try", L.opTry); set("voice-try", L.voiceTry);
   set("rp-title", L.rpTitle); set("rp-desc", L.rpDesc); set("btn-roleplay", L.rpBtn);
   set("duo-title", L.duoTitle); set("duo-desc", L.duoDesc); set("btn-duo", L.duoBtn);
-  $("rp-select").innerHTML = PERSONAS.filter((p) => p.id !== "free").concat([{ id: "carmen", name: "Carmen Ruiz", machine: "Marea 2" }])
+  // Mode 2 customers: four, one of them a woman (28/9: Carmen in, Mehmet only in Mode 1)
+  $("rp-select").innerHTML = PERSONAS.filter((p) => !["free", "mehmet"].includes(p.id)).concat([{ id: "carmen", name: "Carmen Ruiz", machine: "Marea 2" }])
     .map((p) => `<option value="${p.id}">${esc(p.name)} · ${esc(p.machine)}</option>`).join("");
   set("how-title", L.howTitle); set("powered", L.powered);
   $("how-steps").innerHTML = L.how.map(([h, t]) => `<li><strong>${esc(h)}</strong><span>${esc(t)}</span></li>`).join("");
