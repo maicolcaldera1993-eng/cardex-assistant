@@ -549,8 +549,9 @@ class CallSession:
             self.serial_asked -= 1
         if who == "agent":
             self.last_agent_text = text
-            from .voice.agent import ready_to_hang_up
+            from .voice.agent import ready_to_hang_up, settle_open_step
             if ready_to_hang_up(self, text):
+                await settle_open_step(self)                   # the last answer counts even if the agent skipped it
                 self.voice_done = True
                 await self.emit({"type": "hangup"})            # the page ends the agent session after this sentence
         text, _ = canonicalize_codes(text)                     # "e L3010" is shown and read as "EL-3010"

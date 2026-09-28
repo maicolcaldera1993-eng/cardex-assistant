@@ -256,7 +256,10 @@ _NOT_FIXED = re.compile(r"\b(doesn'?t|does not|didn'?t|did not|won'?t|not|nothin
                         r"\bnon (funziona|è cambiato|cambia|va)\b|\bancora\b|\bniente\b|\bsigue\b|\btodav[ií]a\b|"
                         r"\bno funciona\b|\bimmer noch\b|\bfunktioniert nicht\b|\btoujours\b|\bne marche pas\b|\bainda\b")
 _FIXED = re.compile(r"\b(it )?works\b|\bworking (again|now)\b|\bfixed\b|\bsolved\b|\bresolved\b|\bgone\b|"
-                    r"\bnow it'?s (fine|ok|okay|good)\b|\bfunziona\b|\brisolto\b|\bfunciona\b|\bfunktioniert\b|\bmarche\b")
+                    r"\bnow it'?s (fine|ok|okay|good)\b|\bfunziona\b|\brisolto\b|\bfunciona\b|\bfunktioniert\b|\bmarche\b|"
+                    # "now the steam is strong again" (synthetic Lena, 28/9), "adesso va bene"
+                    r"\b(strong|normal|fine|good|hot|full) again\b|\bnow\b[^.?!]{0,40}\b(strong|normal|fine|good|hot|heats)\b|"
+                    r"\b(adesso|ora)\b[^.?!]{0,40}\b(va bene|normale|scalda)\b")
 # "I'd rather have a technician", "non vorrei smontare": the customer cannot or will not do it (the "No" option), even
 # when the sentence also says "damage" ("...e poi creare dei danni" once picked "Yes, but the plunger is damaged")
 REFUSAL = re.compile(r"\bprefer\w*\b[^.]{0,40}\b(tecnico|technician|techniker|t[ée]cnico|technicien)|"

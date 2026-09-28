@@ -26,6 +26,13 @@ def run(coro):
     return asyncio.get_event_loop().run_until_complete(coro)
 
 
+def offer(s, o):
+    """The agent reads the first free slot of the outcome to the customer; returns its id."""
+    slot = o["booking"]["propose_first"]
+    run(s.control({"action": "transcript", "role": "agent", "text": f"The first free slot is {slot['when']}. Does that suit you?"}))
+    return slot["slot_id"]
+
+
 def test_tools_are_declared_for_the_session():
     names = {t["name"] for t in TOOLS}
     assert {"identify_machine", "find_procedure", "answer_step", "find_part", "book_slot", "note_for_operator", "end_call"} <= names
@@ -67,11 +74,14 @@ def test_dave_end_to_end_through_the_tools():
     ca = next(x for x in o["parts"] if x["code"] == "CA-1181")
     assert ca["spoken"] == "C A eleven eighty-one" and ca["customer_pays_spoken"] == "ninety-six euros" and not ca["covered_by_warranty"]
     assert o["warranty"].startswith("out of warranty")
-    assert o["booking"]["kind"].startswith("second call") and o["booking"]["free_slots"]
-    slot = o["booking"]["free_slots"][0]["slot_id"]
+    assert o["booking"]["kind"].startswith("second call") and o["booking"]["propose_first"]
+    slot = o["booking"]["propose_first"]["slot_id"]
+    early = run(run_tool(s, "book_slot", {"slot_id": slot}))                 # not read to the customer yet
+    assert early["status"] == "propose_first" and early["slot"]["slot_id"] == slot and not s.booking
 
-    b = run(run_tool(s, "book_slot", {"slot_id": slot}))
+    b = run(run_tool(s, "book_slot", {"slot_id": offer(s, o)}))
     assert b["status"] == "booked" and s.booking["id"] == slot
+    assert "dave at espresso-corner-chicago dot com" in b["next"] and "still right" in b["next"]   # he pays: email first
 
     t = run(run_tool(s, "find_part", {"query": "a box of the cleaning tablets"}))
     assert t["status"] == "found" and t["parts"][0]["code"] == "CR-6052" and t["parts"][0]["list_price_eur"] == 19.0
@@ -180,7 +190,7 @@ def test_luca_giglio_plus_record_wins_and_booking_orders_the_parts():
     run(run_tool(s, "answer_step", {"step_id": "backflush", "option_number": 2, "customer_words": "I did the five cycles, it still spits."}))
     o = run(run_tool(s, "answer_step", {"step_id": "valve-body", "option_number": 2, "customer_words": "I opened it, the plunger is scratched and the rubber is broken, damaged."}))
     assert o["outcome"] == "part_with_support" and [p["code"] for p in o["parts"]] == ["GE-2160"]
-    b = run(run_tool(s, "book_slot", {"slot_id": o["booking"]["free_slots"][0]["slot_id"]}))
+    b = run(run_tool(s, "book_slot", {"slot_id": offer(s, o)}))
     assert b["status"] == "booked" and b["parts_ordered_with_it"] == ["GE-2160"] and s.cards["GE-2160"]["status"] == "confirmed"
     assert run(run_tool(s, "end_call", {}))["status"] == "customer_not_done"
 
@@ -453,7 +463,7 @@ def test_operator_confirms_the_order_or_books_and_parts_are_ordered():
     run(s.control({"action": "confirm_outcome_parts"}))
     assert all(s.cards[c]["status"] == "confirmed" for c in ("CA-1181", "CA-1220"))
     s2, _, o2 = _dave_at_outcome()
-    run(s2.control({"action": "book_slot", "id": o2["booking"]["free_slots"][0]["slot_id"]}))
+    run(s2.control({"action": "book_slot", "id": o2["booking"]["propose_first"]["slot_id"]}))
     assert s2.booking and s2._next_step()["parts_confirmed"]
 
 
@@ -618,7 +628,7 @@ def test_luca_mode1_calls_of_25_9():
 def test_end_call_after_the_customer_thanked():
     s, events, o = _dave_at_outcome()
     run(run_tool(s, "confirm_parts", {"codes": ["CA-1181", "CA-1220"], "email": "dave@espressocorner.com"}))
-    run(run_tool(s, "book_slot", {"slot_id": o["booking"]["free_slots"][0]["slot_id"]}))
+    run(run_tool(s, "book_slot", {"slot_id": offer(s, o)}))
     s.last_customer_text = "No, that's all, thank you."
     s.last_agent_text = "The call is booked."                 # the agent's goodbye has not arrived yet
     r = run(run_tool(s, "end_call", {}))
@@ -678,8 +688,9 @@ def test_email_on_file_and_set_email():
 
 def test_slots_span_several_days():
     s, events, o = _dave_at_outcome()
-    days = {x["when"].split(",")[0][:10] for x in o["booking"]["free_slots"]}
-    assert len(o["booking"]["free_slots"]) >= 6 and len(days) >= 3
+    slots = [o["booking"]["propose_first"], *o["booking"]["if_it_does_not_suit"]]
+    days = {x["when"].split(",")[0][:10] for x in slots}
+    assert len(slots) >= 6 and len(days) >= 3
 
 
 def test_language_switch_only_at_the_start_or_on_request():
@@ -708,7 +719,7 @@ def test_the_call_ends_only_when_the_customer_is_done():
     from app.voice.agent import ready_to_hang_up
     s, events, o = _dave_at_outcome()
     run(run_tool(s, "confirm_parts", {"codes": ["CA-1181", "CA-1220"]}))
-    run(run_tool(s, "book_slot", {"slot_id": o["booking"]["free_slots"][0]["slot_id"]}))
+    run(run_tool(s, "book_slot", {"slot_id": offer(s, o)}))
     s.last_customer_text = "That's right."
     s.last_agent_text = "The order is recorded. Thank you for calling Sereni. Goodbye!"
     assert not ready_to_hang_up(s, s.last_agent_text)
@@ -817,3 +828,42 @@ def test_a_check_the_customer_cannot_do_ends_with_a_technician():
                                         "customer_words": "I can't do that, I don't want to touch the machine."}))
     assert o["status"] == "outcome" and o["outcome"] == "technician"
     assert any("could not carry out" in n for n in s.notes)
+
+
+def test_an_english_answer_is_not_read_against_the_italian_labels():
+    """Synthetic Dave, 28/9: "Yes, everything is on... No alarm." matched the Italian "Tutto spento" better than the
+    English "On, boiler full, cold", and the agent had to ask for a confirmation it did not need."""
+    s, _ = make_session()
+    run(run_tool(s, "identify_machine", {"model_text": "the Marea 2, the two group", "serial": "041302"}))
+    p = run(run_tool(s, "find_procedure", {"description": "since this morning the machine stays cold, the pressure gauge is at zero"}))
+    assert p["step_id"] == "lights"
+    assert "already_answered" not in p          # "it stays cold" does not say the lights are on and there is no alarm
+    n = run(run_tool(s, "answer_step", {"step_id": "lights", "option_number": 3,
+                                        "customer_words": "Yes, everything is on, the lights, the buttons. No alarm."}))
+    assert n["status"] == "next_step" and n["step_id"] == "reset"
+
+
+def test_the_last_answer_is_recorded_at_the_goodbye():
+    """Synthetic Mario, 28/9: "adesso funziona", then straight to goodbye without answer_step: the work order had no
+    outcome. At the goodbye the customer's last real answer is read against the open step; the goodbye itself is not."""
+    s, _ = make_session()
+    run(run_tool(s, "identify_machine", {"model_text": "Marea 2", "serial": "041188"}))
+    run(run_tool(s, "find_procedure", {"description": "la macchina non carica l'acqua, la spia del livello lampeggia"}))
+    run(run_tool(s, "answer_step", {"step_id": "tap", "option_number": 3, "customer_words": "Sì, il rubinetto è aperto e l'acqua calda esce piena."}))
+    run(run_tool(s, "answer_step", {"step_id": "click", "option_number": 1, "customer_words": "Sì, sento un clic dietro, ma non carica."}))
+    assert s.diagnosis.current == "probe"
+    for said in ["L'ho svitata e pulita, era bianca di calcare. Adesso la caldaia è piena, funziona.", "No, grazie, è tutto.", "Arrivederci."]:
+        run(s.control({"action": "transcript", "role": "customer", "text": said}))
+    r = run(run_tool(s, "end_call", {}))
+    assert s.diagnosis.outcome and s.diagnosis.outcome.kind == "remote" and r.get("end") is True
+
+
+def test_the_fault_said_before_the_serial_is_not_asked_again():
+    """Synthetic Mario, 28/9: fault and model in the first sentence, then the serial; the agent asked "what is happening?"
+    again instead of opening the procedure."""
+    s, _ = make_session()
+    for said in ["Buongiorno, sono Mario del Bar Centrale di Lucca. Abbiamo la Marea 2. La macchina non carica l'acqua, "
+                 "la spia del livello lampeggia e la pompa va sempre.", "La matricola è zero quattro uno, uno otto otto."]:
+        run(s.control({"action": "transcript", "role": "customer", "text": said}))
+    r = run(run_tool(s, "identify_machine", {"model_text": "Marea 2", "serial": "041188"}))
+    assert "find_procedure now" in r["next"] and "non carica l'acqua" in r["next"] and "matricola" not in r["next"]

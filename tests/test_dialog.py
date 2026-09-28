@@ -27,6 +27,9 @@ CASES = [
     ("marea-steam-weak-or-dripping", "which", "Weak steam, it does not drip.", "Weak steam"),
     ("marea-steam-weak-or-dripping", "boiler-ok", "The needle is at one point two.", "Yes"),
     ("marea-steam-weak-or-dripping", "tip", "I did it, the holes were half closed with milk. Now the steam is strong again. Fixed.", "Fixed"),
+    # synthetic Lena 28/9: the agent passed the words without the final "It's fixed."
+    ("marea-steam-weak-or-dripping", "tip", "I did it, the holes were closed with milk. Now the steam is strong again.", "Fixed"),
+    ("marea-level-alarm", "probe", "L'ho svitata e pulita, era bianca di calcare. Adesso la caldaia è piena, funziona.", "Cleaned: fixed"),
     ("marea-level-alarm", "tap", "The tap is open, yes. The hot water comes out strong, full.", "Open, full flow"),
     ("marea-level-alarm", "click", "Yes, I hear a click, click, but it does not fill.", "Clicks, but does not fill"),
     ("marea-level-alarm", "probe", "I cleaned it and put it back. Now the pump stopped, the boiler is full. It works.", "Cleaned: fixed"),
