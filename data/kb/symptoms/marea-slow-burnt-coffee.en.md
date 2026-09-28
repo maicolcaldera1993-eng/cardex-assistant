@@ -30,6 +30,7 @@ Known-defects file, Marea family. Internal service document.
 
 - More than a week ago → go to step 4
 - Recently → go to step 5
+- Does not know → go to step 4
 
 ### 4. Have them do: Backflush with a tablet: 5 cycles of 10 seconds, then 5 rinse cycles. If not enough, remove the shower screen and clean it. {#passo-4}
 

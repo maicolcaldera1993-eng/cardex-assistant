@@ -30,6 +30,7 @@ Known-defects file, Onda family. Internal service document.
 
 - More than a week ago → go to step 4
 - Recently → go to step 5
+- Does not know → go to step 4
 
 ### 4. Have them do: Backflush with a tablet: 5 cycles of 10 seconds with the continuous button, then 5 rinses, on each group. Pull another shot. {#passo-4}
 

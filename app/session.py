@@ -102,6 +102,7 @@ class CallSession:
         self.agent_lang = "en"                    # the language the automatic assistant is speaking
         self.customer_turns = 0                   # the customer's sentences so far (the language is chosen at the start)
         self.last_agent_text = ""
+        self.else_asked = False                   # the agent's last question was "anything else?"
         self.last_customer_text = ""
         self.serial_asked = 0                     # customer sentences still read as the answer to "which serial?"
         self.pending_description = ""             # the fault as described before the machine was known
@@ -547,9 +548,13 @@ class CallSession:
             self.serial_asked = 2                            # the answer may come one sentence later
         elif who == CUSTOMER and self.serial_asked:
             self.serial_asked -= 1
+        if who == CUSTOMER and len(text.split()) > 7:
+            self.else_asked = False                          # a real new question: the call goes on
         if who == "agent":
             self.last_agent_text = text
-            from .voice.agent import ready_to_hang_up, settle_open_step
+            from .voice.agent import ANYTHING_ELSE, ready_to_hang_up, settle_open_step
+            if ANYTHING_ELSE.search(text):
+                self.else_asked = True
             if ready_to_hang_up(self, text):
                 await settle_open_step(self)                   # the last answer counts even if the agent skipped it
                 self.voice_done = True

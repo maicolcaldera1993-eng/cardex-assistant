@@ -688,7 +688,10 @@ def test_email_on_file_and_set_email():
 
 def test_slots_span_several_days():
     s, events, o = _dave_at_outcome()
-    slots = [o["booking"]["propose_first"], *o["booking"]["if_it_does_not_suit"]]
+    other = o["booking"]["if_it_does_not_suit"]
+    slots = [o["booking"]["propose_first"], *other["mornings"], *other["afternoons"]]
+    assert all(x["when"].split(", ")[1] >= "12:00" for x in other["afternoons"]) and other["afternoons"]
+    assert o["booking"]["propose_first_if_the_customer_wants_the_afternoon"]["when"].split(", ")[1] >= "12:00"
     days = {x["when"].split(",")[0][:10] for x in slots}
     assert len(slots) >= 6 and len(days) >= 3
 

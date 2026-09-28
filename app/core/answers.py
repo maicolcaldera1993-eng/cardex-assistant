@@ -295,6 +295,11 @@ def classify_branch(text: str, branches: list[dict], similarities: Callable[[str
     tw, tn, pol_t = content_words(text), numbers_in(text), polarity(" ".join(words[:3]))
     if pol_t == 0 and polarity(" ".join(words[-3:])) > 0 and polarity(text) >= 0:
         pol_t = 1
+    # ...but not a "yeah" that goes on about something else: "Uh, yeah, I think it's dirty. Also some coffee grounds." does
+    # not answer "does the handle go past the centre?" (Mehmet 25/9, and a yes/no step since 28/9)
+    topic = content_words(question + " " + " ".join(labels))
+    if pol_t and question and not (tw & topic) and len(tw - {"yeah", "think"}) >= 3:
+        pol_t = 0
     # "not from the group above": the words right after a negation count against a label that affirms them,
     # and for a label that negates them too ("Clicks, but no heat")
     negated = _negated(words)

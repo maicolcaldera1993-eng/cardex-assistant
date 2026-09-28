@@ -44,7 +44,7 @@ FACTS AND MONEY
 
 THE OUTCOME, IN SHORT TURNS
 9. The outcome result gives say_first (what failed, what replaces it, what it costs, warranty or not): say only that and wait for the customer. Then one piece per turn: delivery (parts shipped from our warehouse, or brought by the technician); the service call or the technician's visit if the outcome needs one (ask about it yourself if they have not); then the email. The outcome's parts all ship together: never ask the customer to choose between them.
-10. Appointments: once the customer has agreed to the service call or visit, propose only booking.propose_first (day and time) and call book_slot only when they accept THAT slot; never book or move one on your own. Only if it does not suit them, read three or four of booking.if_it_does_not_suit, on different days, and let them pick. If the customer wants to fit the part alone, say once that this part must be fitted with our service (safety, and the repair's warranty); if they still decline, call note_for_operator with customer_declines_service=true.
+10. Appointments: once the customer has agreed to the service call or visit, propose only booking.propose_first (day and time), or the afternoon one if the customer asked for the afternoon, and call book_slot only when they accept THAT slot; never book or move one on your own. Only if it does not suit them, read three or four of booking.if_it_does_not_suit, on different days and in the part of the day they asked for, and let them pick. If the customer wants to fit the part alone, say once that this part must be fitted with our service (safety, and the repair's warranty); if they still decline, call note_for_operator with customer_declines_service=true.
 11. When the customer agrees to receive the parts, call confirm_parts with their codes: without it nothing is ordered. If they pay something, read out the email on file (machine.email_on_file) for the quote and ask if it is still right; if they pay nothing, only confirm it for the order confirmation, without mentioning a quote or a payment. Only if it is wrong or missing, let the customer spell a new one to the end without interrupting, call set_email, read back its result and ask if it is right.
 
 HOW YOU SPEAK
@@ -305,7 +305,7 @@ async def settle_open_step(s) -> bool:
         return False
     # newest first, leaving out the goodbye itself ("No, grazie, è tutto" must not read as "not fixed")
     for said in [u["text"] for u in s.utterances if u["role"] == "customer"][-4:][::-1]:
-        if customer_is_leaving(said):
+        if customer_is_leaving(said, s.else_asked):
             continue
         j, conf = _read_answer(d.step, said)
         if j is None:
@@ -395,7 +395,9 @@ def call_status(s) -> dict:
 def _machine_view(s) -> dict:
     m = s.machine
     if not m:
-        return {"serial": s.serial, "on_file": False, "warranty": "unknown", "hint": "ask for the serial number on the plate at the back"}
+        # "I could not find your machine in our records" sounded alarming when only the serial was missing (Dave 28/9)
+        return {"serial": s.serial, "on_file": False, "warranty": "unknown",
+                "hint": "ask for the serial number on the plate at the back; do not say the machine is missing from our records"}
     return {"serial": m["serial"], "on_file": True, "model": m["model_id"], "edition": m.get("edition"), "built": m["built"],
             "voltage": m["voltage"], "customer": m["customer"], "city": m["city"], "country": m["country"],
             "warranty": "under warranty until " + m["warranty_until"] if m.get("in_warranty") else "out of warranty since " + m["warranty_until"],
@@ -422,6 +424,15 @@ def _say_first(s, n: dict) -> str:
     else:
         money = "To tell you who pays, I need the serial number on the plate at the back."
     return f"{what} {money}"
+
+
+def _outcome_again(s) -> dict:
+    """The outcome when it has already been told: facts for the customer's questions, nothing to read out again (Mehmet
+    28/9: three answer_step calls for one answer, and say_first was spoken three times)."""
+    view = {k: v for k, v in _outcome_view(s).items() if k not in ("say_first", "how_to_tell_it")}
+    return {"status": "outcome_already_told",
+            "hint": "the outcome was already told: do not repeat it. Continue with the next piece (delivery, the service call "
+                    "or visit, the email) or answer the customer's question.", **view}
 
 
 def _outcome_view(s) -> dict:
@@ -472,10 +483,19 @@ def _outcome_view(s) -> dict:
     if b:
         out["booking"] = {"kind": "technician's visit" if b["kind"] == "onsite" else "second call with service (video call)",
                           "booked": b["booked"]["label_en"] if b["booked"] else None,
-                          "need_serial": b["need_serial"], "no_partner": b["no_partner"],
-                          # one slot to propose; the others only if it does not suit (28/9: the agent read all eight)
-                          **({"propose_first": slots[0], "if_it_does_not_suit": slots[1:]} if (slots := [
-                              {"slot_id": x["id"], "when": x["label_en"], "with": x["technician"]} for x in b["slots"]]) else {})}
+                          "need_serial": b["need_serial"], "no_partner": b["no_partner"]}
+        slots = [{"slot_id": x["id"], "when": x["label_en"], "with": x["technician"], "pm": x["start"] >= "12:00"}
+                 for x in b["slots"]]
+        if slots:
+            # one slot to propose, the others only if it does not suit (the agent read all eight, 28/9), split by part of
+            # the day ("in the afternoon" got three morning slots read out, 28/9)
+            view = lambda x: {k: v for k, v in x.items() if k != "pm"}
+            pm = [view(x) for x in slots if x["pm"]]
+            out["booking"].update({
+                "propose_first": view(slots[0]),
+                "propose_first_if_the_customer_wants_the_afternoon": pm[0] if pm else None,
+                "if_it_does_not_suit": {"mornings": [view(x) for x in slots[1:] if not x["pm"]],
+                                        "afternoons": [view(x) for x in slots[1:] if x["pm"]]}})
     return out
 
 
@@ -571,7 +591,7 @@ async def _run_tool(s, name: str, args: dict) -> dict:
     if name == "answer_step":
         d = s.diagnosis
         if not (d and d.current):
-            return {"status": "no_open_step", "hint": "call find_procedure first"} if not (d and d.outcome) else {"status": "outcome", **_outcome_view(s)}
+            return {"status": "no_open_step", "hint": "call find_procedure first"} if not (d and d.outcome) else _outcome_again(s)
         i = int(args.get("option_number") or 0) - 1
         if not 0 <= i < len(d.step["branches"]):
             return {"status": "error", "hint": "option_number must be one of the options", "options": _step_view(s)["options"]}
@@ -715,11 +735,13 @@ async def _run_tool(s, name: str, args: dict) -> dict:
             if args.get("customer_declines_service"):
                 s.fits_alone = True             # no second call, no labour: the customer fits the parts alone
             await s._agent(("Nota per l'operatore: " if s.lang == "it" else "Note for the operator: ") + note)
-        return {"status": "noted", "say": "the operator will follow up on this",
+        say = ("the parts will ship; they can call service back if they need help fitting them" if args.get("customer_declines_service")
+               else "the operator will follow up on this")
+        return {"status": "noted", "say": say,
                 "next": "go back to where the call was; no prices, dates or slots that no tool gave you"}
     if name == "end_call":
         d = s.diagnosis
-        if d and d.current and customer_is_leaving(s.last_customer_text):
+        if d and d.current and customer_is_leaving(s.last_customer_text, s.else_asked):
             await settle_open_step(s)                          # "it works now, thanks, bye": record it before closing
         if d and d.current and "step" not in s.end_refused:
             # the procedure is still open: the customer's last answer must be recorded first ("it works now")
@@ -743,7 +765,7 @@ async def _run_tool(s, name: str, args: dict) -> dict:
                             "slot. If the customer still declines, call note_for_operator with customer_declines_service=true, "
                             "then ask whether there is anything else."}
         # the customer decides when the call is over: "That's right." is not a goodbye (26/9: the call was closed on it)
-        customer_leaving = customer_is_leaving(s.last_customer_text)
+        customer_leaving = customer_is_leaving(s.last_customer_text, s.else_asked)
         if not customer_leaving and "else" not in s.end_refused:
             s.end_refused.add("else")
             return {"status": "customer_not_done", "end": False,
@@ -769,11 +791,23 @@ _LEAVING = re.compile(r"\b(that'?s all|that is all|nothing else|no,? that'?s it|
                       r"nein,? danke|c'est tout|non,? merci|é tudo|não,? obrigad\w*)\b", re.I)
 
 
-def customer_is_leaving(text: str | None) -> bool:
+# the agent's closing question, and the short answers that close the call only as an answer to it: "No." or "I think
+# no, I'm okay" after "anything else?" left the call open on 28/9 (Luca, Dave, Klaus)
+ANYTHING_ELSE = re.compile(r"anything else|something else|qualcos'?altro|altro in cui|algo más|algo mas|noch etwas|"
+                           r"autre chose|mais alguma", re.I)
+_SHORT_NO = re.compile(r"^\W*(no+|nope|nah|no thanks?|no thank you|i'?m (ok|okay|fine|good)|all good|that'?s (it|all)|"
+                       r"i think (no|not|that'?s (it|all))|nothing( else)?|niente|no grazie|nein|non|não)\b", re.I)
+
+
+def customer_is_leaving(text: str | None, after_anything_else: bool = False) -> bool:
     """The customer's last words close the call: a goodbye, or "no, that's all" / "no thanks" after "anything else?".
     A thank-you alone is not enough: the live transcript once turned "in order to save something" into "Thank you."
     with full confidence (26/9)."""
-    return bool(text and (_GOODBYE.search(text) or _LEAVING.search(text)))
+    if not text:
+        return False
+    if _GOODBYE.search(text) or _LEAVING.search(text):
+        return True
+    return after_anything_else and len(text.split()) <= 7 and bool(_SHORT_NO.match(text))
 
 
 def ready_to_hang_up(s, agent_text: str) -> bool:
@@ -781,7 +815,7 @@ def ready_to_hang_up(s, agent_text: str) -> bool:
     An agent that says goodbye on its own does not close the call."""
     if s.voice_done or not _GOODBYE.search(agent_text or ""):
         return False
-    return customer_is_leaving(s.last_customer_text)
+    return customer_is_leaving(s.last_customer_text, s.else_asked)
 
 
 def tool_result_text(result: dict) -> str:

@@ -33,6 +33,7 @@ Known-defects file, Marea family. Internal service document.
 
 - More than a week ago, or never → go to step 4
 - Yesterday or today → go to step 5
+- Does not know → go to step 4
 
 ### 4. Have them do: Have them backflush: one tablet in the blind filter, 5 cycles of 10 seconds with the continuous button, then 5 rinse cycles. Each group. Pull another shot. {#passo-4}
 

@@ -23,6 +23,7 @@ Fascicolo difetti noti, famiglia Onda. Documento interno al service.
 
 - Più di una settimana fa → vai al passo 3
 - Di recente → vai al passo 4
+- Non lo sa → vai al passo 3
 
 ### 3. Far fare: Lavaggio con pastiglia, 5 cicli per gruppo. Riprovare. {#passo-3}
 

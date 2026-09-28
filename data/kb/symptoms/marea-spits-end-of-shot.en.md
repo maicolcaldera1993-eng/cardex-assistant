@@ -23,6 +23,7 @@ Known-defects file, Marea family. Internal service document.
 
 - More than a week ago → go to step 3
 - Recently → go to step 4
+- Does not know → go to step 3
 
 ### 3. Have them do: Backflush with a tablet, 5 cycles. Try again. {#passo-3}
 

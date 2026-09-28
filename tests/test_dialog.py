@@ -23,7 +23,10 @@ CASES = [
     ("marea-no-heat", "contactor", "Yes, I hear the click when I switch on. But no heat.", "Clicks, but no heat"),
     ("marea-no-heat", "element", "It is one hundred ten volts, the American version.", "Marea 2 / Plus, 110 V"),
     ("marea-group-leak", "where", "From the rim, from the edge of the portafilter. Not from above.", "From the portafilter rim"),
-    ("marea-group-leak", "gasket-age", "The first one: the handle goes past the centre.", "Over a year, or past the centre"),
+    ("marea-group-leak", "gasket-age", "The first one: the handle goes past the centre.", "Yes, handle past the centre"),
+    ("marea-group-leak", "gasket-age", "Yeah. It goes far past the centre.", "Yes, handle past the centre"),
+    # Luca 28/9: new staff, he could not say when the last backflush was
+    ("marea-spits-end-of-shot", "backflush-date", "I don't know, we have new employees, maybe they didn't do it.", "Does not know"),
     ("marea-steam-weak-or-dripping", "which", "Weak steam, it does not drip.", "Weak steam"),
     ("marea-steam-weak-or-dripping", "boiler-ok", "The needle is at one point two.", "Yes"),
     ("marea-steam-weak-or-dripping", "tip", "I did it, the holes were half closed with milk. Now the steam is strong again. Fixed.", "Fixed"),

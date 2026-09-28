@@ -85,6 +85,11 @@
               "label_it": "Di recente",
               "label_en": "Recently",
               "then": "screen"
+            },
+            {
+              "label_it": "Non lo sa",
+              "label_en": "Does not know",
+              "then": "backflush"
             }
           ],
           "maintenance": true,
@@ -211,17 +216,17 @@
         {
           "id": "gasket-age",
           "kind": "ask",
-          "text_it": "Quanto tempo ha la guarnizione? Il portafiltro si aggancia oltre il centro?",
-          "text_en": "How old is the gasket? Does the portafilter lock past the centre?",
+          "text_it": "Quando aggancia il portafiltro, il manico va oltre il centro?",
+          "text_en": "When you lock the portafilter, does the handle go past the centre?",
           "branches": [
             {
-              "label_it": "Più di un anno, o oltre il centro",
-              "label_en": "Over a year, or past the centre",
+              "label_it": "Sì, il manico va oltre il centro",
+              "label_en": "Yes, handle past the centre",
               "then": "outcome:part_diy:GE-2211"
             },
             {
-              "label_it": "Guarnizione nuova, perde lo stesso",
-              "label_en": "New gasket, still leaks",
+              "label_it": "No, il manico si ferma dritto",
+              "label_en": "No, handle stops straight",
               "then": "rim"
             }
           ],
@@ -307,6 +312,11 @@
               "label_it": "Di recente",
               "label_en": "Recently",
               "then": "valve-body"
+            },
+            {
+              "label_it": "Non lo sa",
+              "label_en": "Does not know",
+              "then": "backflush"
             }
           ],
           "maintenance": true,

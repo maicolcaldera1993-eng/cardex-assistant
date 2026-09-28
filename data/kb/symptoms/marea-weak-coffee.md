@@ -33,6 +33,7 @@ Fascicolo difetti noti, famiglia Marea. Documento interno al service.
 
 - Più di una settimana fa, o mai → vai al passo 4
 - Ieri o oggi → vai al passo 5
+- Non lo sa → vai al passo 4
 
 ### 4. Far fare: Far eseguire il lavaggio: una pastiglia nel filtro cieco, 5 cicli da 10 secondi con il tasto continuo, poi 5 cicli di risciacquo. Per ogni gruppo. Rifare un caffè. {#passo-4}
 

@@ -30,6 +30,7 @@ Fascicolo difetti noti, famiglia Marea. Documento interno al service.
 
 - Più di una settimana fa → vai al passo 4
 - Recente → vai al passo 5
+- Non lo sa → vai al passo 4
 
 ### 4. Far fare: Lavaggio con pastiglia: 5 cicli da 10 secondi, poi 5 di risciacquo. Se non basta, smontare la doccetta e pulirla. {#passo-4}
 

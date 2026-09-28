@@ -23,6 +23,7 @@ Fascicolo difetti noti, famiglia Marea. Documento interno al service.
 
 - Più di una settimana fa → vai al passo 3
 - Recente → vai al passo 4
+- Non lo sa → vai al passo 3
 
 ### 3. Far fare: Lavaggio con pastiglia, 5 cicli. Riprovare. {#passo-3}
 

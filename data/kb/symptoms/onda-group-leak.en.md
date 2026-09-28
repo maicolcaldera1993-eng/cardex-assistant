@@ -17,14 +17,14 @@ Known-defects file, Onda family. Internal service document.
 - From the portafilter rim → go to step 2
 - From the group body → **technician**
 
-### 2. Ask: How old is the gasket? Does the portafilter lock past the centre? {#passo-2}
+### 2. Ask: When you lock the portafilter, does the handle go past the centre? {#passo-2}
 
-*Quanto tempo ha la guarnizione? Il portafiltro si aggancia oltre il centro?*
+*Quando aggancia il portafiltro, il manico va oltre il centro?*
 
 > The Onda group takes the 9 mm gasket GE-2410: the Marea one (GE-2140) does not fit.
 
-- Over a year, or past the centre → **part, fitted by the customer**: GE-2211 (Group service kit Onda (gasket, screen, o-rings))
-- New gasket, still leaks → go to step 3
+- Yes, handle past the centre → **part, fitted by the customer**: GE-2211 (Group service kit Onda (gasket, screen, o-rings))
+- No, handle stops straight → go to step 3
 
 ### 3. Ask: Does the portafilter rim show marks, nicks, or is it out of round? {#passo-3}
 

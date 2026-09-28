@@ -17,14 +17,14 @@ Fascicolo difetti noti, famiglia Onda. Documento interno al service.
 - Dal bordo del portafiltro → vai al passo 2
 - Dal corpo del gruppo → **tecnico**
 
-### 2. Chiedere: Quanto tempo ha la guarnizione? Il portafiltro si aggancia oltre il centro? {#passo-2}
+### 2. Chiedere: Quando aggancia il portafiltro, il manico va oltre il centro? {#passo-2}
 
-*How old is the gasket? Does the portafilter lock past the centre?*
+*When you lock the portafilter, does the handle go past the centre?*
 
 > Il gruppo Onda usa la guarnizione da 9 mm GE-2410: quella della Marea (GE-2140) non va bene.
 
-- Più di un anno, o oltre il centro → **ricambio, lo monta il cliente**: GE-2211 (Kit revisione gruppo Onda (guarnizione, doccetta, OR))
-- Guarnizione nuova, perde lo stesso → vai al passo 3
+- Sì, il manico va oltre il centro → **ricambio, lo monta il cliente**: GE-2211 (Kit revisione gruppo Onda (guarnizione, doccetta, OR))
+- No, il manico si ferma dritto → vai al passo 3
 
 ### 3. Chiedere: Il bordo del portafiltro ha segni, tacche o è ovalizzato? {#passo-3}
 

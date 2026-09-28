@@ -30,6 +30,7 @@ Fascicolo difetti noti, famiglia Onda. Documento interno al service.
 
 - Più di una settimana fa → vai al passo 4
 - Di recente → vai al passo 5
+- Non lo sa → vai al passo 4
 
 ### 4. Far fare: Lavaggio con pastiglia: 5 cicli da 10 secondi con il tasto continuo, poi 5 risciacqui, per ogni gruppo. Rifare un caffè. {#passo-4}
 
