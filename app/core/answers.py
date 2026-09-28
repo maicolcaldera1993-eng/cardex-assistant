@@ -32,6 +32,14 @@ def polarity(text: str) -> int:
     return 0 if y == n else (1 if y > n else -1)
 
 
+def digits_said(text: str) -> str:
+    """All the digits in a sentence, figures or words ("it's 0510", "zero five one zero"), for a serial said short."""
+    t = text.lower()
+    for w, d in DIGIT_WORDS.items():
+        t = re.sub(rf"\b{w}\b", d, t)
+    return "".join(re.findall(r"\d", t))
+
+
 def serials_in(text: str) -> list[str]:
     """Every 5-8 digit number in a sentence, said as one block ('041302') or in short groups of digits
     ('zero four one, three zero two'). A sentence ends a number, so a serial said twice ('zero cinque uno, zero

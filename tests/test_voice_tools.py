@@ -946,3 +946,27 @@ def test_short_serial_is_read_back_and_the_part_travels_with_the_technician():
     assert o["outcome"] == "technician" and o["shipping"].startswith("none")
     assert all(p["delivery"].startswith("the technician brings") for p in o["parts"])
     assert "giglio" not in o["say_first"].lower() and "marea" not in o["say_first"].lower()
+
+
+def test_mode2_operator_gets_the_same_tools():
+    """The user, 28/9: in Mode 2 the operator must find what the agent does. A refusal is pointed out (the operator
+    decides), "Technician needed" brings the valve like the agent's path, a short serial is flagged."""
+    events = []
+
+    async def emit(ev):
+        events.append(ev)
+
+    s = CallSession("key", emit, source="roleplay:luca", lang="en")
+    run(s.voice_transcript("operator", "Can you read me the serial number on the plate at the back?"))
+    run(s.voice_transcript("customer", "Yeah, it's 0510."))
+    assert any(e["type"] == "notice" and "0510" in e["text"] for e in events)
+    run(s.voice_transcript("customer", "It's zero five one, zero four zero."))
+    run(s.control({"action": "start_symptom", "symptom_id": "marea-spits-end-of-shot"}))
+    for branch in (0, 0, 1):                                        # no discharge, over a week, still spits
+        run(s.control({"action": "answer_step", "branch": branch}))
+    assert s.diagnosis.current == "valve-body"
+    run(s.voice_transcript("customer", "I'm a little bit afraid to open it. Can you just send me a service?"))
+    shown = [e for e in events if e["type"] == "diagnosis"][-1]
+    assert "afraid" in shown.get("suggest_technician", "") and s.diagnosis.current == "valve-body"   # not moved by itself
+    run(s.control({"action": "close_symptom", "kind": "technician"}))
+    assert s.diagnosis.outcome.kind == "technician" and s.diagnosis.outcome.parts == ["GE-2160"]

@@ -104,6 +104,7 @@ class CallSession:
         self.last_agent_text = ""
         self.else_asked = False                   # the agent's last question was "anything else?"
         self.outcome_told = False                 # the current outcome's say_first has gone to the agent
+        self.suggest = None                       # Mode 2: the customer will not do the step or asks for a technician
         self.last_customer_text = ""
         self.serial_asked = 0                     # customer sentences still read as the answer to "which serial?"
         self.pending_description = ""             # the fault as described before the machine was known
@@ -518,7 +519,13 @@ class CallSession:
             await self._emit_context()
         elif a == "close_symptom" and self.diagnosis:
             kind = msg.get("kind", "remote")
-            if kind in ("remote", "part_diy", "part_with_support", "technician"):
+            from .core.answers import cannot_options
+            d = self.diagnosis
+            neg = cannot_options(d.step["branches"]) if d.current else []
+            if kind == "technician" and len(neg) == 1 and d.step["branches"][neg[0]]["then"].startswith("outcome:technician"):
+                # the step's own "cannot do it" branch: the technician comes with its part (the valve, GE-2160)
+                await self.control({"action": "answer_step", "branch": neg[0]})
+            elif kind in ("remote", "part_diy", "part_with_support", "technician"):
                 self.diagnosis.outcome = Outcome(kind, [])
                 self.diagnosis.current = None
                 await self._on_outcome(self.diagnosis.outcome)
@@ -540,6 +547,12 @@ class CallSession:
         if not self.machine:
             # a number said after the serial was asked, or any number that IS a machine in the installed base
             # (the operator reading it back: "mi conferma che è 051040?")
+            if who == CUSTOMER and self.serial_asked and not serials_in(text):
+                from .core.answers import digits_said
+                short = digits_said(text)
+                if 2 <= len(short) < 6:                      # serials have six digits ("0510", Luca 28/9)
+                    await self.emit({"type": "notice", "text": (f"Matricola incompleta: sentito {short}. Chiedi le cifre mancanti."
+                                     if self.lang == "it" else f"Incomplete serial: heard {short}. Ask for the missing digits.")})
             for digits in serials_in(text):                 # "zero four four, eight zero one" -> 044801
                 if (who == CUSTOMER and self.serial_asked) or (CATALOG.machine(digits) or {}).get("matched_exactly"):
                     await self._set_serial(digits)
@@ -900,6 +913,8 @@ class CallSession:
                            "anchor": f"passo-{step_ids.index(self.diagnosis.current) + 1}" if self.diagnosis.current else "procedura"}
             view["pending"] = [{"id": x, "title": DEFECTS.symptoms[x][f"symptom_{self.lang}"]} for x in self.pending_symptoms]
             view["alternatives"] = [x for x in self._symptom_menu() if x["id"] != self.diagnosis.symptom["id"]]
+            if self.suggest and self.suggest["step"] == self.diagnosis.current:
+                view["suggest_technician"] = self.suggest["text"]
             if self.diagnosis.outcome:
                 view["next"] = self._next_step()
             await self.emit({"type": "diagnosis", **view})

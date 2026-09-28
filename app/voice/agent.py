@@ -450,7 +450,7 @@ async def settle_refusal(s, text: str) -> bool:
     for a technician closes any step. True if the procedure moved."""
     from ..core.answers import REFUSAL, TECH_REQUEST, cannot_options
     d = s.diagnosis
-    if s.roleplay or not (d and d.current and text):
+    if not (d and d.current and text):
         return False
     st, low = d.step, text.lower()
     tech = bool(TECH_REQUEST.search(low))
@@ -458,6 +458,11 @@ async def settle_refusal(s, text: str) -> bool:
     # already the technician with the valve)
     doing = st["kind"] == "do" or bool(re.match(r"can (the customer|you)\b", st["text_en"], re.I))
     if not (tech or (doing and REFUSAL.search(low))):
+        return False
+    if s.roleplay:
+        # a person is the operator: Cardex points it out, the operator decides ("Technician needed" on the panel)
+        s.suggest = {"step": d.current, "text": text}
+        await s._emit_diagnosis()
         return False
     negatives = cannot_options(st["branches"])
     s.notes.append(("Customer asked for a technician instead of: " if tech else "Customer could not or would not carry out: ")

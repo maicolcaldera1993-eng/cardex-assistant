@@ -46,6 +46,7 @@ const T = {
     ask: "Chiedi al cliente", do: "Fagli fare", say: "Da leggere al telefono", keys: "tasti 1-4",
     watching: "L'agente conduce la procedura: i passi avanzano con le risposte del cliente.",
     closeRemote: "Risolto da remoto", closeTech: "Serve il tecnico", closeHint: "Chiudi quando il cliente conferma",
+    suggestTech: "Il cliente non vuole o non può farlo: valuta «Serve il tecnico»",
     pending: "In attesa", startNow: "Avvia", drop: "Scarta", maintenance: "Manutenzione ordinaria saltata: consigliare",
     outcome: { remote: "Risolto da remoto", part_diy: "Ricambio, lo monta il cliente", part_with_support: "Ricambio con supporto del service", technician: "Serve il tecnico" },
     nextTitle: "Cosa fare ora",
@@ -117,6 +118,7 @@ const T = {
     ask: "Ask the customer", do: "Have them do", say: "Read this out", keys: "keys 1-4",
     watching: "The agent leads the procedure: steps move on with the customer's answers.",
     closeRemote: "Fixed remotely", closeTech: "Technician needed", closeHint: "Close when the customer confirms",
+    suggestTech: "The customer will not or cannot do this: consider «Technician needed»",
     pending: "Waiting", startNow: "Start", drop: "Discard", maintenance: "Routine maintenance skipped: recommend",
     outcome: { remote: "Fixed remotely", part_diy: "Part, fitted by the customer", part_with_support: "Part with service support", technician: "Technician needed" },
     nextTitle: "What to do now",
@@ -341,6 +343,7 @@ function handle(ev) {
     case "hangup": if (vws) planHangup(true); break;      // the agent's goodbye has been heard
     case "open_doc": openDoc(ev); break;
     case "agent": logLine(ev.text, false, ev.at); break;
+    case "notice": toast(ev.text); logLine(ev.text, true); break;
     case "model_mention": { const d = document.createElement("div"); d.innerHTML = `<button class="btn small">→ ${esc(ev.model)}</button>`; d.querySelector("button").onclick = () => send({ type: "control", action: "set_machine", model_id: ev.model_id }); $("log").prepend(d); break; }
     case "toggles": $("tg-assistant").checked = ev.assistant; $("tg-clarify").checked = ev.clarify; break;
     case "summary": stopAgents(); renderSummary(ev.summary); break;
@@ -461,6 +464,7 @@ function renderDiagnosis(d) {
     : `<div class="branches">${s.branches.map((b, i) => `<button class="btn" data-branch="${i}"><kbd>${i + 1}</kbd> ${esc(b)}</button>`).join("")}</div>`;
   p.innerHTML = `${head}${hist}${maint}<div class="step"><div class="kind">${s.kind === "ask" ? L.ask : L.do}</div><div class="q">${esc(s.text)}</div>` +
     (callMode === "operator" ? `<div class="say"><small>${L.say}</small>${esc(s.say_in_english)}</div>` : "") + (s.note ? `<div class="note">${esc(s.note)}</div>` : "") + branches + `</div>` +
+    (callMode === "operator" && d.suggest_technician ? `<div class="suggest">⚠ ${L.suggestTech}<br><em>«${esc(d.suggest_technician)}»</em></div>` : "") +
     (callMode === "operator" ? `<div class="closebar"><span class="note">${L.closeHint} · ${L.keys}</span><button data-close="remote" class="btn small ok">${L.closeRemote}</button><button data-close="technician" class="btn small warn">${L.closeTech}</button></div>` : "") + pend;
   wireDiag(p);
   currentBranches = callMode === "operator" ? s.branches.length : 0;
