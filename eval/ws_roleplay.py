@@ -28,6 +28,11 @@ OPERATOR = {
               "What voltage is the machine, 230 or 110 volts?",
               "The steam boiler heating element has failed. It is under warranty, so there is no charge. I ship it with the gasket, and we book a video call to fit it. Is Wednesday morning okay?",
               "Perfect, it's booked. Thank you for calling, goodbye."],
+    "luca": ["Sereni service, good morning, this is Michael. How can I help you?",
+             "I'm sorry to hear that. Can you read me the serial number on the plate at the back?",
+             "Thank you. At the end of the shot, do you hear the short discharge into the drip tray?",
+             "When did you last backflush the group with a tablet?",
+             "Thank you for calling, we will send a technician. Goodbye."],
 }
 
 
