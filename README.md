@@ -16,17 +16,23 @@ The page has three ways in, all with the same knowledge base:
 
 - **Mode 1 · Automatic assistant** (you are the customer). Pick one of the sample customers, read their sheet, press
   *Call the service desk* and describe the problem. The assistant starts in English and switches to Italian, Spanish,
-  German, French or Portuguese if you speak one of them.
+  German, French or Portuguese if you speak one of them. **Wearing headphones? Turn on 🎧 Headphones** in the call bar:
+  the microphone stays open, you can pause mid-sentence and talk over the agent to stop it. With laptop speakers leave
+  it off (the agent would hear its own voice).
 - **Listen to a call** (no microphone). The same assistant answers the selected customer, played by a second AI agent.
-- **Mode 2 · Operator assist** (you are the operator). An AI customer calls with a real fault; you answer on the
-  microphone and Cardex listens to both sides: it opens the procedure at the right step with the sentence to read,
-  finds parts, warranty and a slot, and prepares the work order.
+- **Mode 2 · Operator assist** (you are the operator). An AI customer (Luca, Dave, Klaus or Carmen) calls with a real
+  fault; you answer on the microphone and Cardex listens to both sides. The console gives the operator the same tools
+  the automatic assistant has: the procedure at the right step with the sentence to read, the answers to click, parts
+  with price and delivery, warranty and who pays, the service or technician calendar, "the customer fits the parts
+  alone", "the customer wants the technician", a line on how to keep the fault from coming back, and the work order.
+  It points out what the customer says that matters: a refusal to open the machine, a request for a technician, a
+  serial with digits missing.
 
 Every call ends with a work order: outcome, machine and warranty, the checks done, parts with what the customer pays,
 shipping, the service call, the appointment, the email the quote goes to, and notes for the operator.
 
 The public demo has limits so that nobody can spend the owner's credits: two calls at a time, ten minutes per call,
-a daily budget of agent minutes and a few calls per hour per address (`app/limits.py`, set from environment variables).
+a daily budget of agent minutes and ten calls per hour per address (`app/limits.py`, set from environment variables).
 
 ## How AssemblyAI is used
 
@@ -81,6 +87,9 @@ was replaced by the Voice Agent on 24–26 September; its decisions stay here as
 - **2026-09-26** The customer's email is on file with the installed base; dictating addresses letter by letter over a call proved unreliable. A new address goes through a dedicated tool and must appear in the customer's own words.
 - **2026-09-26** Diagnosis from AssemblyAI's own session recordings (`eval/session_fetch.py`, `eval/session_check.py`): the audio arrived whole, so the errors were live transcription or our logic. Tool results are sent only once the agent's reply is done (and dropped if it was interrupted), which stopped two replies starting together; `max_accuracy` transcription took duplicated replies in a synthetic A/B from 3 to 0.
 - **2026-09-26** The price list is in the ERP (`service_prices`): service video call 35 €, technician call-out 80 €, shipping 9.90 € in the EU and 29 € outside, all free under warranty. A customer who can take the machine apart does it live with the agent; one who cannot or will not gets the technician, who brings the part.
+- **2026-09-28** Eight test calls analysed one by one from AssemblyAI's recordings, each defect replayed as a test. The customer's words, not the agent's summary, choose the procedure ("it stays cold… it seems dead" was summarised as "the machine is dead"), and the latest words can move to another procedure once the customer confirms. Answers are read in their own language. A refusal ("I'm afraid to open it") or a request for a technician is read on the customer's sentence and closes the step even if the agent forgets to. The outcome is told once, in short turns. Slots are offered by part of the day. Each step asks one question.
+- **2026-09-28** The page hangs up after the goodbye has been played, not after the reply that asked to close. With headphones the half duplex is switched off: the mic stays open and AssemblyAI's barge-in stops the agent, so a customer who pauses mid-sentence is no longer cut off.
+- **2026-09-28** Mode 2 gets the agent's tools: the operator console offers every decision the agent can take (technician instead of fitting, check-up visit after a remote fix, parts asked for in passing, prevention advice), and Cardex points out when the customer's words call for one. A check-up visit with the machine working is charged at list price even under warranty: there is nothing to repair.
 
 ## Running locally
 
@@ -108,7 +117,7 @@ Checks in `eval/` (the ones that call AssemblyAI cost a few cents of agent time)
 | Script | What it does |
 |---|---|
 | `ws_voice.py 8000 dave\|lena\|mario` | a synthetic customer calls the automatic assistant through the real Voice Agent |
-| `ws_roleplay.py 8000 klaus` | a synthetic operator talks to the simulated customer |
+| `ws_roleplay.py 8000 klaus\|luca` | a synthetic operator talks to the simulated customer |
 | `session_fetch.py` | lists AssemblyAI sessions and downloads one: stereo audio (customer left, agent right), timeline with confidences and tool calls |
 | `session_check.py` | transcribes the customer's channel afterwards and compares it with what was understood live |
 | `probe_gateway_rate.py` | measures how many LLM Gateway requests per minute the account accepts |
@@ -116,27 +125,29 @@ Checks in `eval/` (the ones that call AssemblyAI cost a few cents of agent time)
 
 ## Tests
 
-`python -m pytest -q` runs 251 tests in about a minute, with no microphone and no AssemblyAI credits (the first run
+`python -m pytest -q` runs 268 tests in about a minute, with no microphone and no AssemblyAI credits (the first run
 downloads the embedding model, about 200 MB).
 They check Cardex's own side of the call: rules, data and decisions. What the agent says is produced by AssemblyAI's
 model and is not deterministic; that is checked with live calls and with the headless checks above.
 
 | File | Tests | What it guarantees |
 |---|---|---|
-| `test_voice_tools.py` | 59 | The agent's tools and guard rails, costs and warranty, email, language handover, replays of live test calls |
+| `test_voice_tools.py` | 72 | The agent's tools and guard rails, the operator console's decisions, costs and warranty, email, language handover, replays of live test calls |
 | `test_normalizer.py` | 39 | Spoken part codes come back in canonical form ("e L3010" → EL-3010, "G E twenty-one forty" → GE-2140) |
 | `test_defects_files.py` | 34 | Every procedure is a closed graph over the ERP: each answer leads to a step or an outcome, each part exists and fits, no step is unreachable, every model is covered |
 | `test_semantic.py` | 31 | A fault described in eight languages reaches the right procedure; small talk and half sentences open nothing |
 | `test_context_catalog.py` | 25 | Machine recognition, part search, serial numbers with one wrong digit, the service calendar |
 | `test_symptoms_vocab.py` | 19 | Procedures and outcomes, answers not mistaken for new faults, the key terms within the session limits |
 | `test_manuals.py` | 20 | A manual per model in both languages, with shared anchors and only compatible parts |
-| `test_dialog.py` | 19 | Reading an answer: numbers said in words, yes/no, on/off, negations, serials, emails, language |
+| `test_dialog.py` | 23 | Reading an answer: numbers said in words, yes/no, on/off, negations, serials, emails, language |
 | `test_limits.py` | 5 | The public demo limits and the token that waits for its call |
 
 Every defect found in a live call becomes a test that replays that moment, named after the call in its docstring:
 the warranty covers the repair's parts but never consumables; "I think it's dirty" cannot answer "how old is the
 gasket?"; "Goodbye." never replaces a finished procedure; a serial said twice in one sentence is still one serial;
-an email spelled letter by letter is recorded, an invented one is not.
+an email spelled letter by letter is recorded, an invented one is not; "I'm afraid to open it, can someone come?"
+brings the technician with the valve; "it seems dead" does not open "machine dead" when the customer also said the
+lights are on; the email on file keeps its dashes when it is read back without them.
 
 ## Future work
 
@@ -148,6 +159,10 @@ Known debt, left alone before the deadline because it works and is covered by te
 - `test_voice_tools.py` would split by topic (procedure, costs, email, language, end of call).
 - Accessibility of the call screen (live regions for the transcript, keyboard order) has not been reviewed.
 - A reply started while a tool call is pending can still overlap with the next one when the customer talks over it.
+- With laptop speakers the half duplex stays on, so a sentence paused mid-way can still lose its end; headphones
+  mode avoids it. Real echo cancellation would make full duplex safe on speakers too.
+- In Mode 1 the agent switches to a technician's visit on its own after a parts outcome, not yet to a check-up visit
+  after a remote fix (the Mode 2 console offers both).
 
 ## License
 

@@ -3,7 +3,7 @@
 Everything is set from environment variables (Railway → Variables), no code change needed:
   MAX_VOICE_CALLS        calls with a Voice Agent running at the same time                 (default 2)
   DAILY_AGENT_MINUTES    agent minutes per day, all callers together; a two-AI call counts twice (default 180)
-  CALLS_PER_IP_PER_HOUR  calls one address may start in an hour                            (default 8)
+  CALLS_PER_IP_PER_HOUR  calls one address may start in an hour                            (default 10)
   DEMO_UNTIL             last day voice calls are open, YYYY-MM-DD; empty = no end date    (default empty)
 The real ceiling is the AssemblyAI balance itself: with auto-recharge off, spending stops when the credits end.
 Counters live in memory: a redeploy resets the day's minutes.
@@ -17,7 +17,7 @@ from datetime import date
 
 MAX_VOICE_CALLS = int(os.getenv("MAX_VOICE_CALLS", "2"))
 DAILY_AGENT_MINUTES = float(os.getenv("DAILY_AGENT_MINUTES", "180"))
-CALLS_PER_IP_PER_HOUR = int(os.getenv("CALLS_PER_IP_PER_HOUR", "8"))
+CALLS_PER_IP_PER_HOUR = int(os.getenv("CALLS_PER_IP_PER_HOUR", "10"))
 DEMO_UNTIL = os.getenv("DEMO_UNTIL", "").strip()
 TOKENS_PER_CALL = 6            # a call may hand over to another language's voice, a two-AI call needs two
 
