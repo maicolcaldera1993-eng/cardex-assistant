@@ -1,6 +1,10 @@
 """Reading what the customer said: which option of a procedure step they picked (classify_branch), yes/no, numbers
 said in words, serial numbers, email addresses, the language they speak. Deterministic checks the server runs on the
-Voice Agent's reports, so the agent never advances a procedure on words that do not answer the step."""
+Voice Agent's reports, so the agent never advances a procedure on words that do not answer the step.
+
+The word lists cover the six languages the assistant speaks (en, it, es, de, fr, pt); English and Italian are the ones
+tested most. The weights in classify_branch were tuned on the answers of the live test calls (tests/test_dialog.py and
+tests/test_voice_tools.py replay them)."""
 from __future__ import annotations
 
 import re
@@ -144,7 +148,7 @@ def email_in(text: str) -> str:
 
 
 def said_email(email: str, texts: list[str]) -> bool:
-    """Did the customer say this address? Spelled ('M-A-I-C-O-L, Caldera, one nine nine three at G. Mail'), read out
+    """Did the customer say this address? Spelled ('M-A-R-I-O, Rossi, one nine nine three at G. Mail'), read out
     ('dave at espresso corner dot com') or written: the letters of the name and of the domain must appear, in order and
     without the gaps, in what the customer said."""
     if not email or "@" not in email or email.endswith("@example.com"):
@@ -255,7 +259,7 @@ _FIXED = re.compile(r"\b(it )?works\b|\bworking (again|now)\b|\bfixed\b|\bsolved
                     r"\bnow it'?s (fine|ok|okay|good)\b|\bfunziona\b|\brisolto\b|\bfunciona\b|\bfunktioniert\b|\bmarche\b")
 # "I'd rather have a technician", "non vorrei smontare": the customer cannot or will not do it (the "No" option), even
 # when the sentence also says "damage" ("...e poi creare dei danni" once picked "Yes, but the plunger is damaged")
-_REFUSAL = re.compile(r"\bprefer\w*\b[^.]{0,40}\b(tecnico|technician|techniker|t[ée]cnico|technicien)|"
+REFUSAL = re.compile(r"\bprefer\w*\b[^.]{0,40}\b(tecnico|technician|techniker|t[ée]cnico|technicien)|"
                       r"\b(rather not|i'?d rather have|i can'?t|i cannot|i won'?t|i don'?t want to|not able to|"
                       r"non (posso|riesco|voglio|vorrei|me la sento|saprei)|no (puedo|quiero|s[ée])|"
                       r"ich (kann|will|möchte) (das )?nicht|je ne (peux|veux|sais) pas|não (consigo|quero|sei))\b", re.I)
@@ -305,7 +309,7 @@ def classify_branch(text: str, branches: list[dict], similarities: Callable[[str
     low = text.lower()
     tried_bad = bool(_NOT_FIXED.search(low))
     tried_good = not tried_bad and bool(_FIXED.search(low))
-    refused = bool(_REFUSAL.search(low))
+    refused = bool(REFUSAL.search(low))
     negatives = cannot_options(branches)
     if refused and len(negatives) == 1:
         return negatives[0], 1.0                               # a refusal is decisive when the step has one "No"

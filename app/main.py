@@ -18,10 +18,10 @@ import markdown  # noqa: E402
 
 from .session import CATALOG, DEFECTS, SEMANTIC, VOCAB, CallSession  # noqa: E402
 from .limits import BUDGET, client_ip  # noqa: E402
+from .core.slug import slug  # noqa: E402
 
 API_KEY = os.environ.get("ASSEMBLYAI_API_KEY", "")
-MAX_CONCURRENT = int(os.getenv("MAX_CONCURRENT_SESSIONS", "2"))
-_active = 0
+_active = 0                     # calls open right now (shown by /healthz; the limits live in app/limits.py)
 
 app = FastAPI(title="Cardex Assistant")
 app.mount("/static", StaticFiles(directory=ROOT / "web"), name="static")
@@ -124,7 +124,6 @@ def part(code: str, model_id: str | None = None) -> dict:
 def render_doc(page: str, hl: str | None = None, lang: str = "it") -> dict:
     """A knowledge-base page as HTML, headings carrying the same anchors as the section index,
     and the sentence that matches what was said wrapped in <mark>."""
-    from .data_slug import slug  # noqa: PLC0415
     kb = (ROOT / "data" / "kb").resolve()
     f = (kb / page).resolve()
     if lang == "en" and f.with_suffix(".en.md").exists():
@@ -166,9 +165,6 @@ async def call(ws: WebSocket, source: str = "voice", lang: str = "en", agents: i
         return await ws.close()
     if not API_KEY:
         await ws.send_json({"type": "error", "text": "ASSEMBLYAI_API_KEY is not configured on the server"})
-        return await ws.close()
-    if _active >= MAX_CONCURRENT:
-        await ws.send_json({"type": "error", "text": "The demo is busy (max concurrent calls reached). Try again in a minute."})
         return await ws.close()
     _active += 1
     lock = asyncio.Lock()

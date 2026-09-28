@@ -42,9 +42,9 @@ class DemoBudget:
         """Why a new voice call cannot start now, or None."""
         self._roll()
         if DEMO_UNTIL and date.today().isoformat() > DEMO_UNTIL:
-            return "The live voice demo has ended. The recorded call on the home page still works."
+            return "The live voice demo has ended. Thank you for trying Cardex."
         if len(self.active) >= MAX_VOICE_CALLS:
-            return "The demo is busy: two calls are running. Please try again in a few minutes."
+            return "The demo is busy: other calls are running. Please try again in a few minutes."
         if self.minutes_left() < 3:
             return "Today's demo minutes are used up. Please try again tomorrow."
         recent = self.calls[ip]
@@ -81,8 +81,9 @@ BUDGET = DemoBudget()
 
 
 def client_ip(headers, client) -> str:
-    """The caller's address behind Railway's proxy."""
+    """The caller's address behind Railway's proxy: the LAST X-Forwarded-For entry, the one the proxy added. The first
+    entries come from the caller and could be forged to dodge the per-address limit."""
     fwd = headers.get("x-forwarded-for") if headers else None
     if fwd:
-        return fwd.split(",")[0].strip()
+        return fwd.split(",")[-1].strip()
     return getattr(client, "host", None) or "unknown"

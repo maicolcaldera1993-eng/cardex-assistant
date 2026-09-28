@@ -1,4 +1,6 @@
 """Public demo guard: concurrency, per-address rate, daily minutes, end date, tokens only for an open call."""
+import pytest
+
 import app.limits as limits
 from app.limits import DemoBudget
 
@@ -42,6 +44,7 @@ def test_token_waits_for_the_call_that_is_opening():
     saved_budget = main.BUDGET
     main.BUDGET = b
     loop = asyncio.new_event_loop()               # not asyncio.run: it would leave no current loop for other tests
+    saved_key = main.API_KEY
     main.API_KEY = main.API_KEY or "test"
 
     async def fake_token(key, seconds=600):
@@ -63,12 +66,16 @@ def test_token_waits_for_the_call_that_is_opening():
         return await main.voice_token(Req())
     try:
         assert loop.run_until_complete(scenario())["token"] == "tok"
-        try:
+        with pytest.raises(HTTPException) as refused:      # a caller without a call is refused
             loop.run_until_complete(main.voice_token(type("R", (), {"headers": {"x-forwarded-for": "6.6.6.6"}, "client": None})()))
-            assert False, "a caller without a call must be refused"
-        except HTTPException as e:
-            assert e.status_code == 429
+        assert refused.value.status_code == 429
     finally:
         agent.session_token = orig
         main.BUDGET = saved_budget
+        main.API_KEY = saved_key
         loop.close()
+
+
+def test_the_address_is_the_one_the_proxy_added():
+    """The first X-Forwarded-For entries come from the caller and could be forged to dodge the per-address limit."""
+    assert limits.client_ip({"x-forwarded-for": "1.2.3.4, 203.0.113.9"}, None) == "203.0.113.9"

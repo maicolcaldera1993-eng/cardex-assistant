@@ -1,9 +1,9 @@
-"""The automatic assistant: reading the customer's answer to pick a branch, digits, polarity, wording."""
+"""Reading the customer's answer (app/core/answers.py): which branch, digits, polarity, wording."""
 import pytest
 
 pytest.importorskip("fastembed")
 
-from app.agent.dialog import classify_branch, digits_in, for_customer, polarity  # noqa: E402
+from app.core.answers import classify_branch, digits_in, for_customer, polarity  # noqa: E402
 from app.core.semantic import SemanticIndex  # noqa: E402
 from app.core.symptoms import DefectsLibrary  # noqa: E402
 
@@ -44,7 +44,7 @@ def test_customer_answer_picks_the_branch(symptom, step, text, expected):
 
 
 def test_numbers_said_in_words():
-    from app.agent.dialog import numbers_in
+    from app.core.answers import numbers_in
     assert numbers_in("It is one hundred ten volts") == {"110"}
     assert numbers_in("two hundred and thirty volts, bought in 2024") == {"230", "2024"}
     assert numbers_in("the needle is at one point two") == {"1.2"}
@@ -74,7 +74,7 @@ def test_serial_digits_in_the_customer_language():
 
 
 def test_serial_said_twice_or_next_to_other_numbers():
-    from app.agent.dialog import serials_in
+    from app.core.answers import serials_in
     assert digits_in("Il numero di serie è zero cinque uno, zero quattro zero. 051040.") == "051040"
     assert digits_in("Sì, esatto. Zero cinque uno, zero quattro zero. 051040.") == "051040"
     assert digits_in("051040051040") == "051040"

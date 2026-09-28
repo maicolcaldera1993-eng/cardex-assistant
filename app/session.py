@@ -19,7 +19,7 @@ from .core.catalog import Catalog
 from .core.context import ContextDetector
 from .core.normalizer import canonicalize_codes, extract_codes
 from .core.semantic import AMBIGUITY_GAP, DECOY_MARGIN, SECTION_THRESHOLD, SYMPTOM_THRESHOLD, SemanticIndex
-from .core.symptoms import DefectsLibrary, Diagnosis, parse_then, Outcome, content_words
+from .core.symptoms import DefectsLibrary, Diagnosis, Outcome, content_words
 from .core import terms
 from .core.vocabulary import VocabularyManager
 from .llm.clarify import Clarifier
@@ -28,11 +28,15 @@ from .voice.agent import run_tool, tool_result_text
 ROOT = Path(__file__).resolve().parents[1]
 OPERATOR, CUSTOMER = "operator", "customer"
 MAX_SESSION_SECONDS = int(os.getenv("MAX_SESSION_SECONDS", "600"))          # public demo guard
-MAX_REHEARSAL_SECONDS = int(os.getenv("MAX_REHEARSAL_SECONDS", "1500"))     # operator practice may take longer
+MAX_ROLEPLAY_SECONDS = int(os.getenv("MAX_ROLEPLAY_SECONDS", "600"))        # Mode 2: operator practice with an AI customer
 _REQUEST_CUE = re.compile(r"\b(need|want|add|box|extra|include|buy|purchase|as well|order|ordered|send|replace|replacement|spare|part|broken|new one|another|"
                           r"serve|servono|ordin\w+|mand\w+|sostitu\w+|ricambio|rotto|rotta|nuov[oa])\b", re.I)
-_DEBUG_LOG = os.getenv("CARDEX_DEBUG_TURNS") or str(ROOT / "eval" / "logs" / "turns.jsonl")   # raw final turns, local only
-Path(_DEBUG_LOG).parent.mkdir(parents=True, exist_ok=True)
+# Decision log (which symptom, which branch and why), to trace a call afterwards. On by default on a developer's
+# machine, off on Railway, where it would store customers' words; CARDEX_DECISION_LOG=<path> or "off" overrides both.
+_LOG_SETTING = os.getenv("CARDEX_DECISION_LOG", "off" if os.getenv("RAILWAY_ENVIRONMENT") else "")
+_DEBUG_LOG = None if _LOG_SETTING == "off" else (_LOG_SETTING or str(ROOT / "eval" / "logs" / "decisions.jsonl"))
+if _DEBUG_LOG:
+    Path(_DEBUG_LOG).parent.mkdir(parents=True, exist_ok=True)
 
 # Loaded once, shared by every session (read-only).
 CATALOG = Catalog()
@@ -70,20 +74,15 @@ class CallSession:
         self.closed_symptoms: list[str] = []      # procedures that reached an outcome in this call
         self.dropped_symptoms: set[str] = set()   # files the operator said were wrong, or discarded from the queue
         self.other_models: list[str] = []
-        self.last_vocab_at = 0.0
-        self.vocab_trigger: tuple | None = None
         self.cards: dict[str, dict] = {}
-        self.turns: dict[int, dict] = {}          # utterance id -> utterance (merged turns of one voice)
+        self.turns: dict[int, dict] = {}          # turn id -> turn (one relayed sentence of one voice)
         self.utterances: list[dict] = []
         self.opened_docs: set[str] = set()
         self.offered_choices: set[tuple] = set()
-        self.vocab_phase = 0
-        self.vocab_key: tuple | None = None
         self.outcome: dict | None = None
         self.booking: dict | None = None         # service slot booked by the operator (fictional calendar)
         self.started = time.monotonic()
         self.clarifier = Clarifier(api_key, lang, self._on_clear)
-        self._closing = False
         # voice agent mode: AssemblyAI's hosted agent listens and talks; we are its memory and its tools
         self.voice = source == "voice"
         # operator practice with a simulated customer: both sides come as transcripts relayed by the page
@@ -96,13 +95,10 @@ class CallSession:
         self.voice_ended = asyncio.Event()
         self.voice_turn = 0
         self.notes: list[str] = []                # things the agent could not answer, for the operator
-        self.unclear_steps: set[str] = set()      # steps where the agent's reported answer was rejected once
         self.unclear_count: dict[str, int] = {}   # rejections per step: a long off-topic reply needs a third call
         self.end_refused: set[str] = set()        # end_call refused once per reason: open step, parts, no goodbye
-        self.end_wanted = False                   # the agent asked to end at least once
         self.fits_alone = False                   # the customer declined the service call: fits the parts alone
         self.email = ""                           # where the quote and the payment instructions go
-        self.email_on_file = False                # ... taken from the customer record, to confirm with the customer
         self.agent_lang = "en"                    # the language the automatic assistant is speaking
         self.customer_turns = 0                   # the customer's sentences so far (the language is chosen at the start)
         self.last_agent_text = ""
@@ -113,15 +109,13 @@ class CallSession:
     # ------------------------------------------------------------------ lifecycle
     async def run(self) -> None:
         """The call lasts until the page says the Voice Agent session ended, or the demo time limit."""
-        vocab = VOCAB.build()
-        self.vocab_phase, self.vocab_key = 1, (None, None, None, ())
+        limit = MAX_ROLEPLAY_SECONDS if self.roleplay else MAX_SESSION_SECONDS
         try:
             await self.emit({"type": "session", "state": "open", "source": self.source, "lang": self.lang,
-                             "limits": {"max_seconds": MAX_SESSION_SECONDS}})
-            await self._emit_vocab(vocab)
+                             "limits": {"max_seconds": limit}})
             await self._emit_context()
-            self.clarifier.start()                      # English subtitles for lines in another language
-            await asyncio.wait_for(self.voice_ended.wait(), timeout=MAX_REHEARSAL_SECONDS if self.roleplay else MAX_SESSION_SECONDS)
+            self.clarifier.start()                      # subtitles in the page's language for lines in another one
+            await asyncio.wait_for(self.voice_ended.wait(), timeout=limit)
         except asyncio.TimeoutError:
             await self._agent("Tempo massimo raggiunto." if self.lang == "it" else "Time limit reached.")
         except Exception as e:  # noqa: BLE001
@@ -131,21 +125,19 @@ class CallSession:
             await self._emit_summary()
 
     async def end(self) -> None:
-        self._closing = True
         self.voice_ended.set()
 
     def _log_decision(self, what: str, **data) -> None:
-        """Same local log as the raw turns: what the assistant decided and why, so a wrong symptom can be traced
-        without re-running the audio."""
+        """What the assistant decided and why (see _DEBUG_LOG), so a wrong symptom can be traced after the call."""
         if _DEBUG_LOG:
             with open(_DEBUG_LOG, "a", encoding="utf-8") as f:
                 f.write(json.dumps({"t": round(time.monotonic() - self.started, 1), "decision": what, **data}, ensure_ascii=False) + "\n")
 
     # ------------------------------------------------------------------ the assistant
-    async def _assist(self, tid: int, text: str, role: str, min_conf: float, recent: list[str] | None = None,
-                      utt: dict | None = None) -> None:
-        recent = recent or [text]
-        from .agent.dialog import email_in
+    async def _assist(self, tid: int, text: str, role: str) -> None:
+        """Reads one sentence of the call for what Cardex tracks by itself: an email, the machine, the serial, part
+        codes and, in Mode 2 (the operator talks to an AI customer), the fault the customer describes."""
+        from .core.answers import email_in
         em = email_in(text)                                    # said by the customer or read back by the operator
         if em and em != self.email and len(em.split("@")[0]) >= 3:
             await self._set_email(em)
@@ -181,38 +173,29 @@ class CallSession:
         if changed:
             await self._emit_context()
 
-        # meaning-based symptom detection listens to the CUSTOMER only: the operator's questions ("what is the
-        # problem?", "how long does a shot take?") are about the fault, not descriptions of it. Exact spoken phrases
-        # still count from either voice (operators restate what they heard).
+        # Mode 2 only: the fault is read from the CUSTOMER's words (the operator's questions, "no level alarm?", are
+        # about the fault, not descriptions of it). In Mode 1 procedures open only through the agent's tools.
         if role == CUSTOMER and not self.voice:
-            # the operator's questions are about the fault, not descriptions of it ("no level alarm?" is a question)
-            if not await self._detect_symptom(recent, semantic=sentence_complete(recent[0])) \
+            if not await self._detect_symptom([text], semantic=sentence_complete(text)) \
                     and not (self.diagnosis and self.diagnosis.current):
-                await self._open_matching_section(recent[-1])
+                await self._open_matching_section(text)
 
         cards = []
         codes = extract_codes(text)
         for c in codes:
             if c.code in self.cards:
-                continue                                       # already on the table from an earlier fragment
-            conf = min_conf
-            if utt:                                            # confidence of the fragment the code was heard in
-                for frag, fc in zip(utt["fragments"], utt["confs"]):
-                    if c.code in canonicalize_codes(frag)[0]:
-                        conf = fc
-                        break
+                continue                                       # already on the table
             cards += CATALOG.search_code(c.code, model_id=self.model_id, family=self.family, groups=self.groups,
-                                         min_confidence=conf if c.exact_shape else 0.0)
-        if not codes and role == CUSTOMER and _REQUEST_CUE.search(recent[0]):
+                                         min_confidence=1.0 if c.exact_shape else 0.0)
+        if not codes and role == CUSTOMER and _REQUEST_CUE.search(text):
             # a part named by description counts only when the CUSTOMER is asking for something, not when the
             # operator reads a procedure aloud ("14 grams in the double basket" is not an order for baskets)
-            cards += CATALOG.search_description(recent[0], model_id=self.model_id, family=self.family, groups=self.groups)
+            cards += CATALOG.search_description(text, model_id=self.model_id, family=self.family, groups=self.groups)
         await self._add_cards(cards, tid, source="voice")
         for c in cards:
             if c.reason in ("exact", "near-code", "description", "replacement"):   # an incompatible or superseded code is exactly when the sheet matters
                 await self._open_doc(f"part/{c.code}", "code" if c.reason != "description" else "description")
                 break
-        await self._maybe_reload_vocabulary()
 
     # ------------------------------------------------------------------ meaning and documents
     async def _detect_symptom(self, texts: list[str], semantic: bool = True) -> bool:
@@ -353,7 +336,7 @@ class CallSession:
                               else f"Heard serial “{serial}”, the records have {rec['serial']}: confirm.")
         in_warranty = rec["warranty_until"] >= time.strftime("%Y-%m-%d")
         if rec.get("contact_email") and not self.email:
-            self.email, self.email_on_file = rec["contact_email"], True       # confirmed on the call, not dictated
+            self.email = rec["contact_email"]                               # confirmed on the call, not dictated
         rec["in_warranty"] = in_warranty                  # the outcome view needs it to say who pays
         name = VOCAB.model_names.get(rec["model_id"], rec["model_id"])
         if rec["model_id"] != self.model_id:
@@ -386,7 +369,6 @@ class CallSession:
                          "notes": rec["notes"], "orders": rec["orders"], "exact": rec["matched_exactly"],
                          "warranty_terms": terms.WARRANTY_TERMS["it" if self.lang == "it" else "en"]})
         await self._emit_context()
-        await self._maybe_reload_vocabulary()
 
     async def _start_diagnosis(self, symptom_id: str, matched: str | None = None) -> None:
         self.diagnosis = DEFECTS.start(symptom_id)
@@ -441,35 +423,6 @@ class CallSession:
                         (f" — superseded by {d['superseded_by']}" + (f", requires {d['requires']}" if d["requires"] else ""))
                 await self._agent(f"{d['code']}: {txt}{warn}")
 
-    def _symptom_parts(self) -> list[str]:
-        if not self.diagnosis:
-            return []
-        out: list[str] = []
-        for st in self.diagnosis.symptom["steps"]:
-            for p in st.get("parts", []):
-                if p not in out:
-                    out.append(p)
-            for b in st["branches"]:
-                o = parse_then(b["then"])
-                if isinstance(o, Outcome):
-                    out += [p for p in o.parts if p not in out]
-        return out
-
-    async def _maybe_reload_vocabulary(self) -> None:
-        group = self.groups[0] if self.groups else None
-        parts = tuple(self._symptom_parts())
-        key = (self.model_id, self.family if not self.model_id else None, group if (self.model_id or self.family) else None, parts)
-        if key == self.vocab_key or not (self.model_id or self.family):
-            return
-        # a new machine or a new symptom reloads at once; a mere change of topic at most every 15 seconds
-        trigger = (key[0], key[1], parts)
-        if trigger == self.vocab_trigger and time.monotonic() - self.last_vocab_at < 15:
-            return
-        self.vocab_key, self.vocab_trigger, self.last_vocab_at = key, trigger, time.monotonic()
-        vocab = VOCAB.build(model_id=self.model_id, family=self.family, group=group, symptom_parts=list(parts))
-        self.vocab_phase = vocab.phase
-        await self._emit_vocab(vocab)
-
     # ------------------------------------------------------------------ operator controls
     async def control(self, msg: dict) -> None:
         a = msg.get("action")
@@ -495,7 +448,6 @@ class CallSession:
                 self.pending_symptoms.remove(sid)
             self.dropped_symptoms.discard(sid)
             await self._start_diagnosis(sid, "scelta dall'operatore" if self.lang == "it" else "operator's choice")
-            await self._maybe_reload_vocabulary()
         elif a == "drop_pending" and msg.get("symptom_id") in self.pending_symptoms:
             self.pending_symptoms.remove(msg["symptom_id"])
             self.dropped_symptoms.add(msg["symptom_id"])
@@ -530,7 +482,7 @@ class CallSession:
                 await self._agent(note)
             await self._emit_diagnosis()
         elif a == "set_email":
-            from .agent.dialog import email_in
+            from .core.answers import email_in
             em = email_in(str(msg.get("email") or ""))
             if em:
                 await self._set_email(em)
@@ -562,32 +514,25 @@ class CallSession:
             await self._agent(f"Macchina impostata dall'operatore: {VOCAB.model_names[self.model_id]}" if self.lang == "it"
                               else f"Machine set by the operator: {VOCAB.model_names[self.model_id]}")
             await self._emit_context()
-            await self._maybe_reload_vocabulary()
-        elif a == "set_outcome":
-            self.outcome = {"kind": msg.get("kind"), "by": "operator"}
-            await self._agent(f"Esito impostato dall'operatore: {msg.get('kind')}" if self.lang == "it"
-                              else f"Outcome set by the operator: {msg.get('kind')}")
         elif a == "close_symptom" and self.diagnosis:
             kind = msg.get("kind", "remote")
             if kind in ("remote", "part_diy", "part_with_support", "technician"):
                 self.diagnosis.outcome = Outcome(kind, [])
                 self.diagnosis.current = None
                 await self._on_outcome(self.diagnosis.outcome)
-        elif a == "set_serial" and msg.get("serial"):
-            await self._set_serial(re.sub(r"[^0-9A-Za-z]", "", msg["serial"]))
 
     # ------------------------------------------------------------------ voice agent helpers
     async def voice_transcript(self, role: str, text: str, interrupted: bool = False) -> None:
-        """A final utterance relayed from the Voice Agent session: shown as a turn, remembered for the summary,
-        and (for the customer) read for machine, serial and part codes like any other customer turn. An agent
-        sentence cut short by the customer is kept, marked as interrupted."""
+        """A sentence relayed from the Voice Agent session: shown as a turn, remembered for the work order, and read
+        for machine, serial and part codes. An agent sentence cut short is kept, marked as interrupted."""
+        # the hosted model once spoke a "<thought>...</thought>" aloud: never show or read it
         text = re.sub(r"<\s*(thought|thinking)\b[^>]*>.*?(<\s*/\s*\1\s*>|$)", "", text, flags=re.S | re.I).strip()
         if not text:
             return
         self.voice_turn += 1
         tid = self.voice_turn * 100
         who = CUSTOMER if role == "customer" else OPERATOR if role == "operator" else "agent"
-        from .agent.dialog import serials_in
+        from .core.answers import serials_in
         if who == CUSTOMER:
             self.last_customer_text = text
         if not self.machine:
@@ -608,19 +553,17 @@ class CallSession:
             if ready_to_hang_up(self, text):
                 self.voice_done = True
                 await self.emit({"type": "hangup"})            # the page ends the agent session after this sentence
-        text, codes = canonicalize_codes(text)
-        utt = {"id": tid, "raw": text, "text": text, "codes": codes, "fragments": [text], "confs": [1.0], "role": who,
-               "speaker": None, "turn_ids": [tid], "min_conf": 1.0, "at": round(time.monotonic() - self.started, 1),
-               "at_end": round(time.monotonic() - self.started, 1), "clear": None, "interrupted": bool(interrupted)}
-        self.utterances.append(utt)
-        self.turns[tid] = utt
-        await self.emit({"type": "turn", "id": tid, "final": True, "text": text, "role": who, "speaker": None, "min_conf": 1.0,
-                         "merged": 1, "interrupted": bool(interrupted)})
+        text, _ = canonicalize_codes(text)                     # "e L3010" is shown and read as "EL-3010"
+        turn = {"id": tid, "text": text, "role": who, "at": round(time.monotonic() - self.started, 1), "clear": None,
+                "interrupted": bool(interrupted)}
+        self.utterances.append(turn)
+        self.turns[tid] = turn
+        await self.emit({"type": "turn", "id": tid, "text": text, "role": who, "interrupted": bool(interrupted)})
         if self.voice:
-            from .agent.dialog import language_of, language_request
+            from .core.answers import language_of, language_request
             said_in = language_of(text) or (self.agent_lang if who == "agent" else None)
             if said_in and said_in != self.lang and self.clarify_on:
-                self.clarifier.submit(tid, text)                  # English subtitles, they may arrive later
+                self.clarifier.submit(tid, text)                  # subtitles in the page's language, they may come later
                 await self.emit({"type": "clear_pending", "turn_id": tid})
             if who == CUSTOMER:
                 # the call follows the customer's language only at its start (the first two sentences, before any
@@ -634,7 +577,7 @@ class CallSession:
             if who == CUSTOMER and self.roleplay and self.clarify_on and self.customer_lang != self.lang:
                 self.clarifier.submit(tid, text)                  # the clear Italian version, as on a real call
                 await self.emit({"type": "clear_pending", "turn_id": tid})
-            await self._assist(tid, text, who, 1.0, [text], utt)
+            await self._assist(tid, text, who)
 
     async def _switch_language(self, lang: str, last_text: str) -> None:
         """The customer speaks another language: the page hands the call to a Voice Agent session with that language's
@@ -678,8 +621,7 @@ class CallSession:
             self.edition, changed = hit.edition, True
         if changed:
             await self._emit_context()
-            await self._maybe_reload_vocabulary()
-
+    
     async def adopt_machine_record(self) -> None:
         """The installed-base record decides model, edition and serial (what was heard only found it)."""
         m = self.machine
@@ -695,8 +637,7 @@ class CallSession:
             self.serial, changed = m["serial"], True
         if changed:
             await self._emit_context()
-            await self._maybe_reload_vocabulary()
-
+    
     def symptom_candidates(self, text: str, k: int = 3) -> list[dict]:
         """The closest procedures for a description that did not open one by itself (for the agent to ask)."""
         if not SEMANTIC.ready:
@@ -922,7 +863,7 @@ class CallSession:
 
     # ------------------------------------------------------------------ emitters
     async def _on_clear(self, turn_id: int, text: str) -> None:
-        said = self.turns.get(turn_id, {}).get("raw", "")
+        said = self.turns.get(turn_id, {}).get("text", "")
         if said and {c.code for c in extract_codes(text)} - {c.code for c in extract_codes(said)}:
             text = ""                                   # the small model invented a code: better no clear version
         if turn_id in self.turns:
@@ -937,12 +878,6 @@ class CallSession:
                          "model": VOCAB.model_names.get(self.model_id), "family": self.family,
                          "edition": self.edition, "groups": self.groups, "serial": self.serial,
                          "symptoms": self._symptom_menu()})
-
-    async def _emit_vocab(self, vocab) -> None:
-        await self.emit({"type": "vocabulary", "phase": vocab.phase, "count": len(vocab.keyterms),
-                         "reason": vocab.reason, "sample": vocab.keyterms[:14]})
-        await self._agent(f"Vocabolario fase {vocab.phase}: {len(vocab.keyterms)} termini ({vocab.reason})" if self.lang == "it"
-                          else f"Vocabulary phase {vocab.phase}: {len(vocab.keyterms)} keyterms ({vocab.reason})")
 
     async def _emit_diagnosis(self) -> None:
         if self.diagnosis:

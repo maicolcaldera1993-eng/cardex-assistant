@@ -459,7 +459,10 @@ def test_operator_confirms_the_order_or_books_and_parts_are_ordered():
 
 def test_agent_note_declining_service_means_fits_alone():
     s, events, o = _dave_at_outcome()
-    run(run_tool(s, "note_for_operator", {"note": "customer declines service support, will fit the element himself"}))
+    run(run_tool(s, "note_for_operator", {"note": "declines to pay by card, prefers a bank transfer"}))
+    assert not s.fits_alone                                  # a note about something else never changes the costs
+    run(run_tool(s, "note_for_operator", {"note": "customer will fit the element himself",
+                                          "customer_declines_service": True}))
     assert s.fits_alone and s._next_step()["fits_alone"]
 
 
@@ -512,13 +515,13 @@ def test_warranty_terms_answer_the_neglect_question():
 
 def test_email_for_the_quote_from_the_call():
     """Dave retry 25/9: the email was given on the call and lost. Spoken, read back or typed, it is recorded."""
-    from app.agent.dialog import email_in
+    from app.core.answers import email_in
     assert email_in("Sure, it is dave at espresso corner dot com.") == "dave@espressocorner.com"
     assert email_in("d a v e dot miller at gmail dot com") == "dave.miller@gmail.com"
     assert email_in("I am at the shop, the dot on the display is on.") == ""
     s, events, o = _dave_at_outcome()
-    assert s.email == "dave@espresso-corner-chicago.com" and s.email_on_file      # on file: confirmed, not dictated
-    s.email, s.email_on_file = "", False
+    assert s.email == "dave@espresso-corner-chicago.com"      # on file: confirmed, not dictated
+    s.email = ""
     assert "What email address" in s._next_step()["say_en"]
     run(s.voice_transcript("agent", "What email should we send the quote to?"))
     run(s.voice_transcript("customer", "Sure, it is dave at espresso corner dot com."))
@@ -595,7 +598,7 @@ def test_assistant_follows_the_customer_language():
 
 
 def test_luca_mode1_calls_of_25_9():
-    from app.agent.dialog import classify_branch, language_of
+    from app.core.answers import classify_branch, language_of
     # Italian asked for inside an English sentence, or a lone Italian greeting
     assert language_of("Can we switch the language to it? Possiamo per piacere parlare in italiano? "
                        "Avete qualcuno che parla in italiano lì?") == "it"
@@ -645,11 +648,11 @@ def test_no_outcome_offers_a_part_and_the_kit_that_contains_it():
 
 
 def test_spelled_email_is_accepted_invented_one_is_not():
-    from app.agent.dialog import said_email
-    said = ["Okay, the email is Michael Caldera.", "M-A-I-C-O-L, Caldera.", "The email is wrong again.",
-            "M-A-I-C-O-L-C-A-L-D-E-R-A-1993 at G.", "Mail."]
-    assert said_email("maicolcaldera1993@gmail.com", said)
-    assert not said_email("maicol.caldera1993@mail.com", ["Call Caldera.", "one nine nine three dot sorry at mail dot com"])
+    from app.core.answers import said_email
+    said = ["Okay, the email is Mario Rossi.", "M-A-R-I-O, Rossi.", "The email is wrong again.",
+            "M-A-R-I-O-R-O-S-S-I-1990 at G.", "Mail."]
+    assert said_email("mariorossi1990@gmail.com", said)
+    assert not said_email("mario.rossi1990@mail.com", ["Call Rossi.", "one nine nine zero dot sorry at mail dot com"])
     assert not said_email("mehmet@example.com", ["I'm Mehmet."])
     assert said_email("dave@espressocorner.com", ["Sure, it is dave at espresso corner dot com."])
 
@@ -760,7 +763,7 @@ def test_outcome_comes_in_pieces_and_the_record_answers_the_voltage():
 
 def test_prefer_a_technician_is_a_no():
     """Luca online 26/9: 'non vorrei smontare e poi creare dei danni' was read as 'the plunger is damaged'."""
-    from app.agent.dialog import classify_branch
+    from app.core.answers import classify_branch
     from app.core.symptoms import DefectsLibrary
     from app.session import SEMANTIC
     st = DefectsLibrary().symptoms["marea-spits-end-of-shot"]["_steps"]["valve-body"]
