@@ -41,6 +41,7 @@ const T = {
     agent: "Agente", operator: "Operatore", customer: "Cliente",
     interrupted: "interrotta", clearWait: "versione chiara in arrivo…",
     micDenied: "microfono negato", agentTalking: "parla l'agente",
+    headset: "🎧 Cuffie", headsetTip: "Con le cuffie il microfono resta aperto: puoi interrompere l'agente. Con le casse lascialo spento, l'agente sentirebbe la propria voce.",
     choose: "Due guasti possibili. Di quale si tratta?", change: "Procedura sbagliata? Cambia…", startProc: "Avvia una procedura a mano…",
     ask: "Chiedi al cliente", do: "Fagli fare", say: "Da leggere al telefono", keys: "tasti 1-4",
     watching: "L'agente conduce la procedura: i passi avanzano con le risposte del cliente.",
@@ -111,6 +112,7 @@ const T = {
     agent: "Agent", operator: "Operator", customer: "Customer",
     interrupted: "interrupted", clearWait: "clear version on its way…",
     micDenied: "microphone denied", agentTalking: "agent talking",
+    headset: "🎧 Headphones", headsetTip: "With headphones the mic stays open: you can interrupt the agent. With speakers keep it off, or the agent hears its own voice.",
     choose: "Two possible faults. Which one is it?", change: "Wrong procedure? Change…", startProc: "Start a procedure by hand…",
     ask: "Ask the customer", do: "Have them do", say: "Read this out", keys: "keys 1-4",
     watching: "The agent leads the procedure: steps move on with the customer's answers.",
@@ -219,6 +221,7 @@ function applyLanguage() {
   set("how-title", L.howTitle); set("powered", L.powered);
   $("how-steps").innerHTML = L.how.map(([h, t]) => `<li><strong>${esc(h)}</strong><span>${esc(t)}</span></li>`).join("");
   set("lb-clarify", L.clarify); set("lb-assistant", L.assistant); set("lb-end", L.end);
+  set("lb-headset", L.headset); $("sw-headset").title = L.headsetTip;
   set("h-talk", L.talk); set("h-diag", L.diag); set("h-parts", L.parts); set("h-docs", L.docs); set("h-log", L.log);
   $("btn-lang").textContent = lang === "it" ? "English" : "Italiano";
   if ($("doc-view").classList.contains("empty")) $("doc-view").textContent = L.noDocs;
@@ -661,6 +664,7 @@ async function openVoiceSocket(session, rp, onReady) {
       case "reply.started": ws.lastEvt = m.type; break;
       case "input.speech.started":
         ws.lastEvt = m.type;
+        if (headset) voiceStop();                            // the customer talks over the agent: it stops at once
         if (vEndPending) keepCallOpen();                     // "no, wait": the customer speaks after the goodbye
         break;
       case "reply.done":
@@ -738,8 +742,10 @@ async function startVoiceMic() {
     for (let i = 0; i < pcm.length; i += 8) { const v = Math.abs(pcm[i]); if (v > peak) peak = v; }
     // Half duplex: while the agent's voice plays (plus a short tail) the mic sends silence, so the agent never hears
     // itself through the speakers. A barge-in on loud voice was tried on 26/9 and removed the same day: with laptop
-    // speakers the agent's own echo crossed the threshold, cut its reply and made it start again.
-    const agentTalking = vCtx && vCtx.currentTime < vNext + 0.35;
+    // speakers the agent's own echo crossed the threshold, cut its reply and made it start again. The price: a customer
+    // who pauses mid-sentence loses the rest of it while the agent talks (28/9). With headphones there is no echo, so the
+    // mic stays open and AssemblyAI's own barge-in stops the agent.
+    const agentTalking = !headset && vCtx && vCtx.currentTime < vNext + 0.35;
     if (vws && vws.readyState === 1) vws.send(JSON.stringify({ type: "input.audio", audio: agentTalking ? silence : b64(e.data) }));
     const pill = $("st-mic");
     pill.textContent = agentTalking ? L.agentTalking : "mic";
@@ -868,6 +874,14 @@ $("btn-roleplay").onclick = () => startVoice($("rp-select").value);
 $("btn-duo").onclick = () => startDuo();
 $("btn-end").onclick = () => { voiceEnd(); send({ type: "control", action: "end_call" }); };
 $("tg-clarify").onchange = (e) => send({ type: "control", action: "toggle", what: "clarify", on: e.target.checked });
+// headphones: full duplex (see the mic handler); remembered in this browser
+let headset = false;
+try { headset = localStorage.getItem("cardex-headset") === "1"; } catch (e) { /* private window */ }
+$("tg-headset").checked = headset;
+$("tg-headset").onchange = (e) => {
+  headset = e.target.checked;
+  try { localStorage.setItem("cardex-headset", headset ? "1" : "0"); } catch (err) { /* private window: not remembered */ }
+};
 $("tg-assistant").onchange = (e) => send({ type: "control", action: "toggle", what: "assistant", on: e.target.checked });
 $("btn-lang").onclick = () => {
   lang = lang === "it" ? "en" : "it";
