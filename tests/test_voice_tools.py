@@ -1036,3 +1036,19 @@ def test_agent_switches_to_the_technician_when_asked_after_the_outcome():
     assert s.diagnosis.outcome.kind == "technician"
     r = run(run_tool(s, "get_call_status", {}))
     assert r["outcome_now"]["booking"]["kind"] == "technician's visit"
+
+
+def test_mode2_carmen_asks_for_a_check_up_after_the_remote_fix():
+    """Carmen 28/9: fixed remotely, then 'I would like someone to come and check everything'; the operator had no
+    calendar and invented 60 euros. A check-up on request: the technician's slots, list price even under warranty."""
+    s, events = _roleplay("carmen")
+    run(s.voice_transcript("customer", "It is zero five zero, nine zero four."))
+    run(s.control({"action": "start_symptom", "symptom_id": "marea-level-alarm"}))
+    for b in (2, 0, 0):
+        run(s.control({"action": "answer_step", "branch": b}))
+    run(s.voice_transcript("customer", "Yes, exactly. I would like someone to come and check everything properly."))
+    assert "someone to come" in s._next_step()["suggest_technician"]
+    run(s.control({"action": "want_technician"}))
+    n = s._next_step()
+    assert s.diagnosis.outcome.kind == "technician" and n["booking"]["kind"] == "onsite" and n["booking"]["slots"]
+    assert n["costs"]["labour"]["customer_pays_eur"] == 80.0 and n["payment"]["status"] == "awaiting_payment"

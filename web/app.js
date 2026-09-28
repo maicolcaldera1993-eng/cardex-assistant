@@ -401,13 +401,14 @@ function followHtml(n) {
   let acts = "";
   if (callMode === "operator" && (n.parts || []).length) {
     acts = n.parts_confirmed ? `<span class="tag ok">✓ ${L.orderConfirmed}</span>` : `<button class="btn small ok" data-order>${L.confirmOrder}</button>`;
-    if (n.kind === "part_diy" || n.kind === "part_with_support")
-      acts += ` <button class="btn small ${n.suggest_technician ? "warn" : "ghost"}" data-want-tech>${L.wantTech}</button>`;
     if (n.kind === "part_with_support")
       acts += n.fits_alone ? ` <span class="tag warn">${L.fitsAlone}</span> <button class="btn small ghost" data-alone="0">${L.unbook}</button>`
         : ` <button class="btn small ghost" data-alone="1">${L.fitsAloneBtn}</button>`;
     acts = `<div class="follow-acts">${acts}</div>`;
   } else if (n.fits_alone) acts = `<div class="follow-acts"><span class="tag warn">${L.fitsAlone}</span></div>`;
+  // the customer wants a technician: instead of fitting the parts, or a check-up after a remote fix (Klaus, Carmen 28/9)
+  if (callMode === "operator" && ["remote", "part_diy", "part_with_support"].includes(n.kind))
+    acts += `<div class="follow-acts"><button class="btn small ${n.suggest_technician ? "warn" : "ghost"}" data-want-tech>${L.wantTech}</button></div>`;
   let mail = "";
   if (n.payment && n.payment.status === "awaiting_payment") {
     mail = callMode === "operator"

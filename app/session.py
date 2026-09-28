@@ -105,6 +105,7 @@ class CallSession:
         self.else_asked = False                   # the agent's last question was "anything else?"
         self.outcome_told = False                 # the current outcome's say_first has gone to the agent
         self.suggest = None                       # Mode 2: the customer will not do the step or asks for a technician
+        self.inspection = False                   # a technician's check-up asked for with the machine working: charged
         self.last_customer_text = ""
         self.serial_asked = 0                     # customer sentences still read as the answer to "which serial?"
         self.pending_description = ""             # the fault as described before the machine was known
@@ -524,12 +525,16 @@ class CallSession:
                               else f"Machine set by the operator: {VOCAB.model_names[self.model_id]}")
             await self._emit_context()
         elif a == "want_technician" and self.diagnosis and self.diagnosis.outcome \
-                and self.diagnosis.outcome.kind in ("part_diy", "part_with_support"):
+                and self.diagnosis.outcome.kind in ("remote", "part_diy", "part_with_support"):
             # "I am a barista, not a technician, I prefer a technician to come" (Klaus 28/9): same parts, the technician
-            # brings and fits them, the technician's calendar instead of the video call
+            # brings and fits them, the technician's calendar instead of the video call. After a remote fix it is a
+            # check-up the customer asks for ("someone to come and check everything", Carmen 28/9): charged.
+            self.inspection = self.diagnosis.outcome.kind == "remote"
             self.booking, self.fits_alone, self.suggest = None, False, None
-            self.notes.append("Il cliente preferisce la visita del tecnico." if self.lang == "it"
-                              else "The customer prefers a technician's visit.")
+            self.notes.append(("Il cliente chiede una visita di controllo del tecnico (macchina funzionante): a pagamento."
+                               if self.inspection else "Il cliente preferisce la visita del tecnico.") if self.lang == "it" else
+                              ("The customer asks for a technician's check-up visit (machine working): charged."
+                               if self.inspection else "The customer prefers a technician's visit."))
             self.diagnosis.outcome = Outcome("technician", list(self.diagnosis.outcome.parts))
             await self._on_outcome(self.diagnosis.outcome)
         elif a == "close_symptom" and self.diagnosis:
@@ -796,6 +801,9 @@ class CallSession:
                 "part_with_support": ("Spedire i ricambi qui sotto e prenotare la seconda chiamata con il service per quando arrivano.",
                                       "Ship the parts below and book the second call with service for when they arrive."),
                 "technician": ("Fissare l'intervento del tecnico.", "Book the technician's visit.")}[o.kind]
+        if o.kind == "technician" and self.inspection:
+            text = ("Fissare la visita di controllo chiesta dal cliente: a pagamento anche in garanzia (la macchina funziona).",
+                    "Book the check-up visit the customer asked for: charged even under warranty (the machine works).")
         wt, say_w = ("", ""), ""
         if o.kind != "remote":
             if w is True:
@@ -850,6 +858,8 @@ class CallSession:
         # the technician brings the parts: nothing is shipped to the customer
         ship = terms.shipping_eur(self.machine["country"] if self.machine else None, warranty) if parts and kind != "technician" else 0.0
         lab = terms.labour(kind, warranty, fits_alone)
+        if lab and kind == "technician" and self.inspection:
+            lab = {**lab, "customer_pays_eur": lab["list_eur"]}       # a check-up is not a warranty repair
         lab_eur = (lab or {}).get("customer_pays_eur", 0.0)
         total = None if warranty is None or ship is None or lab_eur is None else round(parts_eur + ship + (lab_eur or 0.0), 2)
         return {"parts_eur": parts_eur, "shipping_eur": ship, "labour": lab, "total_eur": total}

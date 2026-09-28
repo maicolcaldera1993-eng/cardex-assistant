@@ -450,7 +450,9 @@ async def settle_refusal(s, text: str) -> bool:
     for a technician closes any step. True if the procedure moved."""
     from ..core.answers import REFUSAL, TECH_REQUEST, cannot_options
     d = s.diagnosis
-    if d and d.outcome and not d.current and text and d.outcome.kind in ("part_diy", "part_with_support") \
+    # the console also offers a check-up after a remote fix (Carmen 28/9); the agent switches only a parts outcome
+    after = ("remote", "part_diy", "part_with_support") if s.roleplay else ("part_diy", "part_with_support")
+    if d and d.outcome and not d.current and text and d.outcome.kind in after \
             and (TECH_REQUEST.search(text.lower()) or re.search(r"prefer\w*\b[^.]{0,40}\btechnician", text, re.I)):
         # after the outcome: "I prefer a technician to come here" (Klaus 28/9)
         if s.roleplay:
