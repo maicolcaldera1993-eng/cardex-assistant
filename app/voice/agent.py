@@ -450,6 +450,15 @@ async def settle_refusal(s, text: str) -> bool:
     for a technician closes any step. True if the procedure moved."""
     from ..core.answers import REFUSAL, TECH_REQUEST, cannot_options
     d = s.diagnosis
+    if d and d.outcome and not d.current and text and d.outcome.kind in ("part_diy", "part_with_support") \
+            and (TECH_REQUEST.search(text.lower()) or re.search(r"prefer\w*\b[^.]{0,40}\btechnician", text, re.I)):
+        # after the outcome: "I prefer a technician to come here" (Klaus 28/9)
+        if s.roleplay:
+            s.suggest = {"after_outcome": True, "text": text}
+            await s._emit_diagnosis()
+            return False
+        await s.control({"action": "want_technician"})
+        return True
     if not (d and d.current and text):
         return False
     st, low = d.step, text.lower()
@@ -489,6 +498,7 @@ def _outcome_view(s) -> dict:
     kind = n["kind"]
     out = {"outcome": kind,
            "say_first": _say_first(s, n),
+           "if_asked_whether_it_can_happen_again": s.diagnosis.symptom.get("prevention_en"),
            "how_to_tell_it": ("Say ONLY say_first now, in your own words, then stop and let the customer answer. Then, one "
                               "piece per turn: delivery; then the service call or the technician visit if the outcome needs "
                               "one (ask about it yourself if the customer has not); then, if they pay something, the email "

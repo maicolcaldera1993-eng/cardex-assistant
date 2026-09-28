@@ -29,7 +29,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OPERATOR, CUSTOMER = "operator", "customer"
 MAX_SESSION_SECONDS = int(os.getenv("MAX_SESSION_SECONDS", "600"))          # public demo guard
 MAX_ROLEPLAY_SECONDS = int(os.getenv("MAX_ROLEPLAY_SECONDS", "600"))        # Mode 2: operator practice with an AI customer
-_REQUEST_CUE = re.compile(r"\b(need|want|add|box|extra|include|buy|purchase|as well|order|ordered|send|replace|replacement|spare|part|broken|new one|another|"
+_REQUEST_CUE = re.compile(r"\b(need|want|add|box|extra|include|buy|purchase|as well|order|ordered|send|replace|replacement|spare|part|broken|new one|another|get|new|"
                           r"serve|servono|ordin\w+|mand\w+|sostitu\w+|ricambio|rotto|rotta|nuov[oa])\b", re.I)
 # Decision log (which symptom, which branch and why), to trace a call afterwards. On by default on a developer's
 # machine, off on Railway, where it would store customers' words; CARDEX_DECISION_LOG=<path> or "off" overrides both.
@@ -142,6 +142,12 @@ class CallSession:
         codes and, in Mode 2 (the operator talks to an AI customer), the fault the customer describes."""
         from .core.answers import email_in
         em = email_in(text)                                    # said by the customer or read back by the operator
+        # "espresso corner chicago dot com" read back from dave@espresso-corner-chicago.com is the same address: the one on
+        # file keeps its dashes (Dave 28/9: the quote would have gone to an address without them)
+        bare = lambda e: re.sub(r"[.\-_]", "", e or "")
+        on_file = (self.machine or {}).get("contact_email")
+        if em and on_file and bare(em) == bare(on_file):
+            em = on_file
         if em and em != self.email and len(em.split("@")[0]) >= 3:
             await self._set_email(em)
         hit = CONTEXT.detect(text)
@@ -517,6 +523,15 @@ class CallSession:
             await self._agent(f"Macchina impostata dall'operatore: {VOCAB.model_names[self.model_id]}" if self.lang == "it"
                               else f"Machine set by the operator: {VOCAB.model_names[self.model_id]}")
             await self._emit_context()
+        elif a == "want_technician" and self.diagnosis and self.diagnosis.outcome \
+                and self.diagnosis.outcome.kind in ("part_diy", "part_with_support"):
+            # "I am a barista, not a technician, I prefer a technician to come" (Klaus 28/9): same parts, the technician
+            # brings and fits them, the technician's calendar instead of the video call
+            self.booking, self.fits_alone, self.suggest = None, False, None
+            self.notes.append("Il cliente preferisce la visita del tecnico." if self.lang == "it"
+                              else "The customer prefers a technician's visit.")
+            self.diagnosis.outcome = Outcome("technician", list(self.diagnosis.outcome.parts))
+            await self._on_outcome(self.diagnosis.outcome)
         elif a == "close_symptom" and self.diagnosis:
             kind = msg.get("kind", "remote")
             from .core.answers import cannot_options
@@ -770,6 +785,10 @@ class CallSession:
         it = self.lang == "it"
         w = self.machine.get("in_warranty") if self.machine else None
         parts = [self.cards[c] for c in o.parts if c in self.cards]
+        # parts the customer asked for on top ("can I get a new water filter cartridge?", Carmen 28/9), once confirmed
+        extra = [c for code, c in self.cards.items() if c["status"] == "confirmed" and code not in o.parts]
+        parts += extra
+        ck = "part_diy" if o.kind == "remote" and extra else o.kind          # what the costs and the payment follow
         text = {"remote": ("Problema chiuso da remoto: nessun ricambio, nessun intervento.",
                            "Fixed remotely: no parts, no visit."),
                 "part_diy": ("Spedire i ricambi qui sotto: il cliente li monta con la scheda.",
@@ -805,13 +824,17 @@ class CallSession:
             b = booking["booked"]
             say_k = (f"Our technician can come on {b['label_en']}. Does that work for you?" if booking["kind"] == "onsite"
                      else f"We'll call you on {b['label_en']} to fit the parts together, once they have arrived. Does that work for you?")
-        costs = self._costs(o.kind, w, parts, fits_alone)
-        pay = self._payment(o.kind, w, costs)
+        if o.kind == "remote" and extra:
+            text = ("Risolto da remoto; spedire i ricambi chiesti dal cliente.", "Fixed remotely; ship the parts the customer asked for.")
+        costs = self._costs(ck, w, parts, fits_alone)
+        pay = self._payment(ck, w, costs)
         if pay and pay["status"] == "awaiting_payment" and not self.email:
             pay["say_en"] += " What email address should we send the quote to?"
         return {"costs": costs,"kind": o.kind, "text": text[0] if it else text[1], "warranty": w, "warranty_text": wt[0] if it else wt[1],
                 "say_en": " ".join(x for x in (say_w, say_k, pay["say_en"] if pay else "") if x).strip(), "booking": booking,
                 # nothing is shipped when the technician brings the parts
+                "prevention": self.diagnosis.symptom.get(f"prevention_{self.lang}"),
+                "suggest_technician": (self.suggest or {}).get("text") if (self.suggest or {}).get("after_outcome") else None,
                 "fits_alone": fits_alone, "payment": pay, "ship_to": self._ship_to() if parts and o.kind != "technician" else None,
                 "email": self.email,
                 "parts_confirmed": bool(parts) and all(c["status"] == "confirmed" for c in parts),
@@ -913,7 +936,7 @@ class CallSession:
                            "anchor": f"passo-{step_ids.index(self.diagnosis.current) + 1}" if self.diagnosis.current else "procedura"}
             view["pending"] = [{"id": x, "title": DEFECTS.symptoms[x][f"symptom_{self.lang}"]} for x in self.pending_symptoms]
             view["alternatives"] = [x for x in self._symptom_menu() if x["id"] != self.diagnosis.symptom["id"]]
-            if self.suggest and self.suggest["step"] == self.diagnosis.current:
+            if self.suggest and self.suggest.get("step") and self.suggest["step"] == self.diagnosis.current:
                 view["suggest_technician"] = self.suggest["text"]
             if self.diagnosis.outcome:
                 view["next"] = self._next_step()

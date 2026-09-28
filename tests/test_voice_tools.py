@@ -970,3 +970,69 @@ def test_mode2_operator_gets_the_same_tools():
     assert "afraid" in shown.get("suggest_technician", "") and s.diagnosis.current == "valve-body"   # not moved by itself
     run(s.control({"action": "close_symptom", "kind": "technician"}))
     assert s.diagnosis.outcome.kind == "technician" and s.diagnosis.outcome.parts == ["GE-2160"]
+
+
+def _roleplay(persona):
+    events = []
+
+    async def emit(ev):
+        events.append(ev)
+
+    return CallSession("key", emit, source=f"roleplay:{persona}", lang="en"), events
+
+
+def test_mode2_klaus_wants_the_technician_after_the_outcome():
+    """Klaus 28/9: at 'part with service support' he said 'I prefer a technician to come here'; the console had only the
+    video-call calendar."""
+    s, events = _roleplay("klaus")
+    run(s.voice_transcript("customer", "The serial number is zero four four, eight zero one."))
+    run(s.control({"action": "start_symptom", "symptom_id": "onda-no-steam"}))
+    while s.diagnosis.current:                                     # the path to the heating element, answered by hand
+        st = s.diagnosis.step
+        pick = next(i for i, b in enumerate(st["branches"]) if b["then"].startswith(("outcome:part_with_support", "outcome:part_diy"))
+                    or b["then"] in {x["id"] for x in s.diagnosis.symptom["steps"]} and "error" not in b["label_en"].lower()) \
+            if st["id"] != "sensor" else 1
+        run(s.control({"action": "answer_step", "branch": pick}))
+    assert s.diagnosis.outcome.kind == "part_with_support"
+    run(s.voice_transcript("customer", "I am a barista, not a technician. I think I prefer a technician to come here."))
+    n = [e for e in events if e["type"] == "diagnosis"][-1]["next"]
+    assert "prefer a technician" in n["suggest_technician"] and s.diagnosis.outcome.kind == "part_with_support"
+    run(s.control({"action": "want_technician"}))
+    n = s._next_step()
+    assert s.diagnosis.outcome.kind == "technician" and n["booking"]["kind"] == "onsite" and n["booking"]["slots"]
+    assert n["ship_to"] is None and s.diagnosis.outcome.parts
+
+
+def test_mode2_carmen_filter_after_the_remote_fix_and_prevention():
+    """Carmen 28/9: after the probe was cleaned she asked whether it would happen again and for a new filter cartridge;
+    the panel showed nothing."""
+    s, events = _roleplay("carmen")
+    run(s.voice_transcript("customer", "It is zero five zero, nine zero four."))
+    run(s.control({"action": "start_symptom", "symptom_id": "marea-level-alarm"}))
+    for b in (2, 0, 0):                                            # full flow, clicks, cleaned: fixed
+        run(s.control({"action": "answer_step", "branch": b}))
+    assert s.diagnosis.outcome.kind == "remote"
+    assert "ID-4061" in s._next_step()["prevention"]
+    run(s.voice_transcript("customer", "My water filter cartridge is very old. Can I get a new water filter cartridge from you?"))
+    assert "ID-4061" in s.cards or "ID-4060" in s.cards
+    code = "ID-4061" if "ID-4061" in s.cards else "ID-4060"
+    run(s.control({"action": "confirm_part", "code": code}))
+    n = s._next_step()
+    assert [p["code"] for p in n["parts"]] == [code] and n["ship_to"] and n["costs"]["parts_eur"] > 0
+
+
+def test_email_read_back_without_dashes_keeps_the_one_on_file():
+    """Dave 28/9 (Mode 2): 'dave at espresso corner chicago dot com' replaced dave@espresso-corner-chicago.com."""
+    s, _ = _roleplay("dave")
+    run(s.voice_transcript("customer", "It is zero four one, three zero two."))
+    assert s.email == "dave@espresso-corner-chicago.com"
+    run(s.voice_transcript("customer", "Yes, that is correct. Dave at espresso corner chicago dot com."))
+    assert s.email == "dave@espresso-corner-chicago.com"
+
+
+def test_agent_switches_to_the_technician_when_asked_after_the_outcome():
+    s, events, o = _dave_at_outcome()
+    run(s.control({"action": "transcript", "role": "customer", "text": "I am not a technician, can you send someone to fit it?"}))
+    assert s.diagnosis.outcome.kind == "technician"
+    r = run(run_tool(s, "get_call_status", {}))
+    assert r["outcome_now"]["booking"]["kind"] == "technician's visit"

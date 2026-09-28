@@ -47,6 +47,7 @@ const T = {
     watching: "L'agente conduce la procedura: i passi avanzano con le risposte del cliente.",
     closeRemote: "Risolto da remoto", closeTech: "Serve il tecnico", closeHint: "Chiudi quando il cliente conferma",
     suggestTech: "Il cliente non vuole o non può farlo: valuta «Serve il tecnico»",
+    wantTech: "Il cliente vuole il tecnico", wantTechHint: "Il cliente chiede il tecnico", prevention: "Perché non si ripeta",
     pending: "In attesa", startNow: "Avvia", drop: "Scarta", maintenance: "Manutenzione ordinaria saltata: consigliare",
     outcome: { remote: "Risolto da remoto", part_diy: "Ricambio, lo monta il cliente", part_with_support: "Ricambio con supporto del service", technician: "Serve il tecnico" },
     nextTitle: "Cosa fare ora",
@@ -119,6 +120,7 @@ const T = {
     watching: "The agent leads the procedure: steps move on with the customer's answers.",
     closeRemote: "Fixed remotely", closeTech: "Technician needed", closeHint: "Close when the customer confirms",
     suggestTech: "The customer will not or cannot do this: consider «Technician needed»",
+    wantTech: "Customer wants the technician", wantTechHint: "The customer asks for a technician", prevention: "To keep it from happening again",
     pending: "Waiting", startNow: "Start", drop: "Discard", maintenance: "Routine maintenance skipped: recommend",
     outcome: { remote: "Fixed remotely", part_diy: "Part, fitted by the customer", part_with_support: "Part with service support", technician: "Technician needed" },
     nextTitle: "What to do now",
@@ -399,6 +401,8 @@ function followHtml(n) {
   let acts = "";
   if (callMode === "operator" && (n.parts || []).length) {
     acts = n.parts_confirmed ? `<span class="tag ok">✓ ${L.orderConfirmed}</span>` : `<button class="btn small ok" data-order>${L.confirmOrder}</button>`;
+    if (n.kind === "part_diy" || n.kind === "part_with_support")
+      acts += ` <button class="btn small ${n.suggest_technician ? "warn" : "ghost"}" data-want-tech>${L.wantTech}</button>`;
     if (n.kind === "part_with_support")
       acts += n.fits_alone ? ` <span class="tag warn">${L.fitsAlone}</span> <button class="btn small ghost" data-alone="0">${L.unbook}</button>`
         : ` <button class="btn small ghost" data-alone="1">${L.fitsAloneBtn}</button>`;
@@ -410,11 +414,15 @@ function followHtml(n) {
       ? `<div class="wline mail">✉ ${L.quoteTo}: <input id="in-email" type="email" placeholder="name@example.com" value="${esc(n.email || "")}"> <button class="btn small ghost" data-email>${L.save}</button>${n.email ? "" : ` <span class="tag warn">${L.askEmail}</span>`}</div>`
       : `<div class="wline">✉ ${L.quoteTo}: ${n.email ? esc(n.email) : `<span class="tag warn">${L.askEmail}</span>`}</div>`;
   }
-  return ship + lab + tot + pay + mail + acts;
+  const want = callMode === "operator" && n.suggest_technician
+    ? `<div class="suggest">⚠ ${L.wantTechHint}: <em>«${esc(n.suggest_technician)}»</em></div>` : "";
+  const prev = n.prevention ? `<div class="wline">🛡 ${L.prevention}: ${esc(n.prevention)}</div>` : "";
+  return want + ship + lab + tot + pay + mail + acts + prev;
 }
 function wireDiag(p) {
   p.querySelectorAll("[data-email]").forEach((b) => (b.onclick = () => send({ type: "control", action: "set_email", email: $("in-email").value })));
   p.querySelectorAll("[data-order]").forEach((b) => (b.onclick = () => send({ type: "control", action: "confirm_outcome_parts" })));
+  p.querySelectorAll("[data-want-tech]").forEach((b) => (b.onclick = () => send({ type: "control", action: "want_technician" })));
   p.querySelectorAll("[data-alone]").forEach((b) => (b.onclick = () => send({ type: "control", action: "fits_alone", on: b.dataset.alone === "1" })));
   p.querySelectorAll("[data-slot]").forEach((b) => (b.onclick = () => send({ type: "control", action: "book_slot", id: b.dataset.slot })));
   p.querySelectorAll("[data-unbook]").forEach((b) => (b.onclick = () => send({ type: "control", action: "cancel_booking" })));

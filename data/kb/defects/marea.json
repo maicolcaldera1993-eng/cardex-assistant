@@ -270,7 +270,9 @@
             }
           ]
         }
-      ]
+      ],
+      "prevention_it": "Backflush con una pastiglia ogni sera (pastiglie CR-6052) e pulizia della doccetta una volta alla settimana. Ricontrollare la macinatura quando cambia il caffè.",
+      "prevention_en": "Backflush with a tablet every evening (cleaning tablets CR-6052) and clean the shower screen once a week. Check the grind whenever the coffee changes."
     },
     {
       "id": "marea-slow-burnt-coffee",
@@ -451,7 +453,9 @@
             }
           ]
         }
-      ]
+      ],
+      "prevention_it": "Backflush con una pastiglia ogni sera (pastiglie CR-6052) e pulizia della doccetta una volta alla settimana.",
+      "prevention_en": "Backflush with a tablet every evening (cleaning tablets CR-6052) and clean the shower screen once a week."
     },
     {
       "id": "marea-group-leak",
@@ -563,7 +567,9 @@
             }
           ]
         }
-      ]
+      ],
+      "prevention_it": "La guarnizione del gruppo si cambia circa ogni 12 mesi (kit GE-2210): quando il manico va oltre il centro è ora.",
+      "prevention_en": "The group gasket is changed about every 12 months (kit GE-2210): when the handle goes past the centre, it is time."
     },
     {
       "id": "marea-spits-end-of-shot",
@@ -725,7 +731,9 @@
             }
           ]
         }
-      ]
+      ],
+      "prevention_it": "Backflush con una pastiglia ogni sera (pastiglie CR-6052): tiene pulita l'elettrovalvola del gruppo.",
+      "prevention_en": "Backflush with a tablet every evening (cleaning tablets CR-6052): it keeps the group solenoid valve clean."
     },
     {
       "id": "marea-pump-pressure-low",
@@ -827,7 +835,9 @@
             }
           ]
         }
-      ]
+      ],
+      "prevention_it": "Cambiare la cartuccia del filtro in ingresso ogni 3-6 mesi (ID-4061): un filtro intasato toglie acqua alla pompa.",
+      "prevention_en": "Change the inlet filter cartridge every 3-6 months (ID-4061): a clogged filter starves the pump."
     },
     {
       "id": "marea-constant-drain",
@@ -1060,7 +1070,9 @@
             }
           ]
         }
-      ]
+      ],
+      "prevention_it": "Con acqua dura il calcare torna sulla sonda: cambiare la cartuccia del filtro in ingresso ogni 3-6 mesi (ID-4061, kit da 3) e decalcificare la caldaia una volta l'anno con il service.",
+      "prevention_en": "With hard water the scale comes back on the probe: change the inlet filter cartridge every 3-6 months (ID-4061, kit of 3) and have the boiler descaled once a year by service."
     },
     {
       "id": "marea-no-heat",
@@ -1501,7 +1513,9 @@
             }
           ]
         }
-      ]
+      ],
+      "prevention_it": "Dopo ogni latte spurgare la lancia e pulirla con un panno umido; una volta alla settimana la punta in acqua calda con una pastiglia (CR-6052).",
+      "prevention_en": "After every milk, purge the wand and wipe it with a damp cloth; once a week soak the tip in hot water with a tablet (CR-6052)."
     },
     {
       "id": "marea-doses-and-buttons",
