@@ -337,7 +337,7 @@ function handle(ev) {
     }
     case "tool_result": voiceToolResult(ev); break;
     case "switch_language": switchVoice(ev); break;
-    case "hangup": if (vws) planHangup(); break;
+    case "hangup": if (vws) planHangup(true); break;      // the agent's goodbye has been heard
     case "open_doc": openDoc(ev); break;
     case "agent": logLine(ev.text, false, ev.at); break;
     case "model_mention": { const d = document.createElement("div"); d.innerHTML = `<button class="btn small">→ ${esc(ev.model)}</button>`; d.querySelector("button").onclick = () => send({ type: "control", action: "set_machine", model_id: ev.model_id }); $("log").prepend(d); break; }
@@ -566,7 +566,7 @@ function renderSummary(s) {
   const co = s.next && s.next.costs;
   let extraRows = "", grand = total;
   if (co) {
-    if (co.shipping_eur != null && s.parts_confirmed.length)
+    if (co.shipping_eur != null && s.parts_confirmed.length && s.next.ship_to)          // nothing shipped if the technician brings it
       extraRows += `<tr><td class="code">—</td><td>${L.shipping}</td><td></td><td class="num"></td><td class="num">${co.shipping_eur ? eur(co.shipping_eur) : `<span class="tag ok">${L.free}</span>`}</td></tr>`;
     if (co.labour && !s.next.fits_alone)
       extraRows += `<tr><td class="code">—</td><td>${esc(lang === "it" ? co.labour.what_it : co.labour.what_en)}</td><td><span class="tag ${s.booking ? "ok" : "warn"}">${s.booking ? L.stBooked : L.stNotBooked}</span></td><td class="num">${eur(co.labour.list_eur)}</td><td class="num">${co.labour.customer_pays_eur == null ? "—" : co.labour.customer_pays_eur ? eur(co.labour.customer_pays_eur) : `<span class="tag ok">${L.covered}</span>`}</td></tr>`;
@@ -661,7 +661,7 @@ async function openVoiceSocket(session, rp, onReady) {
         break;
       }
       case "reply.audio": voicePlay(m.data || m.audio); break;
-      case "reply.started": ws.lastEvt = m.type; break;
+      case "reply.started": ws.lastEvt = m.type; if (vEndPending) vEndArmed = true; break;
       case "input.speech.started":
         ws.lastEvt = m.type;
         if (headset) voiceStop();                            // the customer talks over the agent: it stops at once
@@ -670,7 +670,7 @@ async function openVoiceSocket(session, rp, onReady) {
       case "reply.done":
         ws.lastEvt = m.type;
         if (m.status === "interrupted") { voiceStop(); ws.pending.length = 0; } else flushTools(ws);
-        if (vEndPending) { const left = vCtx ? Math.max(0, vNext - vCtx.currentTime) : 0; vEndTimer = setTimeout(voiceEnd, left * 1000 + 1500); }
+        if (vEndPending && vEndArmed) { clearTimeout(vEndTimer); vEndTimer = setTimeout(voiceEnd, audioLeft() * 1000 + 1500); }
         break;
       case "tool.call": ws.calls.add(m.call_id); send({ type: "control", action: "tool", call_id: m.call_id, name: m.name, arguments: m.arguments }); logLine("⚙ " + m.name + " " + JSON.stringify(m.arguments || {})); break;
       case "session.error": case "error": logLine("voice agent: " + (m.message || m.code || e.data), true); break;
@@ -702,10 +702,18 @@ function flushTools(ws) {
   if (ws.lastEvt !== "reply.done" || ws.readyState !== 1) return;
   while (ws.pending.length) ws.send(JSON.stringify(ws.pending.shift()));
 }
-let vEndTimer = null;
-function planHangup() { vEndPending = true; clearTimeout(vEndTimer); vEndTimer = setTimeout(voiceEnd, 15000); }
+// Hanging up: after the reply.done of a reply that STARTED once the end was decided, i.e. the goodbye. The reply that
+// called end_call ends after its result has arrived, and hanging up on that one cut every goodbye (28/9).
+let vEndTimer = null, vEndArmed = false;
+const audioLeft = () => vCtx ? Math.max(0, vNext - vCtx.currentTime) : duo ? Math.max(0, duo.next - duo.ctx.currentTime) : 0;
+function planHangup(heard = false) {
+  vEndPending = true; vEndArmed = false; clearTimeout(vEndTimer);
+  // the goodbye already heard (the server saw its transcript, sent when its audio had played): close after what is left;
+  // otherwise wait for the goodbye reply, or 8 s if the agent says nothing more
+  vEndTimer = setTimeout(voiceEnd, heard ? audioLeft() * 1000 + 1500 : 8000);
+}
 function keepCallOpen() {
-  vEndPending = false; clearTimeout(vEndTimer);
+  vEndPending = false; vEndArmed = false; clearTimeout(vEndTimer);
   send({ type: "control", action: "keep_open" });
   logLine(L.keptOpen);
 }
@@ -812,10 +820,11 @@ async function startDuo() {
         duoFeed(other, bytes);                                        // the other agent hears it as one continuous stream
       } else if (m.type === "reply.started" || m.type === "input.speech.started") {
         if (who === "A") ws.lastEvt = m.type;
+        if (who === "A" && m.type === "reply.started" && vEndPending) vEndArmed = true;
       } else if (m.type === "reply.done") {
         duoFeed(other, null);                                         // flush the tail of the sentence
         if (who === "A") { ws.lastEvt = m.type; if (m.status === "interrupted") ws.pending.length = 0; else flushTools(ws); }
-        if (who === "A" && vEndPending) setTimeout(duoEnd, Math.max(0, duo.next - duo.ctx.currentTime) * 1000 + 800);
+        if (who === "A" && vEndPending && vEndArmed) setTimeout(duoEnd, Math.max(0, duo.next - duo.ctx.currentTime) * 1000 + 800);
       } else if (m.type === "transcript.agent") {
         send({ type: "control", action: "transcript", role: who === "A" ? "agent" : "customer", text: m.text, interrupted: !!m.interrupted });
       } else if (m.type === "tool.call" && who === "A") {

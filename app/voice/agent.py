@@ -34,7 +34,7 @@ THE PROCEDURE DECIDES
 1. You do not diagnose. The moment the customer has described what the machine is doing, call find_procedure with their words, before saying anything else. If it returns candidates, read them to the customer and call start_procedure only after the customer has said which one applies; never pick one yourself.
 2. Ask what the current step asks, in your own natural words, one question at a time. The only questions you may ask about the fault are the ones the steps give you: never add checks of your own ("is the gasket dirty?"). When a step asks the customer to do something (press, unscrew, clean, backflush), explain it simply, wait for them to do it and tell you the result.
 3. After the customer answers a step, call answer_step with the number of the option that matches their words. If their words do not answer the question, ask it again, plainly; never call answer_step to guess. If a result says "stale" or "error", call answer_step again right away with the step_id it gives. Only the procedure's outcome names the parts: find_part is for parts the customer asks about by code or by name.
-4. Order of things: when the procedure opens and the machine is not identified yet, ask for the serial number (on the plate at the back) and wait for it; call identify_machine with the digits and the model words the customer used, it tells you the machine, the warranty and who pays. Only then ask the first step's question. If you already asked for the serial, do not ask it again and do not apologise: just wait. After any side topic (the serial, a question, a part), continue with the step given in "resume" of the tool result, and never re-ask what it lists as already answered.
+4. Order of things: when the procedure opens and the machine is not identified yet, ask for the serial number (on the plate at the back) and wait for it; call identify_machine with the digits and the model words the customer used, it tells you the machine, the warranty and who pays. Only then ask the first step's question. If you already asked for the serial, do not ask it again and do not apologise: just wait. Serial numbers have six digits: if you heard fewer, read back what you heard and ask for the rest before going on. After any side topic (the serial, a question, a part), continue with the step given in "resume" of the tool result, and never re-ask what it lists as already answered.
 
 FACTS AND MONEY
 5. Prices, fees, shipping, delivery days, part codes, warranty, totals, dates and appointment slots exist only in tool results of this call: never say one that no tool gave you, never name a part the tools did not return, never explain what broke beyond what the step or the outcome says. While a step is still open there is no outcome yet: if asked about cost, say it will be clear at the end of the checks. Always use the "spoken" forms given in the results for codes and prices.
@@ -407,13 +407,22 @@ def _machine_view(s) -> dict:
             "previous_orders": [f"{o['ordered_on']} {o['code']} x{o['qty']}" for o in m.get("orders", [])[:4]]}
 
 
+_MODEL_NAMES = re.compile(r"\s*\b(marea|giglio|onda|monda)\b[\w /+-]*", re.I)
+
+
+def _plain(description: str) -> str:
+    """A part as said to the customer: no list of the models it fits ("Group service kit Marea/Giglio (gasket...)" made a
+    Marea owner ask "but this is not a Giglio?", 28/9)."""
+    first = re.split(r",(?![^(]*\))", description)[0]             # up to the first comma outside brackets
+    return re.sub(r"\s{2,}", " ", _MODEL_NAMES.sub(" ", first)).strip().lower()
+
+
 def _say_first(s, n: dict) -> str:
     """The first thing to tell at the outcome, and only that: what failed, what replaces it, what the customer pays
     for it, warranty or not. Delivery, the service call and the email come after the customer has answered."""
     if n["kind"] == "remote":                                  # nothing else to tell: straight to the closing question
         return "Good news: the problem is solved, nothing needs to be replaced. Is there anything else I can help you with?"
-    parts = " and ".join(f"{(p.get('description_en') or p['description']).split(',')[0].lower()} ({spoken_code(p['code'])})"
-                         for p in n["parts"])
+    parts = " and ".join(f"{_plain(p.get('description_en') or p['description'])} ({spoken_code(p['code'])})" for p in n["parts"])
     what = f"To fix it we need to replace the {parts}." if parts else "This needs a technician's visit."
     c = n.get("costs") or {}
     if n["warranty"] is True:
@@ -490,8 +499,10 @@ def _outcome_view(s) -> dict:
                       "customer_pays_spoken": "free, covered by the warranty" if p["covered_by_warranty"] else spoken_price(p["customer_pays_eur"]),
                       "covered_by_warranty": p["covered_by_warranty"], "customer_pays_eur": p["customer_pays_eur"],
                       "description": p.get("description_en") or p["description"], "list_price_eur": p["price_eur"],
-                      "delivery": (p["delivery"][0]["from"].replace("FI-01 ", "").replace("NL-01 ", "") + ", " + p["delivery"][0]["days"] + " working days") if p["delivery"] else "unknown",
-                      "fitting": {"diy": "the customer fits it", "support": "fitted on a service call"}.get(p["handling"], p["handling"])}
+                      "delivery": "the technician brings it on the visit" if kind == "technician" else
+                                  (p["delivery"][0]["from"].replace("FI-01 ", "").replace("NL-01 ", "") + ", " + p["delivery"][0]["days"] + " working days") if p["delivery"] else "unknown",
+                      "fitting": "the technician fits it" if kind == "technician" else
+                                 {"diy": "the customer fits it", "support": "fitted on a service call"}.get(p["handling"], p["handling"])}
                      for p in n["parts"]],
            "customer_pays_total_eur": round(sum(p["customer_pays_eur"] or 0 for p in n["parts"]), 2),
            "customer_pays_total_spoken": (lambda t: "nothing, all covered by the warranty" if t == 0 else spoken_price(t))(
@@ -500,7 +511,8 @@ def _outcome_view(s) -> dict:
                       else "depends on the warranty: ask the serial number")}
     c = n.get("costs")
     if c:
-        out["shipping"] = ("free" if c["shipping_eur"] == 0 else spoken_price(c["shipping_eur"]) if c["shipping_eur"] is not None
+        out["shipping"] = ("none: the technician brings the part" if kind == "technician" else
+                           "free" if c["shipping_eur"] == 0 else spoken_price(c["shipping_eur"]) if c["shipping_eur"] is not None
                            else "depends on the destination: ask the serial number")
         if c["labour"]:
             lp = c["labour"]["customer_pays_eur"]
@@ -571,6 +583,7 @@ async def _run_tool(s, name: str, args: dict) -> dict:
         serial = digits_in(args.get("serial") or "") or re.sub(r"[^0-9A-Za-z]", "", args.get("serial") or "")
         if len(serial) >= 5:
             await s._set_serial(serial.upper())
+        short_serial = serial if 0 < len(serial) < 6 and not s.machine else ""
         if s.machine:
             await s.adopt_machine_record()          # "Giglio 1" said, Giglio 1 Plus on file: the file wins
         from ..session import CATALOG, VOCAB
@@ -580,6 +593,10 @@ async def _run_tool(s, name: str, args: dict) -> dict:
         # identified the machine, then asked "what is happening?" again)
         described = s.pending_description or " ".join(
             u["text"] for u in s.utterances if u["role"] == "customer" and len(digits_in(u["text"])) < 5)[-300:]
+        if short_serial:
+            # Sereni serials have six digits: "0510" went unnoticed until the warranty was needed (Luca 28/9)
+            out["serial_incomplete"] = {"heard": short_serial, "hint": f"serial numbers have six digits and you heard only "
+                                        f"{len(short_serial)}: read back the digits you heard and ask for the rest now"}
         if (s.model_id or s.family) and len(content_words(described)) >= 4 and not s.diagnosis:
             out["next"] = (f"the fault was already described: call find_procedure now with: {described!r}. "
                            "Do not ask the customer to describe it again.")
@@ -611,8 +628,30 @@ async def _run_tool(s, name: str, args: dict) -> dict:
                     "hint": "the procedure depends on the machine: ask which Sereni machine it is (model name on the front, or "
                             "the serial number on the plate at the back), call identify_machine, then call find_procedure again "
                             "with this same description. Do not ask the customer to describe the fault again."}
+        # the customer's own words are the evidence, the agent's summary only helps: "it stays totally cold, goes to zero, no
+        # steam, and it seems dead" opens "does not heat", the agent's "the machine seems dead" opened "machine dead" (Dave 28/9)
+        said = [u["text"] for u in s.utterances if u["role"] == "customer" and len(digits_in(u["text"])) < 5]
+        words = " ".join(said[-3:] + [desc]).strip()
+        d = s.diagnosis
+        if d and d.current:
+            # a procedure is open and the agent looks again: the customer may be correcting it ("the lights and the
+            # buttons are on, it just stays cold"). The latest words decide; the customer confirms before it changes.
+            latest = " ".join(said[-2:] + [desc]).strip()
+            cands = s.symptom_candidates(latest, k=5)
+            here = next((c["score"] for c in cands if c["symptom_id"] == d.symptom["id"]), 0.0)
+            other = next((c for c in cands if c["symptom_id"] != d.symptom["id"]
+                          and c["symptom_id"] not in s.closed_symptoms), None)
+            if other and other["score"] >= here + 0.05:
+                s._log_decision("other_procedure", current=d.symptom["id"], suggested=other["symptom_id"], text=latest)
+                return {"status": "maybe_other_procedure", "current": d.symptom["symptom_en"],
+                        "suggested": {"symptom_id": other["symptom_id"], "title": other["title"]},
+                        "hint": "the customer's latest words point to another procedure: ask them in one sentence whether "
+                                "this is the problem; if yes call start_procedure with this symptom_id, if not continue with "
+                                "the current step.", **_step_view(s)}
+        if not (d and d.current) and said:
+            await s._detect_symptom([" ".join(said[-3:])], semantic=True)   # the customer's words first
         if not (s.diagnosis and s.diagnosis.current):
-            await s._detect_symptom([desc], semantic=True)
+            await s._detect_symptom([words], semantic=True)
         if s.diagnosis and s.diagnosis.current:
             return {"status": "opened", **_step_view(s), **_already_answered(s, desc), **_serial_first(s)}
         if s.diagnosis and s.diagnosis.outcome:

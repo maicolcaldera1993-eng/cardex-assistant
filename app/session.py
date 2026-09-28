@@ -798,7 +798,9 @@ class CallSession:
             pay["say_en"] += " What email address should we send the quote to?"
         return {"costs": costs,"kind": o.kind, "text": text[0] if it else text[1], "warranty": w, "warranty_text": wt[0] if it else wt[1],
                 "say_en": " ".join(x for x in (say_w, say_k, pay["say_en"] if pay else "") if x).strip(), "booking": booking,
-                "fits_alone": fits_alone, "payment": pay, "ship_to": self._ship_to() if parts else None, "email": self.email,
+                # nothing is shipped when the technician brings the parts
+                "fits_alone": fits_alone, "payment": pay, "ship_to": self._ship_to() if parts and o.kind != "technician" else None,
+                "email": self.email,
                 "parts_confirmed": bool(parts) and all(c["status"] == "confirmed" for c in parts),
                 "parts": [{"code": c["code"], "description": c["description"], "description_en": c["description_en"],
                            "price_eur": c["price_eur"], "delivery": c["delivery"], "handling": c["handling"],

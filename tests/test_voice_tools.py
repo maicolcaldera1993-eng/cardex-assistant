@@ -808,7 +808,7 @@ def test_cannot_open_the_valve_brings_the_technician():
     o = run(run_tool(s, "answer_step", {"step_id": "valve-body", "option_number": 3,
                                         "customer_words": "Preferirei che venisse un tecnico, non vorrei smontare."}))
     assert o["status"] == "outcome" and o["outcome"] == "technician" and [p["code"] for p in o["parts"]] == ["GE-2160"]
-    assert o["labour"].endswith("free, covered by the warranty") and o["shipping"] == "free"
+    assert o["labour"].endswith("free, covered by the warranty") and o["shipping"].startswith("none")   # the technician brings it
     assert o["booking"]["kind"] == "technician's visit"
 
 
@@ -903,3 +903,46 @@ def test_a_refusal_inside_a_question_step_does_not_close_it():
     run(run_tool(s, "find_procedure", {"description": "the machine stays cold, the gauge is at zero"}))
     run(s.control({"action": "transcript", "role": "customer", "text": "I can't see the lights well from here."}))
     assert s.diagnosis.current == "lights" and not s.diagnosis.outcome
+
+
+def test_the_procedure_follows_the_customers_words_and_can_change():
+    """Dave, 28/9: "it stays totally cold, goes to zero, no steam, and it seems dead" was summarised by the agent as "the
+    machine seems dead" and opened "machine dead"; when Dave corrected it, find_procedure kept returning the fuse check."""
+    s, _ = make_session()
+    s.lang = "en"
+    run(run_tool(s, "identify_machine", {"model_text": "Marea 2", "serial": "041302"}))
+    run(s.control({"action": "transcript", "role": "customer", "text": "Yeah, since this morning the machine stay totally cold, goes to zero, no steam, and it seems dead."}))
+    r = run(run_tool(s, "find_procedure", {"description": "the machine seems dead"}))
+    assert r["status"] == "opened" and s.diagnosis.symptom["id"] == "marea-no-heat"
+
+    # the wrong one open anyway: the customer's correction makes find_procedure propose the right one
+    s2, _ = make_session()
+    s2.lang = "en"
+    run(run_tool(s2, "identify_machine", {"model_text": "Marea 2", "serial": "041302"}))
+    run(run_tool(s2, "start_procedure", {"symptom_id": "marea-machine-dead"}))
+    for said in ["The lights and the buttons are on, but still stay cold.",
+                 "The machine is powered on, but the problem is that it stays cold. The gauge is at zero. There is no steam."]:
+        run(s2.control({"action": "transcript", "role": "customer", "text": said}))
+    r = run(run_tool(s2, "find_procedure", {"description": "machine has power, lights on, but does not heat"}))
+    assert r["status"] == "maybe_other_procedure" and r["suggested"]["symptom_id"] == "marea-no-heat"
+    assert s2.diagnosis.symptom["id"] == "marea-machine-dead"                  # nothing changes before the customer says yes
+    o = run(run_tool(s2, "start_procedure", {"symptom_id": "marea-no-heat"}))
+    assert o["status"] == "opened" and s2.diagnosis.symptom["id"] == "marea-no-heat"
+
+
+def test_short_serial_is_read_back_and_the_part_travels_with_the_technician():
+    """Luca, 28/9: "0510" went unnoticed; with a technician's visit the agent still said the part ships from Florence."""
+    s, _ = make_session()
+    s.lang = "en"
+    r = run(run_tool(s, "identify_machine", {"model_text": "Giglio 1 Plus", "serial": "0510"}))
+    assert r["serial_incomplete"]["heard"] == "0510" and "six digits" in r["serial_incomplete"]["hint"]
+    run(run_tool(s, "identify_machine", {"serial": "051040"}))
+    run(run_tool(s, "find_procedure", {"description": "when we remove the portafilter after the shot it sprays all around"}))
+    for sid, n, w in [("discharge", 1, "No, I no longer hear the discharge."), ("backflush-date", 1, "More than a week ago."),
+                      ("backflush", 2, "No, there is still the problem.")]:
+        run(run_tool(s, "answer_step", {"step_id": sid, "option_number": n, "customer_words": w}))
+    run(s.control({"action": "transcript", "role": "customer", "text": "Can you just send me a service to fix the problem?"}))
+    o = run(run_tool(s, "get_call_status", {}))["outcome_now"]
+    assert o["outcome"] == "technician" and o["shipping"].startswith("none")
+    assert all(p["delivery"].startswith("the technician brings") for p in o["parts"])
+    assert "giglio" not in o["say_first"].lower() and "marea" not in o["say_first"].lower()
