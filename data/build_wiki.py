@@ -15,18 +15,15 @@ from __future__ import annotations
 import json
 import re
 import sqlite3
-import unicodedata
+import sys
 from pathlib import Path
 
 HERE = Path(__file__).parent
+sys.path.insert(0, str(HERE.parent))
+from app.core.slug import slug  # noqa: E402  (the app reads the same anchors)
 KB = HERE / "kb"
 OUTCOME_IT = {"remote": "risolto da remoto", "part_diy": "ricambio, lo monta il cliente",
               "part_with_support": "ricambio con supporto del service", "technician": "tecnico"}
-
-
-def slug(text: str) -> str:
-    t = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode().lower()
-    return re.sub(r"[^a-z0-9]+", "-", t).strip("-")
 
 
 def sentences(text: str) -> list[str]:

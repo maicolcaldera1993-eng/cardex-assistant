@@ -2,10 +2,11 @@
 code a manual quotes exists in the ERP and fits that model."""
 import re
 import sqlite3
-import unicodedata
 from pathlib import Path
 
 import pytest
+
+from app.core.slug import slug
 
 ROOT = Path(__file__).resolve().parents[1]
 MANUALS = ROOT / "data" / "kb" / "manuals"
@@ -14,11 +15,6 @@ MODELS = sorted(r[0] for r in con.execute("SELECT id FROM models"))
 COMPAT: dict[str, set[str]] = {}
 for code, mid in con.execute("SELECT code, model_id FROM compatibility"):
     COMPAT.setdefault(code, set()).add(mid)
-
-
-def slug(text: str) -> str:
-    t = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode().lower()
-    return re.sub(r"[^a-z0-9]+", "-", t).strip("-")
 
 
 @pytest.mark.parametrize("mid", MODELS)

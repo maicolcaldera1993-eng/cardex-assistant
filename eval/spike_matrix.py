@@ -1,4 +1,6 @@
-"""Runs spike_stream over every spike audio file and configuration, 3 sessions at a
+"""Historical (16 Sept, first version with our own streaming ASR): kept because the README quotes its numbers.
+
+Runs spike_stream over every spike audio file and configuration, 3 sessions at a
 time, then prints a comparison table of recognised models and codes."""
 from __future__ import annotations
 

@@ -138,7 +138,7 @@ async def main() -> None:
                         await agent_ws.send(json.dumps({"type": "session.end"}))
                     elif ev["type"] == "diagnosis":
                         print(f"    ## {ev['symptom']} -> {'done ' + ev['outcome'] if ev['done'] else 'step ' + ev['step']['id']}")
-                    elif ev["type"] == "agent" and ("Prenotato" in ev["text"] or "Nota" in ev["text"]):
+                    elif ev["type"] == "agent" and ev["text"].startswith(("Booked:", "Prenotato:", "Note for", "Nota per")):
                         print(f"    ## {ev['text']}")
                     elif ev["type"] == "summary":
                         s = ev["summary"]

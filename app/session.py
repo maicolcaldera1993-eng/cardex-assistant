@@ -42,7 +42,7 @@ if _DEBUG_LOG:
 CATALOG = Catalog()
 CONTEXT = ContextDetector()
 DEFECTS = DefectsLibrary()
-VOCAB = VocabularyManager(CATALOG)
+VOCAB = VocabularyManager()
 SEMANTIC = SemanticIndex()      # the model is loaded in the background at server start-up (see main.py)
 
 Emit = Callable[[dict], Awaitable[None]]

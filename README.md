@@ -36,7 +36,7 @@ a daily budget of agent minutes and a few calls per hour per address (`app/limit
 | Client-side function tools (`type: "function"`) relayed by the browser | 11 tools: identify the machine, find and follow the procedure, parts, booking, email, call status, notes, end of call |
 | `language_codes`, `transcription_prompt`, key terms | listening limited to the six languages the agent speaks, domain context, machine names and part codes |
 | `conversation.message` + `reply.create` | language handover: a new session with the customer's language voice gets the call so far and answers the last words |
-| Semantic turn detection and barge-in (defaults) | the operator and the customer can pause while spelling or thinking without being cut off |
+| Semantic turn detection (default) and `transcription_mode: "max_accuracy"` | the customer can pause while spelling or thinking without being cut off; fewer turns split in the middle of a sentence |
 | Temporary tokens (`/v1/token`) | the browser never sees the API key |
 | LLM Gateway | English subtitles for lines said in another language |
 
@@ -63,7 +63,7 @@ was replaced by the Voice Agent on 24–26 September; its decisions stay here as
 
 - **2026-09-16** Browser never talks to AssemblyAI with the API key: the backend owns the key, the limits and the logic.
 - **2026-09-16** Pure logic (normaliser, catalog search, context, vocabulary, procedures) lives in `app/core/` with no network access and is covered by pytest before any audio is involved.
-- **2026-09-16** Streaming spike (`eval/spike_*.py`): six synthetic voices × three configs. Without keyterms the model missed 16 of 30 model mentions and 14 of 48 codes; with `keyterms_prompt` it missed 2 and 3. "Onda" became "Honda" in every bare run and in none of the keyterm runs.
+- **2026-09-16** Streaming spike (`eval/spike_*.py`): six synthetic voices × three configs. Without keyterms the model missed 16 of 30 model mentions and 14 of 48 codes; with `keyterms_prompt` it missed 2 and 3, with keyterms plus a prompt 1 and 6. "Onda" became "Honda" in 4 of 6 bare runs, 2 of 6 with keyterms, 1 of 6 with keyterms plus prompt (`eval/spike_results/`).
 - **2026-09-16** Known-defects files are step-by-step procedures, not lists of causes: each symptom is a small flowchart (ask/do steps, each answer branches to the next step or to an outcome: remote fix, part the customer fits, part fitted with service support, technician). The assistant never decides an outcome by itself.
 - **2026-09-16** Pronunciation knowledge lives in `app/lexicon/pronunciation.json`, owned by Cardex. The ERP holds only business data.
 - **2026-09-16** Knowledge base is structured, not a vector store: `data/sereni.db`, `data/kb/defects/*.json`, `data/kb/manuals/*.md`, `data/kb/parts/*.md`.
@@ -77,8 +77,10 @@ was replaced by the Voice Agent on 24–26 September; its decisions stay here as
 - **2026-09-24** Sentence vectors of the index are cached on disk (`data/kb/index.vectors.npz`) and built into the Docker image.
 - **2026-09-25** Commercial terms are data (`app/core/terms.py`): service call, technician, shipping inside and outside the EU, warranty coverage and exclusions. Payment is never taken on the call: a colleague emails the quote, parts ship on payment.
 - **2026-09-25** The assistant follows the customer's language: a Voice Agent voice is fixed per session, so the page hands the call to a new session with that language's voice, replaying the call so far and its state.
-- **2026-09-26** Turn detection left on AssemblyAI's semantic default: fixed silence rules cut the customer's sentences. The page holds the microphone back while the agent's voice plays, and a clear sustained voice interrupts it.
+- **2026-09-26** Turn detection left on AssemblyAI's semantic default: fixed silence rules cut the customer's sentences. The page holds the microphone back while the agent's voice plays (half duplex). Letting a loud voice interrupt the agent was tried and removed: laptop speakers' echo triggered it and the agent kept restarting its sentence.
 - **2026-09-26** The customer's email is on file with the installed base; dictating addresses letter by letter over a call proved unreliable. A new address goes through a dedicated tool and must appear in the customer's own words.
+- **2026-09-26** Diagnosis from AssemblyAI's own session recordings (`eval/session_fetch.py`, `eval/session_check.py`): the audio arrived whole, so the errors were live transcription or our logic. Tool results are sent only once the agent's reply is done (and dropped if it was interrupted), which stopped two replies starting together; `max_accuracy` transcription took duplicated replies in a synthetic A/B from 3 to 0.
+- **2026-09-26** The price list is in the ERP (`service_prices`): service video call 35 €, technician call-out 80 €, shipping 9.90 € in the EU and 29 € outside, all free under warranty. A customer who can take the machine apart does it live with the agent; one who cannot or will not gets the technician, who brings the part.
 
 ## Running locally
 
@@ -101,32 +103,51 @@ python data/build_manuals.py   # manuals for every model except the hand-written
 python data/build_wiki.py      # symptom pages and the section index
 ```
 
-Headless checks against the real Voice Agent (they cost a few cents of agent time):
-`eval/ws_voice.py 8000 dave|lena|mario` (a synthetic customer calls the automatic assistant) and
-`eval/ws_roleplay.py 8000 klaus` (a synthetic operator talks to the simulated customer).
+Checks in `eval/` (the ones that call AssemblyAI cost a few cents of agent time):
+
+| Script | What it does |
+|---|---|
+| `ws_voice.py 8000 dave\|lena\|mario` | a synthetic customer calls the automatic assistant through the real Voice Agent |
+| `ws_roleplay.py 8000 klaus` | a synthetic operator talks to the simulated customer |
+| `session_fetch.py` | lists AssemblyAI sessions and downloads one: stereo audio (customer left, agent right), timeline with confidences and tool calls |
+| `session_check.py` | transcribes the customer's channel afterwards and compares it with what was understood live |
+| `probe_gateway_rate.py` | measures how many LLM Gateway requests per minute the account accepts |
+| `spike_*.py`, `make_spike_audio.py` | historical: the 16 September streaming spike quoted above |
 
 ## Tests
 
-`python -m pytest -q` runs 241 tests in under a minute, with no microphone, no network and no AssemblyAI credits.
+`python -m pytest -q` runs 251 tests in about a minute, with no microphone and no AssemblyAI credits (the first run
+downloads the embedding model, about 200 MB).
 They check Cardex's own side of the call: rules, data and decisions. What the agent says is produced by AssemblyAI's
 model and is not deterministic; that is checked with live calls and with the headless checks above.
 
 | File | Tests | What it guarantees |
 |---|---|---|
-| `test_voice_tools.py` | 49 | The agent's tools and guard rails, costs and warranty, email, language handover, replays of live test calls |
+| `test_voice_tools.py` | 59 | The agent's tools and guard rails, costs and warranty, email, language handover, replays of live test calls |
 | `test_normalizer.py` | 39 | Spoken part codes come back in canonical form ("e L3010" → EL-3010, "G E twenty-one forty" → GE-2140) |
 | `test_defects_files.py` | 34 | Every procedure is a closed graph over the ERP: each answer leads to a step or an outcome, each part exists and fits, no step is unreachable, every model is covered |
-| `test_semantic.py` | 31 | A fault described in seven languages reaches the right procedure; small talk and half sentences open nothing |
+| `test_semantic.py` | 31 | A fault described in eight languages reaches the right procedure; small talk and half sentences open nothing |
 | `test_context_catalog.py` | 25 | Machine recognition, part search, serial numbers with one wrong digit, the service calendar |
-| `test_symptoms_vocab.py` | 20 | Procedures and outcomes, answers not mistaken for new faults, keyterm phases |
+| `test_symptoms_vocab.py` | 19 | Procedures and outcomes, answers not mistaken for new faults, the key terms within the session limits |
 | `test_manuals.py` | 20 | A manual per model in both languages, with shared anchors and only compatible parts |
 | `test_dialog.py` | 19 | Reading an answer: numbers said in words, yes/no, on/off, negations, serials, emails, language |
-| `test_limits.py` | 4 | The public demo limits and the token that waits for its call |
+| `test_limits.py` | 5 | The public demo limits and the token that waits for its call |
 
 Every defect found in a live call becomes a test that replays that moment, named after the call in its docstring:
 the warranty covers the repair's parts but never consumables; "I think it's dirty" cannot answer "how old is the
 gasket?"; "Goodbye." never replaces a finished procedure; a serial said twice in one sentence is still one serial;
 an email spelled letter by letter is recorded, an invented one is not.
+
+## Future work
+
+Known debt, left alone before the deadline because it works and is covered by tests:
+
+- `CallSession` (`app/session.py`) and the tool handler in `app/voice/agent.py` are long; they would split into
+  smaller units (machine record, costs and booking, closing rules).
+- The page opens the Voice Agent socket in two places (one agent, and the two-AI call); one shared helper would do.
+- `test_voice_tools.py` would split by topic (procedure, costs, email, language, end of call).
+- Accessibility of the call screen (live regions for the transcript, keyboard order) has not been reviewed.
+- A reply started while a tool call is pending can still overlap with the next one when the customer talks over it.
 
 ## License
 

@@ -1,6 +1,5 @@
-"""Builds the fictional ERP database data/sereni.db from build_catalog.py data,
-plus the generated product sheets in data/kb/parts/. Also refreshes catalog.json
-and models.json.
+"""Builds the fictional ERP database data/sereni.db from build_catalog.py data, plus the generated product
+sheets in data/kb/parts/ and Cardex's pronunciation lexicon in app/lexicon/.
 
     .venv/Scripts/python data/build_db.py
 """
@@ -205,7 +204,7 @@ def build_db() -> None:
     CREATE TABLE service_busy (zone TEXT, day_offset INTEGER, slot INTEGER);
     CREATE INDEX ix_compat_model ON compatibility(model_id);
     """)
-    for (i, n, f, y, t, g, aliases) in bc.MODELS:
+    for (i, n, f, y, t, g, _aliases) in bc.MODELS:       # aliases go to the lexicon, not to the ERP
         c.execute("INSERT INTO models VALUES (?,?,?,?,?,?,?)", (i, n, f, y, t, g, None))
     for e in bc.EDITIONS:
         eid = e["name"].lower()
@@ -246,16 +245,14 @@ def build_db() -> None:
     c.execute("INSERT INTO supersessions VALUES (?,?,?,?,?,?)",
               ("EL-3011", "EL-3012", "2025-04-15", None, "Primo lotto v2 con bug del conteggio flussometro. Sostituzione diretta.",
                "First v2 batch with a flowmeter counting bug. Direct replacement."))
-    c.execute("INSERT INTO supersessions VALUES (?,?,?,?,?,?)",
-              ("CA-1300", "CA-1300", None, None, None, None))  # placeholder removed below
-    c.execute("DELETE FROM supersessions WHERE old_code = new_code")
 
     for (i, n, f, *_rest) in bc.MODELS:
         c.execute("INSERT INTO documents VALUES (?,?,?,?,?,?,?,?)",
                   (f"manual-{i}", "manual", i, f, None, f"kb/manuals/{i}.md", f"Libretto d'uso e manutenzione {n}", 0))
-    for fam in sorted({m[2] for m in bc.MODELS}):
+    for path in sorted((KB / "defects").glob("*.json")):     # one file per family; Giglio shares the Marea one
+        fam = path.stem.capitalize()
         c.execute("INSERT INTO documents VALUES (?,?,?,?,?,?,?,?)",
-                  (f"defects-{fam.lower()}", "defects", None, fam, None, f"kb/defects/{fam.lower()}.json",
+                  (f"defects-{path.stem}", "defects", None, fam, None, f"kb/defects/{path.name}",
                    f"Fascicolo difetti noti famiglia {fam}", 1))
     con.commit()
     con.close()
@@ -279,7 +276,6 @@ def write_lexicon() -> None:
 def write_part_sheets() -> None:
     """Static product sheets, Italian and English, same anchors (caratteristiche, compatibilita, sostituisce,
     montaggio, note). Live stock, prices and lead times are read from the database at call time."""
-    from part_notes import NOTES_EN  # noqa: PLC0415
     out = KB / "parts"
     out.mkdir(parents=True, exist_ok=True)
     con = sqlite3.connect(DB)
@@ -345,7 +341,6 @@ def write_part_sheets() -> None:
 
 
 if __name__ == "__main__":
-    bc.validate()
     bc.main()
     build_db()
     write_lexicon()

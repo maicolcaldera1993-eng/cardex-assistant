@@ -8,16 +8,14 @@ Every part code quoted must exist in the ERP for that model (checked in tests/te
 from __future__ import annotations
 
 import re
-import unicodedata
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from app.core.slug import slug  # noqa: E402  (the app reads the same anchors)
 
 OUT = Path(__file__).parent / "kb" / "manuals"
 HAND_WRITTEN = {"marea-2-plus"}
-
-
-def slug(text: str) -> str:
-    t = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode().lower()
-    return re.sub(r"[^a-z0-9]+", "-", t).strip("-")
 
 
 # ------------------------------------------------------------------ model data
@@ -456,15 +454,15 @@ def main() -> None:
     n = 0
     for mid, d in HX.items():
         for lang in ("it", "en"):
-            (OUT / f"{mid}{'' if lang == 'it' else '.en'}.md").write_text(espresso(mid, d, False, lang), encoding="utf-8")
+            (OUT / f"{mid}{'' if lang == 'it' else '.en'}.md").write_text(espresso(mid, d, False, lang), encoding="utf-8", newline="\n")
             n += 1
     for mid, d in MB.items():
         for lang in ("it", "en"):
-            (OUT / f"{mid}{'' if lang == 'it' else '.en'}.md").write_text(espresso(mid, d, True, lang), encoding="utf-8")
+            (OUT / f"{mid}{'' if lang == 'it' else '.en'}.md").write_text(espresso(mid, d, True, lang), encoding="utf-8", newline="\n")
             n += 1
     for mid, d in GR.items():
         for lang in ("it", "en"):
-            (OUT / f"{mid}{'' if lang == 'it' else '.en'}.md").write_text(grinder(mid, d, lang), encoding="utf-8")
+            (OUT / f"{mid}{'' if lang == 'it' else '.en'}.md").write_text(grinder(mid, d, lang), encoding="utf-8", newline="\n")
             n += 1
     print(f"manuals: {n} files ({len(HX) + len(MB) + len(GR)} models x 2 languages); hand-written kept: {sorted(HAND_WRITTEN)}")
 

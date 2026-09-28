@@ -85,7 +85,7 @@ class SemanticIndex:
         q = self._embed([text])[0]
         sims = self._vecs @ q
         best: dict[str, tuple[float, str]] = {}
-        for owner, ref, s in zip(self._owners, self._refs, sims):
+        for owner, ref, s in zip(self._owners, self._refs, sims, strict=True):
             if allowed is not None and owner not in allowed:
                 continue
             if kind and self.nodes[owner]["kind"] != kind:

@@ -314,7 +314,7 @@ def classify_branch(text: str, branches: list[dict], similarities: Callable[[str
     if refused and len(negatives) == 1:
         return negatives[0], 1.0                               # a refusal is decisive when the step has one "No"
     scores = []
-    for k, (lab, sim) in enumerate(zip(labels, sims)):
+    for k, (lab, sim) in enumerate(zip(labels, sims, strict=True)):
         lw, ln, lwords = content_words(lab), numbers_in(lab), set(re.findall(r"[a-z']+", lab.lower()))
         l_neg = _negated(re.findall(r"[a-z']+", lab.lower()))
         s = sim

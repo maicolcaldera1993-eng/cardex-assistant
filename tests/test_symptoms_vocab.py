@@ -1,14 +1,12 @@
 """Core: symptoms matched from the customer's words, step-by-step procedures and their outcomes, answers to an open
-step not taken for new faults, keyterm vocabulary built in phases."""
+step not taken for new faults, the key terms every Voice Agent session listens for."""
 import pytest
 
-from app.core.catalog import Catalog
 from app.core.symptoms import DefectsLibrary, Outcome
 from app.core.vocabulary import MAX_CHARS, MAX_TERMS, VocabularyManager
 
 lib = DefectsLibrary()
-cat = Catalog()
-vocab = VocabularyManager(cat)
+vocab = VocabularyManager()
 
 
 @pytest.mark.parametrize("text,symptom", [
@@ -65,23 +63,11 @@ def test_view_has_english_sentence_for_operator():
     assert v["step"]["text"].startswith("Le spie") and v["step"]["say_in_english"].startswith("Are the lights")
 
 
-def test_vocabulary_phases():
-    v1 = vocab.build()
-    assert v1.phase == 1 and "Giglio 1 Plus" in v1.keyterms and "GE-2140" not in v1.keyterms
-    v2 = vocab.build(model_id="marea-2-plus")
-    assert v2.phase == 2 and v2.keyterms[0] == "Marea 2 Plus" and "GE-2140" in v2.keyterms
-    assert "GE-2410" not in v2.keyterms          # Onda gasket has no business in a Marea call
-    assert "Marea 2 Plus" in v2.prompt
-    v3 = vocab.build(model_id="marea-2-plus", group="CA", symptom_parts=["CA-1180", "CA-1220"])
-    assert v3.phase == 3 and v3.keyterms[1:3] == ["CA-1180", "CA-1220"]
-    for v in (v1, v2, v3):
-        assert len(v.keyterms) <= MAX_TERMS and all(len(t) <= MAX_CHARS for t in v.keyterms)
-        assert len(set(t.lower() for t in v.keyterms)) == len(v.keyterms)
-
-
-def test_vocabulary_family_only():
-    v = vocab.build(family="Onda")
-    assert v.phase == 2 and "GE-2410" in v.keyterms and "GE-2140" not in v.keyterms
+def test_key_terms_fit_the_session_limits():
+    terms = vocab.keyterms
+    assert "Giglio 1 Plus" in terms and "Vaniglia" in terms and "group gasket" in terms and "GE-2140" not in terms
+    assert len(terms) <= MAX_TERMS and all(len(t) <= MAX_CHARS for t in terms)
+    assert len({t.lower() for t in terms}) == len(terms)
 
 
 @pytest.mark.parametrize("text,symptom", [

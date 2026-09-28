@@ -1,4 +1,6 @@
-"""Spike: stream a 16 kHz PCM wav to AssemblyAI Streaming v3 at real-time pace and
+"""Historical (16 Sept, first version with our own streaming ASR): kept because the README quotes its numbers.
+
+Spike: stream a 16 kHz PCM wav to AssemblyAI Streaming v3 at real-time pace and
 print the final turns with latency, with or without keyterms + prompt.
 
 Usage:
@@ -13,7 +15,6 @@ import argparse
 import asyncio
 import json
 import os
-import sys
 import time
 import wave
 from pathlib import Path

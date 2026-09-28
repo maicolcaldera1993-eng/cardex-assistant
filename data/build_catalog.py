@@ -1,21 +1,16 @@
-"""Builds data/catalog.json and data/models.json for the fictional manufacturer
-"Sereni Macchine da Caffè" (Firenze).
+"""Hand-written catalogue of the fictional manufacturer "Sereni Macchine da Caffè" (Firenze): models,
+editions and parts. build_db.py turns it into the ERP database data/sereni.db.
 
-The data is hand-written here rather than in raw JSON so that compatibility
-sets, trap pairs and supersessions stay readable and reviewable. Run:
+The data is written here rather than in raw JSON so that compatibility sets, trap pairs and supersessions stay
+readable and reviewable. Running this file only validates it and prints a summary:
 
-    python data/build_catalog.py
+    .venv/Scripts/python data/build_catalog.py
 
 Fields per part (see docs): code, group, family_scope, models, description_it,
 description_en, aliases_it, aliases_en, voltage, supersedes, superseded_by,
 price_eur, stock, order_rank (1 = ordered every day ... 5 = rarely).
 """
 from __future__ import annotations
-
-import json
-from pathlib import Path
-
-HERE = Path(__file__).parent
 
 # --------------------------------------------------------------------------
 # Models
@@ -613,20 +608,10 @@ def validate() -> None:
 
 def main() -> None:
     validate()
-    models = [
-        {"id": i, "name": n, "family": f, "year": y, "type": t, "groups": g, "aliases": a}
-        for (i, n, f, y, t, g, a) in MODELS
-    ]
-    (HERE / "models.json").write_text(
-        json.dumps({"manufacturer": "Sereni Macchine da Caffè", "city": "Firenze",
-                    "models": models, "editions": EDITIONS}, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8")
-    (HERE / "catalog.json").write_text(
-        json.dumps(PARTS, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     by_group: dict[str, int] = {}
     for p in PARTS:
         by_group[p["group"]] = by_group.get(p["group"], 0) + 1
-    print(f"{len(PARTS)} parts, {len(models)} models")
+    print(f"{len(PARTS)} parts, {len(MODELS)} models")
     for g, n in sorted(by_group.items()):
         print(f"  {g}: {n}")
 

@@ -92,7 +92,7 @@ class DefectsLibrary:
 
 _STOP = {"the", "and", "that", "this", "with", "from", "have", "does", "when", "what", "there", "then", "your", "you",
          "they", "them", "into", "onto", "after", "before", "still", "just", "also", "very", "okay", "yes", "not", "but",
-         "are", "was", "were", "for", "did", "them", "have", "been", "which", "where", "while", "than", "more", "less",
+         "are", "was", "were", "for", "did", "been", "which", "where", "while", "than", "more", "less",
          "della", "delle", "dello", "degli", "nella", "nelle", "sono", "come", "quando", "anche", "ancora", "oppure"}
 
 

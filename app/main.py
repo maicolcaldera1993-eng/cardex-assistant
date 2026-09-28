@@ -4,6 +4,7 @@ from __future__ import annotations
 import asyncio
 import json
 import os
+import re
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -59,7 +60,7 @@ async def voice_agent(lang: str = "en", resume: bool = False) -> dict:
     from .voice.agent import LANGUAGES, TOOLS, ensure_agent, session_config
     if not API_KEY:
         raise HTTPException(503, "ASSEMBLYAI_API_KEY is not configured")
-    keyterms = VOCAB.build().keyterms
+    keyterms = VOCAB.keyterms
     agent_id = await ensure_agent(API_KEY, keyterms)          # kept up to date for the AssemblyAI dashboard
     return {"agent_id": agent_id, "tools": TOOLS, "session": session_config(keyterms, lang, resume),
             "languages": {k: v[0] for k, v in LANGUAGES.items()}}
@@ -72,7 +73,7 @@ async def voice_customer(persona: str = "dave") -> dict:
     if persona not in PERSONAS:
         raise HTTPException(404, "unknown persona")
     p = PERSONAS[persona]
-    return {"session": customer_session(persona, VOCAB.build().keyterms),
+    return {"session": customer_session(persona, VOCAB.keyterms),
             "persona": {"id": persona, "name": p["name"], "business": p["business"], "city": p["city"], "lang": p["lang"]}}
 
 
@@ -139,7 +140,7 @@ def render_doc(page: str, hl: str | None = None, lang: str = "it") -> dict:
             j = j if j > i else len(text)
             text = text[:i] + "<mark>" + text[i:j] + "</mark>" + text[j:]
     md = markdown.Markdown(extensions=["tables", "toc", "attr_list"], extension_configs={
-        "toc": {"slugify": lambda value, sep: slug(__import__("re").sub(r"^\d+\.\s*", "", value))}})
+        "toc": {"slugify": lambda value, _sep: slug(re.sub(r"^\d+\.\s*", "", value))}})   # same anchors as the index
     return {"page": page, "html": md.convert(text)}
 
 

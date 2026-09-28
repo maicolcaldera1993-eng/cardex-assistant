@@ -1,4 +1,6 @@
-"""Generates the spike audio set: synthetic voices reading Sereni model names and
+"""Historical (16 Sept, first version with our own streaming ASR): kept because the README quotes its numbers.
+
+Generates the spike audio set: synthetic voices reading Sereni model names and
 part codes, in Italian and in accented English. Output: eval/spike_audio/*.wav
 (16 kHz mono PCM16) plus manifest.json with the expected models and codes.
 
