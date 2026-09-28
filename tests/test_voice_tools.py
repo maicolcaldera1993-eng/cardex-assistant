@@ -870,3 +870,36 @@ def test_the_fault_said_before_the_serial_is_not_asked_again():
         run(s.control({"action": "transcript", "role": "customer", "text": said}))
     r = run(run_tool(s, "identify_machine", {"model_text": "Marea 2", "serial": "041188"}))
     assert "find_procedure now" in r["next"] and "non carica l'acqua" in r["next"] and "matricola" not in r["next"]
+
+
+def test_afraid_to_open_it_gets_the_technician_even_if_the_agent_does_not_record_it():
+    """Luca, 28/9: at "open the solenoid valve body" he said he was afraid to open the machine and asked for someone to
+    come; the agent never called answer_step, the call ended with no outcome and no technician's calendar."""
+    s, _ = make_session()
+    s.lang = "en"
+    run(run_tool(s, "identify_machine", {"model_text": "Giglio 1 Plus Vaniglia", "serial": "051040"}))
+    run(run_tool(s, "find_procedure", {"description": "when we remove the portafilter after the shot the puck is wet and it sprays all around"}))
+    run(run_tool(s, "answer_step", {"step_id": "discharge", "option_number": 1, "customer_words": "No, I cannot hear the discharge."}))
+    run(run_tool(s, "answer_step", {"step_id": "backflush-date", "option_number": 1, "customer_words": "More than a week ago."}))
+    run(run_tool(s, "answer_step", {"step_id": "backflush", "option_number": 2, "customer_words": "Yes, it still spits."}))
+    assert s.diagnosis.current == "valve-body"
+    for said in ["I'm sorry, but I'm a little bit afraid to open the machine.",
+                 "I can damage the part. So can someone from you come here and make the solution?"]:
+        run(s.control({"action": "transcript", "role": "customer", "text": said}))
+    assert s.diagnosis.outcome and s.diagnosis.outcome.kind == "technician" and s.diagnosis.outcome.parts == ["GE-2160"]
+    r = run(run_tool(s, "note_for_operator", {"note": "Customer prefers a technician"}))
+    o = r["outcome_now"]
+    assert o["status"] == "outcome" and "say_first" in o and o["booking"]["kind"] == "technician's visit"
+    assert o["booking"]["propose_first"] and o["booking"]["propose_first_if_the_customer_wants_the_afternoon"]
+    again = run(run_tool(s, "answer_step", {"step_id": "valve-body", "option_number": 3, "customer_words": "I can't open it."}))
+    assert again["status"] == "outcome_already_told" and "say_first" not in again   # told once
+
+
+def test_a_refusal_inside_a_question_step_does_not_close_it():
+    """"I can't see the gauge well" at an ask step is not a request for a technician: only a do step or an explicit
+    request closes the procedure."""
+    s, _ = make_session()
+    run(run_tool(s, "identify_machine", {"model_text": "Marea 2", "serial": "041302"}))
+    run(run_tool(s, "find_procedure", {"description": "the machine stays cold, the gauge is at zero"}))
+    run(s.control({"action": "transcript", "role": "customer", "text": "I can't see the lights well from here."}))
+    assert s.diagnosis.current == "lights" and not s.diagnosis.outcome

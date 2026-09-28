@@ -103,6 +103,7 @@ class CallSession:
         self.customer_turns = 0                   # the customer's sentences so far (the language is chosen at the start)
         self.last_agent_text = ""
         self.else_asked = False                   # the agent's last question was "anything else?"
+        self.outcome_told = False                 # the current outcome's say_first has gone to the agent
         self.last_customer_text = ""
         self.serial_asked = 0                     # customer sentences still read as the answer to "which serial?"
         self.pending_description = ""             # the fault as described before the machine was known
@@ -550,6 +551,9 @@ class CallSession:
             self.serial_asked -= 1
         if who == CUSTOMER and len(text.split()) > 7:
             self.else_asked = False                          # a real new question: the call goes on
+        if who == CUSTOMER:
+            from .voice.agent import settle_refusal
+            await settle_refusal(self, text)                 # "I'm afraid to open it, can someone come?"
         if who == "agent":
             self.last_agent_text = text
             from .voice.agent import ANYTHING_ELSE, ready_to_hang_up, settle_open_step
@@ -671,6 +675,7 @@ class CallSession:
 
     async def _on_outcome(self, outcome: Outcome) -> None:
         self.outcome = {"kind": outcome.kind, "parts": outcome.parts, "by": "procedure"}
+        self.outcome_told = False
         if self.diagnosis and self.diagnosis.symptom["id"] not in self.closed_symptoms:
             self.closed_symptoms.append(self.diagnosis.symptom["id"])
         label = {"remote": "risolto da remoto", "part_diy": "ricambio, montaggio in autonomia",

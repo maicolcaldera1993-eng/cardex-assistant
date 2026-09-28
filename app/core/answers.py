@@ -263,9 +263,20 @@ _FIXED = re.compile(r"\b(it )?works\b|\bworking (again|now)\b|\bfixed\b|\bsolved
 # "I'd rather have a technician", "non vorrei smontare": the customer cannot or will not do it (the "No" option), even
 # when the sentence also says "damage" ("...e poi creare dei danni" once picked "Yes, but the plunger is damaged")
 REFUSAL = re.compile(r"\bprefer\w*\b[^.]{0,40}\b(tecnico|technician|techniker|t[ée]cnico|technicien)|"
+                      # "I'm a little bit afraid to open the machine… I can damage the part" (Luca 28/9)
+                      r"\b(afraid|scared|i'?m (nervous|worried)|i (could|might|may|can) (damage|break)|ho paura|"
+                      r"potrei (rompere|danneggiare)|me da miedo|tengo miedo|ich habe angst|j'ai peur|tenho medo)|"
                       r"\b(rather not|i'?d rather have|i can'?t|i cannot|i won'?t|i don'?t want to|not able to|"
                       r"non (posso|riesco|voglio|vorrei|me la sento|saprei)|no (puedo|quiero|s[ée])|"
                       r"ich (kann|will|möchte) (das )?nicht|je ne (peux|veux|sais) pas|não (consigo|quero|sei))\b", re.I)
+# the customer asks for a technician instead of doing or answering the step ("can someone from you come here?")
+TECH_REQUEST = re.compile(r"\b(send (me |us )?(someone|somebody|a technician|a tech)|(can|could) (someone|somebody|a technician) "
+                          r"(come|from you)|someone (from you|to come)|a technician (to )?(come|visit)|technician'?s? visit|"
+                          r"(i'?d like|i want|i need|we need) a technician|mandate(mi)? un tecnico|venga un tecnico|"
+                          r"serve un tecnico|un tecnico (qui|da noi)|env[ií]en? un t[ée]cnico|einen techniker|un technicien|"
+                          r"um t[ée]cnico)\b", re.I)
+
+
 def cannot_options(branches: list[dict]) -> list[int]:
     """The options that mean "no / cannot do it" ("No", "Cannot find the button"), not "Still spits"."""
     return [k for k, b in enumerate(branches) if re.match(r"(no|not|cannot|can't|unable)\b", b["label_en"].strip(), re.I)]

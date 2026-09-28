@@ -44,7 +44,7 @@ FACTS AND MONEY
 
 THE OUTCOME, IN SHORT TURNS
 9. The outcome result gives say_first (what failed, what replaces it, what it costs, warranty or not): say only that and wait for the customer. Then one piece per turn: delivery (parts shipped from our warehouse, or brought by the technician); the service call or the technician's visit if the outcome needs one (ask about it yourself if they have not); then the email. The outcome's parts all ship together: never ask the customer to choose between them.
-10. Appointments: once the customer has agreed to the service call or visit, propose only booking.propose_first (day and time), or the afternoon one if the customer asked for the afternoon, and call book_slot only when they accept THAT slot; never book or move one on your own. Only if it does not suit them, read three or four of booking.if_it_does_not_suit, on different days and in the part of the day they asked for, and let them pick. If the customer wants to fit the part alone, say once that this part must be fitted with our service (safety, and the repair's warranty); if they still decline, call note_for_operator with customer_declines_service=true.
+10. Appointments: once the customer has agreed to the service call or visit, propose only booking.propose_first (day and time), or the afternoon one if the customer asked for the afternoon, and call book_slot only when they accept THAT slot; never book or move one on your own. Only if it does not suit them, read three or four of booking.if_it_does_not_suit, on different days and in the part of the day they asked for, and let them pick. If the customer will not do a check or asks for a technician, call get_call_status: it returns the outcome with the technician's free slots; never promise a visit or times before that. If the customer wants to fit the part alone, say once that this part must be fitted with our service (safety, and the repair's warranty); if they still decline, call note_for_operator with customer_declines_service=true.
 11. When the customer agrees to receive the parts, call confirm_parts with their codes: without it nothing is ordered. If they pay something, read out the email on file (machine.email_on_file) for the quote and ask if it is still right; if they pay nothing, only confirm it for the order confirmation, without mentioning a quote or a payment. Only if it is wrong or missing, let the customer spell a new one to the end without interrupting, call set_email, read back its result and ask if it is right.
 
 HOW YOU SPEAK
@@ -426,6 +426,41 @@ def _say_first(s, n: dict) -> str:
     return f"{what} {money}"
 
 
+def _outcome_result(s, **extra) -> dict:
+    """The outcome as a tool result: with say_first the first time, as facts only afterwards."""
+    if s.outcome_told:
+        return _outcome_again(s)
+    s.outcome_told = True
+    return {"status": "outcome", **extra, **_outcome_view(s)}
+
+
+async def settle_refusal(s, text: str) -> bool:
+    """The customer will not or cannot do the step, or asks for a technician: the step closes by itself, even if the agent
+    never calls answer_step (Luca 28/9: "I'm afraid to open the machine… can someone come?" left the call with no outcome
+    and no technician's calendar). A "do" step takes its "cannot" option, or ends with a technician's visit; a request
+    for a technician closes any step. True if the procedure moved."""
+    from ..core.answers import REFUSAL, TECH_REQUEST, cannot_options
+    d = s.diagnosis
+    if s.roleplay or not (d and d.current and text):
+        return False
+    st, low = d.step, text.lower()
+    tech = bool(TECH_REQUEST.search(low))
+    # "do this" steps, and questions about doing it ("Can the customer open the solenoid valve body…?", whose "No" is
+    # already the technician with the valve)
+    doing = st["kind"] == "do" or bool(re.match(r"can (the customer|you)\b", st["text_en"], re.I))
+    if not (tech or (doing and REFUSAL.search(low))):
+        return False
+    negatives = cannot_options(st["branches"])
+    s.notes.append(("Customer asked for a technician instead of: " if tech else "Customer could not or would not carry out: ")
+                   + st["text_en"])
+    s._log_decision("refusal", step=d.current, text=text, technician_request=tech)
+    if doing and len(negatives) == 1:
+        await s.control({"action": "answer_step", "branch": negatives[0]})
+    else:
+        await s.control({"action": "close_symptom", "kind": "technician"})
+    return True
+
+
 def _outcome_again(s) -> dict:
     """The outcome when it has already been told: facts for the customer's questions, nothing to read out again (Mehmet
     28/9: three answer_step calls for one answer, and say_first was spoken three times)."""
@@ -517,6 +552,10 @@ async def run_tool(s, name: str, args: dict) -> dict:
     procedure stands, so a side question or the serial never makes the agent lose the thread."""
     result = await _run_tool(s, name, args)
     d = s.diagnosis
+    if name in ("identify_machine", "get_call_status", "find_part", "note_for_operator") and d and d.outcome \
+            and not s.outcome_told:
+        # the procedure closed on the customer's own words (a refusal): this is the moment to tell the outcome
+        result["outcome_now"] = _outcome_result(s)
     if name in ("identify_machine", "get_call_status", "find_part", "note_for_operator") and d and d.current:
         result["resume"] = {"step_id": d.current, "ask_next": _step_view(s)["ask_the_customer"],
                             "already_answered": [f"{h['text_en']} -> {h['answer_en']}" for h in d.history],
@@ -577,7 +616,7 @@ async def _run_tool(s, name: str, args: dict) -> dict:
         if s.diagnosis and s.diagnosis.current:
             return {"status": "opened", **_step_view(s), **_already_answered(s, desc), **_serial_first(s)}
         if s.diagnosis and s.diagnosis.outcome:
-            return {"status": "outcome", **_outcome_view(s)}
+            return _outcome_result(s)
         cands = s.symptom_candidates(desc)
         if cands:
             return {"status": "candidates", "candidates": cands, "hint": "ask the customer which one applies, then call start_procedure"}
@@ -591,7 +630,7 @@ async def _run_tool(s, name: str, args: dict) -> dict:
     if name == "answer_step":
         d = s.diagnosis
         if not (d and d.current):
-            return {"status": "no_open_step", "hint": "call find_procedure first"} if not (d and d.outcome) else _outcome_again(s)
+            return {"status": "no_open_step", "hint": "call find_procedure first"} if not (d and d.outcome) else _outcome_result(s)
         i = int(args.get("option_number") or 0) - 1
         if not 0 <= i < len(d.step["branches"]):
             return {"status": "error", "hint": "option_number must be one of the options", "options": _step_view(s)["options"]}
@@ -616,8 +655,7 @@ async def _run_tool(s, name: str, args: dict) -> dict:
             s.notes.append(note)
             s._log_decision("cannot_do", step=d.current, text=words)
             await s.control({"action": "close_symptom", "kind": "technician"})
-            return {"status": "outcome", "why": "the customer cannot carry out this check: a technician will do it",
-                    **_outcome_view(s)}
+            return _outcome_result(s, why="the customer cannot carry out this check: a technician will do it")
         j, conf = read(words)
         known = _known_from_record(s)
         other_number = numbers_in(words) - {re.sub(r"\D", "", s.machine["voltage"])} if known is not None else set()
@@ -653,7 +691,7 @@ async def _run_tool(s, name: str, args: dict) -> dict:
         s._log_decision("branch", step=d.current, text=words, chosen=i, by="voice-agent", classifier=j, confidence=conf, stale_id=stale)
         await s.control({"action": "answer_step", "branch": i})
         if d.outcome:
-            return {"status": "outcome", **_outcome_view(s)}
+            return _outcome_result(s)
         return {"status": "next_step", **_step_view(s)}
     if name == "find_part":
         q = args.get("query") or ""
