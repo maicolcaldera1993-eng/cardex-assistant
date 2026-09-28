@@ -81,9 +81,10 @@ BUDGET = DemoBudget()
 
 
 def client_ip(headers, client) -> str:
-    """The caller's address behind Railway's proxy: the LAST X-Forwarded-For entry, the one the proxy added. The first
-    entries come from the caller and could be forged to dodge the per-address limit."""
+    """The caller's address behind Railway's proxy: the FIRST X-Forwarded-For entry. The last one is Railway's own
+    internal hop, which differs between the call's socket and the token request, so the token was refused (28/9). A
+    forged first entry only dodges the per-address limit; the concurrent-call and daily-minute caps still hold."""
     fwd = headers.get("x-forwarded-for") if headers else None
     if fwd:
-        return fwd.split(",")[-1].strip()
+        return fwd.split(",")[0].strip()
     return getattr(client, "host", None) or "unknown"

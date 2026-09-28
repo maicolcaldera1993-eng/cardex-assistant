@@ -76,6 +76,8 @@ def test_token_waits_for_the_call_that_is_opening():
         loop.close()
 
 
-def test_the_address_is_the_one_the_proxy_added():
-    """The first X-Forwarded-For entries come from the caller and could be forged to dodge the per-address limit."""
-    assert limits.client_ip({"x-forwarded-for": "1.2.3.4, 203.0.113.9"}, None) == "203.0.113.9"
+def test_the_address_is_the_callers_not_the_proxys():
+    """Railway appends its own internal hop, different for the socket and the token request: keying on it refused the
+    token to every call (28/9). The caller's address is the first entry."""
+    assert limits.client_ip({"x-forwarded-for": "79.14.37.199, 100.64.0.7"}, None) == "79.14.37.199"
+    assert limits.client_ip({"x-forwarded-for": "79.14.37.199, 100.64.0.9"}, None) == "79.14.37.199"
