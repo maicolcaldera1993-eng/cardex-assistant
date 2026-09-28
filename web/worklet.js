@@ -1,9 +1,9 @@
-// Microphone -> mono PCM16 at the requested rate (16 kHz for our streaming, 24 kHz for the Voice Agent), 50 ms
-// frames. Linear resampling is enough for speech.
+// Microphone -> mono PCM16 at the rate the Voice Agent expects (24 kHz), in 50 ms frames. Linear resampling is
+// enough for speech.
 class PCM16Downsampler extends AudioWorkletProcessor {
   constructor(options) {
     super();
-    const rate = (options && options.processorOptions && options.processorOptions.rate) || 16000;
+    const rate = (options && options.processorOptions && options.processorOptions.rate) || 24000;
     this.ratio = sampleRate / rate;
     this.pos = 0;
     this.out = new Int16Array(Math.round(rate / 20)); // 50 ms

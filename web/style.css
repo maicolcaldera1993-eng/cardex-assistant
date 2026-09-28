@@ -152,7 +152,7 @@ mark { background: #fde6c3; padding: 0 3px; border-radius: 4px; }
 .turn.agent { align-self: flex-end; background: var(--agent-soft); border-color: #dcd3f7; border-bottom-right-radius: 4px; } .turn.agent .who { color: var(--agent); }
 .turn.interrupted { opacity: .55; font-style: italic; }
 .turn .clear { color: var(--ok); font-style: italic; margin-top: 4px; font-size: 13px; } .turn .clear.wait { color: var(--mute); font-size: 12px; }
-.turn .merged { font-weight: 500; color: var(--mute); text-transform: none; letter-spacing: 0; }
+.turn .flag { font-weight: 500; color: var(--mute); text-transform: none; letter-spacing: 0; }
 .empty-hint { color: var(--mute); font-size: 13px; padding: 18px; text-align: center; border: 1px dashed var(--line-2); border-radius: 12px; }
 
 
@@ -165,7 +165,6 @@ mark { background: #fde6c3; padding: 0 3px; border-radius: 4px; }
 .machine .note { margin-top: 8px; }
 .tag { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
 .tag.ok { background: var(--ok-soft); color: var(--ok); } .tag.bad { background: var(--bad-soft); color: var(--bad); } .tag.warn { background: var(--warn-soft); color: var(--warn); }
-.tag.agent { background: var(--agent-soft); color: var(--agent); }
 .orders { margin: 8px 0 0; padding: 0; list-style: none; font-size: 12px; color: var(--ink-2); } .orders li { padding: 3px 0; border-top: 1px dashed var(--line); }
 
 /* procedure */
@@ -276,8 +275,6 @@ select.alt { font-size: 12px; padding: 5px 8px; }
 
 /* ---------------------------------------------------------------- misc */
 .toast { position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%); background: var(--ink); color: #fff; padding: 11px 18px; border-radius: 12px; font-size: 13px; box-shadow: var(--shadow); z-index: 10; }
-dialog { border: 1px solid var(--line); border-radius: 16px; max-width: 720px; width: 92vw; padding: 22px 26px; } dialog::backdrop { background: rgba(20, 12, 6, .4); }
-#sheet-close { position: absolute; top: 10px; right: 12px; font-size: 20px; } #sheet-body { white-space: pre-wrap; font-size: 13px; }
 
 @media print {
   body { background: #fff; } .topbar, .report-actions, .toast { display: none !important; }
@@ -287,6 +284,6 @@ dialog { border: 1px solid var(--line); border-radius: 16px; max-width: 720px; w
 .follow-acts { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 8px 0 4px; }
 .wline.strong { font-weight: 600; }
 details.terms { margin-top: 8px; font-size: 0.85em; }
-details.terms summary { cursor: pointer; color: var(--muted, #7a6a5d); }
+details.terms summary { cursor: pointer; color: var(--mute); }
 details.terms ul { margin: 6px 0 0 18px; padding: 0; }
 .wline.mail input { font: inherit; padding: 3px 6px; border: 1px solid var(--line, #d9cfc4); border-radius: 6px; min-width: 0; width: 15em; max-width: 100%; }

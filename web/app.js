@@ -24,13 +24,12 @@ const T = {
     rpTitle: "Fai tu l'operatore", rpDesc: "Scegli il cliente: ti chiama, descrive il guasto e risponde alle tue domande. Non conosci la soluzione: te la suggerisce Cardex.", rpBtn: "Rispondi alla chiamata",
     customerTalking: "Il cliente sta parlando", customerSub: "Il microfono è in pausa: aspetta che finisca.", yourTurn: "Tocca a te", yourTurnSub: "Rispondi al cliente: segui la procedura a destra.", opFirst: "Il telefono squilla: rispondi tu per primo, per esempio «Servizio Sereni, buongiorno».",
     modeRoleplay: "Assistenza all'operatore · cliente simulato",
-    
     howTitle: "Come funziona",
     how: [["Ascolta", "Il Voice Agent di AssemblyAI ascolta e parla: capisce 18 lingue, ne parla 6 e passa alla lingua del cliente; modelli e codici ricambio sono termini chiave."],
           ["Capisce", "Il guasto descritto in qualunque lingua viene collegato alla procedura del costruttore, ma solo tra quelle della macchina in linea: niente risposte inventate."],
           ["Agisce", "Ricambi con prezzo e consegna dal gestionale, garanzia dalla matricola, appuntamento dal calendario del service, e una scheda d'intervento da approvare."]],
     powered: "Voce: AssemblyAI Voice Agent API (riconoscimento Universal-3.5 Pro). Sereni, i clienti e il gestionale sono inventati per la demo.",
-    modeVoice: "Chiamata con l'agente vocale", 
+    modeVoice: "Chiamata con l'agente vocale",
     open: "in linea", closed: "chiusa", connecting: "connessione…",
     presenceConnecting: "Connessione all'agente…", presenceSpeaking: "L'agente sta parlando", presenceListening: "Ti ascolto",
     presenceSubSpeaking: "Il microfono è in pausa: aspetta che finisca.", presenceSubListening: "Parla pure.", presenceDenied: "Microfono non disponibile", presenceSubDenied: "Consenti il microfono nel browser, poi riavvia la chiamata.",
@@ -48,7 +47,7 @@ const T = {
     closeRemote: "Risolto da remoto", closeTech: "Serve il tecnico", closeHint: "Chiudi quando il cliente conferma",
     pending: "In attesa", startNow: "Avvia", drop: "Scarta", maintenance: "Manutenzione ordinaria saltata: consigliare",
     outcome: { remote: "Risolto da remoto", part_diy: "Ricambio, lo monta il cliente", part_with_support: "Ricambio con supporto del service", technician: "Serve il tecnico" },
-    nextTitle: "Cosa fare ora", total: "Totale ricambi",
+    nextTitle: "Cosa fare ora",
     bookTech: "Appuntamento del tecnico", bookCall: "Seconda chiamata con il service", pickSlot: "Primi slot liberi", unbook: "Annulla",
     needSerial: "Serve la matricola per sapere la zona del tecnico.", noPartner: "Nessun partner service in questo paese: passare alla sede.",
     noSlots: "Nessuno slot libero nelle prossime due settimane.", booked: "Prenotato",
@@ -56,17 +55,17 @@ const T = {
     sayPart: "Da dire al cliente", confirm: "Conferma", dismiss: "Scarta", sheet: "Scheda",
     incompatible: "Non compatibile con questa macchina", superseded: "Sostituito da", requires: "richiede", fromSupplier: "dal fornitore", days: "gg",
     reason: { exact: "codice esatto", "near-code": "codice simile", description: "dalla descrizione", replacement: "sostituto", procedure: "dalla procedura", "voice-agent": "richiesto" },
-    warranty: "In garanzia fino al", noWarranty: "Fuori garanzia dal", built: "Costruita", installed: "Installata", voltage: "Tensione", orders: "Ordini precedenti",
-    serialHeard: "sentita", phase: "Vocabolario", terms: "termini",
+    warranty: "In garanzia fino al", noWarranty: "Fuori garanzia dal", built: "Costruita", voltage: "Tensione",
+    serialHeard: "sentita",
     // report
     wo: "Scheda d'intervento", reportFor: "Esito della chiamata", noOutcome: "Nessun esito",
     secMachine: "Cliente e macchina", secDiag: "Diagnosi", secParts: "Ricambi", secNext: "Seguito", secNotes: "Note per l'operatore",
     machine: "Macchina", serial: "Matricola", customerName: "Cliente", place: "Luogo", warrantyLbl: "Garanzia", symptom: "Guasto",
     thCode: "Codice", thDesc: "Descrizione", thStatus: "Stato", thPrice: "Listino", thPays: "A carico cliente", totalPays: "Totale a carico del cliente (confermati)",
-    covered: "in garanzia", consumable: "materiale di consumo: non coperto dalla garanzia", pays: "paga il cliente", stConfirmed: "confermato", stProposed: "da confermare", stDismissed: "scartato", stMentioned: "citato, non ordinato", stIncompatible: "non compatibile",
+    covered: "in garanzia", consumable: "materiale di consumo: non coperto dalla garanzia", stConfirmed: "confermato", stProposed: "da confermare", stMentioned: "citato, non ordinato", stIncompatible: "non compatibile",
     nextStep: "Prossimo passo", appointment: "Appuntamento", notBooked: "non prenotato: richiesto dall'esito", none: "nessuno", noSteps: "Nessuna verifica registrata.",
     approve: "Approva e invia al magazzino", approved: "Approvato · ordine inviato al magazzino (simulazione)", print: "Stampa", again: "Nuova chiamata",
-    showTranscript: "Trascritto completo", diarCheck: "Attribuzione delle voci", duration: "Durata",
+    showTranscript: "Trascritto completo", duration: "Durata",
     toastApproved: "Ordine approvato. In produzione partirebbe verso il magazzino.",
     quoteTo: "Preventivo a", save: "Salva", askEmail: "email da chiedere", shipping: "Spedizione", stBooked: "prenotato", stNotBooked: "non prenotato",
     free: "gratuita", notIfAlone: "solo se il cliente richiama", estTotal: "Totale stimato a carico del cliente", service: "Service",
@@ -95,13 +94,12 @@ const T = {
     rpTitle: "Be the operator", rpDesc: "Pick the customer: they call, describe the fault and answer your questions. You don't know the fix: Cardex suggests it.", rpBtn: "Answer the call",
     customerTalking: "The customer is speaking", customerSub: "Your mic is paused: let them finish.", yourTurn: "Your turn", yourTurnSub: "Answer the customer: follow the procedure on the right.", opFirst: "The phone rings: you speak first, for example “Sereni service, good morning”.",
     modeRoleplay: "Operator assist · simulated customer",
-    
     howTitle: "How it works",
     how: [["Listens", "AssemblyAI's Voice Agent listens and speaks: it understands 18 languages, speaks 6 and switches to the customer's; machine names and part codes are key terms."],
           ["Understands", "A fault described in any language is linked to the maker's procedure, but only among those of the machine on the call: no made-up answers."],
           ["Acts", "Parts with price and delivery from the ERP, warranty from the serial number, a slot from the service calendar, and a work order to approve."]],
     powered: "Voice: AssemblyAI Voice Agent API (Universal-3.5 Pro speech recognition). Sereni, its customers and the ERP are invented for the demo.",
-    modeVoice: "Call with the voice agent", 
+    modeVoice: "Call with the voice agent",
     open: "on the line", closed: "closed", connecting: "connecting…",
     presenceConnecting: "Connecting to the agent…", presenceSpeaking: "The agent is speaking", presenceListening: "Listening",
     presenceSubSpeaking: "Your mic is paused: let it finish.", presenceSubListening: "Go ahead.", presenceDenied: "Microphone unavailable", presenceSubDenied: "Allow the microphone in the browser, then restart the call.",
@@ -119,7 +117,7 @@ const T = {
     closeRemote: "Fixed remotely", closeTech: "Technician needed", closeHint: "Close when the customer confirms",
     pending: "Waiting", startNow: "Start", drop: "Discard", maintenance: "Routine maintenance skipped: recommend",
     outcome: { remote: "Fixed remotely", part_diy: "Part, fitted by the customer", part_with_support: "Part with service support", technician: "Technician needed" },
-    nextTitle: "What to do now", total: "Parts total",
+    nextTitle: "What to do now",
     bookTech: "Technician's visit", bookCall: "Second call with service", pickSlot: "First free slots", unbook: "Cancel",
     needSerial: "The serial number is needed to know the technician's zone.", noPartner: "No service partner in this country: escalate to head office.",
     noSlots: "No free slot in the next two weeks.", booked: "Booked",
@@ -127,16 +125,16 @@ const T = {
     sayPart: "Say to the customer", confirm: "Confirm", dismiss: "Dismiss", sheet: "Sheet",
     incompatible: "Not compatible with this machine", superseded: "Superseded by", requires: "requires", fromSupplier: "from supplier", days: "days",
     reason: { exact: "exact code", "near-code": "similar code", description: "from description", replacement: "replacement", procedure: "from procedure", "voice-agent": "requested" },
-    warranty: "Under warranty until", noWarranty: "Out of warranty since", built: "Built", installed: "Installed", voltage: "Voltage", orders: "Previous orders",
-    serialHeard: "heard", phase: "Vocabulary", terms: "terms",
+    warranty: "Under warranty until", noWarranty: "Out of warranty since", built: "Built", voltage: "Voltage",
+    serialHeard: "heard",
     wo: "Work order", reportFor: "Call outcome", noOutcome: "No outcome",
     secMachine: "Customer and machine", secDiag: "Diagnosis", secParts: "Parts", secNext: "Follow-up", secNotes: "Notes for the operator",
     machine: "Machine", serial: "Serial", customerName: "Customer", place: "Location", warrantyLbl: "Warranty", symptom: "Fault",
     thCode: "Code", thDesc: "Description", thStatus: "Status", thPrice: "List price", thPays: "Customer pays", totalPays: "Customer pays in total (confirmed)",
-    covered: "warranty", consumable: "consumable: not covered by the warranty", pays: "customer pays", stConfirmed: "confirmed", stProposed: "to confirm", stDismissed: "dismissed", stMentioned: "mentioned, not ordered", stIncompatible: "does not fit",
+    covered: "warranty", consumable: "consumable: not covered by the warranty", stConfirmed: "confirmed", stProposed: "to confirm", stMentioned: "mentioned, not ordered", stIncompatible: "does not fit",
     nextStep: "Next step", appointment: "Appointment", notBooked: "not booked: required by the outcome", none: "none", noSteps: "No checks recorded.",
     approve: "Approve and send to the warehouse", approved: "Approved · order sent to the warehouse (simulation)", print: "Print", again: "New call",
-    showTranscript: "Full transcript", diarCheck: "Voice attribution", duration: "Duration",
+    showTranscript: "Full transcript", duration: "Duration",
     toastApproved: "Order approved. In production it would go to the warehouse.",
     quoteTo: "Quote to", save: "Save", askEmail: "email to ask", shipping: "Shipping", stBooked: "booked", stNotBooked: "not booked",
     free: "free", notIfAlone: "only if the customer calls back", estTotal: "Estimated total for the customer", service: "Service",
@@ -195,7 +193,8 @@ let L = T[lang];
 let persona = "luca";
 let counts = { models: 10, symptoms: 32 };
 let ws = null, timer = null, t0 = 0;
-let callMode = "op";
+let callMode = "operator";              // "voice" (Mode 1 and the two-AI call) or "operator" (Mode 2, roleplay)
+let callReady = null, callReadyResolve = null, callOpen = false, callRefused = false;
 let roleplay = false, rpSpoke = false;
 const cards = new Map();
 const knownCodes = new Set();
@@ -231,8 +230,6 @@ function renderPersonas() {
   $("personas").innerHTML = PERSONAS.map((p) => `<button class="persona ${p.id === persona ? "active" : ""}" data-p="${p.id}">${esc(p.name || PERSONA_LABEL[lang])}<small>${esc(p.machine || "—")}</small></button>`).join("");
   $("personas").querySelectorAll("[data-p]").forEach((b) => (b.onclick = () => {
     persona = b.dataset.p;
-    const p = PERSONAS.find((x) => x.id === persona);
-
     renderPersonas();
   }));
   const p = PERSONAS.find((x) => x.id === persona);
@@ -255,7 +252,9 @@ async function loadHomeData() {
 function send(obj) { if (ws && ws.readyState === 1) ws.send(JSON.stringify(obj)); }
 
 function startCall(source, agents = 1) {
-  callMode = source === "voice" ? "voice" : "op";
+  callMode = source === "voice" ? "voice" : "operator";
+  // the server may refuse the call (demo limits): no agent is opened before it has said yes
+  callOpen = false; callRefused = false; callReady = new Promise((res) => (callReadyResolve = res));
   roleplay = source.startsWith("roleplay");
   $("start").hidden = true; $("topbar").hidden = true; $("summary").hidden = true; $("call").hidden = false;
   $("call").classList.toggle("voice", callMode === "voice");
@@ -266,13 +265,14 @@ function startCall(source, agents = 1) {
   $("log").innerHTML = ""; $("machine-record").hidden = true; lastMachine = null; $("st-warranty").hidden = true;
   symptomMenu = []; renderEmptyDiag(); cards.clear(); knownCodes.clear(); docs.length = 0; activeDoc = -1;
   $("doc-tabs").innerHTML = ""; $("doc-view").className = "doc-view empty"; $("doc-view").textContent = L.noDocs;
-  $("presence").hidden = callMode !== "voice" && !roleplay; setPresence("connecting");
+  $("presence").hidden = false; setPresence("connecting");
   const proto = location.protocol === "https:" ? "wss" : "ws";
   ws = new WebSocket(`${proto}://${location.host}/ws/call?source=${encodeURIComponent(source)}&lang=${lang}&agents=${agents}`);
   ws.onmessage = (ev) => handle(JSON.parse(ev.data));
   ws.onclose = () => {
     clearInterval(timer); $("st-session").textContent = L.closed; $("live-dot").classList.remove("on");
-    if (!$("call").hidden) {                                   // the server went away mid-call: say so, end the agents
+    callReadyResolve(false);
+    if (!$("call").hidden && !callRefused) {                   // the server went away mid-call: say so, end the agents
       toast(L.serverLost); logLine(L.serverLost, true);
       if (duo) duoEnd(); else if (vws && vws.readyState === 1) { try { vws.send(JSON.stringify({ type: "session.end" })); vws.close(); } catch (e) { /* closing */ } }
       $("lb-end").textContent = L.backHome; $("btn-end").onclick = () => location.reload();
@@ -309,7 +309,7 @@ function highlight(text) {
 
 function handle(ev) {
   switch (ev.type) {
-    case "session": $("st-session").textContent = L.open; $("live-dot").classList.add("on"); break;
+    case "session": callOpen = true; callReadyResolve(true); $("st-session").textContent = L.open; $("live-dot").classList.add("on"); break;
     case "turn": renderTurn(ev); break;
     case "clear": { const el = document.querySelector(`#turn-${ev.turn_id} .clear`); if (el) { el.textContent = ev.text; el.classList.remove("wait"); el.hidden = !ev.text; } break; }
     case "clear_pending": { const el = document.querySelector(`#turn-${ev.turn_id} .clear`); if (el && !el.textContent) { el.textContent = L.clearWait; el.classList.add("wait"); } break; }
@@ -319,7 +319,6 @@ function handle(ev) {
       symptomMenu = ev.symptoms || []; if ($("diagnosis").classList.contains("empty")) renderEmptyDiag();
       if (lastMachine && ev.model && lastMachine.model !== ev.model) { lastMachine.model = ev.model; renderMachine(lastMachine); }
       break;
-    case "vocabulary": $("st-vocab").textContent = `${L.phase} ${ev.phase} · ${ev.count} ${L.terms}`; $("st-vocab").title = ev.sample.join(", "); break;
     case "parts": ev.cards.forEach((c) => { cards.set(c.code, c); knownCodes.add(c.code); }); renderParts(); break;
     case "part_status": if (cards.has(ev.code)) { cards.get(ev.code).status = ev.status; renderParts(); } break;
     case "diagnosis": renderDiagnosis(ev); break;
@@ -341,9 +340,16 @@ function handle(ev) {
     case "model_mention": { const d = document.createElement("div"); d.innerHTML = `<button class="btn small">→ ${esc(ev.model)}</button>`; d.querySelector("button").onclick = () => send({ type: "control", action: "set_machine", model_id: ev.model_id }); $("log").prepend(d); break; }
     case "toggles": $("tg-assistant").checked = ev.assistant; $("tg-clarify").checked = ev.clarify; break;
     case "summary": stopAgents(); renderSummary(ev.summary); break;
-    case "limit": stopAgents(); toast(ev.text); logLine(ev.text, true); $("lb-end").textContent = L.backHome; $("btn-end").onclick = () => location.reload(); break;
-    case "error": logLine(ev.text, true); break;
+    case "limit": refuseCall(ev.text); break;
+    case "error": if (callOpen) logLine(ev.text, true); else refuseCall(ev.text); break;
   }
+}
+// the server said no (demo limits, no key): show why, open nothing, offer the way back home
+function refuseCall(text) {
+  callRefused = true; callReadyResolve(false); stopAgents();
+  toast(text); logLine(text, true); setPresence("denied");
+  $("presence-title").textContent = text; $("presence-sub").textContent = "";
+  $("lb-end").textContent = L.backHome; $("btn-end").onclick = () => location.reload();
 }
 const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
 
@@ -353,7 +359,7 @@ function renderTurn(ev) {
   if (!el) { el = document.createElement("div"); el.id = `turn-${ev.id}`; $("turns").appendChild(el); }
   el.className = `turn ${ev.role}${ev.interrupted ? " interrupted" : ""}`;
   const keptClear = el.querySelector(".clear")?.textContent || "";
-  const extra = ev.interrupted ? `<span class="merged">${L.interrupted}</span>` : "";
+  const extra = ev.interrupted ? `<span class="flag">${L.interrupted}</span>` : "";
   const wasWaiting = el.querySelector(".clear")?.classList.contains("wait");
   const who = ev.role === "operator" ? L.operator : ev.role === "agent" ? L.agent : L.customer;
   el.innerHTML = `<div class="who">${who}${extra}</div><div class="said">${highlight(ev.text)}</div><div class="clear ${wasWaiting ? "wait" : ""}">${esc(keptClear)}</div>`;
@@ -369,7 +375,7 @@ function menuSelect(items, placeholder) {
 function bookingHtml(b) {
   if (!b) return "";
   let body;
-  if (b.booked) body = `<div class="booked">✓ ${L.booked}: ${esc(b.booked.label)} · ${esc(b.booked.technician)} ${callMode === "op" ? `<button data-unbook class="btn small ghost">${L.unbook}</button>` : ""}</div>`;
+  if (b.booked) body = `<div class="booked">✓ ${L.booked}: ${esc(b.booked.label)} · ${esc(b.booked.technician)} ${callMode === "operator" ? `<button data-unbook class="btn small ghost">${L.unbook}</button>` : ""}</div>`;
   else if (b.need_serial) body = `<div class="note">${L.needSerial}</div>`;
   else if (b.no_partner) body = `<div class="note">${L.noPartner}</div>`;
   else if (!b.slots.length) body = `<div class="note">${L.noSlots}</div>`;
@@ -384,7 +390,7 @@ function followHtml(n) {
   const lab = c && c.labour ? `<div class="wline">🛠 ${esc(lang === "it" ? c.labour.what_it : c.labour.what_en)}: ${c.labour.customer_pays_eur == null ? "—" : c.labour.customer_pays_eur ? eur(c.labour.customer_pays_eur) : L.free}${n.fits_alone ? ` <small>(${L.notIfAlone})</small>` : ""}</div>` : "";
   const tot = c && c.total_eur != null && c.total_eur > 0 ? `<div class="wline strong">${L.estTotal}: ${eur(c.total_eur)}</div>` : "";
   let acts = "";
-  if (callMode === "op" && (n.parts || []).length) {
+  if (callMode === "operator" && (n.parts || []).length) {
     acts = n.parts_confirmed ? `<span class="tag ok">✓ ${L.orderConfirmed}</span>` : `<button class="btn small ok" data-order>${L.confirmOrder}</button>`;
     if (n.kind === "part_with_support")
       acts += n.fits_alone ? ` <span class="tag warn">${L.fitsAlone}</span> <button class="btn small ghost" data-alone="0">${L.unbook}</button>`
@@ -393,7 +399,7 @@ function followHtml(n) {
   } else if (n.fits_alone) acts = `<div class="follow-acts"><span class="tag warn">${L.fitsAlone}</span></div>`;
   let mail = "";
   if (n.payment && n.payment.status === "awaiting_payment") {
-    mail = callMode === "op"
+    mail = callMode === "operator"
       ? `<div class="wline mail">✉ ${L.quoteTo}: <input id="in-email" type="email" placeholder="name@example.com" value="${esc(n.email || "")}"> <button class="btn small ghost" data-email>${L.save}</button>${n.email ? "" : ` <span class="tag warn">${L.askEmail}</span>`}</div>`
       : `<div class="wline">✉ ${L.quoteTo}: ${n.email ? esc(n.email) : `<span class="tag warn">${L.askEmail}</span>`}</div>`;
   }
@@ -414,7 +420,7 @@ function wireDiag(p) {
 }
 function renderEmptyDiag() {
   const p = $("diagnosis"); p.className = "panel empty";
-  p.innerHTML = `<div>${esc(L.noDiag)}</div>${callMode === "op" ? `<div style="margin-top:10px">${menuSelect(symptomMenu, L.startProc)}</div>` : ""}`;
+  p.innerHTML = `<div>${esc(L.noDiag)}</div>${callMode === "operator" ? `<div style="margin-top:10px">${menuSelect(symptomMenu, L.startProc)}</div>` : ""}`;
   wireDiag(p); currentBranches = 0;
 }
 function partsTable(parts) {
@@ -432,7 +438,7 @@ function renderDiagnosis(d) {
   const p = $("diagnosis"); p.className = "panel";
   const hist = d.history.length ? `<ol class="timeline">${d.history.map((h) => `<li>${esc(h.text)}<br><span class="ans">${esc(h.answer)}</span></li>`).join("")}</ol>` : "";
   const maint = d.maintenance_skipped ? `<div class="maint">⚠ ${L.maintenance} ${d.suggested_parts.map(esc).join(", ")}</div>` : "";
-  const head = `<div class="dhead"><h3>${esc(d.symptom)}</h3>${callMode === "op" ? menuSelect(d.alternatives || [], L.change) : ""}</div>`;
+  const head = `<div class="dhead"><h3>${esc(d.symptom)}</h3>${callMode === "operator" ? menuSelect(d.alternatives || [], L.change) : ""}</div>`;
   const pend = (d.pending || []).length ? `<div class="pending"><small>${L.pending}</small>${d.pending.map((q) =>
     `<span>${esc(q.title)} <button data-start="${esc(q.id)}" class="btn small ok">${L.startNow}</button><button data-drop="${esc(q.id)}" class="btn small ghost">${L.drop}</button></span>`).join("")}</div>` : "";
   if (d.done) {
@@ -441,7 +447,7 @@ function renderDiagnosis(d) {
       `<div class="next"><div class="kind">${L.nextTitle}</div><div>${esc(n.text || "")}</div>` +
       (n.warranty_text ? `<div class="wline ${n.warranty === true ? "ok" : n.warranty === false ? "bad" : ""}">${esc(n.warranty_text)}</div>` : "") +
       partsTable(n.parts || []) + followHtml(n) + bookingHtml(n.booking) +
-      (n.say_en && callMode === "op" ? `<div class="say"><small>${L.say}</small>${esc(n.say_en)}</div>` : "") + `</div>${pend}`;
+      (n.say_en && callMode === "operator" ? `<div class="say"><small>${L.say}</small>${esc(n.say_en)}</div>` : "") + `</div>${pend}`;
     wireDiag(p); currentBranches = 0;
     return;
   }
@@ -450,10 +456,10 @@ function renderDiagnosis(d) {
     ? `<div class="branches watch">${s.branches.map((b) => `<span class="opt">${esc(b)}</span>`).join("")}</div><div class="watching">${L.watching}</div>`
     : `<div class="branches">${s.branches.map((b, i) => `<button class="btn" data-branch="${i}"><kbd>${i + 1}</kbd> ${esc(b)}</button>`).join("")}</div>`;
   p.innerHTML = `${head}${hist}${maint}<div class="step"><div class="kind">${s.kind === "ask" ? L.ask : L.do}</div><div class="q">${esc(s.text)}</div>` +
-    (callMode === "op" ? `<div class="say"><small>${L.say}</small>${esc(s.say_in_english)}</div>` : "") + (s.note ? `<div class="note">${esc(s.note)}</div>` : "") + branches + `</div>` +
-    (callMode === "op" ? `<div class="closebar"><span class="note">${L.closeHint} · ${L.keys}</span><button data-close="remote" class="btn small ok">${L.closeRemote}</button><button data-close="technician" class="btn small warn">${L.closeTech}</button></div>` : "") + pend;
+    (callMode === "operator" ? `<div class="say"><small>${L.say}</small>${esc(s.say_in_english)}</div>` : "") + (s.note ? `<div class="note">${esc(s.note)}</div>` : "") + branches + `</div>` +
+    (callMode === "operator" ? `<div class="closebar"><span class="note">${L.closeHint} · ${L.keys}</span><button data-close="remote" class="btn small ok">${L.closeRemote}</button><button data-close="technician" class="btn small warn">${L.closeTech}</button></div>` : "") + pend;
   wireDiag(p);
-  currentBranches = callMode === "op" ? s.branches.length : 0;
+  currentBranches = callMode === "operator" ? s.branches.length : 0;
   if (d.doc) followStep(d.doc);
 }
 let currentBranches = 0;
@@ -526,8 +532,8 @@ function renderParts() {
     return `<div class="card ${c.status}"><div class="card-top"><div><span class="code">${esc(c.code)}</span><span class="why">${esc(L.reason[c.reason] || L.reason[c.source] || "")}</span></div><span class="price">${eur(c.price_eur)}</span></div>` +
       `<div class="desc">${esc(c.description)}</div><div class="meta"><span class="tag ${c.handling === "diy" ? "ok" : "warn"}">${L.handling[c.handling] || ""}</span>${where}</div>` +
       (flags.length ? `<div class="flag">${flags.map(esc).join(" · ")}</div>` : "") +
-      (c.say_en && callMode === "op" ? `<div class="say"><small>${L.sayPart}</small>${esc(c.say_en)}</div>` : "") +
-      `<div class="actions">${callMode === "op" ? `<button class="btn small" data-act="confirm_part" data-code="${esc(c.code)}">${L.confirm}</button><button class="btn small ghost" data-act="dismiss_part" data-code="${esc(c.code)}">${L.dismiss}</button>` : (c.status === "confirmed" ? `<span class="tag ok">✓ ${L.stConfirmed}</span>` : "")}<button data-sheet="${esc(c.code)}" class="btn small ghost">${L.sheet}</button></div></div>`;
+      (c.say_en && callMode === "operator" ? `<div class="say"><small>${L.sayPart}</small>${esc(c.say_en)}</div>` : "") +
+      `<div class="actions">${callMode === "operator" ? `<button class="btn small" data-act="confirm_part" data-code="${esc(c.code)}">${L.confirm}</button><button class="btn small ghost" data-act="dismiss_part" data-code="${esc(c.code)}">${L.dismiss}</button>` : (c.status === "confirmed" ? `<span class="tag ok">✓ ${L.stConfirmed}</span>` : "")}<button data-sheet="${esc(c.code)}" class="btn small ghost">${L.sheet}</button></div></div>`;
   }).join("");
   $("parts").querySelectorAll("[data-act]").forEach((b) => (b.onclick = () => send({ type: "control", action: b.dataset.act, code: b.dataset.code })));
   $("parts").querySelectorAll("[data-sheet]").forEach((b) => (b.onclick = () => {
@@ -565,12 +571,11 @@ function renderSummary(s) {
   }
   const partsTbl = all.length ? `<table class="rtable"><thead><tr><th>${L.thCode}</th><th>${L.thDesc}</th><th>${L.thStatus}</th><th class="num">${L.thPrice}</th><th class="num">${L.thPays}</th></tr></thead><tbody>${partsRows}${extraRows}</tbody>` +
     `<tfoot><tr><td colspan="4">${L.totalPays}</td><td class="num">${eur(grand)}</td></tr></tfoot></table>` : `<p class="note">${L.none}</p>`;
-  const diar = s.diarization_check ? `${Math.round((s.diarization_check.accuracy || 0) * 100)}%` : null;
   const transcript = s.transcript.map((t) => `<div class="turn ${t.role}${t.interrupted ? " interrupted" : ""}"><div class="who">${t.role === "operator" ? L.operator : t.role === "agent" ? L.agent : L.customer}</div>${esc(t.text)}${t.clear ? `<div class="clear">${esc(t.clear)}</div>` : ""}</div>`).join("");
   const hasOrder = s.parts_confirmed.length || s.booking;
   $("summary").innerHTML = `<article class="report">
     <div class="report-head"><div><div class="wo">${L.wo} · ${woNum}</div><h2>${esc(s.symptom || L.reportFor)}</h2>
-      <div class="note">${now.toLocaleString(lang === "it" ? "it-IT" : "en-GB")} · ${L.duration} ${fmt(s.duration_s || 0)}${diar ? ` · ${L.diarCheck} ${diar}` : ""}</div></div>
+      <div class="note">${now.toLocaleString(lang === "it" ? "it-IT" : "en-GB")} · ${L.duration} ${fmt(s.duration_s || 0)}</div></div>
       <div class="outcome ${kind || ""}">${kind ? L.outcome[kind] : L.noOutcome}</div></div>
     <div class="report-body">
       <section class="report-sec"><h4>${L.secMachine}</h4><dl class="kv">
@@ -616,6 +621,7 @@ async function startVoice(persona) {
   const rp = !!persona;
   startCall(rp ? `roleplay:${persona}` : "voice");
   vEndPending = false; rpSpoke = false;
+  if (!(await callReady)) return;
   let agent;
   try {
     // the automatic assistant always starts in English and follows the customer's language (switchVoice)
@@ -701,7 +707,6 @@ function keepCallOpen() {
 }
 function voiceToolResult(ev) {
   if (!vws || vws.readyState !== 1 || (vws.calls && !vws.calls.has(ev.call_id))) return;   // asked by a handed-over session
-  if (!vws.pending) toolGate(vws);
   vws.pending.push({ type: "tool.result", call_id: ev.call_id, result: ev.result, is_error: false });
   flushTools(vws);
   if (ev.end) planHangup();
@@ -771,16 +776,18 @@ async function startDuo() {
   startCall("voice", 2);
   $("call-mode").textContent = L.modeDuo; $("call").classList.add("duo");
   vEndPending = false;
+  if (!(await callReady)) return;
   const ctx = new AudioContext({ sampleRate: 24000 }); await ctx.resume().catch(() => {});
   duo = { ctx, next: 0, sockets: {}, queues: { A: [], B: [] }, carry: { A: new Uint8Array(0), B: new Uint8Array(0) }, ready: { A: false, B: false }, sent: { A: 0, B: 0 }, heard: { A: 0, B: 0 }, timer: null, speaking: "", ended: false };
-  window.cardexDuo = () => ({ ready: duo.ready, queued: { A: duo.queues.A.length, B: duo.queues.B.length }, sent: duo.sent, audioFrom: duo.heard });
   let a, b, ta, tb;
   try {
     [a, b, ta, tb] = await Promise.all([
       fetch(`/api/voice/agent?lang=${encodeURIComponent(p.lang || "en")}`).then((r) => r.json()),
       fetch(`/api/voice/customer?persona=${encodeURIComponent(p.id)}`).then((r) => r.json()),
       fetch("/api/voice/token").then((r) => r.json()), fetch("/api/voice/token").then((r) => r.json())]);
-  } catch (e) { logLine("duo: " + e.message, true); return; }
+  } catch (e) { refuseCall("duo: " + e.message); return; }
+  const missing = [a.session, b.session, ta.token, tb.token].some((x) => !x);
+  if (missing) { refuseCall("duo: " + ([a, b, ta, tb].map((x) => x.detail).find(Boolean) || "agent not available")); return; }
   const open = (who, token, session) => {
     const url = new URL("wss://agents.assemblyai.com/v1/ws"); url.searchParams.set("token", token);
     const ws = new WebSocket(url.toString()); duo.sockets[who] = ws;
@@ -867,5 +874,4 @@ $("btn-lang").onclick = () => {
   try { localStorage.setItem("cardex-lang", lang); } catch (e) { /* private window: not remembered */ }
   applyLanguage(); loadHomeData();
 };
-$("sheet-close").onclick = () => $("sheet").close();
 applyLanguage(); loadHomeData();
