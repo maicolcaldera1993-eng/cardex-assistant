@@ -1,0 +1,62 @@
+{
+  "it_elsa|product": {
+    "cut_in": 1,
+    "turns": 4,
+    "seconds": 51.8
+  },
+  "it_elsa|default": {
+    "cut_in": 2,
+    "turns": 5,
+    "seconds": 51.8
+  },
+  "en_us_zira|default": {
+    "cut_in": 3,
+    "turns": 9,
+    "seconds": 48.5
+  },
+  "en_us_zira|product": {
+    "cut_in": 1,
+    "turns": 5,
+    "seconds": 48.5
+  },
+  "en_de_katja|product": {
+    "cut_in": 1,
+    "turns": 5,
+    "seconds": 51.3
+  },
+  "en_de_katja|default": {
+    "cut_in": 1,
+    "turns": 5,
+    "seconds": 51.3
+  },
+  "en_au_natasha|product": {
+    "cut_in": 1,
+    "turns": 5,
+    "seconds": 54.6
+  },
+  "en_au_natasha|default": {
+    "cut_in": 2,
+    "turns": 7,
+    "seconds": 54.6
+  },
+  "en_tr_emel|product": {
+    "cut_in": 1,
+    "turns": 5,
+    "seconds": 53.3
+  },
+  "en_tr_emel|default": {
+    "cut_in": 1,
+    "turns": 5,
+    "seconds": 53.3
+  },
+  "en_fr_denise|default": {
+    "cut_in": 2,
+    "turns": 4,
+    "seconds": 50.7
+  },
+  "en_fr_denise|product": {
+    "cut_in": 2,
+    "turns": 4,
+    "seconds": 50.7
+  }
+}
