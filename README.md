@@ -8,7 +8,9 @@ anything is ordered.
 
 **Live demo:** https://cardex-production-4a67.up.railway.app
 
-Built solo for the [AssemblyAI Voice Agent Hackathon](https://lablab.ai/ai-hackathons/assemblyai-voice-agent-hackathon) (lablab.ai, September 2026).
+Built solo for the [AssemblyAI Voice Agent Hackathon](https://lablab.ai/ai-hackathons/assemblyai-voice-agent-hackathon) (lablab.ai, September 2026),
+with Claude Code as the development tool. Sereni and all its data (machines, parts, prices, customers, procedures) are
+fictional, invented for this project the way a real maker would keep them.
 
 ## Try it
 
@@ -33,6 +35,19 @@ shipping, the service call, the appointment, the email the quote goes to, and no
 
 The public demo has limits so that nobody can spend the owner's credits: two calls at a time, ten minutes per call,
 a daily budget of agent minutes and ten calls per hour per address (`app/limits.py`, set from environment variables).
+
+## Results
+
+Measured on the final product, 29 September 2026.
+
+| What | With | Without | How |
+|---|---|---|---|
+| Machine names heard right | **28 of 30 (93%)** with Cardex's key terms and transcription prompt | 16 of 30 (53%) | six accented recordings, each naming five Sereni machines, streamed into the Voice Agent (`eval/keyterms_ab.py`) |
+| Agent replies started before the customer had finished | **7** with `transcription_mode: "max_accuracy"` | 11 with the default mode (−36%) | the same six recordings; the customer's speech was cut into 28 turns instead of 35 (`eval/turns_ab.py`) |
+| Length of the same service call (Dave, Marea 2 that stays cold, out of warranty) | **5 to 5½ minutes** with Cardex, work order written during the call | 9 to over 10 minutes for an operator alone with the documents, notes by hand | one operator, same customer and fault, two runs each; the automatic assistant took 4½ to 5½ minutes with no operator |
+
+Cost: an automatic call of about five minutes is $0.40–0.50 of Voice Agent time at AssemblyAI's list price
+($0.075 per minute, everything included), paid only while a call is running.
 
 ## How AssemblyAI is used
 
@@ -89,8 +104,10 @@ was replaced by the Voice Agent on 24–26 September; its decisions stay here as
 - **2026-09-26** The price list is in the ERP (`service_prices`): service video call 35 €, technician call-out 80 €, shipping 9.90 € in the EU and 29 € outside, all free under warranty. A customer who can take the machine apart does it live with the agent; one who cannot or will not gets the technician, who brings the part.
 - **2026-09-28** Eight test calls analysed one by one from AssemblyAI's recordings, each defect replayed as a test. The customer's words, not the agent's summary, choose the procedure ("it stays cold… it seems dead" was summarised as "the machine is dead"), and the latest words can move to another procedure once the customer confirms. Answers are read in their own language. A refusal ("I'm afraid to open it") or a request for a technician is read on the customer's sentence and closes the step even if the agent forgets to. The outcome is told once, in short turns. Slots are offered by part of the day. Each step asks one question.
 - **2026-09-28** The page hangs up after the goodbye has been played, not after the reply that asked to close. With headphones the half duplex is switched off: the mic stays open and AssemblyAI's barge-in stops the agent, so a customer who pauses mid-sentence is no longer cut off.
-- **2026-09-29** The listening set-up measured on the final product (`eval/keyterms_ab.py`, results in `eval/keyterms_ab_results.json`): the six accented spike recordings streamed into the Voice Agent with Cardex's key terms and transcription prompt, and without. Machine names heard right: 28 of 30 against 16 of 30; "Onda" heard as Onda in 4 of 6 recordings against 2. Part codes: 34 of 48 against 33, no gain, because codes are not among the key terms (adding the codes of the machine in the call is the next step); the synthetic Turkish voice loses most codes either way.
 - **2026-09-28** Mode 2 gets the agent's tools: the operator console offers every decision the agent can take (technician instead of fitting, check-up visit after a remote fix, parts asked for in passing, prevention advice), and Cardex points out when the customer's words call for one. A check-up visit with the machine working is charged at list price even under warranty: there is nothing to repair.
+- **2026-09-29** The listening set-up measured on the final product (`eval/keyterms_ab.py`, results in `eval/keyterms_ab_results.json`): the six accented spike recordings streamed into the Voice Agent with Cardex's key terms and transcription prompt, and without. Machine names heard right: 28 of 30 against 16 of 30; "Onda" heard as Onda in 4 of 6 recordings against 2. Part codes: 34 of 48 against 33, no gain, because codes are not among the key terms (adding the codes of the machine in the call is the next step); the synthetic Turkish voice loses most codes either way.
+- **2026-09-29** Turn-taking measured the same way (`eval/turns_ab.py`, results in `eval/turns_ab_results.json`): with `max_accuracy` the agent started a reply before the customer had finished 7 times instead of 11, and the customer's speech was cut into 28 turns instead of 35. Kept on.
+- **2026-09-29** Time of the same call, one operator, same customer and fault: alone with the documents (manuals, procedures, parts catalogue and customer records as files) 9 to over 10 minutes, the work order still to write; with Cardex 5 to 5½ minutes; the automatic assistant 4½ to 5½ minutes with no operator on the line.
 
 ## Running locally
 
@@ -120,6 +137,7 @@ Checks in `eval/` (the ones that call AssemblyAI cost a few cents of agent time)
 | `ws_voice.py 8000 dave\|lena\|mario` | a synthetic customer calls the automatic assistant through the real Voice Agent |
 | `ws_roleplay.py 8000 klaus\|luca` | a synthetic operator talks to the simulated customer |
 | `keyterms_ab.py` | streams the six accented recordings into the Voice Agent with and without Cardex's key terms and prompt, and scores the machine names and part codes heard |
+| `turns_ab.py` | streams the same recordings with `max_accuracy` and with the default transcription mode, and counts the replies the agent starts before the customer has finished |
 | `session_fetch.py` | lists AssemblyAI sessions and downloads one: stereo audio (customer left, agent right), timeline with confidences and tool calls |
 | `session_check.py` | transcribes the customer's channel afterwards and compares it with what was understood live |
 | `probe_gateway_rate.py` | measures how many LLM Gateway requests per minute the account accepts |
@@ -152,6 +170,12 @@ brings the technician with the valve; "it seems dead" does not open "machine dea
 lights are on; the email on file keeps its dashes when it is read back without them.
 
 ## Future work
+
+First, before any real customer data:
+
+- **Verify the caller.** Today anyone who reads out a valid serial number hears that customer's machine, warranty
+  and email on file. The caller must be verified first (for example a code sent to the email on file), and the agent
+  limited in what it discloses until then.
 
 Known debt, left alone before the deadline because it works and is covered by tests:
 
